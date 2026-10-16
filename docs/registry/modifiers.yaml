@@ -1,0 +1,1157 @@
+# 自动生成：tools/extract_flags.py。不要手工编辑；英文ID在结构化转换时分配。
+modifiers:
+- name: 101部队
+  set_by:
+  - E-1953-02a
+  read_by: []
+- name: 300路的秘密
+  set_by:
+  - E-1984-04a
+  read_by:
+  - E-1986-05
+- name: 61席
+  set_by:
+  - E-1984-07
+  read_by: []
+- name: '{行业}罢工'
+  set_by:
+  - R-17
+  read_by: []
+- name: 七月谅解
+  set_by:
+  - E-1993-02
+  read_by:
+  - E-1996-03
+- name: 上帝之怒
+  set_by:
+  - E-1972-04
+  - E-1973-02b
+  read_by:
+  - E-1973-02a
+- name: 不与恐怖分子谈判
+  set_by:
+  - E-1974-04
+  read_by: []
+- name: 不可战胜
+  set_by:
+  - E-G03-07
+  read_by: []
+- name: 世俗—宗教裂痕
+  set_by:
+  - E-1995-04
+  read_by: []
+- name: 东欧移民通道收窄
+  set_by:
+  - E-1950-06
+  read_by: []
+- name: 也门移民营地
+  set_by:
+  - E-1949-08
+  read_by: []
+- name: 亚米特创伤
+  set_by:
+  - E-1982-04
+  - E-G04-04
+  read_by: []
+- name: 交换先例
+  set_by:
+  - E-1974-04
+  read_by: []
+- name: 人口时钟
+  set_by:
+  - E-2003-04
+  read_by: []
+- name: 人才外流
+  set_by:
+  - E-G02-02
+  read_by: []
+- name: 仇恨的种子
+  set_by:
+  - E-G03-03
+  read_by: []
+- name: 伊克利特的承诺
+  set_by:
+  - E-1951-04
+  read_by: []
+- name: 伊尔贡耶路撒冷独立部队
+  set_by:
+  - E-1948-02
+  read_by: []
+- name: 伊拉克移民的落差
+  set_by:
+  - E-1950-03
+  read_by: []
+- name: 侯赛因的屈辱
+  set_by:
+  - E-1966-11b
+  read_by:
+  - E-1967-06c
+- name: 信仰集团
+  set_by:
+  - E-1974-01
+  read_by:
+  - E-G03-01
+- name: 党纪伤痕
+  set_by:
+  - E-1979-03
+  read_by: []
+- name: 全面动员
+  set_by:
+  - E-1967-05a
+  - E-1967-05b
+  - E-1967-06g
+  read_by:
+  - E-1967-06a
+- name: 全面封锁
+  set_by:
+  - E-1995-01
+  read_by: []
+- name: 全面战争
+  set_by:
+  - E-1973-06
+  - E-1973-07
+  read_by: []
+- name: 共谋的污点
+  set_by:
+  - E-1956-10a
+  read_by: []
+- name: 兵役换平等的承诺
+  set_by:
+  - E-1956-05
+  read_by: []
+- name: 内部敌人
+  set_by:
+  - E-1976-01c
+  - E-2000-05
+  read_by: []
+- name: 军中不服
+  set_by:
+  - E-1955-02
+  read_by: []
+- name: 军中党派色彩
+  set_by:
+  - E-1948-09
+  read_by: []
+- name: 军力失衡
+  set_by:
+  - E-1955-11a
+  - E-1956-06b
+  read_by:
+  - E-1955-11a
+  - E-1956-06b
+  - E-1956-10c
+- name: 军售冻结
+  set_by:
+  - E-1975-01
+  read_by: []
+- name: 军备失衡
+  set_by:
+  - E-1955-06
+  - E-1955-07
+  read_by: []
+- name: 军火航班
+  set_by:
+  - E-1977-08
+  read_by: []
+- name: 军纪
+  set_by:
+  - E-1948-09a
+  - E-1948-11
+  read_by:
+  - E-1948-04
+  - E-1948-11
+- name: 冷和平
+  set_by:
+  - E-1981-10
+  read_by:
+  - E-1981-10
+- name: 冷静的现实主义者
+  set_by: []
+  read_by:
+  - E-1978-09
+  - E-1991-09
+- name: 冻结之争
+  set_by:
+  - E-1978-09
+  read_by: []
+- name: 判决未执行
+  set_by:
+  - E-1979-10
+  read_by: []
+- name: 刺杀风险
+  set_by:
+  - E-1993-05
+  - E-1995-03
+  - E-2004-05
+  read_by:
+  - E-1995-03
+  - E-1995-04
+- name: 前哨承诺
+  set_by:
+  - E-2003-02
+  read_by: []
+- name: 北方摩擦
+  set_by:
+  - E-1964-11
+  - E-1967-04
+  - E-1967-06e
+  read_by:
+  - E-1967-04
+  - E-1967-06e
+- name: 北线冻结
+  set_by:
+  - E-1994-06
+  read_by: []
+- name: 南方渗透
+  set_by:
+  - E-1956-10a
+  read_by: []
+- name: 卡拉梅神话
+  set_by:
+  - E-1968-01
+  read_by: []
+- name: 卡赫纳主义
+  set_by:
+  - E-1985-08
+  read_by: []
+- name: 厨房内阁
+  set_by:
+  - E-1969-02
+  read_by:
+  - E-1969-02
+- name: 双头政府
+  set_by:
+  - E-1984-07
+  read_by: []
+- name: 双头政治
+  set_by:
+  - E-1953-06
+  read_by:
+  - E-1954-01
+  - E-1955-02
+- name: 双重标准
+  set_by:
+  - E-1977-01
+  read_by: []
+- name: 双面间谍
+  set_by:
+  - R-38
+  read_by: []
+- name: 反恐战争
+  set_by:
+  - E-2001-03
+  read_by: []
+- name: 发展城镇的边缘
+  set_by:
+  - E-1950-07
+  read_by: []
+- name: 口头授权
+  set_by:
+  - E-G04-19
+  read_by: []
+- name: 右翼合法化
+  set_by:
+  - E-1965-04
+  read_by: []
+- name: 右翼地下复燃
+  set_by:
+  - E-1948-02
+  read_by: []
+- name: 右翼地下的怨恨
+  set_by:
+  - E-1948-07
+  read_by: []
+- name: 合作者审判
+  set_by:
+  - E-1955-04
+  read_by: []
+- name: 合作者污名·约旦
+  set_by:
+  - E-1970-05
+  read_by: []
+- name: 周六冲突
+  set_by:
+  - R-22
+  read_by: []
+- name: 和平红利
+  set_by:
+  - E-1993-03
+  read_by: []
+- name: 和平阵营动员
+  set_by:
+  - E-1978-04
+  read_by: []
+- name: 和约危机
+  set_by:
+  - E-1982-04
+  read_by: []
+- name: 四位母亲的先声
+  set_by:
+  - E-G04-18
+  read_by: []
+- name: 四十万人
+  set_by:
+  - E-1982-09d
+  read_by: []
+- name: 四月谅解
+  set_by:
+  - E-1996-03
+  read_by: []
+- name: 四母亲运动
+  set_by:
+  - E-1997-02
+  - E-2000-01
+  read_by:
+  - E-1997-02
+  - E-2000-01
+- name: 回归之梦
+  set_by:
+  - E-1948-03
+  read_by: []
+- name: 回归先例
+  set_by:
+  - E-1972-01
+  read_by: []
+- name: 团结政府否决权
+  set_by:
+  - E-1992-01
+  - E-2001-01
+  read_by: []
+- name: 围困穆卡塔
+  set_by: []
+  read_by:
+  - E-2004-04
+- name: 围城心态
+  set_by:
+  - E-1975-02
+  read_by: []
+- name: 土地日纪念
+  set_by:
+  - E-1976-01b
+  read_by: []
+- name: 圣地之火
+  set_by:
+  - E-1967-06f
+  read_by: []
+- name: 圣地对峙
+  set_by:
+  - E-1967-02
+  read_by: []
+- name: 圣殿山阴谋的回声
+  set_by:
+  - E-1984-04b
+  read_by: []
+- name: 埃及无力开战
+  set_by:
+  - E-1972-02
+  read_by:
+  - E-1973-04
+- name: 塔尔法
+  set_by:
+  - E-1999-02
+  read_by: []
+- name: 复仇
+  set_by:
+  - E-1996-01
+  - E-2002-04
+  - E-2004-01
+  read_by:
+  - E-1996-02
+  - E-G05-06
+- name: 复仇的长枪党
+  set_by:
+  - E-1982-09a
+  read_by:
+  - E-1982-09c
+- name: 外围网络
+  set_by:
+  - E-1958-08
+  read_by: []
+- name: 外籍劳工
+  set_by:
+  - E-G05-05
+  read_by: []
+- name: 外长的保留
+  set_by:
+  - E-1977-06
+  read_by: []
+- name: 多支武装并存
+  set_by:
+  - E-1948-01
+  - E-1948-02
+  - E-1948-07
+  - E-1948-09
+  read_by:
+  - E-1948-02
+  - E-1948-09
+- name: 大使馆留在特拉维夫
+  set_by:
+  - E-1949-10
+  read_by: []
+- name: 大国对抗边缘
+  set_by:
+  - E-1970-03
+  read_by: []
+- name: 失去外围
+  set_by:
+  - E-1979-02
+  read_by: []
+- name: 失去孩子的父母
+  set_by:
+  - R-07
+  read_by: []
+- name: 奥尔委员会
+  set_by:
+  - E-2000-05
+  read_by: []
+- name: 守墓人示威
+  set_by:
+  - R-23
+  read_by: []
+- name: 安全区
+  set_by:
+  - E-1985-01
+  read_by:
+  - E-G04-18
+- name: 安全协调
+  set_by:
+  - E-1994-04
+  read_by: []
+- name: 宗教化的冲突
+  set_by:
+  - E-1987-12b
+  read_by: []
+- name: 宗教婚姻难题
+  set_by:
+  - E-1950-05
+  read_by: []
+- name: 宗教阵线的否决权
+  set_by:
+  - E-1949-03
+  read_by: []
+- name: 宗教阵营右转
+  set_by:
+  - E-1976-04
+  read_by: []
+- name: 审讯改革
+  set_by:
+  - E-1986-05
+  read_by: []
+- name: 宪法法院
+  set_by:
+  - E-1950-04
+  read_by: []
+- name: 寒蝉
+  set_by:
+  - E-G04-12
+  read_by: []
+- name: 封存的档案
+  set_by:
+  - E-1948-05
+  - E-1967-01c
+  read_by: []
+- name: 将领的委屈
+  set_by:
+  - E-1948-09
+  read_by: []
+- name: 小圈子决策
+  set_by:
+  - R-27
+  read_by: []
+- name: 巴列夫防线
+  set_by:
+  - E-1968-03
+  read_by: []
+- name: 币制转换
+  set_by:
+  - R-16
+  read_by: []
+- name: 布什的冷淡
+  set_by:
+  - E-1991-09
+  read_by: []
+- name: 希伯伦宵禁
+  set_by:
+  - E-1994-02
+  read_by: []
+- name: 希伯伦火药桶
+  set_by:
+  - E-1968-02
+  read_by: []
+- name: 希伯来文化的自信
+  set_by:
+  - E-G02-08
+  read_by: []
+- name: 帐篷城
+  set_by:
+  - E-G04-08
+  read_by: []
+- name: 幻影机交付延迟
+  set_by:
+  - E-1970-04
+  read_by: []
+- name: 廉价劳动力
+  set_by:
+  - E-G03-02
+  read_by: []
+- name: 开放桥梁
+  set_by:
+  - E-1967-05
+  read_by: []
+- name: 弹药荒
+  set_by:
+  - E-1973-08
+  read_by:
+  - E-1973-08
+- name: 总理兼国防
+  set_by:
+  - E-1980-05a
+  read_by: []
+- name: 恩德培神话
+  set_by:
+  - R-58
+  read_by: []
+- name: 戒严的阴影
+  set_by:
+  - E-1982-09d
+  read_by: []
+- name: 战争罪调查
+  set_by:
+  - E-2002-02
+  read_by: []
+- name: 战略资产
+  set_by:
+  - E-1970-05
+  read_by: []
+- name: 扎伊姆渠道
+  set_by:
+  - E-1949-05
+  read_by: []
+- name: 报复国家
+  set_by:
+  - E-1953-05
+  read_by: []
+- name: 报复螺旋
+  set_by:
+  - E-G02-01
+  read_by: []
+- name: 报复行动政策
+  set_by:
+  - E-G01-01
+  read_by:
+  - E-1953-02a
+  - E-1953-04
+  - E-1955-03
+- name: 拉冯的幽灵
+  set_by:
+  - E-1960-10
+  - E-1965-02
+  read_by:
+  - E-1963-06a
+  - E-1965-02
+  - E-1965-07
+- name: 拉宾与佩雷斯
+  set_by:
+  - E-1974-03
+  read_by: []
+- name: 拒签者运动
+  set_by:
+  - E-1970-07
+  read_by:
+  - E-1970-07
+  - E-1971-02
+  - E-G03-05
+- name: 拒绝派的回应
+  set_by:
+  - E-1993-03
+  read_by: []
+- name: 指数化经济
+  set_by:
+  - E-G03-08
+  read_by: []
+- name: 指数化螺旋
+  set_by:
+  - E-1977-10
+  - E-1985-07
+  read_by:
+  - E-1983-10
+  - E-1985-07
+  - E-G04-01
+  - E-G04-02
+- name: 挨第一拳
+  set_by:
+  - E-1973-05
+  read_by: []
+- name: 掩盖
+  set_by:
+  - E-1974-02
+  read_by:
+  - E-1974-03
+- name: 撤军压力
+  set_by:
+  - E-1956-11c
+  - E-1956-11d
+  read_by:
+  - E-1956-11d
+- name: 撤出黎巴嫩运动
+  set_by:
+  - R-07
+  read_by: []
+- name: 撤离创伤
+  set_by:
+  - E-2005-02
+  read_by: []
+- name: 收编
+  set_by:
+  - E-1971-02
+  read_by: []
+- name: 改革受挫
+  set_by:
+  - E-1992-03
+  read_by:
+  - E-1992-03
+- name: 政治暴力的先例
+  set_by:
+  - E-1983-02b
+  read_by: []
+- name: 敢死队
+  set_by:
+  - E-1955-03
+  read_by: []
+- name: 新谢克尔
+  set_by:
+  - E-1985-07
+  read_by:
+  - E-1977-10
+  - E-1983-10
+  - E-1985-07
+  - E-G04-01
+  - E-G04-02
+- name: 族群投票
+  set_by:
+  - E-1981-06b
+  read_by:
+  - E-1981-06b
+  - E-1983-02b
+- name: 无上限豁免
+  set_by:
+  - E-G04-03
+  read_by: []
+- name: 既成事实
+  set_by:
+  - E-1975-03
+  read_by: []
+- name: 有罪不罚
+  set_by:
+  - E-1948-11
+  - E-1980-06
+  read_by: []
+- name: 有限问责
+  set_by:
+  - E-1984-04b
+  read_by: []
+- name: 未了的案子
+  set_by:
+  - R-26
+  read_by: []
+- name: 未完成的正义
+  set_by:
+  - E-1956-11a
+  read_by: []
+- name: 未解之谜
+  set_by:
+  - R-08
+  read_by: []
+- name: 未解的伤口
+  set_by:
+  - E-1950-08
+  read_by:
+  - E-1950-08
+- name: 未解的疑问
+  set_by:
+  - R-59
+  read_by: []
+- name: 本-古里安归来
+  set_by:
+  - E-1955-02
+  - E-1955-05
+  read_by:
+  - E-1955-03
+- name: 村庄联盟
+  set_by:
+  - E-1981-11
+  read_by: []
+- name: 板房
+  set_by:
+  - E-2005-02
+  read_by: []
+- name: 校园对立
+  set_by:
+  - R-18
+  read_by: []
+- name: 核对峙
+  set_by:
+  - E-1973-09
+  read_by: []
+- name: 核模糊
+  set_by:
+  - E-1986-10
+  read_by: []
+- name: 核阴影
+  set_by:
+  - E-1973-07
+  read_by: []
+- name: 模糊政策
+  set_by:
+  - E-G03-04
+  read_by: []
+- name: 殉道叙事
+  set_by:
+  - E-1975-03
+  read_by: []
+- name: 殉道者
+  set_by:
+  - E-1988-01
+  read_by: []
+- name: 殉道者卡赫纳
+  set_by:
+  - E-1985-08
+  read_by: []
+- name: 水源威胁
+  set_by:
+  - E-1964-01
+  - E-1964-11
+  read_by:
+  - E-1964-11
+- name: 沉默的总理
+  set_by:
+  - E-1982-11
+  read_by:
+  - E-1983-08
+- name: 沙龙的国防部
+  set_by:
+  - E-1981-08
+  read_by: []
+- name: 沙龙的怨气
+  set_by:
+  - E-1981-08
+  read_by: []
+- name: 没有回家的士兵
+  set_by:
+  - R-37
+  read_by: []
+- name: 泄密
+  set_by:
+  - E-1969-02
+  read_by: []
+- name: 泡沫破裂
+  set_by:
+  - E-G05-04
+  read_by:
+  - E-2003-01
+- name: 波拉德阴影
+  set_by:
+  - E-1985-11
+  read_by: []
+- name: 活动房营地
+  set_by:
+  - E-1989-10
+  read_by: []
+- name: 消耗战
+  set_by:
+  - E-1969-03
+  - E-1970-04
+  read_by:
+  - E-1970-01
+  - E-1970-03
+  - E-1970-04
+- name: 渗透袭击
+  set_by:
+  - E-1964-05
+  read_by: []
+- name: 温和峰会
+  set_by: []
+  read_by:
+  - E-1967-06
+- name: 漏风的内阁
+  set_by:
+  - R-27
+  read_by: []
+- name: 特赦先例
+  set_by:
+  - E-1986-05
+  read_by: []
+- name: 独立宗教教育系统
+  set_by:
+  - E-1953-02
+  read_by: []
+- name: 独立战争
+  set_by:
+  - E-1948-01
+  - E-1949-02
+  read_by:
+  - E-1949-01
+  - E-1949-02
+- name: 狼来了
+  set_by:
+  - E-1973-04
+  read_by: []
+- name: 留在内阁的沙龙
+  set_by:
+  - E-1983-02a
+  read_by: []
+- name: 疲惫
+  set_by:
+  - E-1953-06
+  - E-G01-08
+  read_by:
+  - E-1953-06
+- name: 病榻上的总理
+  set_by:
+  - E-G04-15
+  read_by: []
+- name: 监狱学校
+  set_by:
+  - E-G04-09
+  read_by: []
+- name: 直选时代
+  set_by:
+  - E-1992-03
+  read_by: []
+- name: 秘密渠道
+  set_by:
+  - E-1993-01
+  read_by: []
+- name: 空置村庄
+  set_by:
+  - E-1948-03
+  read_by: []
+- name: 第7A条
+  set_by:
+  - E-1985-08
+  read_by: []
+- name: 紧缩配给
+  set_by:
+  - E-1949-06
+  - E-1951-03
+  - E-1952-02
+  - E-G01-03
+  read_by:
+  - E-1952-02
+  - E-G01-03
+- name: 约旦边境失控
+  set_by:
+  - E-1951-02
+  read_by: []
+- name: 约旦选项受阻
+  set_by:
+  - E-1974-05
+  - E-1975-01
+  read_by: []
+- name: 纳哈尔掩护
+  set_by:
+  - E-1967-07
+  read_by: []
+- name: 纵深防御
+  set_by:
+  - E-1968-03
+  read_by:
+  - E-1968-03
+- name: 结对社群
+  set_by:
+  - E-1978-06
+  read_by: []
+- name: 统一水价
+  set_by:
+  - R-01
+  read_by: []
+- name: 统一的耶路撒冷
+  set_by:
+  - E-1967-04
+  read_by: []
+- name: 继承之争
+  set_by:
+  - E-1969-01
+  read_by: []
+- name: 美元化的日常
+  set_by:
+  - E-G04-01
+  read_by: []
+- name: 美国冷淡
+  set_by:
+  - E-1963-05
+  read_by: []
+- name: 美国制裁
+  set_by:
+  - E-1956-11d
+  read_by: []
+- name: 美国武器生命线
+  set_by:
+  - E-1973-08
+  read_by: []
+- name: 美国石油保证
+  set_by:
+  - E-1979-03
+  read_by: []
+- name: 美国石油保障
+  set_by:
+  - E-1975-01
+  read_by: []
+- name: 耶希瓦学生豁免
+  set_by:
+  - E-1949-09
+  read_by:
+  - E-G01-09
+- name: 腐败之风
+  set_by:
+  - E-1976-03
+  read_by:
+  - E-1977-02
+- name: 腐败政府
+  set_by:
+  - R-26
+  read_by: []
+- name: 自杀式爆炸时代
+  set_by:
+  - E-1994-03
+  read_by:
+  - E-1994-03
+  - E-1995-01
+  - E-1996-01
+  - E-1996-02
+  - E-2002-04
+  - E-G05-06
+- name: 苏东移民通道关闭
+  set_by:
+  - E-1953-01
+  read_by: []
+- name: 苏联防空网
+  set_by:
+  - E-1970-01
+  read_by:
+  - E-1970-03
+  - E-1972-02
+- name: 获释者
+  set_by:
+  - E-G04-11
+  read_by:
+  - E-1987-12a
+- name: 萧条
+  set_by:
+  - E-1966-01
+  - E-1967-06g
+  read_by:
+  - E-G02-02
+- name: 萨布拉与夏蒂拉
+  set_by:
+  - E-1982-09c
+  read_by: []
+- name: 萨达特的耐心
+  set_by:
+  - E-1971-01
+  read_by:
+  - E-1971-01
+  - E-1973-04
+  - E-1973-06
+- name: 藐视委员会
+  set_by:
+  - E-1983-02a
+  read_by: []
+- name: 血钱之争
+  set_by:
+  - E-1952-01
+  read_by: []
+- name: 被压下的怒火
+  set_by:
+  - E-1959-07b
+  read_by: []
+- name: 被围的内盖夫
+  set_by: []
+  read_by:
+  - E-1948-10
+- name: 被禁止的反对派
+  set_by:
+  - E-1952-01
+  read_by: []
+- name: 被迫害的右翼
+  set_by:
+  - E-1995-03
+  read_by: []
+- name: 要求回应
+  set_by:
+  - R-36
+  read_by: []
+- name: 要求强硬
+  set_by:
+  - E-1996-02
+  - E-2001-03
+  - E-2002-01
+  - E-2002-02
+  - E-G05-06
+  read_by: []
+- name: 要求报复
+  set_by:
+  - E-1978-03a
+  - E-G04-17
+  - R-57
+  read_by:
+  - E-1978-03b
+- name: 要求赔偿
+  set_by:
+  - R-08
+  read_by: []
+- name: 议会安保
+  set_by:
+  - E-1957-10b
+  read_by:
+  - E-1957-10b
+- name: 议会碎片化
+  set_by:
+  - E-1996-04
+  - E-2001-01
+  read_by: []
+- name: 议会至上
+  set_by:
+  - E-1950-04
+  read_by: []
+- name: 记忆的转向
+  set_by:
+  - E-1961-04
+  read_by: []
+- name: 贝鲁特之殇
+  set_by:
+  - E-1982-08
+  read_by: []
+- name: 贷款担保扣减
+  set_by:
+  - E-1992-02
+  read_by: []
+- name: 起义
+  set_by:
+  - E-1987-12a
+  read_by:
+  - E-1988-01
+  - E-1988-07
+  - E-G04-09
+- name: 起义经济
+  set_by:
+  - E-2000-04
+  - E-G05-04
+  read_by:
+  - E-2003-01
+- name: 超采
+  set_by:
+  - R-01
+  read_by: []
+- name: 越界回流
+  set_by:
+  - E-1949-04
+  read_by: []
+- name: 越过底线的报复
+  set_by:
+  - E-1953-05
+  read_by:
+  - E-1953-04
+- name: 边境城镇的愤怒
+  set_by:
+  - E-G04-05
+  read_by: []
+- name: 过渡蜜月
+  set_by:
+  - E-1963-06a
+  read_by: []
+- name: 运河导弹墙
+  set_by:
+  - E-1970-04
+  read_by: []
+- name: 选举授权
+  set_by:
+  - E-1949-01
+  read_by: []
+- name: 选举窗口推迟
+  set_by:
+  - E-1995-05
+  read_by: []
+- name: 铁拳
+  set_by:
+  - E-1988-01
+  read_by: []
+- name: 银行股安排
+  set_by:
+  - E-1983-10
+  read_by: []
+- name: 错过的约旦方案
+  set_by:
+  - E-1987-04
+  read_by:
+  - E-1987-12a
+  - E-1988-07
+- name: 阻挡集团
+  set_by:
+  - E-1992-01
+  - E-1993-04
+  read_by:
+  - E-G05-07
+- name: 阿隆走廊
+  set_by:
+  - E-1967-05
+  read_by: []
+- name: 降级
+  set_by:
+  - E-2003-01
+  read_by: []
+- name: 隐形的总理
+  set_by:
+  - E-1983-08
+  read_by: []
+- name: 雅林使命
+  set_by:
+  - E-1967-08
+  read_by:
+  - E-1967-08
+  - E-1971-01
+- name: 非洲之友
+  set_by:
+  - E-G02-03
+  read_by: []
+- name: 飞行员信
+  set_by:
+  - E-2002-04
+  read_by: []
+- name: 马帕姆要价
+  set_by:
+  - E-1949-03
+  read_by: []
+- name: 驱逐国家的名声
+  set_by:
+  - E-1948-05
+  read_by: []
+- name: 驱逐指令
+  set_by:
+  - E-1948-03a
+  read_by: []
+- name: 驱逐营地
+  set_by:
+  - E-1992-03
+  read_by: []
+- name: 高科技繁荣
+  set_by:
+  - E-G05-03
+  read_by:
+  - E-G05-04
+- name: 黎巴嫩泥潭
+  set_by:
+  - E-1982-06a
+  - E-1982-06b
+  - E-1983-08
+  - E-1985-01
+  read_by:
+  - E-1982-08
+  - E-1982-11
+  - E-1983-08
+  - E-1985-01
+  - E-G04-12
+- name: 黑市清剿
+  set_by:
+  - E-1952-02
+  read_by: []

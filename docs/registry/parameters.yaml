@@ -1,0 +1,136 @@
+# 总参数表（唯一事实来源）
+# 所有模块规格、事件、模拟脚本和 Godot 实现只能使用这里定义的参数。
+# 新增参数必须先改这个文件，并在 docs/registry/CHANGELOG.md 记录。
+#
+# 字段说明
+#   id        英文ID，snake_case，代码中使用
+#   zh        中文名，事件文本中使用（与 docs/events/README.md 词典一致）
+#   type      axis(−100..100) | stock(0..100) | debt(只增，主动偿还才减) | derived(由公式算出，不能直接写)
+#             | currency(可消耗) | hidden(玩家不可直接见) | count(计数) | money | percent | seats
+#   scope     national | party | bloc | group | arab_group | power | arab_state | pal_faction | region | character | promise | axis | country
+#   range     [min, max]
+#   tick      结算周期：daily | weekly | monthly | quarterly | yearly | event(只由事件/行动改变)
+#   owner     主写模块（其他模块只能通过“效果”请求修改，见 contracts.md）
+#   visible   true | false | fuzzy（通过情报/顾问以模糊措辞显示）
+#   era       [起始年, 结束年]，null 表示全时代
+#   drift     无外力时每个结算周期的回归方式（见 M02 规格）
+
+modules:
+  M01: 核心循环与结算顺序
+  M02: 数值模型与矛盾联动
+  M03: 议会、选举与组阁
+  M04: 党内政治、承诺与立场走廊
+  M05: 行动系统与政治资本经济
+  M06: 人物与AI内阁
+  M07: 外部世界与外交
+  M08: 巴勒斯坦政治
+  M09: 军事、安全与情报
+  M10: 经济与预算
+  M11: 地图与区域
+  M12: 事件引擎
+  M13: 独裁路线
+  M14: 剧本、结局与历史评价
+  M15: 界面与信息呈现
+
+parameters:
+
+  # ───────── 权力生存层 ─────────
+  - {id: political_capital, zh: 政治资本, type: currency, scope: national, range: [0, 200], tick: monthly, owner: M05, visible: true, era: null, drift: none}
+  - {id: party_standing, zh: 党内地位, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M04, visible: true, era: null, drift: "toward 50 at 2%/month"}
+  - {id: ally_satisfaction, zh: 盟党满意度, type: stock, scope: party, range: [0, 100], tick: monthly, owner: M03, visible: true, era: null, drift: "toward demand-fulfilment target"}
+  - {id: bloc_support, zh: 选民集团支持, type: stock, scope: bloc, range: [0, 100], tick: weekly, owner: M03, visible: true, era: null, drift: "toward bloc utility target"}
+  - {id: coalition_seats, zh: 联合政府席位, type: seats, scope: national, range: [0, 120], tick: event, owner: M03, visible: true, era: null, drift: none}
+  - {id: promise_progress, zh: 承诺进度, type: percent, scope: promise, range: [0, 100], tick: monthly, owner: M04, visible: true, era: null, drift: none}
+  - {id: stance_deviation, zh: 立场偏离, type: stock, scope: axis, range: [0, 100], tick: monthly, owner: M04, visible: true, era: null, drift: "derived from policy position vs corridor; see M04"}
+  - {id: vision_progress, zh: 愿景进度, type: percent, scope: national, range: [0, 100], tick: event, owner: M04, visible: true, era: null, drift: none}
+  - {id: centralization, zh: 集权度, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M13, visible: true, era: null, drift: "−0.5/month if no authoritarian action in 12 months"}
+  - {id: relation, zh: 人物关系, type: axis, scope: character, range: [-100, 100], tick: monthly, owner: M06, visible: true, era: null, drift: "toward trait baseline at 1/month"}
+  - {id: health, zh: 人物健康, type: stock, scope: character, range: [0, 100], tick: monthly, owner: M06, visible: fuzzy, era: null, drift: "age curve, see M06"}
+
+  # ───────── 国家能力层 ─────────
+  - {id: budget_balance, zh: 财政, type: percent, scope: national, range: [-50, 50], tick: monthly, owner: M10, visible: true, era: null, drift: "computed from revenue − spending", note: "以占年度预算的%表示的月度盈亏；事件效果 '财政 −3%' 表示一次性支出年度预算的3%"}
+  - {id: public_debt, zh: 公共债务, type: percent, scope: national, range: [0, 300], tick: monthly, owner: M10, visible: true, era: null, drift: "accumulates deficits", note: "占GDP%"}
+  - {id: fx_reserves, zh: 外汇, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M10, visible: true, era: null, drift: "trade balance + aid + reparations − imports"}
+  - {id: inflation, zh: 通胀, type: percent, scope: national, range: [-5, 500], tick: quarterly, owner: M10, visible: true, era: null, drift: "see M10"}
+  - {id: growth, zh: 经济增长, type: percent, scope: national, range: [-15, 20], tick: quarterly, owner: M10, visible: true, era: null, drift: "see M10"}
+  - {id: unemployment, zh: 失业率, type: percent, scope: national, range: [0, 40], tick: quarterly, owner: M10, visible: true, era: null, drift: "see M10"}
+  - {id: readiness, zh: 战备, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M09, visible: true, era: null, drift: "toward budget-funded baseline"}
+  - {id: mobilization, zh: 动员水平, type: stock, scope: national, range: [0, 100], tick: daily, owner: M09, visible: true, era: null, drift: "player-set; costs growth"}
+  - {id: absorption_capacity, zh: 移民吸收容量, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M10, visible: true, era: null, drift: "housing + jobs investment"}
+  - {id: immigration_inflow, zh: 移民流入, type: count, scope: national, range: [0, 1000000], tick: monthly, owner: M07, visible: true, era: null, drift: "world track + Law of Return + push factors", note: "每年人数"}
+  - {id: state_integration, zh: 国家整合度, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M09, visible: true, era: [1948, 1950], drift: "rises with 'one army' actions"}
+  - {id: arms_reliability, zh: 武器来源可靠度, type: stock, scope: power, range: [0, 100], tick: monthly, owner: M07, visible: true, era: null, drift: "follows relation with supplier"}
+
+  # ───────── 矛盾 1：世俗与宗教 ─────────
+  - {id: religious_status_quo, zh: 宗教现状指数, type: axis, scope: national, range: [-100, 100], tick: event, owner: M02, visible: true, era: null, drift: none}
+  - {id: draft_exemption, zh: 兵役豁免规模, type: debt, scope: national, range: [0, 100], tick: yearly, owner: M02, visible: true, era: null, drift: "+ haredi_cohort × exemption_rate"}
+
+  # ───────── 矛盾 2：族群与移民 ─────────
+  - {id: alienation, zh: 疏离度, type: stock, scope: group, range: [0, 100], tick: monthly, owner: M02, visible: true, era: null, drift: "see contradiction_parameters.md §2"}
+  - {id: historical_grievance, zh: 历史怨气, type: debt, scope: group, range: [0, 100], tick: monthly, owner: M02, visible: true, era: null, drift: "+ when alienation > 50; −0.1/month otherwise"}
+
+  # ───────── 矛盾 3：阿拉伯公民 ─────────
+  - {id: civic_identification, zh: 国家认同度, type: stock, scope: arab_group, range: [0, 100], tick: monthly, owner: M02, visible: true, era: null, drift: "toward equality-driven target"}
+  - {id: land_grievance, zh: 土地怨气, type: debt, scope: arab_group, range: [0, 100], tick: monthly, owner: M02, visible: true, era: null, drift: "+ land expropriation; −0.1/month"}
+
+  # ───────── 矛盾 4：大国依赖 ─────────
+  - {id: strategic_dependence, zh: 战略依赖度, type: derived, scope: national, range: [0, 100], tick: monthly, owner: M07, visible: true, era: null, drift: "aid share of defense budget × supplier concentration"}
+  - {id: intl_legitimacy, zh: 国际合法性, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M07, visible: true, era: null, drift: "toward 50 at 1%/month"}
+  - {id: us_admin_relation, zh: 美国政府关系, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M07, visible: true, era: null, drift: "toward administration baseline (world track)"}
+  - {id: us_congress_relation, zh: 美国国会关系, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M07, visible: true, era: null, drift: "toward 60 at 1%/month"}
+  - {id: power_relation, zh: 关系, type: stock, scope: power, range: [0, 100], tick: monthly, owner: M07, visible: true, era: null, drift: "toward world-track baseline"}
+
+  # ───────── 矛盾 5：领土与定居 ─────────
+  - {id: trilemma, zh: 三难三角, type: derived, scope: national, range: [0, 100], tick: monthly, owner: M11, visible: true, era: null, drift: "computed: jewish_share, democratic_legitimacy, territorial_control"}
+  - {id: settler_momentum, zh: 定居者运动动量, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M02, visible: true, era: [1967, null], drift: "toward government-support target"}
+
+  # ───────── 矛盾 6：经济意识形态 ─────────
+  - {id: economic_model, zh: 经济模式, type: axis, scope: national, range: [-100, 100], tick: event, owner: M10, visible: true, era: null, drift: none}
+  - {id: inequality, zh: 贫富差距, type: stock, scope: national, range: [0, 100], tick: quarterly, owner: M10, visible: true, era: null, drift: "see M10"}
+  - {id: union_strength, zh: 工会实力, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M10, visible: true, era: null, drift: "toward state-sector-size target"}
+
+  # ───────── 矛盾 7：安全与法治 ─────────
+  - {id: rule_of_law, zh: 民主法治指数, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M02, visible: true, era: null, drift: "toward 70 at 1%/month unless centralization > 30"}
+  - {id: public_security, zh: 公众安全感, type: stock, scope: national, range: [0, 100], tick: weekly, owner: M09, visible: true, era: null, drift: "toward deterrence-driven target"}
+  - {id: judicial_conflict, zh: 司法冲突度, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M02, visible: true, era: [1992, null], drift: "−1/month"}
+
+  # ───────── 矛盾 8：外部冲突 ─────────
+  - {id: regime_hostility, zh: 政权敌意, type: stock, scope: arab_state, range: [0, 100], tick: monthly, owner: M07, visible: true, era: null, drift: "world track"}
+  - {id: popular_hostility, zh: 民间敌意, type: stock, scope: arab_state, range: [0, 100], tick: monthly, owner: M07, visible: true, era: null, drift: "−0.5/month toward 50"}
+  - {id: regime_stability, zh: 政权稳定度, type: stock, scope: arab_state, range: [0, 100], tick: monthly, owner: M07, visible: fuzzy, era: null, drift: "world track + perturbation"}
+  - {id: war_probability, zh: 开战概率, type: derived, scope: arab_state, range: [0, 100], tick: monthly, owner: M07, visible: fuzzy, era: null, drift: "computed, see contradiction_parameters.md §8.1"}
+  - {id: pal_hostility, zh: 巴勒斯坦民间敌意, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M08, visible: true, era: null, drift: "−0.3/month toward 50"}
+  - {id: pal_living_standard, zh: 巴勒斯坦生活水平, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M08, visible: true, era: [1967, null], drift: "permits + closures + aid"}
+  - {id: faction_strength, zh: 实力, type: stock, scope: pal_faction, range: [0, 100], tick: monthly, owner: M08, visible: fuzzy, era: null, drift: "funding + patrons − strikes"}
+  - {id: faction_legitimacy, zh: 合法性, type: stock, scope: pal_faction, range: [0, 100], tick: monthly, owner: M08, visible: fuzzy, era: null, drift: "results + martyrdom − collaborator stigma"}
+  - {id: uprising_risk, zh: 起义风险, type: derived, scope: national, range: [0, 100], tick: monthly, owner: M08, visible: fuzzy, era: [1967, null], drift: "computed from pal_hostility and pal_living_standard"}
+  - {id: deterrence, zh: 威慑值, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M09, visible: true, era: null, drift: "−0.5/month"}
+  - {id: complacency, zh: 战略自满度, type: hidden, scope: national, range: [0, 100], tick: monthly, owner: M09, visible: fuzzy, era: null, drift: "+0.5/month in peace; reset by surprise"}
+
+  # ───────── 区级 ─────────
+  - {id: region_security, zh: 安全, type: stock, scope: region, range: [0, 100], tick: weekly, owner: M11, visible: true, era: null, drift: "toward security posture target"}
+  - {id: region_development, zh: 发展水平, type: stock, scope: region, range: [0, 100], tick: monthly, owner: M11, visible: true, era: null, drift: "investment slider"}
+  - {id: region_vote_share, zh: 选民倾向, type: derived, scope: region, range: [0, 100], tick: weekly, owner: M03, visible: true, era: null, drift: "computed from bloc_support × regional population"}
+  - {id: region_population, zh: 人口构成, type: count, scope: region, range: [0, 10000000], tick: yearly, owner: M11, visible: true, era: null, drift: "births + migration"}
+
+  # ───────── 隐藏层 ─────────
+  - {id: nuclear_progress, zh: 核计划进度, type: hidden, scope: national, range: [0, 100], tick: monthly, owner: M09, visible: fuzzy, era: [1957, null], drift: "funding"}
+  - {id: nuclear_exposure_risk, zh: 核计划暴露风险, type: hidden, scope: national, range: [0, 100], tick: monthly, owner: M09, visible: fuzzy, era: [1957, null], drift: "+ with progress; − with ambiguity policy"}
+  - {id: enemy_nuclear_progress, zh: 敌国核计划进度, type: hidden, scope: arab_state, range: [0, 100], tick: monthly, owner: M07, visible: fuzzy, era: null, drift: "world track"}
+  - {id: islamic_assoc_strength, zh: 伊斯兰协会实力, type: hidden, scope: national, range: [0, 100], tick: monthly, owner: M08, visible: fuzzy, era: [1973, 1987], drift: "tolerance policy"}
+  - {id: historical_rating, zh: 历史评价, type: hidden, scope: national, range: [-100, 100], tick: event, owner: M14, visible: false, era: null, drift: none}
+
+entities:
+  blocs: [labor_ashkenazi, mizrahi, kibbutz_moshav, religious_zionist, haredi, arab_citizens, russian, liberal_middle]
+  groups: [mizrahi, russian, ethiopian]          # 疏离度 / 历史怨气
+  arab_groups: [arab, druze, bedouin]           # 国家认同度 / 土地怨气
+  axes: [territory, security, economy, religion, foreign]
+  powers: [usa, ussr, france, uk, west_germany, diaspora]
+  arab_states: [egypt, jordan, syria, lebanon, iraq, saudi]
+  peripheral_states: [iran, turkey, ethiopia, sudan, morocco]
+  pal_factions: [notables, fatah, left_factions, hamas, islamic_jihad, pa_security]
+  lebanese_factions: [phalange, sla, hezbollah]
+  regions_fixed: [galilee, haifa, tel_aviv, triangle, jerusalem, negev]
+  regions_dynamic: [west_bank, gaza, golan, sinai]
+  # 政党按时代开放，详见 M03 规格；这里只列ID
+  parties: [mapai, labor, mapam, ahdut_haavoda, rafi, herut, gahal, likud, general_zionists, liberals, progressives, nrp, agudat, poalei_agudat, shas, utj, meretz, dash, tehiya, kach, yisrael_baalia, shinui, kadima, arab_lists, maki, rakah_hadash]

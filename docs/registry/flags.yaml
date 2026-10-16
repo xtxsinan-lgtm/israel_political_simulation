@@ -1,0 +1,1419 @@
+# 自动生成：tools/extract_flags.py。不要手工编辑；英文ID在结构化转换时分配。
+flags:
+- name: 101公里会谈
+  set_by:
+  - E-1973-09
+  read_by: []
+- name: 194号决议
+  set_by: []
+  read_by:
+  - E-1949-07
+- name: 242框架
+  set_by:
+  - E-1967-08
+  read_by:
+  - E-1970-04
+- name: 3379决议
+  set_by:
+  - E-1975-02
+  read_by: []
+- name: '{政党}退出威胁'
+  set_by:
+  - R-28
+  read_by: []
+- name: '{领域}产业'
+  set_by:
+  - R-52
+  read_by: []
+- name: 东方阵营路线
+  set_by:
+  - E-1950-06
+  read_by:
+  - E-1950-06
+  - E-1952-01
+  - E-1953-01
+- name: 两伊战争
+  set_by: []
+  read_by:
+  - E-G04-14
+- name: 乌布利希访问开罗
+  set_by: []
+  read_by:
+  - E-1965-03
+- name: 也门儿童之谜
+  set_by:
+  - E-1950-08
+  read_by: []
+- name: 也门移民
+  set_by:
+  - E-1949-08
+  read_by: []
+- name: 人权基本法
+  set_by: []
+  read_by:
+  - E-G05-11
+- name: 伊克利特之诺
+  set_by:
+  - E-1951-04
+  read_by: []
+- name: 伊拉克核计划延续
+  set_by:
+  - E-1981-06a
+  read_by:
+  - E-1981-06a
+- name: 伊拉克革命
+  set_by: []
+  read_by:
+  - E-1958-08
+- name: 伊斯兰会议成立
+  set_by:
+  - R-57
+  read_by: []
+- name: 伊朗供油
+  set_by:
+  - R-09
+  read_by: []
+- name: 信仰集团
+  set_by:
+  - E-1974-01
+  read_by:
+  - E-1974-01
+  - E-1975-03
+- name: 党内反对派成形
+  set_by:
+  - R-33
+  read_by: []
+- name: 党内裂痕
+  set_by:
+  - E-1960-10
+  read_by: []
+- name: 全球科技泡沫
+  set_by: []
+  read_by:
+  - E-G05-04
+- name: 六一九决议
+  set_by:
+  - E-1967-03
+  - E-1967-06
+  read_by:
+  - E-1967-06
+- name: 六日战争结束
+  set_by: []
+  read_by:
+  - E-1967-03
+  - E-1967-06
+  - E-1967-08
+- name: 凌驾条款
+  set_by: []
+  read_by:
+  - E-G05-11
+- name: 凶手逍遥
+  set_by:
+  - E-1948-07
+  read_by: []
+- name: 利勒哈默尔误杀
+  set_by:
+  - E-1973-02a
+  read_by:
+  - E-1973-02b
+- name: 利库德分裂萌芽
+  set_by:
+  - E-2004-02
+  read_by:
+  - E-2005-03
+- name: 利库德执政
+  set_by: []
+  read_by:
+  - E-1977-06
+  - E-1977-07
+  - E-1978-06
+- name: 利库德接受奥斯陆
+  set_by:
+  - E-1997-01
+  read_by:
+  - E-1998-01
+- name: 利比亚客机击落
+  set_by:
+  - E-1973-01b
+  read_by:
+  - E-1973-01c
+- name: 前进党
+  set_by:
+  - E-2005-03
+  - E-2006-01
+  read_by: []
+- name: 加利利征地
+  set_by:
+  - E-1976-01a
+  read_by:
+  - E-1976-01a
+  - E-1976-01b
+- name: 加沙定居点撤离
+  set_by:
+  - E-1994-04
+  read_by: []
+- name: 加沙枪杀
+  set_by:
+  - E-1956-11e
+  read_by:
+  - E-1956-11b
+- name: 加沙突袭
+  set_by:
+  - E-1955-03
+  read_by:
+  - E-1955-06
+  - E-1955-11a
+- name: 加沙记忆
+  set_by:
+  - E-1956-11b
+  read_by: []
+- name: 劳工党腐败
+  set_by:
+  - E-1976-03
+  read_by:
+  - E-1977-02
+- name: 劳工党长期执政
+  set_by: []
+  read_by:
+  - E-1976-03
+- name: 十万人方案
+  set_by:
+  - E-1949-07
+  read_by: []
+- name: 十月事件
+  set_by:
+  - E-2000-04a
+  read_by:
+  - E-2000-05
+- name: 南黎巴嫩代理民兵
+  set_by:
+  - E-1978-03b
+  read_by:
+  - E-1978-03b
+- name: 占领东耶路撒冷
+  set_by: []
+  read_by:
+  - E-1967-01a
+  - E-1967-01b
+  - E-1967-02
+  - E-1967-04
+- name: 占领地时代
+  set_by:
+  - E-1967-06g
+  read_by:
+  - E-1966-11b
+  - E-G02-01
+- name: 占领西岸
+  set_by: []
+  read_by:
+  - E-1967-05
+  - E-1967-07
+  - E-1968-01
+  - E-1968-02
+- name: 卡夫尔卡西姆
+  set_by:
+  - E-1956-10b
+  read_by:
+  - E-1956-10b
+  - E-1956-11a
+- name: 卡汉委员会
+  set_by:
+  - E-1982-09d
+  read_by:
+  - E-1983-02a
+- name: 卡赫已取缔
+  set_by:
+  - E-1993-05
+  read_by:
+  - E-1993-05
+  - E-1994-01
+- name: 卡赫进入议会
+  set_by:
+  - E-1984-07
+  read_by:
+  - E-1984-07
+  - E-1985-08
+- name: 叙以停战
+  set_by:
+  - E-1949-05
+  read_by:
+  - E-1949-05
+- name: 叙利亚之耻
+  set_by:
+  - E-1967-04
+  read_by:
+  - E-1967-05a
+- name: 叙利亚引水工程开工
+  set_by: []
+  read_by:
+  - E-1964-11
+- name: 叙利亚炮击加利利
+  set_by: []
+  read_by:
+  - E-1967-06e
+- name: 古什埃齐翁定居
+  set_by: []
+  read_by:
+  - E-1967-07
+- name: 司法审查
+  set_by:
+  - E-G05-11
+  read_by:
+  - E-1999-02
+- name: 吕大驱逐
+  set_by:
+  - E-1948-04
+  read_by:
+  - E-1948-05
+- name: 和约已签署
+  set_by: []
+  read_by:
+  - E-1982-04
+- name: 哈马斯学会自杀式爆炸
+  set_by:
+  - E-1992-03
+  read_by:
+  - E-1994-03
+- name: 哭墙广场
+  set_by:
+  - E-1967-01b
+  read_by:
+  - E-1967-01b
+  - E-1967-01c
+- name: 喀土穆三不
+  set_by:
+  - E-1967-06
+  read_by:
+  - E-1967-03
+  - E-1967-05
+  - E-1969-03
+- name: 团结政府
+  set_by:
+  - E-1967-05c
+  - E-1984-07
+  read_by:
+  - E-1985-07
+  - E-1987-04
+  - E-1990-03
+- name: 国家输水工程完工
+  set_by:
+  - R-01
+  read_by: []
+- name: 国有土地宣告
+  set_by:
+  - E-1979-10
+  read_by:
+  - E-1979-10
+- name: 国防工业自主
+  set_by:
+  - R-48
+  read_by: []
+- name: 国防部长空缺
+  set_by:
+  - E-1980-05a
+  read_by:
+  - E-1981-08
+- name: 圣地受损
+  set_by:
+  - R-04
+  read_by: []
+- name: 圣殿山现状
+  set_by:
+  - E-1967-02
+  - E-1967-06f
+  read_by:
+  - E-1967-02
+- name: 在场的缺席者
+  set_by:
+  - E-1950-02
+  read_by: []
+- name: 地下组织未破
+  set_by:
+  - E-1980-06
+  read_by:
+  - E-1984-04b
+- name: 埃什科尔去世
+  set_by:
+  - E-1969-01
+  read_by: []
+- name: 埃以停战
+  set_by:
+  - E-1949-02
+  read_by:
+  - E-1948-09a
+  - E-1948-10
+  - E-1948-12
+  - E-1949-04
+- name: 埃以停战谈判
+  set_by: []
+  read_by:
+  - E-1967-06
+  - E-1969-03
+- name: 埃以停火安排更新
+  set_by: []
+  read_by:
+  - E-1956-10c
+- name: 埃以全面战争重启
+  set_by: []
+  read_by:
+  - E-1949-02
+- name: 埃以和约
+  set_by: []
+  read_by:
+  - E-1958-08
+  - E-1964-05
+  - E-1967-05a
+- name: 埃以和约已签署
+  set_by: []
+  read_by:
+  - E-1977-11
+- name: 埃以秘密和谈成功
+  set_by: []
+  read_by:
+  - E-1955-11a
+- name: 埃及愿意谈判
+  set_by:
+  - E-1948-12
+  read_by:
+  - E-1948-12
+  - E-1949-02
+- name: 埃塞俄比亚移民早期化
+  set_by:
+  - E-G03-06
+  read_by: []
+- name: 基比亚
+  set_by:
+  - E-1953-04
+  read_by:
+  - E-1953-05
+- name: 基比亚否认
+  set_by:
+  - E-1953-05
+  read_by: []
+- name: 复兴党成立
+  set_by:
+  - E-1979-03
+  read_by: []
+- name: 夏里特离心
+  set_by:
+  - E-1955-12
+  read_by:
+  - E-1956-06a
+- name: 大赦先例
+  set_by:
+  - E-1948-11
+  read_by: []
+- name: 大选年
+  set_by: []
+  read_by:
+  - E-1973-03
+- name: 奥斯陆二期
+  set_by:
+  - E-1995-02
+  read_by:
+  - E-1995-03
+  - E-1997-01
+- name: 奥斯陆二期、旗标：希伯伦撤离先例、旗标：脱离计划
+  set_by: []
+  read_by:
+  - E-1995-04
+- name: 奥斯陆失败
+  set_by: []
+  read_by:
+  - E-1993-03
+- name: 奥斯陆秘密渠道
+  set_by: []
+  read_by:
+  - E-1993-03
+- name: 奥斯陆进程
+  set_by:
+  - E-1993-03
+  read_by:
+  - E-1993-01
+  - E-1993-05
+  - E-1994-01
+  - E-1994-04
+  - E-1994-05
+  - E-1995-02
+  - E-1997-01
+  - E-1998-01
+  - E-2000-02
+- name: 学生领袖
+  set_by:
+  - R-18
+  read_by: []
+- name: 宗教党退出威胁
+  set_by:
+  - R-21
+  read_by: []
+- name: 定居点合法化先例
+  set_by:
+  - E-1977-07
+  read_by:
+  - E-G04-04
+- name: 定居者运动动量
+  set_by: []
+  read_by:
+  - E-1980-06
+- name: 宽容伊斯兰派
+  set_by:
+  - E-G04-10
+  read_by: []
+- name: 密约曝光
+  set_by:
+  - E-1956-10a
+  read_by: []
+- name: 少数民族部队
+  set_by: []
+  read_by:
+  - E-1956-05
+- name: 屠杀发生
+  set_by:
+  - E-1982-09c
+  read_by:
+  - E-1981-10
+  - E-1982-09d
+- name: 巴列夫防线
+  set_by: []
+  read_by:
+  - E-1968-03
+- name: 巴方总理
+  set_by: []
+  read_by:
+  - E-2003-02
+- name: 巴方选举
+  set_by:
+  - E-2004-04
+  - E-2006-01
+  read_by: []
+- name: 巴解唯一合法代表
+  set_by:
+  - E-1974-05
+  read_by:
+  - E-1975-02
+- name: 巴解撤往突尼斯
+  set_by:
+  - E-1982-08
+  read_by:
+  - E-1978-03a
+  - E-1982-06a
+  - E-1982-09a
+  - E-G04-05
+- name: 巴解迁往黎巴嫩
+  set_by:
+  - E-1970-05
+  read_by:
+  - E-1968-01
+  - E-1970-05
+  - E-1972-03
+  - E-1974-04
+- name: 希伯伦屠杀
+  set_by:
+  - E-1994-01
+  read_by:
+  - E-1994-02
+  - E-1994-03
+  - E-1994-04
+- name: 希伯伦撤离先例
+  set_by:
+  - E-1994-02
+  read_by: []
+- name: 希伯伦撤离先例、旗标：脱离计划
+  set_by: []
+  read_by:
+  - E-1995-03
+- name: 希伯伦犹太存在
+  set_by:
+  - E-1968-02
+  read_by:
+  - E-1968-02
+- name: 平民政策空白
+  set_by:
+  - E-1948-03a
+  read_by: []
+- name: 幻影交付
+  set_by: []
+  read_by:
+  - E-1970-01
+- name: 废除接触巴解禁令
+  set_by: []
+  read_by:
+  - E-1993-01
+- name: 建筑抗震规范
+  set_by:
+  - R-04
+  read_by: []
+- name: 开罗处决
+  set_by:
+  - E-1955-01
+  read_by: []
+- name: 引水计划
+  set_by:
+  - E-1964-01
+  - E-1964-11
+  read_by:
+  - E-1964-01
+  - E-1964-05
+  - E-1964-11
+- name: 德以秘密军援
+  set_by:
+  - E-1960-03
+  read_by:
+  - E-1965-03
+- name: 德鲁兹兵役
+  set_by:
+  - E-G01-05
+  read_by: []
+- name: 德鲁兹血盟
+  set_by:
+  - E-1956-05
+  read_by: []
+- name: 总理直选
+  set_by: []
+  read_by:
+  - E-1992-01
+  - E-1996-04
+  - E-2001-01
+- name: 慕尼黑
+  set_by:
+  - E-1972-03
+  read_by:
+  - E-1972-04
+- name: 戈兰吞并
+  set_by:
+  - E-1981-12
+  read_by:
+  - E-1981-12
+- name: 战争进行中
+  set_by:
+  - E-1948-01
+  read_by:
+  - E-1948-02
+  - E-1948-03
+  - E-1948-03a
+  - E-1948-04
+  - E-1948-06
+  - E-1948-08
+  - E-1948-09a
+  - E-1948-10
+  - E-1948-12
+  - E-1949-01
+  - E-1956-10b
+  - E-1967-06c
+  - E-1967-06e
+  - E-1967-06g
+- name: 战时暴行报告
+  set_by:
+  - E-1948-10
+  read_by:
+  - E-1948-11
+- name: 所罗门行动
+  set_by: []
+  read_by:
+  - E-G05-10
+- name: 托莱达诺遇害
+  set_by: []
+  read_by:
+  - E-1992-03
+- name: 报复只打军事目标
+  set_by:
+  - E-1953-05
+  read_by:
+  - E-1948-04
+  - E-1953-02a
+  - E-1953-04
+- name: 拉冯事件埋雷
+  set_by:
+  - E-1955-02
+  read_by:
+  - E-1955-02
+- name: 拉卡姆在美行动
+  set_by: []
+  read_by:
+  - E-1985-11
+- name: 拉宾承诺
+  set_by:
+  - E-1994-06
+  read_by:
+  - E-1994-06
+- name: 拉宾遇刺
+  set_by:
+  - E-1995-04
+  read_by:
+  - E-1995-05
+- name: 拉宾驻美经历
+  set_by: []
+  read_by:
+  - E-1977-01
+- name: 拉菲分裂
+  set_by:
+  - E-1960-10
+  - E-1963-06b
+  - E-1965-02
+  read_by:
+  - E-1965-07
+- name: 拒绝回归
+  set_by:
+  - E-1948-03
+  read_by: []
+- name: 捷克军火
+  set_by:
+  - E-1955-06
+  read_by:
+  - E-1955-07
+- name: 控制圣地
+  set_by:
+  - E-1967-06c
+  read_by:
+  - E-1967-06f
+- name: 推迟选举
+  set_by: []
+  read_by:
+  - E-1949-01
+- name: 掩盖丑闻
+  set_by:
+  - E-1956-11a
+  read_by: []
+- name: 提前大选
+  set_by:
+  - E-1976-04
+  read_by: []
+- name: 提前推行国家教育
+  set_by:
+  - E-1951-01
+  read_by:
+  - E-1951-01
+  - E-1953-02
+- name: 摩洛哥开放移民
+  set_by: []
+  read_by:
+  - E-1961-01
+- name: 摩洛哥禁止犹太人移民
+  set_by: []
+  read_by:
+  - E-1961-01
+- name: 摩洛哥秘密渠道
+  set_by:
+  - E-1961-01
+  read_by: []
+- name: 摩西行动
+  set_by: []
+  read_by:
+  - E-G05-10
+- name: 撤出黎巴嫩
+  set_by:
+  - E-2000-01
+  read_by:
+  - E-1993-02
+  - E-1996-03
+  - E-1997-02
+  - E-2000-01
+- name: 撤离加沙
+  set_by:
+  - E-2005-02
+  read_by:
+  - E-2003-02
+- name: 政治大翻盘
+  set_by:
+  - E-1977-02
+  read_by: []
+- name: 族群政党崛起
+  set_by:
+  - R-19
+  read_by: []
+- name: 无成文宪法
+  set_by:
+  - E-1950-04
+  read_by:
+  - E-1950-04
+- name: 无核选项
+  set_by:
+  - E-1957-10a
+  read_by:
+  - E-1957-10a
+  - E-1960-12
+  - E-1963-05
+- name: 最终地位协议
+  set_by: []
+  read_by:
+  - E-2000-04
+  - E-2003-04
+- name: 本-古里安在野
+  set_by:
+  - E-1963-06a
+  read_by:
+  - E-1963-06b
+  - E-1965-02
+- name: 核模糊
+  set_by:
+  - E-1960-12
+  read_by:
+  - E-1963-05
+- name: 核模糊政策
+  set_by:
+  - E-1963-05
+  read_by: []
+- name: 核能力公开
+  set_by: []
+  read_by:
+  - E-G03-04
+- name: 核设施
+  set_by:
+  - R-06
+  read_by: []
+- name: 梅厄辞职
+  set_by:
+  - E-1974-03
+  read_by: []
+- name: 欠下人情[{政党}]
+  set_by:
+  - R-28
+  read_by: []
+- name: 欠下人情[{议员}]
+  set_by:
+  - R-29
+  read_by: []
+- name: 沙斯巅峰
+  set_by:
+  - E-1999-01
+  read_by: []
+- name: 沙斯领袖受调查
+  set_by: []
+  read_by:
+  - E-1993-04
+  - E-1999-01
+- name: 沙龙去职
+  set_by:
+  - E-1982-06b
+  - E-1983-02a
+  read_by:
+  - E-1981-08
+- name: 沙龙国防
+  set_by:
+  - E-1981-08
+  - E-1982-06a
+  read_by:
+  - E-1981-06a
+  - E-1982-06a
+  - E-1982-06b
+- name: 没有伙伴叙事
+  set_by:
+  - E-2000-02
+  - E-2000-07
+  read_by:
+  - E-2000-03
+- name: 法以军事同盟
+  set_by:
+  - E-1956-06b
+  read_by:
+  - E-1956-10a
+  - E-1957-10a
+- name: 法国渠道
+  set_by:
+  - E-1955-07
+  read_by: []
+- name: 法国转向
+  set_by:
+  - E-1967-06a
+  read_by: []
+- name: 波拉德被出卖
+  set_by:
+  - E-1985-11
+  read_by: []
+- name: 海外社群要求发言权
+  set_by:
+  - R-45
+  read_by: []
+- name: 海水淡化计划
+  set_by:
+  - R-01
+  read_by: []
+- name: 海法旧阿拉伯街区安置移民
+  set_by: []
+  read_by:
+  - E-1959-07a
+- name: 海湾克制
+  set_by:
+  - E-1991-01
+  read_by:
+  - E-1991-10
+- name: 海湾战争
+  set_by: []
+  read_by:
+  - E-1991-01
+- name: 消耗战
+  set_by:
+  - E-1969-03
+  read_by: []
+- name: 清除派系领袖
+  set_by: []
+  read_by:
+  - E-2001-03
+- name: 渡过运河
+  set_by: []
+  read_by:
+  - E-1973-09
+- name: 温和派积怨
+  set_by:
+  - E-1956-06a
+  read_by:
+  - E-1960-10
+- name: 特别选举
+  set_by: []
+  read_by:
+  - E-2000-07
+  - E-2001-01
+- name: 犹太人定义
+  set_by: []
+  read_by:
+  - E-1970-02
+- name: 犹太地下组织
+  set_by:
+  - R-57
+  read_by: []
+- name: 瓦迪萨利布
+  set_by:
+  - E-1959-07a
+  read_by:
+  - E-1959-07b
+- name: 祖孙条款
+  set_by:
+  - E-1970-02
+  read_by: []
+- name: 科恩情报
+  set_by:
+  - E-1965-01
+  read_by:
+  - E-1965-01
+- name: 科恩情报网
+  set_by: []
+  read_by:
+  - E-1965-01
+- name: 移民无限制
+  set_by: []
+  read_by:
+  - E-1949-06
+  - E-1949-08
+  - E-1950-05
+  - E-G01-02
+- name: 突袭
+  set_by:
+  - E-1973-04
+  read_by: []
+- name: 第一次停火生效
+  set_by: []
+  read_by:
+  - E-1948-02
+  - E-1948-03a
+- name: 第一次起义
+  set_by: []
+  read_by:
+  - E-1992-03
+- name: 第二次起义
+  set_by:
+  - E-2000-04
+  read_by:
+  - E-2000-04a
+  - E-2000-06
+  - E-2000-07
+  - E-2001-02
+  - E-2001-03
+  - E-2002-01
+  - E-2002-02
+  - E-2002-03
+  - E-2002-04
+  - E-2003-02
+- name: 等待期
+  set_by:
+  - E-1967-05a
+  read_by:
+  - E-1967-05b
+  - E-1967-05c
+  - E-1967-06a
+- name: 等待期、旗标：战争进行中
+  set_by: []
+  read_by:
+  - E-G02-09
+- name: 签署不扩散条约
+  set_by: []
+  read_by:
+  - E-G03-04
+- name: 约以停战
+  set_by:
+  - E-1949-04
+  read_by:
+  - E-1948-08
+- name: 约以和约
+  set_by: []
+  read_by:
+  - E-1967-05
+  - E-1968-01
+  - E-1974-05
+- name: 约埃共同防御条约
+  set_by: []
+  read_by:
+  - E-1967-06c
+- name: 约旦吞并西岸
+  set_by:
+  - E-1950-01
+  read_by: []
+- name: 约旦方案终结
+  set_by:
+  - E-1988-07
+  read_by:
+  - E-1987-04
+- name: 约翰斯顿斡旋
+  set_by:
+  - E-1953-03
+  read_by: []
+- name: 罗特姆先例
+  set_by:
+  - E-1960-02
+  read_by:
+  - E-1967-05a
+- name: 美国不与巴解接触承诺
+  set_by:
+  - E-1975-01
+  read_by: []
+- name: 美国新型战机交付
+  set_by: []
+  read_by:
+  - E-1976-04
+- name: 美国航行保证
+  set_by:
+  - E-1956-11d
+  read_by: []
+- name: 美国配额收紧
+  set_by: []
+  read_by:
+  - E-1989-10
+- name: 美苏代理人战争爆发
+  set_by: []
+  read_by:
+  - E-1950-06
+- name: 耶路撒冷吞并
+  set_by:
+  - E-1967-04
+  read_by:
+  - E-1967-04
+- name: 联合国紧急部队进驻
+  set_by:
+  - E-1956-11d
+  - E-1967-05a
+  read_by:
+  - E-1956-10c
+  - E-1960-02
+  - E-1967-05a
+- name: 联合宗教阵线解体
+  set_by:
+  - E-1951-03
+  read_by: []
+- name: 联合阵线
+  set_by:
+  - E-1965-02
+  read_by: []
+- name: 脱离计划
+  set_by:
+  - E-2003-04
+  read_by:
+  - E-2004-01
+  - E-2004-02
+  - E-2004-05
+  - E-2005-01
+  - E-2005-02
+- name: 自治框架
+  set_by:
+  - E-1978-09
+  read_by:
+  - E-1979-03
+  - E-1980-05a
+  - E-1981-10
+  - E-1981-11
+- name: 自由党持有财政部
+  set_by: []
+  read_by:
+  - E-1977-10
+- name: 舍巴农场争议
+  set_by:
+  - E-2000-01
+  read_by: []
+- name: 色佛尔密约
+  set_by:
+  - E-1956-10a
+  read_by:
+  - E-1956-10c
+  - E-1956-10d
+  - E-1956-11c
+  - E-1957-10a
+- name: 色佛尔破局
+  set_by:
+  - E-1956-10c
+  read_by:
+  - E-1956-10c
+- name: 艾希曼审判
+  set_by:
+  - E-1960-05
+  read_by:
+  - E-1961-04
+- name: 艾希曼线索
+  set_by: []
+  read_by:
+  - E-1960-05
+- name: 艾希曼逃逸
+  set_by:
+  - E-1960-05
+  read_by:
+  - E-1960-05
+- name: 苏丹通道
+  set_by:
+  - E-1977-08
+  read_by:
+  - E-1977-08
+  - E-1984-11
+- name: 苏军进驻埃及
+  set_by:
+  - E-1970-01
+  read_by:
+  - E-1970-03
+  - E-1970-04
+  - E-1972-02
+- name: 苏珊娜行动失败
+  set_by: []
+  read_by:
+  - E-1960-10
+- name: 苏珊娜行动败露
+  set_by:
+  - E-1954-01
+  read_by:
+  - E-1955-01
+  - E-1955-02
+- name: 苏联开放移民
+  set_by: []
+  read_by:
+  - E-1970-07
+- name: 苏联移民潮
+  set_by: []
+  read_by:
+  - E-1992-02
+  - E-G05-01
+  - E-G05-02
+  - E-G05-03
+- name: 萨达特上台
+  set_by:
+  - E-1970-06
+  read_by:
+  - E-1971-01
+  - E-1972-02
+- name: 萨达特外交转向
+  set_by: []
+  read_by:
+  - E-1973-06
+- name: 萨达特被拒
+  set_by:
+  - E-1971-01
+  read_by:
+  - E-1972-02
+  - E-1973-06
+- name: 西奈一号协议
+  set_by:
+  - E-1973-09
+  read_by:
+  - E-1975-01
+- name: 西奈交战规则
+  set_by:
+  - E-1973-01a
+  read_by:
+  - E-1973-01a
+  - E-1973-01b
+- name: 西奈归还
+  set_by:
+  - E-1982-04
+  read_by: []
+- name: 西岸吞并
+  set_by:
+  - E-1981-12
+  read_by:
+  - E-1981-10
+  - E-1981-11
+- name: 西岸归还
+  set_by: []
+  read_by:
+  - E-1977-07
+  - E-G04-04
+- name: 西方对埃及军售
+  set_by: []
+  read_by:
+  - E-1955-11a
+- name: 西方拒售埃及武器
+  set_by: []
+  read_by:
+  - E-1955-11a
+- name: 谁是犹太人未定义
+  set_by:
+  - E-1950-05
+  read_by: []
+- name: 调查委员会设立
+  set_by: []
+  read_by:
+  - E-1974-02
+- name: 贝京主义
+  set_by:
+  - E-1981-06a
+  read_by: []
+- name: 贝京入狱
+  set_by:
+  - E-1948-02
+  read_by:
+  - E-1948-02
+- name: 贝塔以色列适用回归法
+  set_by:
+  - E-G03-06
+  read_by:
+  - E-G03-06
+- name: 贝纳多特遇刺
+  set_by:
+  - E-1948-06
+  read_by:
+  - E-1948-07
+- name: 财产补偿筹码
+  set_by:
+  - E-1950-02
+  read_by: []
+- name: 贷款担保冻结
+  set_by: []
+  read_by:
+  - E-1992-02
+- name: 赎罪日战争
+  set_by:
+  - E-1973-06
+  read_by:
+  - E-1973-07
+  - E-1973-08
+  - E-1973-09
+  - E-1974-01
+  - E-1974-02
+  - E-G03-07
+  - E-G03-08
+- name: 赔偿协议
+  set_by: []
+  read_by:
+  - E-1960-03
+- name: 赔偿款流入减少
+  set_by: []
+  read_by:
+  - E-1966-01
+- name: 起义余波
+  set_by: []
+  read_by:
+  - E-1992-03
+- name: 越权未追究
+  set_by:
+  - E-1982-06b
+  read_by:
+  - E-1982-09c
+- name: 越权未追究、人物关系[沙龙]
+  set_by: []
+  read_by:
+  - E-1983-02a
+- name: 路线图停滞
+  set_by: []
+  read_by:
+  - E-2003-03
+  - E-2003-04
+- name: 轻度中风
+  set_by: []
+  read_by:
+  - E-2006-01
+- name: 辛贝特改革
+  set_by:
+  - E-1986-05
+  read_by:
+  - E-1984-04a
+  - E-G04-19
+- name: 达扬外长
+  set_by:
+  - E-1977-06
+  read_by:
+  - E-1977-06
+  - E-1977-11
+  - E-1978-09
+- name: 运河临时协议
+  set_by:
+  - E-1971-01
+  read_by:
+  - E-1968-03
+  - E-1969-03
+  - E-1973-06
+- name: 运河前线
+  set_by: []
+  read_by:
+  - E-1968-03
+  - E-1969-03
+- name: 运河危机外交解决
+  set_by: []
+  read_by:
+  - E-1956-10a
+- name: 运河国有化
+  set_by: []
+  read_by:
+  - E-1956-10a
+- name: 迪莫纳工程
+  set_by:
+  - E-1957-10a
+  read_by:
+  - E-1960-12
+- name: 选举改革运动
+  set_by:
+  - E-1990-03
+  read_by:
+  - E-1992-03
+- name: 选前透支
+  set_by:
+  - E-G04-07
+  read_by:
+  - E-1983-10
+- name: 通用锡安主义者入阁的条件成熟
+  set_by:
+  - E-G01-09
+  read_by: []
+- name: 重返A区
+  set_by:
+  - E-2002-02
+  read_by:
+  - E-2002-01
+  - E-2002-02
+- name: 银行国有化
+  set_by:
+  - E-1983-10
+  read_by:
+  - E-1983-10
+- name: 银行股危机已发生
+  set_by:
+  - R-12
+  read_by: []
+- name: 银行股托市
+  set_by: []
+  read_by:
+  - E-1983-10
+- name: 错失老城
+  set_by:
+  - E-1967-06c
+  read_by: []
+- name: 错失萨达特
+  set_by:
+  - E-1977-11
+  - E-1978-09
+  - E-1981-10
+  read_by:
+  - E-1977-11
+  - E-1978-04
+  - E-1978-09
+  - E-1979-03
+- name: 长枪党入营
+  set_by:
+  - E-1982-09b
+  read_by: []
+- name: 防御性民主先例
+  set_by:
+  - E-G02-06
+  read_by: []
+- name: 阿卜杜拉遇刺
+  set_by:
+  - E-1951-02
+  read_by: []
+- name: 阿尔及利亚战争
+  set_by: []
+  read_by:
+  - E-1956-06b
+- name: 阿尔及利亚战争结束
+  set_by: []
+  read_by:
+  - E-1956-06b
+- name: 阿尔塔莱纳之痛
+  set_by:
+  - E-1948-02
+  read_by: []
+- name: 阿拉伯和平倡议
+  set_by:
+  - E-2002-01
+  read_by: []
+- name: 阿拉伯政党入阁
+  set_by:
+  - E-G05-07
+  read_by: []
+- name: 阿拉伯民族主义组织出现
+  set_by: []
+  read_by:
+  - E-G02-06
+- name: 阿拉伯统一指挥部
+  set_by: []
+  read_by:
+  - E-1964-05
+- name: 阿格拉纳特免责
+  set_by: []
+  read_by:
+  - E-1974-03
+- name: 阿联成立
+  set_by: []
+  read_by:
+  - E-1958-08
+  - E-1960-02
+- name: 阿联解体
+  set_by: []
+  read_by:
+  - E-1960-02
+- name: 隔离构想
+  set_by:
+  - E-1995-01
+  read_by:
+  - E-2002-03
+- name: 隧道出口已开放
+  set_by: []
+  read_by:
+  - E-1996-05
+- name: 难民已大规模回归
+  set_by: []
+  read_by:
+  - E-1948-03
+  - E-1949-07
+  - E-1950-02
+- name: 非军事区耕作争端
+  set_by: []
+  read_by:
+  - E-1967-04
+- name: 非洲独立潮
+  set_by: []
+  read_by:
+  - E-G02-03
+- name: 领土筹码未定
+  set_by: []
+  read_by:
+  - E-1967-03
+- name: 领土让步谈判
+  set_by: []
+  read_by:
+  - E-1974-01
+- name: 首席拉比裁定
+  set_by: []
+  read_by:
+  - E-G03-06
+- name: 马帕姆分裂
+  set_by:
+  - E-1953-01
+  read_by: []
+- name: 马德里框架
+  set_by: []
+  read_by:
+  - E-1993-01
+- name: 驱逐档案封存
+  set_by:
+  - E-1948-05
+  - E-1948-11
+  read_by:
+  - E-1948-11
+- name: 高科技
+  set_by:
+  - E-G05-03
+  read_by:
+  - E-G05-03
+  - E-G05-04
