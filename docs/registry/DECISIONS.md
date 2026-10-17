@@ -84,6 +84,10 @@
 | D-063 | **内阁派系分肥口径**：计算 M04 本党派系内阁占比 $ms_f$ 时，采用**按本党在任部长去重人数占比**（与 M04 §4.1 对齐）。 |
 | D-064 | **部长主动提案折扣**：批准内阁部长在每周步骤6主动提交的部门提案（`MinisterProposal`，每周最多1份）享受 **30% 政治资本折扣**且不占玩家每周 2 个主动行动槽位。 |
 | D-065 | 采纳 M06 附录A 新增参数 `character_stress`（`stock`, `scope: character`, `range: [0, 100]`, `tick: monthly`, `owner: M06`）及附录B 的 `relation[key]` 双模解析（支持 `CharacterId` 与 `OfficeId` 自动转发在任者）与 `ally_minister_dismissed(party_id, trust_penalty)` 信号。 |
+| D-066 | 采纳 M07 附录A：新增 `country_war_readiness`、`peace_treaty_state`（`scope: country`），并将 `enemy_nuclear_progress` 的 `scope` 统一修正为 `country`（対象 `iraq, iran`）。 |
+| D-067 | 采纳 M07 附录B/C：M03 在星期三结算国际条约批准法案后回调 `m07_ratification_result {bill_uid, passed}`；M12 表达式新增 `peace_treaty(c)`、`treaty_tier(c)`、`secret_channel(c)`、`nuclear_progress(c)`。 |
+| D-068 | 在 M02/M12 参数解析器中内置 M07 的 4 项别名映射（`country_stability -> regime_stability`、`country_nuclear_progress -> enemy_nuclear_progress`、`annual_immigration -> immigration_inflow`、`country_relation -> us_admin_relation / power_relation / (100 - regime_hostility)`）。 |
+
 
 
 
