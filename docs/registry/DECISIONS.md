@@ -81,5 +81,9 @@
 | D-060 | 采纳 M10 附录A：新增实体列表 `entities.budget_items`（`defense, absorption, religion, dev_towns, education, welfare, infrastructure, settlements`）及参数 `budget_slider`（lever, scope: budget_item）、`strike_risk`（derived, scope: national，总工会罢工风险指数）。 |
 | D-061 | 采纳 M10 附录B：在 M01 `KNOWN_MODIFIER_FACTORS` 中补充登记 `"fiscal_spend"`（财政支出乘数）与 `"us_aid"`（美援财政/外汇乘数，供 M07 美国外交与贷款担保事件联动）；年度预算案表决若单次未过退回 `DUE` 允许修改重提，满 90 天（`deadline_day`）仍未通过才调用 `m03_dissolve_knesset(reason="budget_overdue")`。 |
 | D-062 | **1977 开局预算周期**：1977-06-20 开局时 `budget_cycle.status = "PASSED"`，首次年度强制预算表决周期于 `1978-01-01`（步骤17）开启、`1978-04-01` 截止。 |
+| D-063 | **内阁派系分肥口径**：计算 M04 本党派系内阁占比 $ms_f$ 时，采用**按本党在任部长去重人数占比**（与 M04 §4.1 对齐）。 |
+| D-064 | **部长主动提案折扣**：批准内阁部长在每周步骤6主动提交的部门提案（`MinisterProposal`，每周最多1份）享受 **30% 政治资本折扣**且不占玩家每周 2 个主动行动槽位。 |
+| D-065 | 采纳 M06 附录A 新增参数 `character_stress`（`stock`, `scope: character`, `range: [0, 100]`, `tick: monthly`, `owner: M06`）及附录B 的 `relation[key]` 双模解析（支持 `CharacterId` 与 `OfficeId` 自动转发在任者）与 `ally_minister_dismissed(party_id, trust_penalty)` 信号。 |
+
 
 
