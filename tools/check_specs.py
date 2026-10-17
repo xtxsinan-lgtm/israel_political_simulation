@@ -23,6 +23,7 @@ VAGUE = ["适当", "若干", "视情况", "酌情", "一定程度", "相应地�
 SECTION_RE = re.compile(r"^##\s*(\d{1,2})[\.．、\s]", re.M)
 ID_IN_TICKS = re.compile(r"`([a-z][a-z0-9_]{3,})(?:\[[^\]`]*\])?`")
 TARGET_RE = re.compile(r"target:\s*([a-z][a-z0-9_]+)")
+SPECIAL_TARGETS = {"custom", "flag", "modifier", "event", "float", "int", "str", "string", "bool"}
 
 
 def load_registry_ids():
@@ -44,6 +45,17 @@ def proposed_ids(text):
     return set(re.findall(r"\bid:\s*([a-z][a-z0-9_]+)", block))
 
 
+def proposed_entities(text):
+    block = appendix(text, "A")
+    ents = set()
+    for m in re.findall(r"\[([a-z0-9_,\s]+)\]", block):
+        for item in m.split(","):
+            tok = item.strip()
+            if re.match(r"^[a-z][a-z0-9_]+$", tok):
+                ents.add(tok)
+    return ents
+
+
 def acceptance_rows(text):
     m = re.search(r"^##\s*11[\.．、\s][^\n]*\n(.*?)(?=^##\s*12[\.．、\s]|\Z)", text, re.M | re.S)
     if not m:
@@ -62,7 +74,8 @@ def main():
     for f, t in texts.items():
         for pid in proposed_ids(t):
             all_proposed.setdefault(pid, []).append(f[:3])
-    known = reg_ids | set(all_proposed)
+        ents.update(proposed_entities(t))
+    known = reg_ids | set(all_proposed) | ents | SPECIAL_TARGETS
     ok_all = True
     print("规格 %d 份；registry 参数 %d 个；附录A提案 %d 个" % (len(specs), len(reg_ids), len(all_proposed)))
     for f, t in texts.items():

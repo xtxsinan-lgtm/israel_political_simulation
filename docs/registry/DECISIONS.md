@@ -74,3 +74,12 @@
 | D-054 | **动态新党实体**：采用静态预留槽位 `new_party_a/b/c` 与派系 `founders_a/b/c`（阶段2将 M03 的 `pm_new_party` 统一合并为 `new_party_a`），不在存档中生成未登记的动态政党ID。 |
 | D-055 | 采纳 M04 附录A 的6个参数（`faction_mood`、`faction_weight`、`party_cohesion`、`challenger_strength`、`cynicism`、`promise_credit`；注：阶段2将 M03 的 `voter_cynicism` 与 M04 的 `cynicism` 合并统一）及附录B 的 B-1–B-11、附录C 的旗标与修正器。 |
 
+## 第三批裁定（M10 完成后，供后续模块遵守）
+
+| 编号 | 裁定 |
+|---|---|
+| D-060 | 采纳 M10 附录A：新增实体列表 `entities.budget_items`（`defense, absorption, religion, dev_towns, education, welfare, infrastructure, settlements`）及参数 `budget_slider`（lever, scope: budget_item）、`strike_risk`（derived, scope: national，总工会罢工风险指数）。 |
+| D-061 | 采纳 M10 附录B：在 M01 `KNOWN_MODIFIER_FACTORS` 中补充登记 `"fiscal_spend"`（财政支出乘数）与 `"us_aid"`（美援财政/外汇乘数，供 M07 美国外交与贷款担保事件联动）；年度预算案表决若单次未过退回 `DUE` 允许修改重提，满 90 天（`deadline_day`）仍未通过才调用 `m03_dissolve_knesset(reason="budget_overdue")`。 |
+| D-062 | **1977 开局预算周期**：1977-06-20 开局时 `budget_cycle.status = "PASSED"`，首次年度强制预算表决周期于 `1978-01-01`（步骤17）开启、`1978-04-01` 截止。 |
+
+
