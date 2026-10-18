@@ -38,7 +38,7 @@ func submit_command(cmd: Dictionary) -> Error:
 			var region_id: String = String(cmd.get("region", ""))
 			var field: String = String(cmd.get("param", "region_investment_priority"))
 			state.params.set_val(field, region_id, float(cmd.get("value", 0.0)), state)
-		"enqueue_action":
+		"execute_action", "enact_policy", "enqueue_action":
 			var queue: Array = []
 			var m05: Variant = state.modules.get("M05", {})
 			if typeof(m05) == TYPE_DICTIONARY:
