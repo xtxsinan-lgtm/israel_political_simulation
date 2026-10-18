@@ -53,6 +53,23 @@ func eval_raw(expr_or_ast: Variant, ctx: Dictionary = {}) -> Variant:
 	return 0.0
 
 
+func _as_name(value: Variant) -> String:
+	match typeof(value):
+		TYPE_STRING, TYPE_STRING_NAME:
+			return String(value)
+		TYPE_INT:
+			return str(value)
+		TYPE_FLOAT:
+			return str(int(value))
+		TYPE_ARRAY:
+			var nested: Array = value
+			if nested.is_empty():
+				return ""
+			return _as_name(_eval_node(nested, {}))
+		_:
+			return ""
+
+
 func _eval_node(node: Variant, ctx: Dictionary) -> Variant:
 	if typeof(node) != TYPE_ARRAY:
 		return node
@@ -66,9 +83,9 @@ func _eval_node(node: Variant, ctx: Dictionary) -> Variant:
 		"var":
 			return _resolve_variable(String(arr[1]), ctx)
 		"idx":
-			var param_name: String = String(arr[1])
-			var key_val: String = String(_eval_node(arr[2], ctx))
-			if _state == null:
+			var param_name: String = _as_name(arr[1] if arr.size() > 1 else "")
+			var key_val: String = _as_name(_eval_node(arr[2], ctx) if arr.size() > 2 else "")
+			if _state == null or param_name == "":
 				return 0.0
 			return _state.params.get_val(param_name, key_val, _state)
 		"list":

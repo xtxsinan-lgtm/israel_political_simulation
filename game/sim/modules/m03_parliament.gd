@@ -57,6 +57,14 @@ func allocate_knesset_seats(vote_shares: Dictionary, year: int, pairs: Array) ->
 func recompute_coalition_seats(state: SimState) -> int:
 	var m03: Dictionary = _m03(state)
 	var parties: Array = _as_array(m03.get("coalition_parties", []))
+	if parties.is_empty():
+		var government: Dictionary = _as_dict(state.parliament.get("government", {}))
+		var members: Variant = government.get("members", [])
+		if typeof(members) == TYPE_ARRAY:
+			parties = members
+			m03["coalition_parties"] = parties.duplicate()
+	if parties.is_empty():
+		return int(state.params.get_val("coalition_seats", "", state))
 	var total: int = 0
 	for i: int in range(parties.size()):
 		total += int(round_half_away(state.params.get_val("knesset_seats", String(parties[i]), state)))

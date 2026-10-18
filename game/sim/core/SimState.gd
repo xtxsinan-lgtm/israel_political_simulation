@@ -420,6 +420,7 @@ func _init_modules(snapshot: Dictionary) -> void:
 		"opposition_leader": "peres",
 	}
 	parliament = _as_dict(snapshot.get("parliament", {}))
+	var coalition_members: Array = _coalition_members()
 	modules = {
 		"M02": {
 			"shock_mem": {},
@@ -431,7 +432,7 @@ func _init_modules(snapshot: Dictionary) -> void:
 			"shock_memories": {},
 			"thr_states": {},
 		},
-		"M03": {},
+		"M03": {"coalition_parties": coalition_members, "knesset_seats": _as_dict(parliament.get("knesset_seats", {}))},
 		"M04": {},
 		"M05": {
 			"weekly_slots_used": 0,
@@ -483,6 +484,14 @@ func _init_modules(snapshot: Dictionary) -> void:
 	for axis: String in SimTypes.STANCE_AXES:
 		gov_axis_position[axis] = 0.0
 		axis_impulse[axis] = 0.0
+
+
+func _coalition_members() -> Array:
+	var government: Dictionary = _as_dict(parliament.get("government", {}))
+	var members: Variant = government.get("members", [])
+	if typeof(members) == TYPE_ARRAY:
+		return (members as Array).duplicate()
+	return ["likud", "nrp", "agudat"]
 
 
 func _fill_regions() -> void:

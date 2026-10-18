@@ -104,8 +104,11 @@ func monthly_step(step_no: int, state: SimState, _ctx: Dictionary) -> Array[Dict
 		state.params.set_val("stance_deviation", axes[i], dev, state)
 	_tick_promises(state, m04)
 	_tick_vision(state, m04)
-	var cohesion: float = 100.0 - absf(state.params.get_val("faction_mood", "likud_liberal", state) - state.params.get_val("faction_mood", "likud_herut", state))
-	state.params.set_val("party_cohesion", "", clampf(cohesion, 0.0, 100.0), state)
+	var liberal_mood: float = state.params.get_val("faction_mood", "likud_liberal", state)
+	var herut_mood: float = state.params.get_val("faction_mood", "likud_herut", state)
+	if absf(liberal_mood) > 0.001 or absf(herut_mood) > 0.001:
+		var cohesion: float = 100.0 - absf(liberal_mood - herut_mood)
+		state.params.set_val("party_cohesion", "", clampf(cohesion, 0.0, 100.0), state)
 	var stage: int = 0
 	var standing: float = state.params.get_val("party_standing", "", state)
 	if standing < 20.0:
