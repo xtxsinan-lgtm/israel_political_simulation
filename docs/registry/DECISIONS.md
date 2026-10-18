@@ -98,6 +98,10 @@
 | D-077 | 将 `resolve_region_id`（`north/central/south` $\leftrightarrow$ `galilee/triangle/negev` 双向同义别名解析）纳入 M01 `GameState` 公共辅助函数。 |
 | D-078 | 在 `contracts.md` §3 锁定每周日步骤 8 内部子步骤顺序为 `8a`（M11 更新 `region_security`）$\to$ `8b`（M09 读取并结算 `public_security`）。 |
 | D-079 | 奥斯陆协议 A/B/C 区比例在第一阶段仅保留在 `RegionState.oslo_shares` 内部，不额外暴露顶层标量参数。 |
+| D-080 | 1977-06-20 开局 `public_security = 62.0`、`mobilization = 10.0`（统一对齐 M09/M10/M14，阶段2同步修订 M02 表格说明，且不影响开局零漂移）。 |
+| D-081 | **威权路线评价封顶**：当 `centralization >= 60.0` 或曾触发暂停大选时，综合历史总评等级最高封顶为 **`B` 级**（永不可获 `S` 或 `A` 级）；采纳 M14 附录B 的 `B-14-01`..`03`（8 个统计查询函数、3 个 `m14_*` 处理器、同日多源 `end_tenure` 致命度优先级）。 |
+| D-082 | **“伟大背离”战略破局奖励**：当玩家偏离本党传统走廊但成功签署正式和平条约或创立新党赢下大选时，免除走廊偏离扣分并给予 `+8.0` 分战略破局奖励。 |
+
 
 
 
