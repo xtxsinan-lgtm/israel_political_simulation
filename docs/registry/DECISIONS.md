@@ -94,6 +94,11 @@
 | D-073 | 采纳 M08 附录A 的 4 个参数（`faction_moderation, faction_cohesion, collaborator_stigma, autonomy_progress`）及 B-3..B-5（含 `m08_spawn_hamas, m08_activate_delegation, m08_set_autonomy_modality, m08_start_intifada` 处理器）。 |
 | D-074 | M02 跨模块边 `X.SM.02`（`pal_living_standard -> uprising_risk`）系数定稿为 `coef: 0.12`。 |
 | D-075 | **巴方武装袭击联动**：M08 在步骤8通过效果队列追加 `public_security` / `deterrence` 的即时冲击（遵循 D-010 增量原则），同时发出 `sig.m08_armed_incident` 供 M09 更新报复窗口与军事统计。 |
+| D-076 | 采纳 M11 附录A/B/C：将 `south_lebanon` 补入 `entities.regions_dynamic`（1977-06-20 开局 `exists = False`），采纳 M11 的 8 个区级/三难三角参数（`region_absorption_priority, region_investment_priority, region_security_posture, settler_population, trilemma_jewish, trilemma_democratic, trilemma_territory, region_alienation`）及 4 个 `m11_*` 处理器、4 个条件表达式函数。 |
+| D-077 | 将 `resolve_region_id`（`north/central/south` $\leftrightarrow$ `galilee/triangle/negev` 双向同义别名解析）纳入 M01 `GameState` 公共辅助函数。 |
+| D-078 | 在 `contracts.md` §3 锁定每周日步骤 8 内部子步骤顺序为 `8a`（M11 更新 `region_security`）$\to$ `8b`（M09 读取并结算 `public_security`）。 |
+| D-079 | 奥斯陆协议 A/B/C 区比例在第一阶段仅保留在 `RegionState.oslo_shares` 内部，不额外暴露顶层标量参数。 |
+
 
 
 

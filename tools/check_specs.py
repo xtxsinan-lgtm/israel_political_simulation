@@ -42,7 +42,9 @@ def appendix(text, letter):
 
 def proposed_ids(text):
     block = appendix(text, "A")
-    return set(re.findall(r"\bid:\s*([a-z][a-z0-9_]+)", block))
+    ids = set(re.findall(r"\bid:\s*([a-z][a-z0-9_]+)", block))
+    ids.update(re.findall(r"^  ([a-z][a-z0-9_]+):\s*$", block, re.M))
+    return ids
 
 
 def proposed_entities(text):
