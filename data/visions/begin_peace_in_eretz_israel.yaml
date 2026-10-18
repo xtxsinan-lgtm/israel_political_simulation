@@ -1,0 +1,94 @@
+id: begin_peace_in_eretz_israel
+name_zh: 以色列地上的和平
+leader: begin
+achieve_rule:
+  required:
+  - m1_cairo
+  - m2_rooted
+  - m3_autonomy
+  - m4_jordan
+  guards:
+  - m6_eretz
+  - m7_law
+  optional:
+  - m5_damascus
+achievement_ids:
+  base: begin_vision
+  full: begin_vision_full
+milestones:
+- id: m1_cairo
+  name_zh: 开罗之路：埃以和约
+  weight: 15
+  type: once
+  requires: []
+  cond: flag("egypt_peace_treaty_signed")
+  alt_cond_hold:
+    cond: regime_hostility[egypt] <= 20
+    hold_months: 12
+  fail: flag("sadat_missed") and regime_hostility[egypt] >= 50
+  fail_hold_months: 24
+  fail_mode: permanent
+  closeness: clamp((70 - regime_hostility[egypt]) / 50, 0, 1)
+- id: m2_rooted
+  name_zh: 和约生根：两年无战事
+  weight: 10
+  type: hold
+  requires:
+  - m1_cairo
+  cond: regime_hostility[egypt] <= 30 and not at_war("egypt")
+  hold_months: 24
+  fail: at_war("egypt")
+  fail_mode: permanent
+  closeness: held / 24
+- id: m3_autonomy
+  name_zh: 自治落地：巴勒斯坦自治实施一年
+  weight: 20
+  type: hold
+  requires: []
+  cond: flag("autonomy_framework_signed") and pal_hostility <= 45 and pal_living_standard
+    >= 55 and faction_legitimacy[notables] >= 35 and uprising_risk <= 40
+  hold_months: 12
+  fail: flag("first_intifada_active")
+  fail_mode: permanent
+  closeness: (clamp((65 - pal_hostility) / 20, 0, 1) + clamp((pal_living_standard
+    - 35) / 20, 0, 1) + clamp((faction_legitimacy[notables] - 15) / 20, 0, 1) + clamp((60
+    - uprising_risk) / 20, 0, 1)) / 4 * (0.5 + 0.5 * auto_flag)
+- id: m4_jordan
+  name_zh: 约旦河两岸：与约旦缔结和平
+  weight: 20
+  type: hold
+  requires: []
+  cond: regime_hostility[jordan] <= 20 and region_exists("west_bank")
+  hold_months: 6
+  fail: flag("west_bank_annexed") or flag("jordan_option_ended")
+  fail_mode: permanent
+  closeness: clamp((60 - regime_hostility[jordan]) / 40, 0, 1)
+- id: m5_damascus
+  name_zh: 大马士革：与叙利亚媾和（可选）
+  weight: 15
+  type: hold
+  requires: []
+  cond: regime_hostility[syria] <= 35
+  hold_months: 12
+  fail: null
+  fail_mode: block
+  closeness: clamp((80 - regime_hostility[syria]) / 45, 0, 1)
+- id: m6_eretz
+  name_zh: 以色列地：保住对犹太与撒马利亚的主张（守护条件）
+  weight: 15
+  type: guard
+  requires: []
+  cond: region_exists("west_bank") and gov_axis_position[territory] >= -10 and settler_momentum
+    >= 35
+  fail: flag("west_bank_returned") or not region_exists("west_bank")
+  fail_mode: permanent
+  closeness: '1'
+- id: m7_law
+  name_zh: 法治下的和平（守护条件，「守法者」）
+  weight: 5
+  type: guard
+  requires: []
+  cond: rule_of_law >= 60 and centralization <= 20
+  fail: null
+  fail_mode: block
+  closeness: '1'

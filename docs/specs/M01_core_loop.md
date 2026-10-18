@@ -320,7 +320,7 @@ modifiers:
 | 字段 | 类型 | 说明 |
 |---|---|---|
 | `tenure_end` | dict 或空 | `{reason: str, day: int, source: str}`，由 custom `end_tenure` 写入，步骤20之后处理 |
-| `vote_requests` | List[dict] | 由事件或行动提交的选举、不信任投票请求，步骤19由 M03 处理并清空 |
+| `vote_requests` | List[dict] | 由事件或行动提交的选举、不信任投票、组阁请求（每项含 `{type, due_day, ...}`，默认 `due_day = day_index`），步骤19仅由 M03 处理并移除 `due_day <= day_index` 的到期请求，未到期者保留（D-042） |
 | `signals` | List[str] | 本步提交的生命周期信号，步骤末尾处理后清空（存档时必为空） |
 
 **PlayerSlot**：`{leader_id: "begin", party_id: "likud", tenure_index: 0, tenure_start_day: 0, fictional: false}`。
@@ -453,7 +453,7 @@ modifiers: []
 | 16 | M10 `economy_quarterly` | `is_quarter` | `economy` | 增长、通胀、失业 |
 | 17 | M10 `budget_yearly` → M06 `characters_yearly` → M11 `demography_yearly` | `is_year` | `economy` / `ai` / `world`（按子步骤） | 预算期限、年龄健康、人口结构 |
 | 18 | M12 `events_daily` | 每日 | 固定事件 `events`；随机事件 `random_events` | 先处理 `forced_events`，再固定事件条件检查，再随机事件掷骰，再顾问自动处理到期的 minor 弹窗 |
-| 19 | M03 `votes_on_demand` | `pending.vote_requests` 非空 | `elections` | 大选、不信任投票、组阁 |
+| 19 | M03 `votes_on_demand` | `pending.vote_requests` 存在 `due_day <= day_index` 的到期项 | `elections` | 大选、不信任投票、组阁（仅消费到期项，未到期项保留，D-042） |
 | 20 | M14 `end_check` | 每日 | `core` | 结束条件检查；需要结束时调用 custom `end_tenure` |
 
 不满足运行条件的步骤直接跳过（不调用模块、不消耗随机数、不执行"步骤末尾应用"）。
@@ -909,7 +909,7 @@ migrations:
    - 调用 custom `m06_pick_successor` 得到 `{leader_id, party_id, playable: bool}`（规则由 M03/M06 规格定义：同党继续执政时由党内选举产生，否则为新执政党领袖）。
    - `playable == false`（在世或未建模人物）：调用 `m14_generate_fictional_leader`（子流 `core`）生成虚构同党继任者，`fictional = true`。
    - 按继承表（4.9.4）重置；提交信号 `leader_change`；`player` 更新，`tenure_index += 1`，`tenure_start_day = day_index`。
-   - 若新总理需要组阁（`election_loss`、`no_confidence`、`coalition_failure`），写入 `pending.vote_requests = [{type: "formation"}]`，在下一结算日步骤19进入 M03 组阁。
+   - 若新总理需要组阁（`election_loss`、`no_confidence`、`coalition_failure`），写入 `pending.vote_requests = [{"type": "formation", "due_day": day_index + 1}]`，在下一结算日步骤19进入 M03 组阁。
    - `run.phase = PAUSED`，`pause_reasons = ["AP00"]`。时间从下一日继续，**不跳过任何天数**。
 
 #### 4.9.4 继承表
@@ -1041,7 +1041,7 @@ SHA-256 = `56493b2c7cda6b4471e631c696b6a9eb5f2f584980e4ada00f09f7e031777880`。
 | `activate_key` | 参数 owner | `{param: str, key: str, value: float}` | 为 scope 参数新增键（例如1990年后开放 `bloc_support[russian]`）；只能由 owner 模块或剧本事件调用 | 0 |
 | `deactivate_key` | 参数 owner | `{param: str, key: str}` | 删除键（例如政党解散） | 0 |
 | `m03_apply_seat_change` | M03 | `{party: str, delta: float}` | `change_seat` 的实现 | M03 定义 |
-| `m03_request_vote` | M03 | `{type: "election"\|"no_confidence"\|"formation"\|"early_election"}` | 追加 `pending.vote_requests` | 0 |
+| `m03_request_vote` | M03 | `{type: "election"\|"no_confidence"\|"formation"\|"early_election", due_day?: int}` | 追加 `pending.vote_requests`（缺省 `due_day = day_index`，D-042） | 0 |
 | `m04_add_promise_by_tag` | M04 | `{tag: "economy"\|"security"\|"social"\|"peace"\|"religion"\|"immigration", value: float}` | 作用于当前带该标签的承诺；无对应承诺时无操作 | 0 |
 | `m04_add_stance_by_corridor` | M04 | `{axis: str, magnitude: float, direction: "toward_left"\|"toward_right"\|...}` | 按当前执政党走廊判断正负后写 `stance_deviation` | 0 |
 | `m04_finalize_promises` | M04 | `{}` | 卸任时结算承诺终值 | 0 |

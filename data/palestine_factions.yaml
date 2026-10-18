@@ -1,0 +1,357 @@
+# data/palestine_factions.yaml —— M08 巴勒斯坦政治派系定义与 1977-06-20 开局完整初值表
+schema_version: 1
+
+# 1977-06-20（贝京就任日）M08 宏观参数开局初值（供 M14 scenarios/begin_1977 引用）
+scenario_init_begin_1977:
+  pal_hostility: 55.0
+  pal_living_standard: 45.0
+  uprising_risk: 35.0
+  islamic_assoc_strength: 12.0
+  autonomy_progress: 0.0
+  autonomy_track:
+    stage: "NONE"
+    modality: "NONE"
+    stagnation_months: 0
+    implementation_hold_months: 0
+    delegation_active_days: 0
+  uprising_state:
+    active: false
+    intensity: 0.0
+    duration_months: 0
+    calm_streak_months: 0
+    cumulative_repression_impulse: 0.0
+    unlu_formed: false
+
+# 全部登记巴勒斯坦派系定义
+factions:
+  # 1. 法塔赫（巴解组织主流）
+  - id: fatah
+    aliases: []
+    name_zh: 法塔赫（巴解主流）
+    camp: nationalist
+    era: [1959, null]
+    active_at_1977: true
+    activate_cond: null
+    init_values:
+      strength: 58.0
+      legitimacy: 42.0
+      moderation: 22.0
+      cohesion: 68.0
+      stigma: 0.0
+    baselines:
+      strength: 42.0
+      legitimacy_raw: 36.0
+      moderation: 23.0
+      cohesion: 68.0
+      stigma: 0.0
+    patrons:
+      - {source_type: arab_state, key: saudi, max_contrib: 4.8, condition_expr: "regime_hostility[saudi] >= 30"}
+      - {source_type: arab_state, key: lebanon, max_contrib: 5.0, condition_expr: "not flag(\"plo_expelled_from_beirut\")"}
+      - {source_type: arab_state, key: egypt, max_contrib: 2.0, condition_expr: "regime_hostility[egypt] >= 40"}
+    legitimacy_weights:
+      hostility_slope: 0.35
+      living_std_slope: -0.10
+      martyrdom_gain: 0.40
+      stigma_penalty: 0.60
+      peace_dividend: 0.20
+    ai_profile:
+      strike_pref: 1.00
+      stone_pref: 1.10
+      armed_pref: 1.00
+      diplomacy_pref: 1.30
+      purge_collab_pref: 1.20
+      rivalry_pref: 0.90
+
+  # 2. 人阵与左翼阵线（PFLP / DFLP）
+  - id: pflp
+    aliases: [left_factions]
+    name_zh: 人阵与左翼阵线
+    camp: nationalist
+    era: [1967, null]
+    active_at_1977: true
+    activate_cond: null
+    init_values:
+      strength: 32.0
+      legitimacy: 16.0
+      moderation: 10.0
+      cohesion: 62.0
+      stigma: 0.0
+    baselines:
+      strength: 23.0
+      legitimacy_raw: 15.0
+      moderation: 11.0
+      cohesion: 62.0
+      stigma: 0.0
+    patrons:
+      - {source_type: arab_state, key: syria, max_contrib: 6.0, condition_expr: "regime_hostility[syria] >= 40"}
+      - {source_type: arab_state, key: lebanon, max_contrib: 3.0, condition_expr: "not flag(\"plo_expelled_from_beirut\")"}
+    legitimacy_weights:
+      hostility_slope: 0.25
+      living_std_slope: -0.15
+      martyrdom_gain: 0.35
+      stigma_penalty: 0.70
+      peace_dividend: -0.20
+    ai_profile:
+      strike_pref: 0.95
+      stone_pref: 1.05
+      armed_pref: 1.25
+      diplomacy_pref: 0.40
+      purge_collab_pref: 1.30
+      rivalry_pref: 1.00
+
+  # 3. 传统亲约旦地方显要（兼容 notables）
+  - id: jordan_notables
+    aliases: [notables]
+    name_zh: 传统亲约旦地方显要
+    camp: traditional
+    era: [1948, null]
+    active_at_1977: true
+    activate_cond: null
+    init_values:
+      strength: 42.0
+      legitimacy: 40.0
+      moderation: 72.0
+      cohesion: 58.0
+      stigma: 15.0
+    baselines:
+      strength: 35.0
+      legitimacy_raw: 42.0
+      moderation: 73.0
+      cohesion: 58.0
+      stigma: 15.0
+    patrons:
+      - {source_type: arab_state, key: jordan, max_contrib: 6.0, condition_expr: "not flag(\"jordan_option_ended\")"}
+      - {source_type: israel_policy, key: open_bridges, max_contrib: 3.0, condition_expr: "policy_level[open_bridges] == 100"}
+    legitimacy_weights:
+      hostility_slope: -0.35
+      living_std_slope: 0.25
+      martyrdom_gain: 0.10
+      stigma_penalty: 0.50
+      peace_dividend: 0.35
+    ai_profile:
+      strike_pref: 0.20
+      stone_pref: 0.00
+      armed_pref: 0.00
+      diplomacy_pref: 0.85
+      purge_collab_pref: 0.00
+      rivalry_pref: 0.30
+
+  # 4. 西岸与加沙民选市长（1976年当选民族派市长与全国指导委员会）
+  - id: local_mayors
+    aliases: []
+    name_zh: 民选市长与民族指导委
+    camp: nationalist
+    era: [1972, null]
+    active_at_1977: true
+    activate_cond: null
+    init_values:
+      strength: 36.0
+      legitimacy: 28.0
+      moderation: 45.0
+      cohesion: 64.0
+      stigma: 5.0
+    baselines:
+      strength: 29.0
+      legitimacy_raw: 26.0
+      moderation: 46.0
+      cohesion: 64.0
+      stigma: 5.0
+    patrons:
+      - {source_type: israel_policy, key: pal_municipalities, max_contrib: 8.0, condition_expr: "policy_level[pal_municipalities] >= 50"}
+    legitimacy_weights:
+      hostility_slope: 0.15
+      living_std_slope: 0.15
+      martyrdom_gain: 0.45
+      stigma_penalty: 0.55
+      peace_dividend: 0.30
+    ai_profile:
+      strike_pref: 1.30
+      stone_pref: 0.75
+      armed_pref: 0.00
+      diplomacy_pref: 1.10
+      purge_collab_pref: 0.20
+      rivalry_pref: 0.60
+
+  # 5. 村庄联盟（1978–1984 民政当局扶植的农村合作组织）
+  - id: village_leagues
+    aliases: []
+    name_zh: 村庄联盟
+    camp: collaborator
+    era: [1978, 1986]
+    active_at_1977: false
+    activate_cond: "year >= 1978 and policy_level[village_leagues] >= 50"
+    init_values:
+      strength: 18.0
+      legitimacy: 12.0
+      moderation: 82.0
+      cohesion: 35.0
+      stigma: 45.0
+    baselines:
+      strength: 10.0
+      legitimacy_raw: 18.0
+      moderation: 82.0
+      cohesion: 42.0
+      stigma: 25.0
+    patrons:
+      - {source_type: israel_policy, key: village_leagues, max_contrib: 18.0, condition_expr: "policy_level[village_leagues] >= 50"}
+      - {source_type: israel_policy, key: civil_administration, max_contrib: 6.0, condition_expr: "policy_level[civil_administration] == 100"}
+    legitimacy_weights:
+      hostility_slope: -0.40
+      living_std_slope: 0.20
+      martyrdom_gain: 0.00
+      stigma_penalty: 0.70
+      peace_dividend: 0.15
+    ai_profile:
+      strike_pref: 0.00
+      stone_pref: 0.00
+      armed_pref: 0.00
+      diplomacy_pref: 0.20
+      purge_collab_pref: 0.00
+      rivalry_pref: 0.50
+
+  # 6. 伊斯兰协会（穆贾马，加沙穆兄会慈善网络，实力与 islamic_assoc_strength 同步）
+  - id: mujama
+    aliases: []
+    name_zh: 伊斯兰协会（穆贾马）
+    camp: islamist
+    era: [1973, 1987]
+    active_at_1977: true
+    activate_cond: null
+    init_values:
+      strength: 12.0
+      legitimacy: 10.0
+      moderation: 35.0
+      cohesion: 78.0
+      stigma: 8.0
+    baselines:
+      strength: 8.5
+      legitimacy_raw: 12.0
+      moderation: 36.0
+      cohesion: 78.0
+      stigma: 8.0
+    patrons:
+      - {source_type: arab_state, key: saudi, max_contrib: 3.0, condition_expr: "not flag(\"gulf_charity_cut\")"}
+      - {source_type: israel_policy, key: islamic_tolerance, max_contrib: 12.0, condition_expr: "policy_level[islamic_tolerance] >= 50"}
+    legitimacy_weights:
+      hostility_slope: 0.20
+      living_std_slope: -0.30
+      martyrdom_gain: 0.50
+      stigma_penalty: 0.25
+      peace_dividend: -0.25
+    ai_profile:
+      strike_pref: 0.30
+      stone_pref: 0.20
+      armed_pref: 0.00
+      diplomacy_pref: 0.00
+      purge_collab_pref: 0.40
+      rivalry_pref: 1.50
+
+  # 7. 哈马斯（伊斯兰抵抗运动，1987年第一次起义爆发后由 mujama 转生）
+  - id: hamas
+    aliases: []
+    name_zh: 哈马斯（伊斯兰抵抗运动）
+    camp: islamist
+    era: [1987, null]
+    active_at_1977: false
+    activate_cond: null   # 由 E-1987-12b 或 custom: m08_spawn_hamas 专门激活
+    init_values:
+      strength: 25.0      # 实际激活时按 clamp(15 + 0.45 * S_mujama, 10, 50) 动态覆写
+      legitimacy: 25.0
+      moderation: 8.0
+      cohesion: 82.0
+      stigma: 0.0
+    baselines:
+      strength: 18.0
+      legitimacy_raw: 28.0
+      moderation: 8.0
+      cohesion: 82.0
+      stigma: 0.0
+    patrons:
+      - {source_type: arab_state, key: saudi, max_contrib: 5.4, condition_expr: "regime_hostility[saudi] >= 30"}
+      - {source_type: peripheral, key: iran, max_contrib: 4.0, condition_expr: "flag(\"world_iranian_revolution\")"}
+    legitimacy_weights:
+      hostility_slope: 0.55
+      living_std_slope: -0.35
+      martyrdom_gain: 0.65
+      stigma_penalty: 0.80
+      peace_dividend: -0.50
+    ai_profile:
+      strike_pref: 1.15
+      stone_pref: 1.35
+      armed_pref: 1.45
+      diplomacy_pref: 0.10
+      purge_collab_pref: 1.50
+      rivalry_pref: 1.35
+
+  # 8. 巴勒斯坦伊斯兰圣战组织（PIJ / 杰哈德）
+  - id: pij
+    aliases: [islamic_jihad]
+    name_zh: 伊斯兰圣战组织（杰哈德）
+    camp: islamist
+    era: [1981, null]
+    active_at_1977: false
+    activate_cond: "year >= 1981 and pal_hostility >= 50"
+    init_values:
+      strength: 14.0
+      legitimacy: 8.0
+      moderation: 5.0
+      cohesion: 72.0
+      stigma: 0.0
+    baselines:
+      strength: 10.0
+      legitimacy_raw: 12.0
+      moderation: 5.0
+      cohesion: 72.0
+      stigma: 0.0
+    patrons:
+      - {source_type: peripheral, key: iran, max_contrib: 5.5, condition_expr: "flag(\"world_iranian_revolution\")"}
+      - {source_type: arab_state, key: syria, max_contrib: 2.5, condition_expr: "regime_hostility[syria] >= 50"}
+    legitimacy_weights:
+      hostility_slope: 0.35
+      living_std_slope: -0.20
+      martyrdom_gain: 0.60
+      stigma_penalty: 0.85
+      peace_dividend: -0.60
+    ai_profile:
+      strike_pref: 0.40
+      stone_pref: 0.90
+      armed_pref: 1.60
+      diplomacy_pref: 0.00
+      purge_collab_pref: 1.40
+      rivalry_pref: 0.50
+
+  # 9. 巴勒斯坦权力机构安全部门（1994 奥斯陆协议后组建，兼容 parameters.yaml）
+  - id: pa_security
+    aliases: []
+    name_zh: 巴勒斯坦权力机构安全部门
+    camp: nationalist
+    era: [1994, null]
+    active_at_1977: false
+    activate_cond: "year >= 1994 and flag(\"oslo_accord_signed\")"
+    init_values:
+      strength: 45.0
+      legitimacy: 35.0
+      moderation: 65.0
+      cohesion: 60.0
+      stigma: 25.0
+    baselines:
+      strength: 35.0
+      legitimacy_raw: 30.0
+      moderation: 65.0
+      cohesion: 60.0
+      stigma: 20.0
+    patrons:
+      - {source_type: power, key: usa, max_contrib: 8.0, condition_expr: "us_admin_relation >= 50"}
+    legitimacy_weights:
+      hostility_slope: -0.30
+      living_std_slope: 0.30
+      martyrdom_gain: 0.15
+      stigma_penalty: 0.65
+      peace_dividend: 0.45
+    ai_profile:
+      strike_pref: 0.10
+      stone_pref: 0.00
+      armed_pref: 0.15
+      diplomacy_pref: 1.00
+      purge_collab_pref: 0.00
+      rivalry_pref: 1.10

@@ -1,0 +1,114 @@
+player_party: likud
+faction_mood_init:
+  herut_core: 64
+  herut_hawks: 50
+  liberal_wing: 52
+  laam: 56
+party_standing_init: 70
+cynicism_init: 25
+promise_credit_init:
+  labor_ashkenazi: 0
+  mizrahi: 0
+  kibbutz_moshav: 0
+  religious_zionist: 0
+  haredi: 0
+  arab_citizens: 0
+  russian: 0
+  liberal_middle: 0
+opening_modifiers:
+- id: mahapach_mandate
+  scope_key: ''
+vision: begin_peace_in_eretz_israel
+promises:
+- key: settle_eretz_israel
+  name_zh: 定居以色列地
+  category: territory
+  kind: accumulate
+  metric: max(0, settlement_policy[west_bank] - 50) / 25
+  hard_fail: flag("west_bank_returned")
+  blocs:
+    religious_zionist: 0.7
+    mizrahi: 0.3
+  boldness: 2
+  party_aligned: true
+  deadline: '1981-10-31'
+  stance_hint:
+    axis: territory
+    value: 60
+- key: economic_liberalization
+  name_zh: 经济自由化
+  category: economy
+  kind: level
+  metric: clamp((economic_model - $start(economic_model)) * 2, 0, 100)
+  blocs:
+    liberal_middle: 0.8
+    mizrahi: 0.2
+  boldness: 2
+  party_aligned: true
+  deadline: '1981-10-31'
+  stance_hint:
+    axis: economy
+    value: 40
+- key: social_justice
+  name_zh: 社会公正（“第二以色列”）
+  category: social
+  kind: level
+  metric: clamp(($start(alienation[mizrahi]) - alienation[mizrahi]) * 5 + (region_development[negev]
+    - $start(region_development[negev])) * 3, 0, 100)
+  blocs:
+    mizrahi: 0.9
+    haredi: 0.1
+  boldness: 2
+  party_aligned: false
+  deadline: '1981-10-31'
+  stance_hint: null
+- key: peace_and_security
+  name_zh: 和平与安全（“利库德不是战争党”）
+  category: peace
+  kind: level
+  metric: clamp(($start(regime_hostility[egypt]) - regime_hostility[egypt]) * 1.2
+    + (public_security - $start(public_security)) * 1.0, 0, 100)
+  violation: at_war()
+  violation_penalty: 5
+  blocs:
+    liberal_middle: 0.4
+    mizrahi: 0.3
+    labor_ashkenazi: 0.3
+  boldness: 2
+  party_aligned: false
+  deadline: '1981-10-31'
+  stance_hint:
+    axis: territory
+    value: -10
+leader_goal_packs:
+  shamir:
+    promises:
+    - key: absorb_immigration
+      name_zh: 吸收移民
+      category: immigration
+      kind: accumulate
+      metric: immigration_inflow / 24000
+      blocs:
+        russian: 0.5
+        mizrahi: 0.2
+        religious_zionist: 0.3
+      boldness: 2
+      party_aligned: false
+      deadline_months: 48
+      stance_hint: null
+    - key: not_one_inch
+      name_zh: 不让一寸土地
+      category: territory
+      kind: maintain
+      hold: gov_axis_position[territory] >= 20
+      hard_fail: flag("west_bank_returned") or not region_exists("gaza") or not region_exists("golan")
+      blocs:
+        religious_zionist: 0.5
+        mizrahi: 0.5
+      boldness: 3
+      party_aligned: true
+      deadline_months: 48
+      stance_hint:
+        axis: territory
+        value: 50
+    vision: shamir_land_and_return

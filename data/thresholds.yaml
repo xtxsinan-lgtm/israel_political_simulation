@@ -1,0 +1,21 @@
+# data/thresholds.yaml —— 阈值滞回表（M02 规格附录D 定稿）
+schema_version: 1
+defaults: {type: level, direction: up, confirm: 2, min_on: 3, cooldown: 6, gate: null, latch: false}
+thresholds:
+  - {id: rsq_secular_party, param: religious_status_quo, key: null, direction: up, on_at: 40, off_at: 30}
+  - {id: rsq_brain_drain, param: religious_status_quo, key: null, direction: up, on_at: 60, off_at: 50}
+  - {id: exemption_court, param: draft_exemption, key: null, direction: up, on_at: 28, off_at: 22, confirm: 1, cooldown: 12, gate: "rule_of_law >= 60"}
+  - {id: alien_riot, param: alienation, key: "*", direction: up, on_at: 40, off_at: 34}
+  - {id: alien_protest, param: alienation, key: "*", direction: up, on_at: 60, off_at: 54}
+  - {id: grievance_swing, param: historical_grievance, key: "*", direction: up, on_at: 70, off_at: 64, confirm: 1, min_on: 6, cooldown: 12}
+  - {id: russian_party, param: alienation, key: russian, direction: up, on_at: 50, off_at: 44, latch: true}
+  - {id: landday_lg, param: land_grievance, key: "*", direction: up, on_at: 60, off_at: 54}
+  - {id: landday_ci, param: civic_identification, key: "*", direction: down, on_at: 35, off_at: 41}
+  - {id: landday, type: compound, key: "*", all_of: [landday_lg, landday_ci]}
+  - {id: civic_low, param: civic_identification, key: "*", direction: down, on_at: 30, off_at: 36, confirm: 1}
+  - {id: druze_drop, type: drop, param: civic_identification, key: druze, drop_size: 10, drop_window: 6, confirm: 1, min_on: 6, cooldown: 12}
+  - {id: settler_autonomy, param: settler_momentum, key: null, direction: up, on_at: 70, off_at: 64, confirm: 1}
+  - {id: settler_autonomy_low, param: settler_momentum, key: null, direction: up, on_at: 60, off_at: 54, confirm: 1}
+  - {id: settler_underground, param: settler_momentum, key: null, direction: up, on_at: 50, off_at: 44, confirm: 12, min_on: 6, cooldown: 12}
+  - {id: rol_watch, param: rule_of_law, key: null, direction: down, on_at: 40, off_at: 46}
+  - {id: judicial_crisis, param: judicial_conflict, key: null, direction: up, on_at: 70, off_at: 64}

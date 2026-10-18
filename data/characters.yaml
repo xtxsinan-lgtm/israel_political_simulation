@@ -1,0 +1,1268 @@
+version: 1
+scenario_defaults:
+  1977_begin:
+    deputy_headcount: {ashkenazi: 11, mizrahi: 7, russian: 0, ethiopian: 0}
+    initial_appointment_gap: {mizrahi: 45.0, russian: 0.0, ethiopian: 80.0}
+
+characters:
+  # ==================== 一、利库德集团（赫鲁特核心、强硬派、自由党翼、拉阿姆翼） ====================
+  - id: begin
+    name_zh: "梅纳赫姆·贝京"
+    name_en: "Menachem Begin"
+    birth_year: 1913
+    death_year: 1992
+    entry_year: 1977
+    country: israel
+    role_category: politician
+    party_id: likud
+    faction_id: herut_core
+    group: ashkenazi
+    office: prime_minister
+    preferred_posts: [prime_minister]
+    skills: {admin: 62, military: 55, diplomacy: 72, politics: 94}
+    orator: 0.96
+    loyalty_base: 100
+    ambition: 85
+    integrity: 92
+    ideal_point: {territory: 80, security: 65, economy: 35, religion: 30, foreign: -20}
+    axis_salience: {territory: 1.5, security: 1.3, economy: 0.7, religion: 0.9, foreign: 1.2}
+    health: 68.0
+    character_stress: 22.0
+    relation: 100.0
+    sen_score: 98.0
+    traits: [orator_master, underground_veteran, legalist, frail, heart_condition, depression_prone]
+    is_living_person: false
+    playable_as_pm: true
+    bio_zh: "伊尔贡前总司令、赫鲁特运动创始人，历经29年反对党生涯后于1977年率利库德实现历史性翻盘。"
+
+  - id: dayan
+    name_zh: "摩西·达扬"
+    name_en: "Moshe Dayan"
+    birth_year: 1915
+    death_year: 1981
+    entry_year: 1977
+    country: israel
+    role_category: politician
+    party_id: null
+    faction_id: null
+    group: ashkenazi
+    office: foreign
+    preferred_posts: [foreign, defense]
+    skills: {admin: 58, military: 92, diplomacy: 86, politics: 74}
+    orator: 0.78
+    loyalty_base: 42
+    ambition: 80
+    integrity: 55
+    ideal_point: {territory: -15, security: 40, economy: 10, religion: -30, foreign: -10}
+    axis_salience: {territory: 1.4, security: 1.4, economy: 0.5, religion: 0.6, foreign: 0.6}
+    health: 54.0
+    character_stress: 24.0
+    relation: 28.0
+    sen_score: 90.0
+    traits: [war_hero, peacemaker, maverick, frail]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "独眼传奇将领，脱离工党受贝京延揽出任外长，对埃和谈的关键推手，但与利库德强硬派格格不入。"
+
+  - id: weizman
+    name_zh: "埃泽尔·魏茨曼"
+    name_en: "Ezer Weizman"
+    birth_year: 1924
+    death_year: 2005
+    entry_year: 1977
+    country: israel
+    role_category: politician
+    party_id: likud
+    faction_id: herut_core
+    group: ashkenazi
+    office: defense
+    preferred_posts: [defense, prime_minister]
+    skills: {admin: 68, military: 84, diplomacy: 82, politics: 76}
+    orator: 0.85
+    loyalty_base: 50
+    ambition: 88
+    integrity: 75
+    ideal_point: {territory: -20, security: 20, economy: 30, religion: -25, foreign: -15}
+    axis_salience: {territory: 1.3, security: 1.3, economy: 0.8, religion: 0.6, foreign: 0.7}
+    health: 78.0
+    character_stress: 18.0
+    relation: 30.0
+    sen_score: 84.0
+    traits: [war_hero, peacemaker, media_darling, maverick]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "现代以色列空军之父，1977年大选利库德竞选总指挥，萨达特访以与戴维营协议的狂热支持者。"
+
+  - id: sharon
+    name_zh: "阿里埃勒·沙龙"
+    name_en: "Ariel Sharon"
+    birth_year: 1928
+    death_year: 2014
+    entry_year: 1977
+    country: israel
+    role_category: politician
+    party_id: likud
+    faction_id: herut_hawks
+    group: ashkenazi
+    office: agriculture
+    preferred_posts: [defense, agriculture, housing]
+    skills: {admin: 76, military: 95, diplomacy: 32, politics: 72}
+    orator: 0.72
+    loyalty_base: 30
+    ambition: 95
+    integrity: 52
+    ideal_point: {territory: 85, security: 90, economy: 20, religion: 0, foreign: 30}
+    axis_salience: {territory: 1.5, security: 1.6, economy: 0.6, religion: 0.5, foreign: 0.8}
+    health: 82.0
+    character_stress: 20.0
+    relation: 25.0
+    sen_score: 78.0
+    traits: [war_hero, bold_gambler, in_subordinate, settler_patron, maverick]
+    is_living_person: false
+    playable_as_pm: true
+    bio_zh: "绰号'推土机'的作战奇才，利用农业部长与部际定居点委员会职权在约旦河西岸全面铺开定居点网络。"
+
+  - id: shamir
+    name_zh: "伊扎克·沙米尔"
+    name_en: "Yitzhak Shamir"
+    birth_year: 1915
+    death_year: 2012
+    entry_year: 1977
+    country: israel
+    role_category: politician
+    party_id: likud
+    faction_id: herut_core
+    group: ashkenazi
+    office: knesset_speaker
+    preferred_posts: [foreign, prime_minister]
+    skills: {admin: 78, military: 68, diplomacy: 65, politics: 82}
+    orator: 0.45
+    loyalty_base: 85
+    ambition: 78
+    integrity: 88
+    ideal_point: {territory: 85, security: 70, economy: 20, religion: 15, foreign: 5}
+    axis_salience: {territory: 1.6, security: 1.4, economy: 0.7, religion: 0.7, foreign: 0.7}
+    health: 80.0
+    character_stress: 12.0
+    relation: 42.0
+    sen_score: 78.0
+    traits: [underground_veteran, ideologue_hawk, stoic, apparatchik]
+    is_living_person: false
+    playable_as_pm: true
+    bio_zh: "前莱希（Lehi）地下领导人、摩萨德行动主管，1977年出任议长，因反对放弃西奈而在戴维营投票中弃权。"
+
+  - id: levy
+    name_zh: "大卫·利维"
+    name_en: "David Levy"
+    birth_year: 1937
+    death_year: 2024
+    entry_year: 1977
+    country: israel
+    role_category: politician
+    party_id: likud
+    faction_id: herut_core
+    group: mizrahi
+    office: absorption
+    preferred_posts: [housing, foreign, deputy_pm]
+    skills: {admin: 68, military: 35, diplomacy: 54, politics: 84}
+    orator: 0.80
+    loyalty_base: 72
+    ambition: 84
+    integrity: 80
+    ideal_point: {territory: 50, security: 45, economy: -35, religion: 25, foreign: 0}
+    axis_salience: {territory: 1.0, security: 1.0, economy: 1.5, religion: 1.0, foreign: 0.6}
+    health: 84.0
+    character_stress: 16.0
+    relation: 52.0
+    sen_score: 72.0
+    traits: [populist_tribune, coalition_broker]
+    is_living_person: false
+    playable_as_pm: true
+    bio_zh: "摩洛哥移民、贝特谢安建筑工人出身，利库德内部米兹拉希蓝领选民与发展镇的最高政治代言人。"
+
+  - id: ehrlich
+    name_zh: "西姆哈·埃尔利希"
+    name_en: "Simha Ehrlich"
+    birth_year: 1915
+    death_year: 1983
+    entry_year: 1977
+    country: israel
+    role_category: politician
+    party_id: likud
+    faction_id: liberal_wing
+    group: ashkenazi
+    office: finance
+    preferred_posts: [finance, deputy_pm, agriculture]
+    skills: {admin: 60, military: 25, diplomacy: 58, politics: 80}
+    orator: 0.60
+    loyalty_base: 78
+    ambition: 68
+    integrity: 76
+    ideal_point: {territory: 25, security: 20, economy: 75, religion: -15, foreign: -10}
+    axis_salience: {territory: 0.7, security: 0.7, economy: 1.6, religion: 0.8, foreign: 0.8}
+    health: 58.0
+    character_stress: 20.0
+    relation: 45.0
+    sen_score: 76.0
+    traits: [fiscal_hawk, coalition_broker, frail, heart_condition]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "利库德自由党翼领袖，1977年10月主持'经济大翻盘'取消外汇管制，却因未削减开支引发高通胀。"
+
+  - id: arens
+    name_zh: "摩西·阿伦斯"
+    name_en: "Moshe Arens"
+    birth_year: 1925
+    death_year: 2019
+    entry_year: 1977
+    country: israel
+    role_category: politician
+    party_id: likud
+    faction_id: herut_hawks
+    group: ashkenazi
+    office: null
+    preferred_posts: [defense, foreign]
+    skills: {admin: 86, military: 80, diplomacy: 82, politics: 68}
+    orator: 0.65
+    loyalty_base: 75
+    ambition: 76
+    integrity: 92
+    ideal_point: {territory: 80, security: 75, economy: 55, religion: -10, foreign: -20}
+    axis_salience: {territory: 1.5, security: 1.4, economy: 1.0, religion: 0.6, foreign: 0.9}
+    health: 82.0
+    character_stress: 14.0
+    relation: 18.0
+    sen_score: 70.0
+    traits: [ideologue_hawk, technocrat_clean, diplomat_scholar]
+    is_living_person: false
+    playable_as_pm: true
+    bio_zh: "航空工程教授、议会外交与国防委员会主席，反对戴维营协议的理性强硬派，后任驻美大使与国防部长。"
+
+  - id: modai
+    name_zh: "伊扎克·莫达伊"
+    name_en: "Yitzhak Moda'i"
+    birth_year: 1926
+    death_year: 1998
+    entry_year: 1977
+    country: israel
+    role_category: politician
+    party_id: likud
+    faction_id: liberal_wing
+    group: ashkenazi
+    office: energy
+    preferred_posts: [finance, energy, justice]
+    skills: {admin: 82, military: 50, diplomacy: 64, politics: 74}
+    orator: 0.68
+    loyalty_base: 52
+    ambition: 82
+    integrity: 70
+    ideal_point: {territory: 35, security: 30, economy: 70, religion: -20, foreign: 0}
+    axis_salience: {territory: 0.8, security: 0.8, economy: 1.5, religion: 0.9, foreign: 0.7}
+    health: 76.0
+    character_stress: 16.0
+    relation: 20.0
+    sen_score: 68.0
+    traits: [fiscal_hawk, maverick, schemer]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "自由党实力派经济学家，1985年经济稳定计划执行时的财政部长，性格桀骜常与同僚发生摩擦。"
+
+  - id: patt
+    name_zh: "吉德翁·帕特"
+    name_en: "Gideon Patt"
+    birth_year: 1933
+    death_year: 2020
+    entry_year: 1977
+    country: israel
+    role_category: politician
+    party_id: likud
+    faction_id: liberal_wing
+    group: ashkenazi
+    office: housing
+    preferred_posts: [industry_trade, housing, tourism]
+    skills: {admin: 74, military: 30, diplomacy: 60, politics: 70}
+    orator: 0.60
+    loyalty_base: 76
+    ambition: 64
+    integrity: 78
+    ideal_point: {territory: 30, security: 25, economy: 68, religion: -15, foreign: 0}
+    axis_salience: {territory: 0.8, security: 0.8, economy: 1.4, religion: 0.8, foreign: 0.7}
+    health: 80.0
+    character_stress: 14.0
+    relation: 32.0
+    sen_score: 64.0
+    traits: [fiscal_hawk, pragmatist]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "自由党骨干部长，先后执掌住房部与工贸部，致力于推动国企私有化与出口导向政策。"
+
+  - id: hurvitz
+    name_zh: "伊加尔·霍罗威茨"
+    name_en: "Yigal Hurvitz"
+    birth_year: 1918
+    death_year: 1994
+    entry_year: 1977
+    country: israel
+    role_category: politician
+    party_id: likud
+    faction_id: laam
+    group: ashkenazi
+    office: industry_trade
+    preferred_posts: [finance, industry_trade]
+    skills: {admin: 75, military: 45, diplomacy: 40, politics: 66}
+    orator: 0.58
+    loyalty_base: 48
+    ambition: 72
+    integrity: 84
+    ideal_point: {territory: 75, security: 60, economy: 65, religion: 0, foreign: 10}
+    axis_salience: {territory: 1.4, security: 1.2, economy: 1.5, religion: 0.5, foreign: 0.6}
+    health: 72.0
+    character_stress: 18.0
+    relation: 22.0
+    sen_score: 66.0
+    traits: [fiscal_hawk, ideologue_hawk, maverick]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "拉阿姆翼领袖，1979年接替埃尔利希任财长，因高呼'我没钱！'拒绝大选前放水而在1981年初愤然辞职。"
+
+  - id: meridor
+    name_zh: "丹·梅里多尔"
+    name_en: "Dan Meridor"
+    birth_year: 1947
+    death_year: null
+    entry_year: 1982
+    country: israel
+    role_category: politician
+    party_id: likud
+    faction_id: herut_core
+    group: ashkenazi
+    office: null
+    preferred_posts: [justice, finance]
+    skills: {admin: 80, military: 45, diplomacy: 75, politics: 70}
+    orator: 0.72
+    loyalty_base: 76
+    ambition: 70
+    integrity: 92
+    ideal_point: {territory: 35, security: 30, economy: 45, religion: -10, foreign: -45}
+    axis_salience: {territory: 0.9, security: 0.9, economy: 1.0, religion: 0.8, foreign: 1.6}
+    health: 90.0
+    character_stress: 10.0
+    relation: 40.0
+    sen_score: 52.0
+    traits: [legalist, technocrat_clean, pragmatist]
+    is_living_person: true
+    fictional_alias_zh: "丹·梅隆"
+    fictional_alias_en: "Dan Meron"
+    playable_as_pm: false
+    bio_zh: "利库德'王子一代'代表人物，1982年出任内阁秘书，后任司法部长，坚定捍卫法治与基本法体系。"
+
+  - id: begin_b
+    name_zh: "泽埃夫·本雅明·巴金"
+    name_en: "Benny Begin"
+    birth_year: 1943
+    death_year: null
+    entry_year: 1988
+    country: israel
+    role_category: politician
+    party_id: likud
+    faction_id: herut_hawks
+    group: ashkenazi
+    office: null
+    preferred_posts: [energy, education]
+    skills: {admin: 76, military: 40, diplomacy: 62, politics: 64}
+    orator: 0.70
+    loyalty_base: 85
+    ambition: 55
+    integrity: 96
+    ideal_point: {territory: 85, security: 60, economy: 30, religion: 10, foreign: -50}
+    axis_salience: {territory: 1.5, security: 1.2, economy: 0.7, religion: 0.7, foreign: 1.5}
+    health: 88.0
+    character_stress: 10.0
+    relation: 50.0
+    sen_score: 50.0
+    traits: [ideologue_hawk, legalist, technocrat_clean]
+    is_living_person: true
+    fictional_alias_zh: "本雅明·巴尔-昂"
+    fictional_alias_en: "Binyamin Bar-On"
+    playable_as_pm: false
+    bio_zh: "地质学家，兼具完整大以色列土地信念与对最高法院宪政独立的双重坚守（开局由伊扎克·巴金占司法席位）。"
+
+  - id: livni_etzion
+    name_zh: "埃坦·利夫尼"
+    name_en: "Eitan Livni"
+    birth_year: 1919
+    death_year: 1991
+    entry_year: 1977
+    country: israel
+    role_category: politician
+    party_id: likud
+    faction_id: herut_core
+    group: ashkenazi
+    office: null
+    preferred_posts: [industry_trade, transport]
+    skills: {admin: 70, military: 72, diplomacy: 50, politics: 74}
+    orator: 0.58
+    loyalty_base: 88
+    ambition: 55
+    integrity: 86
+    ideal_point: {territory: 60, security: 40, economy: 5, religion: 10, foreign: 15}
+    axis_salience: {territory: 1.3, security: 1.2, economy: 0.7, religion: 0.7, foreign: 0.7}
+    health: 72.0
+    character_stress: 14.0
+    relation: 42.0
+    sen_score: 62.0
+    traits: [underground_veteran, apparatchik]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "前伊尔贡作战部长、赫鲁特核心组织干将，代表效忠贝京的地下战斗老兵议员群体。"
+
+  # ==================== 二、民主变革运动（Dash）、国家宗教党（NRP）、阿古达 ====================
+  - id: yadin
+    name_zh: "伊加尔·亚丁"
+    name_en: "Yigael Yadin"
+    birth_year: 1917
+    death_year: 1984
+    entry_year: 1977
+    country: israel
+    role_category: politician
+    party_id: dash
+    faction_id: null
+    group: ashkenazi
+    office: null
+    preferred_posts: [deputy_pm, defense, education]
+    skills: {admin: 76, military: 82, diplomacy: 70, politics: 48}
+    orator: 0.66
+    loyalty_base: 65
+    ambition: 60
+    integrity: 94
+    ideal_point: {territory: -25, security: 10, economy: 15, religion: -30, foreign: -15}
+    axis_salience: {territory: 1.1, security: 1.1, economy: 0.9, religion: 1.1, foreign: 1.2}
+    health: 64.0
+    character_stress: 20.0
+    relation: 12.0
+    sen_score: 75.0
+    traits: [war_hero, technocrat_clean, diplomat_scholar]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "第二任总参谋长、著名考古学家，创立民主变革运动（Dash）并于1977年10月入阁任副总理。"
+
+  - id: tamir
+    name_zh: "什穆埃尔·塔米尔"
+    name_en: "Shmuel Tamir"
+    birth_year: 1923
+    death_year: 1987
+    entry_year: 1977
+    country: israel
+    role_category: politician
+    party_id: dash
+    faction_id: null
+    group: ashkenazi
+    office: null
+    preferred_posts: [justice, interior]
+    skills: {admin: 78, military: 50, diplomacy: 68, politics: 70}
+    orator: 0.75
+    loyalty_base: 60
+    ambition: 70
+    integrity: 82
+    ideal_point: {territory: -15, security: 10, economy: 25, religion: -25, foreign: -10}
+    axis_salience: {territory: 1.0, security: 1.0, economy: 1.0, religion: 1.0, foreign: 1.4}
+    health: 74.0
+    character_stress: 16.0
+    relation: 18.0
+    sen_score: 62.0
+    traits: [legalist, underground_veteran, diplomat_scholar]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "著名大律师、前伊尔贡成员，随Dash入阁后出任司法部长并参与对埃和平谈判。"
+
+  - id: rubinstein
+    name_zh: "阿姆农·鲁宾斯坦"
+    name_en: "Amnon Rubinstein"
+    birth_year: 1931
+    death_year: 2024
+    entry_year: 1977
+    country: israel
+    role_category: politician
+    party_id: dash
+    faction_id: null
+    group: ashkenazi
+    office: null
+    preferred_posts: [justice, communications, education]
+    skills: {admin: 76, military: 35, diplomacy: 74, politics: 68}
+    orator: 0.78
+    loyalty_base: 50
+    ambition: 62
+    integrity: 94
+    ideal_point: {territory: -45, security: -15, economy: 35, religion: -55, foreign: -25}
+    axis_salience: {territory: 1.2, security: 0.9, economy: 1.0, religion: 1.4, foreign: 1.6}
+    health: 86.0
+    character_stress: 10.0
+    relation: -10.0
+    sen_score: 58.0
+    traits: [legalist, diplomat_scholar, technocrat_clean]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "特拉维夫大学法学院首任院长、变革党（Shinui）创始人，1992年人类尊严与自由基本法的主要推手。"
+
+  - id: burg
+    name_zh: "约瑟夫·布尔格"
+    name_en: "Yosef Burg"
+    birth_year: 1909
+    death_year: 1999
+    entry_year: 1977
+    country: israel
+    role_category: politician
+    party_id: nrp
+    faction_id: null
+    group: ashkenazi
+    office: interior
+    preferred_posts: [interior, police, religious_affairs]
+    skills: {admin: 80, military: 30, diplomacy: 72, politics: 88}
+    orator: 0.74
+    loyalty_base: 72
+    ambition: 65
+    integrity: 76
+    ideal_point: {territory: 35, security: 15, economy: -15, religion: 45, foreign: 5}
+    axis_salience: {territory: 1.0, security: 0.8, economy: 0.8, religion: 1.5, foreign: 0.8}
+    health: 76.0
+    character_stress: 14.0
+    relation: 35.0
+    sen_score: 84.0
+    traits: [coalition_broker, pragmatist, apparatchik]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "国家宗教党（NRP）常青树领袖，历任十余届内阁部长，1977年带领NRP终结与工党的历史同盟转投贝京。"
+
+  - id: hammer
+    name_zh: "泽ヴ伦·哈默"
+    name_en: "Zevulun Hammer"
+    birth_year: 1936
+    death_year: 1998
+    entry_year: 1977
+    country: israel
+    role_category: politician
+    party_id: nrp
+    faction_id: null
+    group: ashkenazi
+    office: education
+    preferred_posts: [education, religious_affairs]
+    skills: {admin: 74, military: 40, diplomacy: 58, politics: 82}
+    orator: 0.72
+    loyalty_base: 62
+    ambition: 80
+    integrity: 80
+    ideal_point: {territory: 70, security: 35, economy: -15, religion: 40, foreign: 20}
+    axis_salience: {territory: 1.5, security: 1.1, economy: 0.7, religion: 1.4, foreign: 0.9}
+    health: 78.0
+    character_stress: 15.0
+    relation: 26.0
+    sen_score: 68.0
+    traits: [settler_patron, apparatchik]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "NRP'少壮派'领袖与信徒运动（Gush Emunim）的内阁护法，担任教育部长长达十余年。"
+
+  - id: abuhatzeira
+    name_zh: "阿哈龙·阿布哈齐拉"
+    name_en: "Aharon Abuhatzeira"
+    birth_year: 1938
+    death_year: 2021
+    entry_year: 1977
+    country: israel
+    role_category: politician
+    party_id: nrp
+    faction_id: null
+    group: mizrahi
+    office: religious_affairs
+    preferred_posts: [religious_affairs, welfare, absorption]
+    skills: {admin: 52, military: 25, diplomacy: 40, politics: 74}
+    orator: 0.64
+    loyalty_base: 50
+    ambition: 78
+    integrity: 30
+    ideal_point: {territory: 30, security: 15, economy: -25, religion: 55, foreign: 5}
+    axis_salience: {territory: 0.8, security: 0.7, economy: 1.2, religion: 1.5, foreign: 0.8}
+    health: 86.0
+    character_stress: 16.0
+    relation: 20.0
+    sen_score: 54.0
+    traits: [corruptible, populist_tribune]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "摩洛哥拉比世家出身的宗教事务部长，因涉嫌公款挪用遭总检察长起诉，1981年脱离NRP组建塔米党（Tami）。"
+
+  - id: shapira
+    name_zh: "阿夫拉罕·沙皮拉"
+    name_en: "Avraham Shapira"
+    birth_year: 1929
+    death_year: 2000
+    entry_year: 1977
+    country: israel
+    role_category: politician
+    party_id: agudat
+    faction_id: null
+    group: ashkenazi
+    office: null
+    preferred_posts: [housing, welfare]
+    skills: {admin: 82, military: 15, diplomacy: 55, politics: 86}
+    orator: 0.62
+    loyalty_base: 65
+    ambition: 70
+    integrity: 52
+    ideal_point: {territory: 5, security: 0, economy: -10, religion: 65, foreign: 0}
+    axis_salience: {territory: 0.4, security: 0.4, economy: 1.2, religion: 1.6, foreign: 1.1}
+    health: 78.0
+    character_stress: 14.0
+    relation: 22.0
+    sen_score: 64.0
+    traits: [coalition_broker, haredi_sage_proxy, schemer]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "阿古达党实权操盘手、地毯业巨头，人称'国家真正的主管'，擅长利用议会微弱多数交换经学院拨款。"
+
+  - id: lorincz
+    name_zh: "什洛莫·洛林茨"
+    name_en: "Shlomo Lorincz"
+    birth_year: 1918
+    death_year: 2009
+    entry_year: 1977
+    country: israel
+    role_category: politician
+    party_id: agudat
+    faction_id: null
+    group: ashkenazi
+    office: "party_leader:agudat"
+    preferred_posts: [finance]
+    skills: {admin: 78, military: 10, diplomacy: 50, politics: 84}
+    orator: 0.65
+    loyalty_base: 70
+    ambition: 60
+    integrity: 75
+    ideal_point: {territory: 0, security: -5, economy: -20, religion: 70, foreign: 0}
+    axis_salience: {territory: 0.4, security: 0.4, economy: 1.1, religion: 1.6, foreign: 1.1}
+    health: 80.0
+    character_stress: 12.0
+    relation: 25.0
+    sen_score: 70.0
+    traits: [haredi_sage_proxy, coalition_broker]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "长期担任议会财政委员会主席，代表哈雷迪律法智者委员会把控联盟预算阀门。"
+
+  # ==================== 三、工党阵营（佩雷斯派、拉宾派、劳动团结党翼、鸽派青年梯队） ====================
+  - id: peres
+    name_zh: "希蒙·佩雷斯"
+    name_en: "Shimon Peres"
+    birth_year: 1923
+    death_year: 2016
+    entry_year: 1977
+    country: israel
+    role_category: politician
+    party_id: labor
+    faction_id: labor_peres
+    group: ashkenazi
+    office: "party_leader:labor"
+    preferred_posts: [prime_minister, foreign, finance, defense]
+    skills: {admin: 86, military: 70, diplomacy: 92, politics: 92}
+    orator: 0.82
+    loyalty_base: 60
+    ambition: 96
+    integrity: 74
+    ideal_point: {territory: -35, security: 10, economy: -35, religion: -20, foreign: -20}
+    axis_salience: {territory: 1.3, security: 1.2, economy: 1.2, religion: 0.8, foreign: 1.0}
+    health: 86.0
+    character_stress: 18.0
+    relation: -25.0
+    sen_score: 90.0
+    traits: [peacemaker, apparatchik, schemer, pragmatist]
+    is_living_person: false
+    playable_as_pm: true
+    bio_zh: "国防工业奠基人、工党主席兼反对党领袖，1984年大联合轮换政府总理兼1985年经济稳定计划核心推手。"
+
+  - id: rabin
+    name_zh: "伊扎克·拉宾"
+    name_en: "Yitzhak Rabin"
+    birth_year: 1922
+    death_year: 1995
+    entry_year: 1977
+    country: israel
+    role_category: politician
+    party_id: labor
+    faction_id: labor_rabin
+    group: ashkenazi
+    office: null
+    preferred_posts: [prime_minister, defense]
+    skills: {admin: 80, military: 94, diplomacy: 78, politics: 72}
+    orator: 0.68
+    loyalty_base: 75
+    ambition: 86
+    integrity: 82
+    ideal_point: {territory: -25, security: 35, economy: -40, religion: -25, foreign: -15}
+    axis_salience: {territory: 1.2, security: 1.5, economy: 1.0, religion: 0.8, foreign: 0.9}
+    health: 82.0
+    character_stress: 20.0
+    relation: -18.0
+    sen_score: 88.0
+    traits: [war_hero, stoic, iron_fist, pragmatist]
+    is_living_person: false
+    playable_as_pm: true
+    bio_zh: "六日战争总参谋长、前总理，与佩雷斯展开长达二十年的宿命双雄竞争，1984–1990年任国防部长。"
+
+  - id: allon
+    name_zh: "伊加尔·阿隆"
+    name_en: "Yigal Allon"
+    birth_year: 1918
+    death_year: 1980
+    entry_year: 1977
+    country: israel
+    role_category: politician
+    party_id: labor
+    faction_id: ahdut_haavoda
+    group: ashkenazi
+    office: ahdut_haavoda_leader
+    preferred_posts: [foreign, defense, deputy_pm]
+    skills: {admin: 74, military: 86, diplomacy: 76, politics: 74}
+    orator: 0.70
+    loyalty_base: 80
+    ambition: 75
+    integrity: 88
+    ideal_point: {territory: -10, security: 30, economy: -65, religion: -25, foreign: -5}
+    axis_salience: {territory: 1.3, security: 1.3, economy: 1.4, religion: 0.8, foreign: 0.8}
+    health: 52.0
+    character_stress: 22.0
+    relation: -10.0
+    sen_score: 82.0
+    traits: [war_hero, frail, heart_condition]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "帕尔马赫前总司令、'阿隆计划'提出者，工党劳动团结党翼精神领袖，1980年准备挑战党魁时突发心脏病早逝。"
+
+  - id: bar_lev
+    name_zh: "哈伊姆·巴列夫"
+    name_en: "Haim Bar-Lev"
+    birth_year: 1924
+    death_year: 1994
+    entry_year: 1977
+    country: israel
+    role_category: politician
+    party_id: labor
+    faction_id: labor_peres
+    group: ashkenazi
+    office: null
+    preferred_posts: [police, defense, industry_trade]
+    skills: {admin: 78, military: 84, diplomacy: 65, politics: 74}
+    orator: 0.60
+    loyalty_base: 82
+    ambition: 65
+    integrity: 86
+    ideal_point: {territory: -25, security: 25, economy: -45, religion: -20, foreign: -10}
+    axis_salience: {territory: 1.1, security: 1.3, economy: 1.1, religion: 0.8, foreign: 0.8}
+    health: 78.0
+    character_stress: 14.0
+    relation: -15.0
+    sen_score: 74.0
+    traits: [war_hero, apparatchik, stoic]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "前总参谋长、工党秘书长，沉稳可靠的组织者，在1984大联合政府中出任警察部长。"
+
+  - id: dove_youth_rep
+    name_zh: "约西·萨里德"
+    name_en: "Yossi Sarid"
+    birth_year: 1940
+    death_year: 2015
+    entry_year: 1977
+    country: israel
+    role_category: politician
+    party_id: labor
+    faction_id: labor_doves
+    group: ashkenazi
+    office: labor_doves_leader
+    preferred_posts: [education, absorption]
+    skills: {admin: 68, military: 35, diplomacy: 76, politics: 78}
+    orator: 0.84
+    loyalty_base: 55
+    ambition: 72
+    integrity: 90
+    ideal_point: {territory: -75, security: -30, economy: -35, religion: -50, foreign: -30}
+    axis_salience: {territory: 1.6, security: 1.3, economy: 1.0, religion: 1.3, foreign: 1.3}
+    health: 88.0
+    character_stress: 12.0
+    relation: -40.0
+    sen_score: 52.0
+    traits: [peacemaker, orator_master, legalist]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "工党鸽派青年梯队（第八小集团）的犀利发言人，强烈反对定居点扩张与黎巴嫩战争，1984年转投公民权利运动。"
+
+  # ==================== 四、军方、情报、司法与央行独立首长（6大制度缓冲职位） ====================
+  - id: gur
+    name_zh: "莫迪凯·古尔"
+    name_en: "Mordechai Gur"
+    birth_year: 1930
+    death_year: 1995
+    entry_year: 1977
+    country: israel
+    role_category: military
+    party_id: null
+    faction_id: null
+    group: ashkenazi
+    office: chief_of_staff
+    preferred_posts: [chief_of_staff, defense, health_min]
+    skills: {admin: 76, military: 86, diplomacy: 60, politics: 68}
+    orator: 0.64
+    loyalty_base: 70
+    ambition: 75
+    integrity: 84
+    ideal_point: {territory: -15, security: 35, economy: -30, religion: -15, foreign: -5}
+    axis_salience: {territory: 1.0, security: 1.5, economy: 0.8, religion: 0.6, foreign: 0.7}
+    health: 82.0
+    character_stress: 18.0
+    relation: 10.0
+    sen_score: 72.0
+    traits: [war_hero, pragmatist]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "第十任总参谋长（指挥恩德培行动与1978利塔尼行动），1977年曾公开警告萨达特访以可能是军事骗局，退役后加入工党。"
+
+  - id: eitan
+    name_zh: "拉斐尔·埃坦"
+    name_en: "Rafael Eitan"
+    birth_year: 1929
+    death_year: 2004
+    entry_year: 1977
+    country: israel
+    role_category: military
+    party_id: null
+    faction_id: null
+    group: ashkenazi
+    office: null
+    preferred_posts: [chief_of_staff, agriculture]
+    skills: {admin: 68, military: 90, diplomacy: 25, politics: 55}
+    orator: 0.50
+    loyalty_base: 65
+    ambition: 78
+    integrity: 86
+    ideal_point: {territory: 85, security: 80, economy: -10, religion: -10, foreign: 40}
+    axis_salience: {territory: 1.5, security: 1.6, economy: 0.6, religion: 0.6, foreign: 1.0}
+    health: 84.0
+    character_stress: 14.0
+    relation: 20.0
+    sen_score: 70.0
+    traits: [war_hero, ideologue_hawk, in_subordinate, iron_fist]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "绰号'拉富尔'的伞兵传奇，1978年接任第十一任总参谋长，与沙龙联手策划并推进1982年黎巴嫩战争，退役后创立复兴党（Tzomet）。"
+
+  - id: hofi
+    name_zh: "伊扎克·霍菲"
+    name_en: "Yitzhak Hofi"
+    birth_year: 1927
+    death_year: 2014
+    entry_year: 1977
+    country: israel
+    role_category: intelligence
+    party_id: null
+    faction_id: null
+    group: ashkenazi
+    office: mossad_chief
+    preferred_posts: [mossad_chief]
+    skills: {admin: 82, military: 84, diplomacy: 75, politics: 60}
+    orator: 0.52
+    loyalty_base: 85
+    ambition: 55
+    integrity: 90
+    ideal_point: {territory: 10, security: 40, economy: 0, religion: -10, foreign: 5}
+    axis_salience: {territory: 0.7, security: 1.6, economy: 0.5, religion: 0.5, foreign: 0.7}
+    health: 82.0
+    character_stress: 16.0
+    relation: 25.0
+    sen_score: 72.0
+    traits: [spy_master, stoic, technocrat_clean]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "摩萨德局长（1974–1982），秘密促成摩洛哥与埃及情报接触、策划巴比伦行动，但对黎巴嫩长枪党持审慎怀疑态度。"
+
+  - id: shalom
+    name_zh: "阿夫拉罕·沙洛姆"
+    name_en: "Avraham Shalom"
+    birth_year: 1928
+    death_year: 2014
+    entry_year: 1977
+    country: israel
+    role_category: intelligence
+    party_id: null
+    faction_id: null
+    group: ashkenazi
+    office: shin_bet_chief
+    preferred_posts: [shin_bet_chief]
+    skills: {admin: 78, military: 80, diplomacy: 45, politics: 62}
+    orator: 0.48
+    loyalty_base: 80
+    ambition: 65
+    integrity: 58
+    ideal_point: {territory: 25, security: 65, economy: 0, religion: 0, foreign: 15}
+    axis_salience: {territory: 0.8, security: 1.6, economy: 0.5, religion: 0.5, foreign: 1.0}
+    health: 80.0
+    character_stress: 18.0
+    relation: 25.0
+    sen_score: 68.0
+    traits: [spy_master, iron_fist]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "资深情报官（曾参与抓捕艾希曼），担任辛贝特局长期间因1984年'300路公交事件'掩盖真相而于1986年引发宪政特赦风暴。"
+
+  - id: barak_aharon
+    name_zh: "阿哈龙·巴拉克"
+    name_en: "Aharon Barak"
+    birth_year: 1936
+    death_year: null
+    entry_year: 1977
+    country: israel
+    role_category: judicial
+    party_id: null
+    faction_id: null
+    group: ashkenazi
+    office: attorney_general
+    preferred_posts: [attorney_general, supreme_court_president]
+    skills: {admin: 92, military: 30, diplomacy: 80, politics: 76}
+    orator: 0.85
+    loyalty_base: 85
+    ambition: 75
+    integrity: 98
+    ideal_point: {territory: -15, security: -10, economy: 10, religion: -35, foreign: -15}
+    axis_salience: {territory: 0.8, security: 0.8, economy: 0.6, religion: 1.1, foreign: 1.8}
+    health: 90.0
+    character_stress: 12.0
+    relation: 30.0
+    sen_score: 80.0
+    traits: [legalist, judicial_activist, technocrat_clean, diplomat_scholar]
+    is_living_person: true
+    fictional_alias_zh: "亚伯拉罕·巴尔-列夫"
+    fictional_alias_en: "Aharon Bar-Lev"
+    playable_as_pm: false
+    bio_zh: "铁面无私的总检察长（起诉亚德林与拉宾美元账户案），1978年作为贝京首席法律顾问在戴维营力挽狂澜，同年升任最高法院大法官。"
+
+  - id: kahan
+    name_zh: "伊扎克·卡汉"
+    name_en: "Yitzhak Kahan"
+    birth_year: 1913
+    death_year: 1985
+    entry_year: 1977
+    country: israel
+    role_category: judicial
+    party_id: null
+    faction_id: null
+    group: ashkenazi
+    office: supreme_court_president
+    preferred_posts: [supreme_court_president]
+    skills: {admin: 84, military: 20, diplomacy: 60, politics: 55}
+    orator: 0.65
+    loyalty_base: 90
+    ambition: 40
+    integrity: 98
+    ideal_point: {territory: 0, security: 0, economy: 0, religion: 5, foreign: 0}
+    axis_salience: {territory: 0.6, security: 0.7, economy: 0.5, religion: 0.8, foreign: 1.7}
+    health: 72.0
+    character_stress: 14.0
+    relation: 20.0
+    sen_score: 82.0
+    traits: [legalist, judicial_restraint, technocrat_clean]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "最高法院资深大法官与院长，1982–1983年主持调查萨布拉与夏蒂拉难民营屠杀的卡汉国家调查委员会。"
+
+  - id: gafni
+    name_zh: "阿农·加夫尼"
+    name_en: "Arnon Gafny"
+    birth_year: 1932
+    death_year: 2015
+    entry_year: 1977
+    country: israel
+    role_category: central_bank
+    party_id: null
+    faction_id: null
+    group: ashkenazi
+    office: boi_governor
+    preferred_posts: [boi_governor]
+    skills: {admin: 88, military: 20, diplomacy: 70, politics: 52}
+    orator: 0.58
+    loyalty_base: 80
+    ambition: 45
+    integrity: 94
+    ideal_point: {territory: 0, security: 0, economy: 45, religion: -10, foreign: -10}
+    axis_salience: {territory: 0.4, security: 0.4, economy: 1.8, religion: 0.4, foreign: 1.0}
+    health: 84.0
+    character_stress: 16.0
+    relation: 15.0
+    sen_score: 70.0
+    traits: [fiscal_hawk, technocrat_clean]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "以色列银行（央行）行长（1976–1981），多次向内阁警告财政赤字货币化将把以色列推向恶性通胀深渊。"
+
+  - id: zamir
+    name_zh: "伊扎克·扎米尔"
+    name_en: "Yitzhak Zamir"
+    birth_year: 1931
+    death_year: null
+    entry_year: 1978
+    country: israel
+    role_category: judicial
+    party_id: null
+    faction_id: null
+    group: ashkenazi
+    office: null
+    preferred_posts: [attorney_general]
+    skills: {admin: 88, military: 20, diplomacy: 65, politics: 60}
+    orator: 0.72
+    loyalty_base: 85
+    ambition: 50
+    integrity: 98
+    ideal_point: {territory: -10, security: -5, economy: 0, religion: -20, foreign: -20}
+    axis_salience: {territory: 0.7, security: 0.8, economy: 0.5, religion: 0.8, foreign: 1.8}
+    health: 86.0
+    character_stress: 12.0
+    relation: 15.0
+    sen_score: 72.0
+    traits: [legalist, judicial_activist, technocrat_clean]
+    is_living_person: true
+    fictional_alias_zh: "伊扎克·扎凯"
+    fictional_alias_en: "Yitzhak Zakai"
+    playable_as_pm: false
+    bio_zh: "1978年接替巴拉克出任总检察长，编写《卡普兰报告》并在1986年300路公交案中顶住总理与防长压力坚持依法调查辛贝特。"
+
+  # ==================== 五、外国元首与巴勒斯坦/地区关键互动人物 ====================
+  - id: sadat
+    name_zh: "安瓦尔·萨达特"
+    name_en: "Anwar Sadat"
+    birth_year: 1918
+    death_year: 1981
+    entry_year: 1977
+    country: egypt
+    role_category: foreign_leader
+    party_id: null
+    faction_id: null
+    group: foreign
+    office: "leader:egypt"
+    preferred_posts: ["leader:egypt"]
+    skills: {admin: 60, military: 68, diplomacy: 90, politics: 86}
+    orator: 0.85
+    loyalty_base: 50
+    ambition: 88
+    integrity: 70
+    ideal_point: {territory: -80, security: -20, economy: 20, religion: 10, foreign: -40}
+    axis_salience: {territory: 1.7, security: 1.3, economy: 0.8, religion: 0.7, foreign: 0.5}
+    health: 75.0
+    character_stress: 30.0
+    relation: -20.0
+    sen_score: 90.0
+    traits: [bold_gambler, peacemaker]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "埃及总统，1977年11月以惊世骇俗的勇气飞赴耶路撒冷在以色列议会发表演说，开启中东和平破冰之旅。"
+
+  - id: carter
+    name_zh: "吉米·卡特"
+    name_en: "Jimmy Carter"
+    birth_year: 1924
+    death_year: 2024
+    entry_year: 1977
+    country: usa
+    role_category: foreign_leader
+    party_id: null
+    faction_id: null
+    group: foreign
+    office: "leader:usa"
+    preferred_posts: ["leader:usa"]
+    skills: {admin: 72, military: 55, diplomacy: 88, politics: 70}
+    orator: 0.78
+    loyalty_base: 60
+    ambition: 75
+    integrity: 92
+    ideal_point: {territory: -60, security: -25, economy: 30, religion: 15, foreign: -35}
+    axis_salience: {territory: 1.5, security: 1.2, economy: 0.8, religion: 0.7, foreign: 1.2}
+    health: 86.0
+    character_stress: 20.0
+    relation: 10.0
+    sen_score: 88.0
+    traits: [peacemaker, legalist]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "美国第39任总统，在戴维营连续13天闭门斡旋促成埃以和约，但对约旦河西岸定居点扩张持严厉批评态度。"
+
+  - id: reagan
+    name_zh: "罗纳德·里根"
+    name_en: "Ronald Reagan"
+    birth_year: 1911
+    death_year: 2004
+    entry_year: 1981
+    country: usa
+    role_category: foreign_leader
+    party_id: null
+    faction_id: null
+    group: foreign
+    office: null
+    preferred_posts: ["leader:usa"]
+    skills: {admin: 55, military: 75, diplomacy: 80, politics: 92}
+    orator: 0.94
+    loyalty_base: 65
+    ambition: 85
+    integrity: 76
+    ideal_point: {territory: -15, security: 55, economy: 80, religion: 25, foreign: 40}
+    axis_salience: {territory: 0.9, security: 1.6, economy: 1.4, religion: 0.7, foreign: 0.6}
+    health: 74.0
+    character_stress: 16.0
+    relation: 35.0
+    sen_score: 90.0
+    traits: [orator_master, ideologue_hawk, bold_gambler]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "美国第40任总统（1981年1月就职），将以色列视为反苏战略资产，但在1981年奥西拉克空袭与1982年轰炸贝鲁特时曾严厉施压。"
+
+  - id: hussein
+    name_zh: "侯赛因国王"
+    name_en: "King Hussein of Jordan"
+    birth_year: 1935
+    death_year: 1999
+    entry_year: 1977
+    country: jordan
+    role_category: foreign_leader
+    party_id: null
+    faction_id: null
+    group: foreign
+    office: "leader:jordan"
+    preferred_posts: ["leader:jordan"]
+    skills: {admin: 75, military: 72, diplomacy: 92, politics: 88}
+    orator: 0.80
+    loyalty_base: 65
+    ambition: 75
+    integrity: 78
+    ideal_point: {territory: -65, security: 0, economy: 20, religion: 15, foreign: -25}
+    axis_salience: {territory: 1.6, security: 1.3, economy: 0.7, religion: 0.7, foreign: 0.6}
+    health: 78.0
+    character_stress: 25.0
+    relation: -5.0
+    sen_score: 86.0
+    traits: [pragmatist, schemer, peacemaker]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "约旦哈希姆王国国王，长期与以色列高层保持秘密会晤，是工党'约旦选项'与1987年伦敦秘密协议的核心对象。"
+
+  - id: arafat
+    name_zh: "亚西尔·阿拉法特"
+    name_en: "Yasser Arafat"
+    birth_year: 1929
+    death_year: 2004
+    entry_year: 1977
+    country: palestine
+    role_category: palestinian_leader
+    party_id: null
+    faction_id: null
+    group: foreign
+    office: "leader:plo"
+    preferred_posts: ["leader:plo"]
+    skills: {admin: 55, military: 75, diplomacy: 82, politics: 92}
+    orator: 0.82
+    loyalty_base: 40
+    ambition: 95
+    integrity: 45
+    ideal_point: {territory: -100, security: 75, economy: -20, religion: 10, foreign: 60}
+    axis_salience: {territory: 1.8, security: 1.6, economy: 0.5, religion: 0.7, foreign: 0.5}
+    health: 80.0
+    character_stress: 28.0
+    relation: -90.0
+    sen_score: 92.0
+    traits: [bold_gambler, schemer, underground_veteran]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "巴勒斯坦解放组织（PLO）执委会主席，1970年代末将总部设于贝鲁特并在南黎巴嫩建立'法塔赫兰'武装根据地。"
+
+  - id: bashir_gemayel
+    name_zh: "巴希尔·杰马耶勒"
+    name_en: "Bashir Gemayel"
+    birth_year: 1947
+    death_year: 1982
+    entry_year: 1977
+    country: lebanon
+    role_category: foreign_leader
+    party_id: null
+    faction_id: null
+    group: foreign
+    office: "leader:phalange"
+    preferred_posts: ["leader:phalange", "leader:lebanon"]
+    skills: {admin: 62, military: 82, diplomacy: 68, politics: 85}
+    orator: 0.84
+    loyalty_base: 45
+    ambition: 94
+    integrity: 50
+    ideal_point: {territory: 20, security: 80, economy: 30, religion: 20, foreign: 35}
+    axis_salience: {territory: 1.1, security: 1.6, economy: 0.7, religion: 1.2, foreign: 0.6}
+    health: 88.0
+    character_stress: 26.0
+    relation: 30.0
+    sen_score: 76.0
+    traits: [bold_gambler, war_hero, maverick]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "黎巴嫩基督教长枪党民兵统帅，沙龙'黎巴嫩大棋局'寄予厚望的盟友，1982年8月当选黎巴嫩总统后于9月14日遇刺身亡。"
+
+  - id: shaka
+    name_zh: "巴萨姆·沙克阿"
+    name_en: "Bassam Shakaa"
+    birth_year: 1930
+    death_year: 2019
+    entry_year: 1977
+    country: palestine
+    role_category: palestinian_leader
+    party_id: null
+    faction_id: null
+    group: foreign
+    office: "mayor:nablus"
+    preferred_posts: ["mayor:nablus"]
+    skills: {admin: 68, military: 35, diplomacy: 70, politics: 80}
+    orator: 0.76
+    loyalty_base: 50
+    ambition: 72
+    integrity: 82
+    ideal_point: {territory: -90, security: 40, economy: -30, religion: 0, foreign: 40}
+    axis_salience: {territory: 1.7, security: 1.3, economy: 0.7, religion: 0.5, foreign: 0.8}
+    health: 76.0
+    character_stress: 22.0
+    relation: -55.0
+    sen_score: 68.0
+    traits: [populist_tribune, stoic]
+    is_living_person: false
+    playable_as_pm: false
+    bio_zh: "纳布卢斯民族主义市长、西岸民族指导委员会核心人物，1980年6月在犹太地下组织汽车炸弹袭击中失去双腿。"
+
+  - id: mengistu
+    name_zh: "门格斯图·海尔·马里亚姆"
+    name_en: "Mengistu Haile Mariam"
+    birth_year: 1937
+    death_year: null
+    entry_year: 1977
+    country: ethiopia
+    role_category: foreign_leader
+    party_id: null
+    faction_id: null
+    group: foreign
+    office: "leader:ethiopia"
+    preferred_posts: ["leader:ethiopia"]
+    skills: {admin: 50, military: 78, diplomacy: 45, politics: 80}
+    orator: 0.70
+    loyalty_base: 40
+    ambition: 90
+    integrity: 35
+    ideal_point: {territory: 0, security: 85, economy: -90, religion: -60, foreign: 80}
+    axis_salience: {territory: 0.8, security: 1.6, economy: 1.4, religion: 0.8, foreign: 0.8}
+    health: 84.0
+    character_stress: 25.0
+    relation: -15.0
+    sen_score: 80.0
+    traits: [iron_fist, schemer]
+    is_living_person: true
+    fictional_alias_zh: "海尔·德斯塔将军"
+    fictional_alias_en: "General Haile Desta"
+    playable_as_pm: false
+    bio_zh: "埃塞俄比亚德尔格军政府领导人，贝京政府曾秘密向其提供军火备件以换取埃塞俄比亚犹太人（贝塔以色列）离境许可。"

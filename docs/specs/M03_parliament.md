@@ -1435,7 +1435,7 @@ F_ask[p] = max(−30, −4 × Σ_{含 ask[p] 的政策} |m05_policy_index(policy
 #### 4.19.6 `m03_split_party {}`（参数为空：总理退党另组新党，M05 `found_new_party`）
 
 ```
-old = 玩家当前政党；new = 时代 ≥ 2005 时 kadima，否则 pm_new_party（附录B-1）
+old = 玩家当前政党；new = 时代 ≥ 2005 时 kadima，否则 new_party_a（兼容别名 pm_new_party，D-054）
 frac_b     = clamp(0.25 + 0.005 × (bloc_support[b] − 40), 0.10, 0.60)       # 对 old 在各集团的 base
 seat_move  = floor(seats_old × clamp(0.20 + 0.003 × max_a stance_deviation[a], 0.20, 0.50) + 0.5)
 new.pos    = 当前 gpos；new.sal = old.sal；new 角色 = pm；old 角色 = opp；ally_satisfaction[old] = 10

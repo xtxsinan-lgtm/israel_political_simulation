@@ -1,0 +1,240 @@
+version: 1
+knesset_seats:
+  likud: 45
+  labor: 32
+  dash: 15
+  nrp: 12
+  rakah_hadash: 5
+  agudat: 4
+  sheli: 2
+  flatto_sharon: 1
+  poalei_agudat: 1
+  ilp: 1
+  ratz: 1
+  arab_lists: 1
+  independents: 0
+factions:
+  liberals:
+    host: likud
+    seats: 15
+  mapam:
+    host: labor
+    seats: 4
+government:
+  pm_party: likud
+  members:
+  - agudat
+  - likud
+  - nrp
+  support: []
+  indep_in_coalition: 0
+  sworn_day: 0
+  caretaker: false
+  unity: null
+portfolios:
+  likud:
+  - defense
+  - agriculture
+  - industry_trade
+  - health
+  - absorption
+  - communications
+  - police
+  - science
+  liberals:
+  - finance
+  - housing
+  - energy
+  - tourism
+  nrp:
+  - interior
+  - education
+  - religious_affairs
+  independents: []
+  agudat: []
+clauses_active:
+- clause: status_quo_protect
+  sign_day: 0
+  sign_value: 10
+  parties:
+  - agudat
+  - nrp
+- clause: settlement_freedom
+  sign_day: 0
+  sign_value: 40
+  parties:
+  - nrp
+- clause: econ_liberalization
+  sign_day: 0
+  sign_value: -45
+  parties:
+  - liberals
+ally_satisfaction:
+  nrp: 65
+  agudat: 60
+  liberals: 60
+  dash: 45
+  labor: 15
+  mapam: 10
+  flatto_sharon: 50
+  poalei_agudat: 45
+  ilp: 30
+  ratz: 15
+  sheli: 8
+  rakah_hadash: 5
+  arab_lists: 20
+  likud: 50
+calendar:
+  last_election_day: -34
+  statutory_day: 1597
+  scheduled_day: 1597
+  early: false
+  dissolution_day: -1
+term_count: 1
+govt_fatigue: 0
+voter_cynicism: 20
+exp_drift:
+  labor_ashkenazi: 0
+  mizrahi: 0
+  kibbutz_moshav: 0
+  religious_zionist: 0
+  haredi: 0
+  arab_citizens: 0
+  liberal_middle: 0
+blocs:
+  electorate: 2236293
+  russian_voters: 0
+  weights:
+    labor_ashkenazi: 0.2
+    mizrahi: 0.3
+    kibbutz_moshav: 0.05
+    religious_zionist: 0.09
+    haredi: 0.05
+    arab_citizens: 0.1
+    liberal_middle: 0.21
+anchor:
+  roles:
+    likud: pm
+    nrp: partner
+    agudat: partner
+  svote:
+    labor_ashkenazi: 30.1
+    mizrahi: 50.65
+    kibbutz_moshav: 22.5
+    religious_zionist: 56.9
+    haredi: 47.2
+    arab_citizens: 20.55
+    liberal_middle: 36.222
+  s_raw:
+    labor_ashkenazi: 30
+    mizrahi: 52
+    kibbutz_moshav: 15
+    religious_zionist: 60
+    haredi: 45
+    arab_citizens: 15
+    liberal_middle: 38
+  pm_mult: 1.0
+  prox: computed_at_load
+  base:
+    arab_citizens:
+      likud: 6.1
+      labor: 28.0
+      dash: 1.0
+      nrp: 0.9
+      rakah_hadash: 42.8
+      agudat: 0.0
+      flatto_sharon: 0.0
+      sheli: 2.7
+      arab_lists: 14.0
+      poalei_agudat: 0.0
+      ilp: 0.0
+      ratz: 0.0
+      other_lists: 4.5
+    haredi:
+      likud: 7.1
+      labor: 0.0
+      dash: 0.0
+      nrp: 7.6
+      rakah_hadash: 0.0
+      agudat: 59.4
+      flatto_sharon: 0.0
+      sheli: 0.0
+      arab_lists: 0.0
+      poalei_agudat: 20.6
+      ilp: 0.0
+      ratz: 0.0
+      other_lists: 5.3
+    kibbutz_moshav:
+      likud: 9.3
+      labor: 67.2
+      dash: 9.6
+      nrp: 3.3
+      rakah_hadash: 0.0
+      agudat: 0.0
+      flatto_sharon: 0.0
+      sheli: 5.1
+      arab_lists: 0.0
+      poalei_agudat: 0.0
+      ilp: 1.1
+      ratz: 1.8
+      other_lists: 2.6
+    labor_ashkenazi:
+      likud: 20.6
+      labor: 47.0
+      dash: 17.1
+      nrp: 2.5
+      rakah_hadash: 0.4
+      agudat: 0.0
+      flatto_sharon: 1.6
+      sheli: 2.5
+      arab_lists: 0.0
+      poalei_agudat: 0.0
+      ilp: 2.6
+      ratz: 2.7
+      other_lists: 3.0
+    liberal_middle:
+      likud: 43.3
+      labor: 17.0
+      dash: 27.5
+      nrp: 1.6
+      rakah_hadash: 0.4
+      agudat: 0.0
+      flatto_sharon: 2.1
+      sheli: 1.8
+      arab_lists: 0.0
+      poalei_agudat: 0.0
+      ilp: 2.5
+      ratz: 2.2
+      other_lists: 1.6
+    mizrahi:
+      likud: 60.6
+      labor: 16.9
+      dash: 5.5
+      nrp: 7.1
+      rakah_hadash: 0.4
+      agudat: 1.2
+      flatto_sharon: 4.1
+      sheli: 0.6
+      arab_lists: 0.0
+      poalei_agudat: 0.7
+      ilp: 0.3
+      ratz: 0.3
+      other_lists: 2.3
+    religious_zionist:
+      likud: 28.2
+      labor: 4.4
+      dash: 2.1
+      nrp: 62.5
+      rakah_hadash: 0.0
+      agudat: 0.7
+      flatto_sharon: 0.0
+      sheli: 0.0
+      arab_lists: 0.0
+      poalei_agudat: 1.1
+      ilp: 0.0
+      ratz: 0.0
+      other_lists: 1.0
+poll:
+  bias: {}
+  raw_hist: 3 copies of true share at load
+seat_expectation_bonus: {}

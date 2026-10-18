@@ -1,0 +1,1163 @@
+schema_version: 1
+scenario_id: begin_1977
+start_date: '1977-06-20'
+params:
+  political_capital: 40.0
+  party_standing: 70.0
+  coalition_seats: 61
+  centralization: 5.0
+  vision_progress: 0.0
+  historical_rating: 0.0
+  cynicism: 20.0
+  voter_cynicism: 20.0
+  party_cohesion: 72.0
+  challenger_strength: 0.0
+  ally_satisfaction:
+    nrp: 65.0
+    agudat: 60.0
+    liberals: 60.0
+    dash: 45.0
+    labor: 15.0
+    mapam: 10.0
+    flatto_sharon: 50.0
+    poalei_agudat: 45.0
+    ilp: 30.0
+    ratz: 15.0
+    sheli: 8.0
+    rakah_hadash: 5.0
+    arab_lists: 20.0
+    likud: 50.0
+  bloc_support:
+    labor_ashkenazi: 30.0
+    mizrahi: 52.0
+    kibbutz_moshav: 15.0
+    religious_zionist: 60.0
+    haredi: 45.0
+    arab_citizens: 15.0
+    liberal_middle: 38.0
+    russian: 40.0
+  promise_progress:
+    settle_eretz_israel: 0.0
+    economic_liberalization: 0.0
+    social_justice: 0.0
+    peace_and_security: 0.0
+  stance_deviation:
+    territory: 0.0
+    security: 0.0
+    economy: 0.0
+    religion: 0.0
+    foreign: 0.0
+  faction_mood:
+    herut_core: 64.0
+    herut_hawks: 50.0
+    liberal_wing: 52.0
+    laam: 56.0
+  faction_weight:
+    herut_core: 38.0
+    herut_hawks: 12.0
+    liberal_wing: 32.0
+    laam: 18.0
+  promise_credit:
+    labor_ashkenazi: 0.0
+    mizrahi: 0.0
+    kibbutz_moshav: 0.0
+    religious_zionist: 0.0
+    haredi: 0.0
+    arab_citizens: 0.0
+    russian: 0.0
+    liberal_middle: 0.0
+  budget_balance: -2.0
+  public_debt: 120.0
+  fx_reserves: 35.0
+  inflation: 35.0
+  growth: 1.5
+  unemployment: 3.9
+  economic_model: -45.0
+  inequality: 38.0
+  union_strength: 70.0
+  strike_risk: 24.5
+  absorption_capacity: 55.0
+  immigration_inflow: 21000
+  budget_slider:
+    defense: 65.0
+    absorption: 45.0
+    religion: 40.0
+    dev_towns: 40.0
+    education: 50.0
+    welfare: 55.0
+    infrastructure: 50.0
+    settlements: 35.0
+  readiness: 72.0
+  mobilization: 10.0
+  deterrence: 68.0
+  public_security: 62.0
+  complacency: 20.0
+  nuclear_progress: 78.0
+  nuclear_exposure_risk: 42.0
+  state_integration: 100.0
+  religious_status_quo: 10.0
+  draft_exemption: 8.0
+  haredi_cohort: 1.6
+  exemption_coverage: 50.0
+  outpost_enforcement: 50.0
+  settler_momentum: 45.0
+  rule_of_law: 66.0
+  judicial_conflict: 10.0
+  alienation:
+    mizrahi: 38.0
+    ethiopian: 30.0
+    russian: 35.0
+  historical_grievance:
+    mizrahi: 55.0
+    ethiopian: 10.0
+    russian: 0.0
+  appointment_gap:
+    mizrahi: 45.0
+    ethiopian: 100.0
+    russian: 100.0
+  civic_identification:
+    arab: 38.0
+    druze: 72.0
+    bedouin: 50.0
+  land_grievance:
+    arab: 55.0
+    druze: 15.0
+    bedouin: 40.0
+  military_government:
+    arab: 0.0
+    druze: 0.0
+    bedouin: 0.0
+  strategic_dependence: 52.0
+  intl_legitimacy: 45.0
+  us_admin_relation: 58.0
+  us_congress_relation: 65.0
+  power_relation:
+    usa: 58.0
+    ussr: 15.0
+    france: 45.0
+    uk: 52.0
+    west_germany: 65.0
+    diaspora: 72.0
+  arms_reliability:
+    usa: 78.0
+    ussr: 0.0
+    france: 42.0
+    uk: 50.0
+    west_germany: 60.0
+    diaspora: 72.0
+  regime_hostility:
+    egypt: 58.0
+    jordan: 55.0
+    syria: 85.0
+    lebanon: 60.0
+    iraq: 90.0
+    saudi: 80.0
+  popular_hostility:
+    egypt: 68.0
+    jordan: 72.0
+    syria: 84.0
+    lebanon: 58.0
+    iraq: 85.0
+    saudi: 78.0
+  regime_stability:
+    egypt: 52.0
+    jordan: 64.0
+    syria: 68.0
+    lebanon: 25.0
+    iraq: 72.0
+    saudi: 80.0
+  country_war_readiness:
+    egypt: 62.0
+    jordan: 48.0
+    syria: 76.0
+    lebanon: 20.0
+    iraq: 70.0
+    saudi: 45.0
+    iran: 65.0
+  peace_treaty_state:
+    egypt: 1
+    jordan: 1
+    syria: 1
+    lebanon: 1
+    iraq: 0
+    saudi: 0
+    iran: 2
+    usa: 3
+    uk: 3
+    france: 3
+    west_germany: 3
+  enemy_nuclear_progress:
+    iraq: 35.0
+    iran: 5.0
+    egypt: 0.0
+    syria: 0.0
+    saudi: 0.0
+    jordan: 0.0
+    lebanon: 0.0
+  pal_hostility: 55.0
+  pal_living_standard: 45.0
+  uprising_risk: 35.0
+  autonomy_progress: 0.0
+  islamic_assoc_strength: 12.0
+  faction_strength:
+    fatah: 58.0
+    pflp: 34.0
+    jordan_notables: 42.0
+    local_mayors: 38.0
+    village_leagues: 0.0
+    mujama: 12.0
+    hamas: 0.0
+    pij: 0.0
+    pa_security: 0.0
+  faction_legitimacy:
+    fatah: 42.0
+    pflp: 28.0
+    jordan_notables: 40.0
+    local_mayors: 48.0
+    village_leagues: 0.0
+    mujama: 10.0
+    hamas: 0.0
+    pij: 0.0
+    pa_security: 0.0
+  trilemma: 63.2715
+  trilemma_jewish: 73.3825
+  trilemma_democratic: 56.663
+  trilemma_territory: 85.8
+  region_security:
+    galilee: 58.0
+    haifa: 72.0
+    tel_aviv: 72.0
+    triangle: 66.0
+    jerusalem: 58.0
+    negev: 67.0
+    west_bank: 55.0
+    gaza: 52.0
+    golan: 68.0
+    sinai: 65.0
+    south_lebanon: 45.0
+  region_development:
+    galilee: 38.0
+    haifa: 55.0
+    tel_aviv: 75.0
+    triangle: 30.0
+    jerusalem: 48.0
+    negev: 32.0
+    west_bank: 28.0
+    gaza: 18.0
+    golan: 35.0
+    sinai: 25.0
+    south_lebanon: 20.0
+  region_land_policy:
+    galilee: 35.0
+    haifa: 20.0
+    tel_aviv: 20.0
+    triangle: 30.0
+    jerusalem: 35.0
+    negev: 35.0
+    west_bank: 30.0
+    gaza: 30.0
+    golan: 25.0
+    sinai: 20.0
+    south_lebanon: 0.0
+  settlement_policy:
+    west_bank: 40.0
+    gaza: 30.0
+    golan: 40.0
+    sinai: 30.0
+    jerusalem: 50.0
+    south_lebanon: 0.0
+parliament:
+  version: 1
+  knesset_seats:
+    likud: 45
+    labor: 32
+    dash: 15
+    nrp: 12
+    rakah_hadash: 5
+    agudat: 4
+    sheli: 2
+    flatto_sharon: 1
+    poalei_agudat: 1
+    ilp: 1
+    ratz: 1
+    arab_lists: 1
+    independents: 0
+  factions:
+    liberals:
+      host: likud
+      seats: 15
+    mapam:
+      host: labor
+      seats: 4
+  government:
+    pm_party: likud
+    members:
+    - agudat
+    - likud
+    - nrp
+    support: []
+    indep_in_coalition: 0
+    sworn_day: 0
+    caretaker: false
+    unity: null
+  portfolios:
+    likud:
+    - defense
+    - agriculture
+    - industry_trade
+    - health
+    - absorption
+    - communications
+    - police
+    - science
+    liberals:
+    - finance
+    - housing
+    - energy
+    - tourism
+    nrp:
+    - interior
+    - education
+    - religious_affairs
+    independents: []
+    agudat: []
+  clauses_active:
+  - clause: status_quo_protect
+    sign_day: 0
+    sign_value: 10
+    parties:
+    - agudat
+    - nrp
+  - clause: settlement_freedom
+    sign_day: 0
+    sign_value: 40
+    parties:
+    - nrp
+  - clause: econ_liberalization
+    sign_day: 0
+    sign_value: -45
+    parties:
+    - liberals
+  ally_satisfaction:
+    nrp: 65
+    agudat: 60
+    liberals: 60
+    dash: 45
+    labor: 15
+    mapam: 10
+    flatto_sharon: 50
+    poalei_agudat: 45
+    ilp: 30
+    ratz: 15
+    sheli: 8
+    rakah_hadash: 5
+    arab_lists: 20
+    likud: 50
+  calendar:
+    last_election_day: -34
+    statutory_day: 1597
+    scheduled_day: 1597
+    early: false
+    dissolution_day: -1
+  term_count: 1
+  govt_fatigue: 0
+  voter_cynicism: 20
+  exp_drift:
+    labor_ashkenazi: 0
+    mizrahi: 0
+    kibbutz_moshav: 0
+    religious_zionist: 0
+    haredi: 0
+    arab_citizens: 0
+    liberal_middle: 0
+  blocs:
+    electorate: 2236293
+    russian_voters: 0
+    weights:
+      labor_ashkenazi: 0.2
+      mizrahi: 0.3
+      kibbutz_moshav: 0.05
+      religious_zionist: 0.09
+      haredi: 0.05
+      arab_citizens: 0.1
+      liberal_middle: 0.21
+  anchor:
+    roles:
+      likud: pm
+      nrp: partner
+      agudat: partner
+    svote:
+      labor_ashkenazi: 30.1
+      mizrahi: 50.65
+      kibbutz_moshav: 22.5
+      religious_zionist: 56.9
+      haredi: 47.2
+      arab_citizens: 20.55
+      liberal_middle: 36.222
+    s_raw:
+      labor_ashkenazi: 30
+      mizrahi: 52
+      kibbutz_moshav: 15
+      religious_zionist: 60
+      haredi: 45
+      arab_citizens: 15
+      liberal_middle: 38
+    pm_mult: 1.0
+    prox: computed_at_load
+    base:
+      arab_citizens:
+        likud: 6.1
+        labor: 28.0
+        dash: 1.0
+        nrp: 0.9
+        rakah_hadash: 42.8
+        agudat: 0.0
+        flatto_sharon: 0.0
+        sheli: 2.7
+        arab_lists: 14.0
+        poalei_agudat: 0.0
+        ilp: 0.0
+        ratz: 0.0
+        other_lists: 4.5
+      haredi:
+        likud: 7.1
+        labor: 0.0
+        dash: 0.0
+        nrp: 7.6
+        rakah_hadash: 0.0
+        agudat: 59.4
+        flatto_sharon: 0.0
+        sheli: 0.0
+        arab_lists: 0.0
+        poalei_agudat: 20.6
+        ilp: 0.0
+        ratz: 0.0
+        other_lists: 5.3
+      kibbutz_moshav:
+        likud: 9.3
+        labor: 67.2
+        dash: 9.6
+        nrp: 3.3
+        rakah_hadash: 0.0
+        agudat: 0.0
+        flatto_sharon: 0.0
+        sheli: 5.1
+        arab_lists: 0.0
+        poalei_agudat: 0.0
+        ilp: 1.1
+        ratz: 1.8
+        other_lists: 2.6
+      labor_ashkenazi:
+        likud: 20.6
+        labor: 47.0
+        dash: 17.1
+        nrp: 2.5
+        rakah_hadash: 0.4
+        agudat: 0.0
+        flatto_sharon: 1.6
+        sheli: 2.5
+        arab_lists: 0.0
+        poalei_agudat: 0.0
+        ilp: 2.6
+        ratz: 2.7
+        other_lists: 3.0
+      liberal_middle:
+        likud: 43.3
+        labor: 17.0
+        dash: 27.5
+        nrp: 1.6
+        rakah_hadash: 0.4
+        agudat: 0.0
+        flatto_sharon: 2.1
+        sheli: 1.8
+        arab_lists: 0.0
+        poalei_agudat: 0.0
+        ilp: 2.5
+        ratz: 2.2
+        other_lists: 1.6
+      mizrahi:
+        likud: 60.6
+        labor: 16.9
+        dash: 5.5
+        nrp: 7.1
+        rakah_hadash: 0.4
+        agudat: 1.2
+        flatto_sharon: 4.1
+        sheli: 0.6
+        arab_lists: 0.0
+        poalei_agudat: 0.7
+        ilp: 0.3
+        ratz: 0.3
+        other_lists: 2.3
+      religious_zionist:
+        likud: 28.2
+        labor: 4.4
+        dash: 2.1
+        nrp: 62.5
+        rakah_hadash: 0.0
+        agudat: 0.7
+        flatto_sharon: 0.0
+        sheli: 0.0
+        arab_lists: 0.0
+        poalei_agudat: 1.1
+        ilp: 0.0
+        ratz: 0.0
+        other_lists: 1.0
+  poll:
+    bias: {}
+    raw_hist: 3 copies of true share at load
+  seat_expectation_bonus: {}
+corridors:
+  schema_version: 1
+  axes:
+  - territory
+  - security
+  - economy
+  - religion
+  - foreign
+  parties:
+    likud:
+      factions:
+      - herut_core
+      - herut_hawks
+      - liberal_wing
+      - laam
+      selection_method:
+      - from_year: 1973
+        to_year: 1992
+        method: central_committee
+      - from_year: 1993
+        to_year: 2100
+        method: primary
+      deviation_side:
+        territory: -1
+        security: -1
+        economy: -1
+        religion: -1
+        foreign: -1
+      core_blocs:
+        mizrahi: 0.5
+        religious_zionist: 0.2
+        liberal_middle: 0.3
+    labor:
+      factions:
+      - labor_peres
+      - labor_rabin
+      - ahdut_haavoda
+      - labor_doves
+      selection_method:
+      - from_year: 1968
+        to_year: 1991
+        method: central_committee
+      - from_year: 1992
+        to_year: 2100
+        method: primary
+      deviation_side:
+        territory: 1
+        security: 1
+        economy: 1
+        religion: 1
+        foreign: 1
+      core_blocs:
+        labor_ashkenazi: 0.5
+        kibbutz_moshav: 0.2
+        liberal_middle: 0.3
+  factions:
+    herut_core:
+      party: likud
+      name_zh: 赫鲁特主流（贝京派）
+      leader_role: begin
+      rigid: false
+      exit_target: new_party_a
+      weight: 38
+      home:
+        territory:
+        - 0
+        - 100
+        - 50
+        - 1.2
+        security:
+        - -20
+        - 70
+        - 20
+        - 1.0
+        economy:
+        - -60
+        - 40
+        - -10
+        - 0.5
+        religion:
+        - -30
+        - 40
+        - 5
+        - 0.6
+        foreign:
+        - -25
+        - 40
+        - 10
+        - 0.8
+    herut_hawks:
+      party: likud
+      name_zh: 以色列地派（赫鲁特强硬派）
+      leader_role: geula_cohen
+      rigid: true
+      exit_target: tehiya
+      weight: 12
+      home:
+        territory:
+        - 30
+        - 100
+        - 75
+        - 1.8
+        security:
+        - 0
+        - 100
+        - 40
+        - 1.2
+        economy:
+        - -70
+        - 40
+        - -20
+        - 0.3
+        religion:
+        - -20
+        - 50
+        - 10
+        - 0.5
+        foreign:
+        - -10
+        - 100
+        - 25
+        - 1.0
+    liberal_wing:
+      party: likud
+      name_zh: 自由党
+      leader_role: ehrlich
+      rigid: false
+      exit_target: liberals
+      weight: 32
+      home:
+        territory:
+        - -40
+        - 80
+        - 20
+        - 0.7
+        security:
+        - -35
+        - 50
+        - 10
+        - 0.7
+        economy:
+        - -20
+        - 100
+        - 40
+        - 1.5
+        religion:
+        - -60
+        - 5
+        - -25
+        - 0.8
+        foreign:
+        - -40
+        - 25
+        - -10
+        - 0.9
+    laam:
+      party: likud
+      name_zh: 拉姆派（国家名单与自由中心）
+      leader_role: hurvitz
+      rigid: false
+      exit_target: new_party_b
+      weight: 18
+      home:
+        territory:
+        - -15
+        - 90
+        - 35
+        - 0.9
+        security:
+        - -25
+        - 60
+        - 15
+        - 0.9
+        economy:
+        - -45
+        - 70
+        - 10
+        - 1.0
+        religion:
+        - -50
+        - 20
+        - -15
+        - 0.5
+        foreign:
+        - -35
+        - 35
+        - 0
+        - 0.6
+    labor_peres:
+      party: labor
+      name_zh: 佩雷斯派
+      leader_role: peres
+      rigid: false
+      exit_target: new_party_a
+      weight: 40
+      home:
+        territory:
+        - -70
+        - 10
+        - -30
+        - 1.0
+        security:
+        - -30
+        - 50
+        - 10
+        - 0.8
+        economy:
+        - -80
+        - 0
+        - -40
+        - 0.8
+        religion:
+        - -50
+        - 10
+        - -20
+        - 0.6
+        foreign:
+        - -40
+        - 20
+        - -15
+        - 0.8
+    labor_rabin:
+      party: labor
+      name_zh: 拉宾派
+      leader_role: rabin
+      rigid: false
+      exit_target: new_party_b
+      weight: 30
+      home:
+        territory:
+        - -65
+        - 15
+        - -25
+        - 1.0
+        security:
+        - -15
+        - 60
+        - 20
+        - 1.1
+        economy:
+        - -80
+        - -10
+        - -45
+        - 0.8
+        religion:
+        - -50
+        - 5
+        - -25
+        - 0.5
+        foreign:
+        - -40
+        - 20
+        - -15
+        - 0.8
+    ahdut_haavoda:
+      party: labor
+      name_zh: 团结劳工派（阿隆派）
+      leader_role: ahdut_haavoda_leader
+      rigid: false
+      exit_target: new_party_c
+      weight: 15
+      home:
+        territory:
+        - -50
+        - 25
+        - -10
+        - 1.1
+        security:
+        - -10
+        - 65
+        - 25
+        - 1.0
+        economy:
+        - -95
+        - -30
+        - -65
+        - 1.0
+        religion:
+        - -50
+        - 5
+        - -25
+        - 0.4
+        foreign:
+        - -30
+        - 25
+        - -5
+        - 0.6
+    labor_doves:
+      party: labor
+      name_zh: 鸽派青年一代
+      leader_role: labor_doves_leader
+      rigid: true
+      exit_target: new_party_c
+      weight: 15
+      home:
+        territory:
+        - -100
+        - -35
+        - -70
+        - 1.4
+        security:
+        - -60
+        - 20
+        - -25
+        - 1.0
+        economy:
+        - -70
+        - 10
+        - -30
+        - 0.6
+        religion:
+        - -66
+        - -10
+        - -40
+        - 0.8
+        foreign:
+        - -44
+        - 5
+        - -25
+        - 0.8
+  other_parties:
+    nrp:
+      center:
+        territory: 55
+        security: 25
+        economy: -20
+        religion: 40
+        foreign: 15
+      salience:
+        territory: 1.0
+        security: 1.0
+        economy: 1.0
+        religion: 1.8
+        foreign: 1.0
+    agudat:
+      center:
+        territory: 5
+        security: 0
+        economy: -20
+        religion: 60
+        foreign: 0
+      salience:
+        territory: 0.6
+        security: 1.0
+        economy: 1.0
+        religion: 1.8
+        foreign: 1.0
+    tehiya:
+      center:
+        territory: 85
+        security: 55
+        economy: -15
+        religion: 10
+        foreign: 35
+      salience:
+        territory: 1.0
+        security: 1.0
+        economy: 1.0
+        religion: 1.0
+        foreign: 1.0
+    dash:
+      center:
+        territory: -25
+        security: 5
+        economy: 15
+        religion: -30
+        foreign: -15
+      salience:
+        territory: 1.0
+        security: 1.0
+        economy: 1.0
+        religion: 1.0
+        foreign: 1.0
+    shinui:
+      center:
+        territory: -25
+        security: 5
+        economy: 35
+        religion: -45
+        foreign: -15
+      salience:
+        territory: 1.0
+        security: 1.0
+        economy: 1.0
+        religion: 1.0
+        foreign: 1.0
+    mapam:
+      center:
+        territory: -65
+        security: -25
+        economy: -80
+        religion: -50
+        foreign: -30
+      salience:
+        territory: 1.0
+        security: 1.0
+        economy: 1.0
+        religion: 1.0
+        foreign: 1.0
+    shas:
+      center:
+        territory: 0
+        security: 5
+        economy: -35
+        religion: 55
+        foreign: 0
+      salience:
+        territory: 0.6
+        security: 1.0
+        economy: 1.0
+        religion: 1.8
+        foreign: 1.0
+party_state:
+  player_party: likud
+  faction_mood_init:
+    herut_core: 64
+    herut_hawks: 50
+    liberal_wing: 52
+    laam: 56
+  party_standing_init: 70
+  cynicism_init: 25
+  promise_credit_init:
+    labor_ashkenazi: 0
+    mizrahi: 0
+    kibbutz_moshav: 0
+    religious_zionist: 0
+    haredi: 0
+    arab_citizens: 0
+    russian: 0
+    liberal_middle: 0
+  opening_modifiers:
+  - id: mahapach_mandate
+    scope_key: ''
+  vision: begin_peace_in_eretz_israel
+promises:
+- key: settle_eretz_israel
+  name_zh: 定居以色列地
+  category: territory
+  kind: accumulate
+  metric: max(0, settlement_policy[west_bank] - 50) / 25
+  hard_fail: flag("west_bank_returned")
+  blocs:
+    religious_zionist: 0.7
+    mizrahi: 0.3
+  boldness: 2
+  party_aligned: true
+  deadline: '1981-10-31'
+  stance_hint:
+    axis: territory
+    value: 60
+- key: economic_liberalization
+  name_zh: 经济自由化
+  category: economy
+  kind: level
+  metric: clamp((economic_model - $start(economic_model)) * 2, 0, 100)
+  blocs:
+    liberal_middle: 0.8
+    mizrahi: 0.2
+  boldness: 2
+  party_aligned: true
+  deadline: '1981-10-31'
+  stance_hint:
+    axis: economy
+    value: 40
+- key: social_justice
+  name_zh: 社会公正（“第二以色列”）
+  category: social
+  kind: level
+  metric: clamp(($start(alienation[mizrahi]) - alienation[mizrahi]) * 5 + (region_development[negev]
+    - $start(region_development[negev])) * 3, 0, 100)
+  blocs:
+    mizrahi: 0.9
+    haredi: 0.1
+  boldness: 2
+  party_aligned: false
+  deadline: '1981-10-31'
+  stance_hint: null
+- key: peace_and_security
+  name_zh: 和平与安全（“利库德不是战争党”）
+  category: peace
+  kind: level
+  metric: clamp(($start(regime_hostility[egypt]) - regime_hostility[egypt]) * 1.2
+    + (public_security - $start(public_security)) * 1.0, 0, 100)
+  violation: at_war()
+  violation_penalty: 5
+  blocs:
+    liberal_middle: 0.4
+    mizrahi: 0.3
+    labor_ashkenazi: 0.3
+  boldness: 2
+  party_aligned: false
+  deadline: '1981-10-31'
+  stance_hint:
+    axis: territory
+    value: -10
+leader_goal_packs:
+  shamir:
+    promises:
+    - key: absorb_immigration
+      name_zh: 吸收移民
+      category: immigration
+      kind: accumulate
+      metric: immigration_inflow / 24000
+      blocs:
+        russian: 0.5
+        mizrahi: 0.2
+        religious_zionist: 0.3
+      boldness: 2
+      party_aligned: false
+      deadline_months: 48
+      stance_hint: null
+    - key: not_one_inch
+      name_zh: 不让一寸土地
+      category: territory
+      kind: maintain
+      hold: gov_axis_position[territory] >= 20
+      hard_fail: flag("west_bank_returned") or not region_exists("gaza") or not region_exists("golan")
+      blocs:
+        religious_zionist: 0.5
+        mizrahi: 0.5
+      boldness: 3
+      party_aligned: true
+      deadline_months: 48
+      stance_hint:
+        axis: territory
+        value: 50
+    vision: shamir_land_and_return
+vision:
+  id: begin_peace_in_eretz_israel
+  name_zh: 以色列地上的和平
+  leader: begin
+  achieve_rule:
+    required:
+    - m1_cairo
+    - m2_rooted
+    - m3_autonomy
+    - m4_jordan
+    guards:
+    - m6_eretz
+    - m7_law
+    optional:
+    - m5_damascus
+  achievement_ids:
+    base: begin_vision
+    full: begin_vision_full
+  milestones:
+  - id: m1_cairo
+    name_zh: 开罗之路：埃以和约
+    weight: 15
+    type: once
+    requires: []
+    cond: flag("egypt_peace_treaty_signed")
+    alt_cond_hold:
+      cond: regime_hostility[egypt] <= 20
+      hold_months: 12
+    fail: flag("sadat_missed") and regime_hostility[egypt] >= 50
+    fail_hold_months: 24
+    fail_mode: permanent
+    closeness: clamp((70 - regime_hostility[egypt]) / 50, 0, 1)
+  - id: m2_rooted
+    name_zh: 和约生根：两年无战事
+    weight: 10
+    type: hold
+    requires:
+    - m1_cairo
+    cond: regime_hostility[egypt] <= 30 and not at_war("egypt")
+    hold_months: 24
+    fail: at_war("egypt")
+    fail_mode: permanent
+    closeness: held / 24
+  - id: m3_autonomy
+    name_zh: 自治落地：巴勒斯坦自治实施一年
+    weight: 20
+    type: hold
+    requires: []
+    cond: flag("autonomy_framework_signed") and pal_hostility <= 45 and pal_living_standard
+      >= 55 and faction_legitimacy[notables] >= 35 and uprising_risk <= 40
+    hold_months: 12
+    fail: flag("first_intifada_active")
+    fail_mode: permanent
+    closeness: (clamp((65 - pal_hostility) / 20, 0, 1) + clamp((pal_living_standard
+      - 35) / 20, 0, 1) + clamp((faction_legitimacy[notables] - 15) / 20, 0, 1) +
+      clamp((60 - uprising_risk) / 20, 0, 1)) / 4 * (0.5 + 0.5 * auto_flag)
+  - id: m4_jordan
+    name_zh: 约旦河两岸：与约旦缔结和平
+    weight: 20
+    type: hold
+    requires: []
+    cond: regime_hostility[jordan] <= 20 and region_exists("west_bank")
+    hold_months: 6
+    fail: flag("west_bank_annexed") or flag("jordan_option_ended")
+    fail_mode: permanent
+    closeness: clamp((60 - regime_hostility[jordan]) / 40, 0, 1)
+  - id: m5_damascus
+    name_zh: 大马士革：与叙利亚媾和（可选）
+    weight: 15
+    type: hold
+    requires: []
+    cond: regime_hostility[syria] <= 35
+    hold_months: 12
+    fail: null
+    fail_mode: block
+    closeness: clamp((80 - regime_hostility[syria]) / 45, 0, 1)
+  - id: m6_eretz
+    name_zh: 以色列地：保住对犹太与撒马利亚的主张（守护条件）
+    weight: 15
+    type: guard
+    requires: []
+    cond: region_exists("west_bank") and gov_axis_position[territory] >= -10 and settler_momentum
+      >= 35
+    fail: flag("west_bank_returned") or not region_exists("west_bank")
+    fail_mode: permanent
+    closeness: '1'
+  - id: m7_law
+    name_zh: 法治下的和平（守护条件，「守法者」）
+    weight: 5
+    type: guard
+    requires: []
+    cond: rule_of_law >= 60 and centralization <= 20
+    fail: null
+    fail_mode: block
+    closeness: '1'
+initial_flags:
+  likud_in_power:
+    set_day: 0
+    value: 1
+    source: scenario
+  mahapach_1977:
+    set_day: 0
+    value: 1
+    source: scenario
+  bank_shares_regulation:
+    set_day: 0
+    value: 1
+    source: scenario
+  allon_plan_legacy:
+    set_day: 0
+    value: 1
+    source: scenario
+  good_fence_active:
+    set_day: 0
+    value: 1
+    source: scenario
+initial_modifiers:
+- uid: 1
+  def_id: mahapach_mandate
+  scope_key: ''
+  start_day: 0
+  end_day: 365
+- uid: 2
+  def_id: histadrut_opposition_bastion
+  scope_key: ''
+  start_day: 0
+  end_day: -1

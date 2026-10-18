@@ -1,0 +1,359 @@
+# data/actions.yaml —— 政治、内阁、经济、社会、领土、军事、占领、外交、集权、人情行动目录（阶段2A统合定稿）
+# 基于 M05 规格附录D 提取，并合入：
+#   - M04 附录B-4 党内行动增改（party_speech, promote_loyalists, coopt_challenger, call_leadership_vote, expel_rebels, renounce_promise 及 party_convention, faction_deal, found_new_party 修订）
+#   - M03 附录B-9 / D-045 postpone_election 80票修正（vote: absolute80）
+#   - M08 附录B-3 / D-073 巴勒斯坦行动效果细化（support_moderates, targeted_killing, autonomy_talks_team）
+schema_version: 1
+actions:
+
+# ───────── 政策调整（pol）─────────
+  - {id: change_policy, zh: 调整政策档位, cat: pol, args: {policy: policy, key: str, to: int},
+     note: "成本、时长、冷却、效果全部由 M05 §4.9.2 按 data/policies.yaml 计算；本条只作登记"}
+
+# ───────── 议会与政党（parl）─────────
+  - {id: coalition_invite, zh: 邀请政党入阁, cat: parl, w: major, args: {party: party},
+     arg_filter: {party: "ally_satisfaction[{party}] >= 0"}, pre: "coalition_seats <= 70",
+     cost: {pc: 15, ally_coal: -3, fav_incur: {e: "{party}", n: 2}}, dur: 30, cd: 180, vote: confidence,
+     fx: [{op: custom, target: custom, key: m03_add_to_coalition, value: {party: "{party}"}}, {op: add, target: ally_satisfaction, key: "{party}", value: 10}],
+     dom: M03, ai: [ai_pm], note: "史实 1977-10 民主变革运动（dash）入阁"}
+  - {id: concede_demand, zh: 满足盟党诉求（政策交易）, cat: parl, args: {party: party, policy: policy},
+     cost: {pc: 6, standing: -1}, dur: 7, cd: 60, fav_from: ["{party}"],
+     fx: [{op: custom, target: custom, key: m05_change_policy, value: {policy: "{policy}", toward_ask_of: "{party}", steps: 1, apply_side_effects: true, charge_costs: true}},
+          {op: custom, target: custom, key: m05_grant_favor, value: {entity: "{party}", kind: party, n: 1}}],
+     dom: M03, ai: [ai_pm]}
+  - {id: delay_demand, zh: 拖延盟党诉求（“下次组阁再谈”）, cat: parl, args: {party: party},
+     cost: {fav_incur: {e: "{party}", n: 1}}, cd: 90,
+     fx: [{op: custom, target: custom, key: m03_delay_demand, value: {party: "{party}", days: 180}}], dom: M03}
+  - {id: coalition_whip, zh: 召集联合政府党团、强调党纪, cat: parl, cost: {ally_coal: -2}, rep: true, cd: 60,
+     fx: [{op: add_modifier, modifier: confidence_linked, duration_days: 30}], dom: M03}
+  - {id: reshuffle_cabinet, zh: 内阁改组, cat: parl, w: major, cost: {pc: 20, standing: -2, ally_coal: -2}, dur: 7, cd: 365,
+     fx: [{op: custom, target: custom, key: m06_open_reshuffle, value: {}}], dom: M06, ai: [ai_pm]}
+  - {id: dismiss_minister, zh: 撤换部长, cat: parl, w: major, args: {character: character},
+     arg_filter: {character: "character_in_office({character})"}, cost: {pc: 12, standing: -1, rel: {"{character}": -40}}, cd: 90,
+     fx: [{op: custom, target: custom, key: m06_dismiss, value: {character: "{character}"}}], dom: M06, ai: [ai_pm]}
+  - {id: party_speech, zh: 党内演说, cat: parl, args: {faction: party_faction, axis: axis},
+     cost: {pc: 8}, dur: 7, rep: true, cd: 30, oratory: true,
+     fx: [{op: custom, target: custom, key: m04_shift_corridor, value: {faction: "{faction}", axis: "{axis}", amount: 3.0, use_oratory: true}}],
+     dom: M04, note: "M04 A1（B-4新增）：巡回说服本党派系向政府立场微移走廊"}
+  - {id: party_convention, zh: 召开党代会, cat: parl, args: {axis: axis}, pre: "not at_war() and party_standing >= 45 and days_to_election() > 60",
+     cost: {pc: 10, fiscal: 0.05}, dur: 30, cd: 365,
+     fx: [{op: custom, target: custom, key: m04_party_convention, value: {axis: "{axis}"}},
+          {op: custom, target: custom, key: add_all_keys, value: {target: relation, value: 2, keys: ["cabinet"]}}],
+     dom: M04, note: "M04 A2（B-4修订）：按派系权重投票调整指定立场轴走廊"}
+  - {id: push_corridor, zh: 推动党的立场走廊, cat: parl, w: major, args: {axis: axis, dir: dir}, pre: "not at_war()",
+     cost: {pc: 25, standing: -3}, dur: 90, cd: 180, oratory: true,
+     fx: [{op: custom, target: custom, key: m04_push_corridor, value: {axis: "{axis}", direction: "{dir}", amount: 8}}], dom: M04,
+     note: "设计文档 §4.3；amount 单位为走廊边界点数"}
+  - {id: faction_deal, zh: 与党内派系交易, cat: parl, args: {character: character, axis: axis, concession: str},
+     cost: {pc: 8, fav_incur: {e: "{character}", n: 1}}, cd: 120,
+     fx: [{op: add, target: party_standing, value: 4},
+          {op: add, target: relation, key: "{character}", value: 10},
+          {op: custom, target: custom, key: m04_faction_deal, value: {character: "{character}", axis: "{axis}", concession: "{concession}"}}],
+     dom: M04, ai: [ai_pm], note: "M04 A3（B-4修订）：三选一让步（部长职位/预算承诺/中委会席位权重）换取走廊临时放宽"}
+  - {id: promote_loyalists, zh: 安插亲信, cat: parl, args: {faction: party_faction}, pre: "party_standing >= 50",
+     cost: {pc: 15, par: {"faction_mood.{faction}": -6}}, cd: 180,
+     fx: [{op: add, target: faction_weight, key: "{faction}", value: -3}],
+     dom: M04, note: "M04 A4（B-4新增）：将目标派系中委会权重 −3 并转入玩家派系"}
+  - {id: coopt_challenger, zh: 收编挑战者, cat: parl, w: major, pre: "challenger_strength > 0",
+     cost: {pc: 15}, cd: 365,
+     fx: [{op: add, target: challenger_strength, value: -25},
+          {op: add_modifier, modifier: challenger_cooled, duration_days: 365}],
+     dom: M04, note: "M04 A5（B-4新增）：授予挑战者高级内阁部委以压低挑战强度"}
+  - {id: call_leadership_vote, zh: 提前党魁选举, cat: parl, w: major, pre: "party_stage() >= 1",
+     cost: {pc: 20}, cd: 365,
+     fx: [{op: custom, target: custom, key: m04_leadership_vote, value: {}}],
+     dom: M04, note: "M04 A6（B-4新增）：主动在中委会/初选摊牌决战"}
+  - {id: expel_rebels, zh: 开除反叛者, cat: parl, w: major, args: {faction: party_faction}, pre: "faction_mood[{faction}] < 30",
+     cost: {pc: 20, standing: -3}, cd: 365,
+     fx: [{op: custom, target: custom, key: m04_faction_exit, value: {faction: "{faction}", seat_factor: 0.4}}],
+     dom: M04, note: "M04 A7（B-4新增）：主动清洗反叛派系（仅带走40%派系席位而非自发出走的60%）"}
+  - {id: renounce_promise, zh: 公开放弃承诺, cat: parl, args: {promise: promise}, pre: "promise_active({promise})",
+     cost: {pc: 5}, cd: 90,
+     fx: [{op: set, target: promise_progress, key: "{promise}", value: 0}],
+     dom: M04, note: "M04 A9（B-4新增）：提前止损放弃一项执政承诺（承受75%违约信誉与犬儒惩罚）"}
+  - {id: call_early_election, zh: 提前大选, cat: parl, w: major, pre: "term_months() >= 6 and not at_war()",
+     cost: {standing: -2, ally_coal: -5}, cd: 365,
+     fx: [{op: custom, target: custom, key: m03_request_vote, value: {type: early_election}}], dom: M03, ai: [ai_pm]}
+  - {id: free_vote, zh: 允许自由投票, cat: parl, cost: {standing: -2}, cd: 90,
+     fx: [{op: add_modifier, modifier: free_vote_next, duration_days: 60}], dom: M03, note: "E-1979-03 选项A 的行动版"}
+  - {id: court_defector, zh: 策反反对党议员, cat: parl, w: major, args: {character: character}, cost: {pc: 20, rol: -1, fav_incur: {e: "{character}", n: 2}}, dur: 30, cd: 180,
+     succ: "0.40 + relation[{character}] / 400",
+     fx: [{op: change_seat, target: coalition_seats, key: likud, value: 1}],
+     fail: [{op: add, target: bloc_support, key: liberal_middle, value: -2}, {op: add, target: party_standing, value: -2}], dom: M03}
+  - {id: opposition_talks, zh: 与反对党领袖密谈, cat: parl, args: {character: character}, cost: {pc: 5, standing: -2}, rep: true, cd: 60,
+     fx: [{op: add, target: relation, key: "{character}", value: 10}], ax: {foreign: -2}}
+  - {id: found_new_party, zh: 退党另组新党, cat: parl, w: major, once: true,
+     pre: "not at_war() and (stance_deviation[territory] + stance_deviation[security] + stance_deviation[economy] + stance_deviation[religion] + stance_deviation[foreign] >= 25 or party_stage() >= 2)",
+     cost: {pc: 40, ally_coal: -10}, dur: 30,
+     fx: [{op: custom, target: custom, key: m04_found_new_party, value: {}}], dom: M04,
+     note: "M04 A8（B-4修订，D-054）：退党创立新党（写入静态槽位 new_party_a/b/c，内部联动 M03 席位与走廊重构）"}
+
+# ───────── 舆论与动员（opin）─────────
+  - {id: national_address, zh: 全国电视讲话, cat: opin, w: minor, cost: {pc: 5}, rep: true, cd: 30, oratory: true,
+     fx: [{op: custom, target: custom, key: add_all_keys, value: {target: bloc_support, value: 1.5}}], ai: [ai_pm]}
+  - {id: rally_bloc, zh: 动员选民集团（集会）, cat: opin, args: {bloc: bloc}, cost: {pc: 6, fiscal: 0.05}, rep: true, cd: 45, oratory: true,
+     fx: [{op: add, target: bloc_support, key: "{bloc}", value: 3}, {op: add, target: party_standing, value: 1}, {op: add, target: rule_of_law, value: -0.3}], ai: [ai_pm]}
+  - {id: media_campaign, zh: 媒体攻势, cat: opin, args: {bloc: bloc}, cost: {pc: 8, fiscal: 0.2}, dur: 30, rep: true, cd: 90,
+     fx: [{op: add, target: bloc_support, key: "{bloc}", value: 4}]}
+  - {id: trial_balloon, zh: 向媒体放风（试探气球）, cat: opin, w: minor, args: {policy: policy}, cost: {pc: 3}, rep: true, cd: 60,
+     fx: [{op: add_modifier, modifier: trial_balloon, key: "{policy}", duration_days: 60}, {op: add, target: party_standing, value: -1, chance: 0.3}],
+     note: "60 天内调整该政策资本 −30%"}
+  - {id: visit_dev_town, zh: 视察发展城镇, cat: opin, w: minor, args: {region: region}, arg_filter: {region: "{region} == \"negev\" or {region} == \"galilee\" or {region} == \"haifa\" or {region} == \"jerusalem\""},
+     cost: {pc: 3}, rep: true, cd: 30, oratory: true,
+     fx: [{op: add, target: bloc_support, key: mizrahi, value: 2}, {op: add, target: alienation, key: mizrahi, value: -1}], ai: [ai_pm]}
+  - {id: knesset_speech, zh: 议会大辩论演说, cat: opin, w: minor, cost: {pc: 4}, rep: true, cd: 30, oratory: true,
+     fx: [{op: add, target: party_standing, value: 2}, {op: add, target: bloc_support, key: liberal_middle, value: 1}]}
+  - {id: visit_arab_town, zh: 访问阿拉伯与德鲁兹城镇, cat: opin, w: minor, args: {group: arab_group}, cost: {pc: 4, bloc: {religious_zionist: -1}}, rep: true, cd: 60,
+     fx: [{op: add, target: civic_identification, key: "{group}", value: 2}, {op: add, target: bloc_support, key: arab_citizens, value: 2}]}
+  - {id: diaspora_tour, zh: 海外犹太社群巡访, cat: opin, cost: {pc: 5}, dur: 14, rep: true, cd: 120, oratory: true,
+     fx: [{op: add, target: power_relation, key: diaspora, value: 4}, {op: add, target: us_congress_relation, value: 2}, {op: add, target: fx_reserves, value: 1}]}
+
+# ───────── 人事（pers）─────────
+  - {id: appoint_minister, zh: 任命部长（填补空缺）, cat: pers, w: minor, args: {post: post, character: character}, pre: "true", cost: {pc: 4},
+     fx: [{op: custom, target: custom, key: m06_appoint, value: {post: "{post}", character: "{character}"}}], dom: M06, ai: [ai_pm]}
+  - {id: appoint_security_chief, zh: 任命总参谋长或情报首长, cat: pers, args: {post: post, character: character},
+     arg_filter: {post: "{post} == \"chief_of_staff\" or {post} == \"shin_bet_chief\" or {post} == \"mossad_chief\""},
+     cost: {pc: 10, rel: {"{post}": -20}}, cd: 365,
+     fx: [{op: custom, target: custom, key: m06_appoint, value: {post: "{post}", character: "{character}"}}], dom: M06}
+  - {id: appoint_mizrahi_officials, zh: 提拔米兹拉希副部长与总司长, cat: pers, w: major, cost: {pc: 8, standing: -2, ally_coal: -2}, dur: 30, cd: 365,
+     fx: [{op: custom, target: custom, key: m06_promote_group, value: {group: mizrahi, n: 3}}, {op: add, target: alienation, key: mizrahi, value: -2}, {op: add, target: bloc_support, key: mizrahi, value: 2}], dom: M06}
+  - {id: state_inquiry, zh: 设立国家调查委员会, cat: pers, w: major, args: {character: character}, cost: {pc: 10, rel: {"{character}": -15}}, dur: 120, cd: 365,
+     fx: [{op: add, target: rule_of_law, value: 3}, {op: add, target: us_congress_relation, value: 2}, {op: add_modifier, modifier: inquiry_pending, duration_days: 180}],
+     note: "被调查对象由参数指定；结论事件由 M12 事件库提供（如 E-1983-02a）"}
+  - {id: honor_rival, zh: 授予党内对手要职（安抚）, cat: pers, args: {character: character}, cost: {pc: 6, standing: -1}, cd: 180,
+     fx: [{op: custom, target: custom, key: m05_grant_favor, value: {entity: "{character}", kind: character, n: 1}}, {op: add, target: relation, key: "{character}", value: 8}], dom: M06}
+  - {id: cabinet_retreat, zh: 内阁务虚会, cat: pers, w: minor, cost: {fiscal: 0.02}, dur: 3, rep: true, cd: 120,
+     fx: [{op: custom, target: custom, key: m06_add_relation_cabinet, value: {value: 3}}]}
+
+# ───────── 经济与预算（econ）─────────
+  - {id: submit_budget, zh: 提交年度预算案, cat: econ, w: major, pre: "flag(\"budget_due\")", cost: {pc: 10, ally_coal: -2}, dur: 30, cd: 300, vote: simple,
+     fx: [{op: custom, target: custom, key: m10_pass_budget, value: {}}], dom: M10, ai: [ai_pm]}
+  - {id: emergency_cut, zh: 紧急削减开支, cat: econ, w: major, cost: {pc: 12, bloc: {mizrahi: -3, labor_ashkenazi: -2}, par: {union_strength: 2}}, dur: 14, cd: 180,
+     fx: [{op: add, target: budget_balance, value: 2}, {op: add, target: inflation, value: -2}, {op: add, target: growth, value: -0.5}], dom: M10, ai: [ai_pm, minister]}
+  - {id: devaluation, zh: 货币贬值, cat: econ, cost: {pc: 10, par: {inflation: 4}, bloc: {mizrahi: -2}}, rep: true, cd: 120,
+     fx: [{op: add, target: fx_reserves, value: 6}, {op: add, target: growth, value: 0.3}], dom: M10, ai: [minister]}
+  - {id: package_deal, zh: 与总工会签订一揽子协议, cat: econ, econ_gate: "economic_model <= -10", cost: {pc: 10, fiscal: 0.5, ally: {liberals: -4}}, dur: 30, rep: true, cd: 180,
+     fx: [{op: add, target: inflation, value: -8}, {op: add, target: union_strength, value: 3}, {op: add, target: economic_model, value: -2}], dom: M10, ai: [minister]}
+  - {id: price_controls, zh: 价格管制, cat: econ, econ_gate: "economic_model <= -10", cost: {pc: 8, ally: {liberals: -5}}, rep: true, cd: 180,
+     fx: [{op: add, target: inflation, value: -4}, {op: add, target: growth, value: -0.5}, {op: add_modifier, modifier: price_controls_mod, duration_days: 180}], dom: M10}
+  - {id: nationalize_bank_shares, zh: 政府接管银行股, cat: econ, w: major, econ_gate: "economic_model <= -10", once: true,
+     pre: "flag(\"bank_shares_regulation\")", cost: {pc: 15, fiscal: 5, ally: {liberals: -6}}, dur: 14,
+     fx: [{op: clear_flag, flag: bank_shares_regulation}, {op: custom, target: custom, key: m05_change_policy, value: {policy: bank_share_support, to: 0, apply_side_effects: false}}, {op: add, target: economic_model, value: -4}], dom: M10,
+     note: "E-1983-10 的政策路线"}
+  - {id: privatize_company, zh: 出售一家国企或总工会企业, cat: econ, econ_gate: "economic_model >= 10", cost: {pc: 8, par: {union_strength: -3}, bloc: {labor_ashkenazi: -2}}, dur: 60, rep: true, cd: 180,
+     fx: [{op: add, target: budget_balance, value: 0.8}, {op: add, target: economic_model, value: 3}], dom: M10, ai: [minister]}
+  - {id: foreign_investment_drive, zh: 外资招商路演, cat: econ, econ_gate: "economic_model >= 10", cost: {pc: 6, fiscal: 0.1}, dur: 30, rep: true, cd: 180,
+     fx: [{op: add, target: growth, value: 0.3}, {op: add, target: fx_reserves, value: 2}, {op: add, target: inequality, value: 1}], dom: M10}
+  - {id: tv_franchise_auction, zh: 拍卖商业电视特许经营权, cat: econ, once: true, econ_gate: "economic_model >= 10", pre: "policy_level[commercial_tv] >= 100",
+     cost: {pc: 6, ally: {agudat: -3}}, dur: 60, fx: [{op: add, target: budget_balance, value: 0.5}, {op: add, target: centralization, value: -1}]}
+  - {id: cut_corporate_tax, zh: 削减公司税, cat: econ, econ_gate: "economic_model >= 10", cost: {pc: 10, fiscal: 1.0}, dur: 30, cd: 365, vote: simple,
+     fx: [{op: add, target: growth, value: 0.5}, {op: add, target: inequality, value: 2}, {op: add, target: bloc_support, key: liberal_middle, value: 2}], dom: M10}
+  - {id: stabilization_plan, zh: 经济稳定计划（冻结工资物价、削减预算、锚定汇率）, cat: econ, w: major, era: [1980, null], once: true, pre: "inflation >= 100",
+     cost: {pc: 30, standing: -3, bloc: {labor_ashkenazi: -4, mizrahi: -4}, par: {union_strength: -6}}, dur: 30, vote: simple,
+     fx: [{op: add_modifier, modifier: stabilization, duration_days: 730}, {op: custom, target: custom, key: m05_change_policy, value: {policy: wage_indexation, to: 0, apply_side_effects: false}},
+          {op: add, target: budget_balance, value: 3}, {op: add, target: unemployment, value: 1.5}], dom: M10, note: "E-1985-07 的行动版"}
+  - {id: request_us_aid, zh: 申请美国紧急援助, cat: econ, w: major, cost: {pc: 10, standing: -1, par: {us_admin_relation: -1}}, dur: 60, cd: 365,
+     fx: [{op: add, target: fx_reserves, value: 6}, {op: add, target: budget_balance, value: 1}], dom: M07}
+  - {id: bonds_drive, zh: 以色列债券与海外募捐, cat: econ, cost: {pc: 4, par: {power_relation.diaspora: -1}}, dur: 30, rep: true, cd: 180,
+     fx: [{op: add, target: fx_reserves, value: 3}]}
+
+# ───────── 社会、宗教与族群（soc）─────────
+  - {id: haredi_vocational_program, zh: 哈雷迪职业教育计划, cat: soc, w: major, cost: {pc: 20, ally: {agudat: -8}, fiscal: 0.5}, dur: 180, cd: 365,
+     fx: [{op: add, target: draft_exemption, value: -1.5}, {op: add, target: unemployment, value: -0.2}, {op: add, target: bloc_support, key: liberal_middle, value: 2}],
+     note: "偿还型：debt 参数的负向 add 只接受玩家行动来源（M01 B-8）"}
+  - {id: restore_exemption_cap, zh: 恢复耶希瓦豁免上限, cat: soc, w: major, pre: "has_modifier(\"uncapped_exemption\")", cancel_debt: uncapped_exemption,
+     cost: {pc: 25, ally: {agudat: -15}, bloc: {haredi: -5}}, dur: 14,
+     fx: [{op: remove_modifier, modifier: uncapped_exemption}, {op: custom, target: custom, key: m05_change_policy, value: {policy: exemption_coverage, to: 1, apply_side_effects: false}}],
+     note: "价格 = 25 × uncapped_exemption.strength（M01 §4.7.6）"}
+  - {id: project_renewal, zh: 启动街区复兴计划, cat: soc, w: major, once: true, pre: "not event_done(\"E-1978-06\")",
+     cost: {pc: 12, fiscal: 1.0}, dur: 90,
+     fx: [{op: add, target: alienation, key: mizrahi, value: -4}, {op: add, target: power_relation, key: diaspora, value: 5}, {op: add_modifier, modifier: renewal_twinning, duration_days: 1825}]}
+  - {id: ethnic_reconciliation, zh: 族群和解与历史委员会, cat: soc, w: major, once: true, cost: {pc: 15, standing: -2, bloc: {labor_ashkenazi: -1}}, dur: 120,
+     fx: [{op: add, target: historical_grievance, key: mizrahi, value: -2}, {op: add, target: alienation, key: mizrahi, value: -2}]}
+  - {id: land_settlement_agreement, zh: 土地补偿与归还协议, cat: soc, w: major, args: {group: arab_group}, cost: {pc: 10, fiscal: 0.5, bloc: {religious_zionist: -2}}, dur: 90, cd: 365,
+     fx: [{op: add, target: land_grievance, key: "{group}", value: -3}, {op: add, target: civic_identification, key: "{group}", value: 3}]}
+  - {id: recognize_bedouin_village, zh: 承认一座贝都因村庄, cat: soc, cost: {pc: 6, fiscal: 0.2, bloc: {religious_zionist: -1}}, dur: 60, rep: true, cd: 120,
+     fx: [{op: add, target: land_grievance, key: bedouin, value: -2}, {op: add, target: civic_identification, key: bedouin, value: 2}]}
+  - {id: druze_veterans_housing, zh: 德鲁兹退伍军人住房与土地, cat: soc, cost: {pc: 5, fiscal: 0.2}, rep: true, cd: 180,
+     fx: [{op: add, target: civic_identification, key: druze, value: 3}, {op: add, target: land_grievance, key: druze, value: -1}]}
+  - {id: absorption_emergency, zh: 移民吸收紧急计划（活动房与临时就业）, cat: soc, w: major, era: [1989, null], cost: {pc: 10, fiscal: 2}, dur: 60, cd: 180,
+     fx: [{op: add, target: absorption_capacity, value: 8}, {op: add, target: alienation, key: russian, value: -3}]}
+  - {id: status_quo_committee, zh: 设立宗教现状委员会（搁置争议）, cat: soc, cost: {pc: 5, ally: {agudat: -3}}, cd: 365,
+     fx: [{op: custom, target: custom, key: m03_delay_demand, value: {party: agudat, days: 180}}], dom: M03, note: "E-G04-13 选项C 的行动版"}
+
+# ───────── 定居、区域与地点（terr）─────────
+  - {id: found_settlement, zh: 新建定居点, cat: terr, args: {region: region},
+     arg_filter: {region: "region_exists({region}) and ({region} == \"west_bank\" or {region} == \"gaza\" or {region} == \"golan\" or {region} == \"sinai\")"},
+     cost: {pc: 10, fiscal: 0.3, par: {us_admin_relation: -3}}, dur: 90, rep: true, cd: 30, tags: [settlement],
+     fx: [{op: add, target: settler_momentum, value: 2}, {op: add, target: promise_progress, key: cat_territory, value: 3}, {op: add, target: ally_satisfaction, key: nrp, value: 3}, {op: add, target: pal_hostility, value: 1}],
+     ax: {territory: 4}, dom: M11, ai: [minister, ai_pm]}
+  - {id: legalize_outposts, zh: 追认前哨, cat: terr, cost: {pc: 5, rol: -1, par: {us_admin_relation: -2}}, rep: true, cd: 90, tags: [settlement],
+     fx: [{op: add, target: settler_momentum, value: 2}, {op: add, target: promise_progress, key: cat_territory, value: 2}, {op: add, target: ally_satisfaction, key: nrp, value: 2}], ax: {territory: 3}, dom: M11}
+  - {id: evacuate_settlement, zh: 撤离定居点, cat: terr, w: major, args: {region: region}, arg_filter: {region: "region_exists({region})"},
+     cost: {pc: 25, standing: -6, ally: {nrp: -10}, bloc: {religious_zionist: -6}}, dur: 60, resist: [{event: E-1982-04, p: 0.3}],
+     fx: [{op: add, target: settler_momentum, value: -3}, {op: add_modifier, modifier: yamit_trauma, duration_days: 1095}, {op: add, target: us_admin_relation, value: 5}, {op: add, target: promise_progress, key: cat_peace, value: 3}],
+     ax: {territory: -10}, dom: M11}
+  - {id: golan_heights_law, zh: 戈兰高地法, cat: terr, w: major, once: true, pre: "region_exists(\"golan\")",
+     cost: {pc: 20, par: {us_admin_relation: -10, intl_legitimacy: -5}}, dur: 14, vote: simple,
+     fx: [{op: set_flag, flag: golan_annexed}, {op: add, target: regime_hostility, key: syria, value: 5}, {op: add, target: civic_identification, key: druze, value: -5}, {op: add, target: promise_progress, key: cat_territory, value: 5}],
+     ax: {territory: 12}, note: "E-1981-12"}
+  - {id: jerusalem_law, zh: 耶路撒冷基本法, cat: terr, w: major, once: true, cost: {pc: 15, par: {intl_legitimacy: -6, us_admin_relation: -4}}, dur: 14, vote: simple,
+     fx: [{op: set_flag, flag: jerusalem_basic_law}, {op: add, target: popular_hostility, key: saudi, value: 3}, {op: add, target: bloc_support, key: religious_zionist, value: 3}], ax: {territory: 8}}
+  - {id: galilee_lookouts, zh: 加利利观察点定居（犹太化计划）, cat: terr, cost: {pc: 8, fiscal: 0.5, bloc: {arab_citizens: -3}}, dur: 120, rep: true, cd: 180,
+     fx: [{op: add, target: region_development, key: galilee, value: 2}, {op: add, target: land_grievance, key: arab, value: 1}, {op: add, target: civic_identification, key: arab, value: -2}], ax: {territory: 2}, dom: M11}
+  - {id: new_development_town, zh: 新建发展城镇, cat: terr, w: major, args: {region: region}, arg_filter: {region: "{region} == \"negev\" or {region} == \"galilee\""},
+     cost: {pc: 12, fiscal: 1.5}, dur: 365, cd: 365,
+     fx: [{op: add, target: region_development, key: "{region}", value: 5}, {op: add, target: absorption_capacity, value: 3}, {op: add, target: alienation, key: mizrahi, value: -2}], dom: M11}
+  - {id: med_dead_canal, zh: 地中海—死海运河工程, cat: terr, w: major, once: true, cost: {pc: 15, fiscal_m: 0.25}, dur: 720,
+     fx: [{op: add, target: region_development, key: negev, value: 6}, {op: add, target: growth, value: 0.3}, {op: add, target: regime_hostility, key: jordan, value: 3}], dom: M11,
+     note: "设计文档 §9.5 大型工程；执行期间每月财政 −0.25"}
+  - {id: sinai_withdrawal, zh: 执行西奈撤离, cat: terr, w: major, once: true, pre: "flag(\"egypt_peace_treaty\") and region_exists(\"sinai\")",
+     cost: {pc: 15, standing: -4, bloc: {religious_zionist: -4}}, dur: 180,
+     fx: [{op: custom, target: custom, key: m11_remove_region, value: {region: sinai}}, {op: add, target: regime_hostility, key: egypt, value: -5}, {op: add, target: us_admin_relation, value: 5}, {op: add, target: promise_progress, key: cat_peace, value: 5}],
+     ax: {territory: -10}, dom: M11}
+  - {id: temple_mount_prayer, zh: 允许犹太人在圣殿山祈祷, cat: terr, w: major, cost: {pc: 10, par: {intl_legitimacy: -5, popular_hostility.jordan: 5}}, cd: 730,
+     fx: [{op: add, target: pal_hostility, value: 6}, {op: add, target: popular_hostility, key: saudi, value: 5}, {op: add, target: bloc_support, key: religious_zionist, value: 3}, {op: add, target: religious_status_quo, value: 2}],
+     ax: {religion: 3, territory: 4}}
+  - {id: autonomy_talks_team, zh: 组建自治谈判代表团, cat: terr, pre: "flag(\"autonomy_framework\")", cost: {pc: 10, standing: -1}, dur: 90, rep: true, cd: 180,
+     fx: [{op: add, target: vision_progress, value: 3}, {op: add, target: us_admin_relation, value: 3}, {op: add, target: autonomy_progress, value: 6}, {op: custom, target: custom, key: m08_activate_delegation, value: {partner: jordan_notables}}],
+     ax: {territory: -4}, dom: M07, note: "合入 M08 B-3（D-073）：推进 autonomy_progress +6 并激活谈判代表团"}
+
+# ───────── 军事与安全（mil）─────────
+  - {id: retaliatory_raid, zh: 报复突袭, cat: mil, args: {country: country}, arg_filter: {country: "{country} == \"lebanon\" or {country} == \"syria\" or {country} == \"jordan\" or {country} == \"egypt\""},
+     cost: {pc: 6, par: {intl_legitimacy: -3, readiness: -2}}, rep: true, cd: 30, succ: "0.60 + readiness / 250",
+     fx: [{op: add, target: deterrence, value: 4}, {op: add, target: public_security, value: 2}, {op: add, target: popular_hostility, key: "{country}", value: 3}, {op: add, target: faction_strength, key: fatah, value: -2}],
+     fail: [{op: add, target: deterrence, value: -2}, {op: add, target: party_standing, value: -2}], ax: {security: 5}, dom: M09, ai: [minister, ai_pm]}
+  - {id: limited_incursion, zh: 有限地面入侵, cat: mil, w: major, args: {country: country}, arg_filter: {country: "{country} == \"lebanon\""},
+     cost: {pc: 15, fiscal: 1.5, par: {intl_legitimacy: -6, us_admin_relation: -4}}, dur: 30, cd: 365,
+     fx: [{op: custom, target: custom, key: m09_start_war, value: {front: "{country}", scope: limited}}], ax: {security: 10}, dom: M09, ai: [minister]}
+  - {id: preemptive_strike, zh: 打击敌国核设施, cat: mil, w: major, args: {country: country}, arg_filter: {country: "enemy_nuclear_progress[{country}] >= 50"},
+     cost: {pc: 20, fiscal: 1.0, par: {intl_legitimacy: -10, us_admin_relation: -8}}, dur: 7, cd: 730, succ: "0.55 + readiness / 400",
+     fx: [{op: add, target: enemy_nuclear_progress, key: "{country}", value: -40}, {op: add, target: deterrence, value: 10}, {op: add, target: public_security, value: 6}],
+     fail: [{op: add, target: deterrence, value: -6}, {op: add, target: party_standing, value: -6}], ax: {security: 12}, dom: M09, note: "E-1981-06a 的行动版"}
+  - {id: partial_mobilization, zh: 部分动员, cat: mil, cost: {pc: 8, fiscal: 1.0, par: {growth: -0.5}}, cd: 30,
+     fx: [{op: custom, target: custom, key: m09_set_mobilization, value: {level: 30}}, {op: add, target: readiness, value: 10}], ax: {security: 4}, dom: M09, ai: [minister]}
+  - {id: raise_alert, zh: 提高战备等级, cat: mil, w: minor, cost: {pc: 4, fiscal: 0.3}, rep: true, cd: 60,
+     fx: [{op: add, target: readiness, value: 4}, {op: add, target: complacency, value: -5}], dom: M09, ai: [minister]}
+  - {id: arms_purchase, zh: 军购, cat: mil, w: major, args: {power: power}, cost: {pc: 10, fiscal: 2.0}, dur: 180, cd: 365,
+     fx: [{op: add, target: readiness, value: 6}, {op: add, target: arms_reliability, key: "{power}", value: 3}], dom: M09, ai: [minister]}
+  - {id: targeted_killing, zh: 定点清除, cat: mil, args: {faction: faction}, cost: {pc: 8, rol: -1, par: {intl_legitimacy: -4}}, rep: true, cd: 90, succ: "0.50 + deterrence / 400",
+     fx: [{op: add, target: faction_strength, key: "{faction}", value: -6}, {op: add, target: faction_cohesion, key: "{faction}", value: -8}, {op: add, target: faction_legitimacy, key: "{faction}", value: 3}, {op: add_modifier, modifier: martyrdom_wave, scope_key: "{faction}", duration_days: 540}, {op: add, target: deterrence, value: 2}],
+     fail: [{op: add, target: intl_legitimacy, value: -3}], ax: {security: 6}, dom: M08, ai: [minister], note: "合入 M08 B-3（D-073）：削弱组织完整度 −8 并挂载殉道波修正器"}
+  - {id: rescue_operation, zh: 人质营救行动, cat: mil, w: major, pre: "flag(\"hostages_held\")", cost: {pc: 10, par: {readiness: -2}, rel: {chief_of_staff: -3}}, dur: 3, cd: 365, succ: "0.40 + readiness / 250",
+     fx: [{op: add, target: public_security, value: 8}, {op: add, target: deterrence, value: 5}, {op: add, target: political_capital, value: 15}, {op: clear_flag, flag: hostages_held}],
+     fail: [{op: add, target: public_security, value: -8}, {op: add, target: party_standing, value: -8}], dom: M09, note: "E-G04-11 选项C 的行动版"}
+  - {id: intelligence_review, zh: 情报评估复核（外部审查）, cat: mil, cost: {pc: 5, rel: {chief_of_staff: -5}}, rep: true, cd: 180,
+     fx: [{op: add, target: complacency, value: -8}], dom: M09}
+
+# ───────── 占领区（occ）─────────
+  - {id: admin_detention_wave, zh: 大规模行政拘留, cat: occ, cost: {pc: 6, rol: -3, par: {intl_legitimacy: -3}}, rep: true, cd: 90,
+     fx: [{op: add, target: region_security, key: west_bank, value: 5}, {op: add, target: pal_hostility, value: 4}, {op: add_modifier, modifier: prison_schools, duration_days: 730}],
+     ax: {security: 5}, dom: M08, ai: [minister], note: "E-G04-09 A"}
+  - {id: release_prisoners, zh: 释放囚犯（善意姿态）, cat: occ, args: {faction: faction}, cost: {pc: 10, standing: -3, bloc: {mizrahi: -2}}, cd: 180,
+     fx: [{op: add, target: faction_legitimacy, key: "{faction}", value: 5}, {op: add, target: pal_hostility, value: -4}, {op: add, target: us_admin_relation, value: 2}], ax: {security: -5}, dom: M08}
+  - {id: economic_package_occ, zh: 占领区经济一揽子（贷款与工业区）, cat: occ, cost: {pc: 6, fiscal: 0.5, bloc: {religious_zionist: -1}}, rep: true, cd: 120,
+     fx: [{op: add, target: pal_living_standard, value: 5}, {op: add, target: pal_hostility, value: -2}], ax: {security: -2}, dom: M08}
+  - {id: support_moderates, zh: 扶持温和派, cat: occ, args: {faction: faction}, arg_filter: {faction: "{faction} == \"notables\" or {faction} == \"jordan_notables\" or {faction} == \"local_mayors\" or {faction} == \"pa_security\""}, cost: {pc: 8, fiscal: 0.2}, rep: true, cd: 120,
+     fx: [{op: add, target: faction_strength, key: "{faction}", value: 5}, {op: add, target: faction_legitimacy, key: "{faction}", value: -4, scale: "pal_hostility / 50"}], dom: M08,
+     note: "合作者污名（设计文档 §14.2；合入 M08 B-3 允许 local_mayors 与 jordan_notables）"}
+  - {id: dismiss_mayors, zh: 解职民选市长, cat: occ, cost: {pc: 8, par: {intl_legitimacy: -4, us_admin_relation: -3}}, cd: 365,
+     fx: [{op: add, target: faction_legitimacy, key: fatah, value: 4}, {op: add, target: region_security, key: west_bank, value: 3}, {op: custom, target: custom, key: m05_change_policy, value: {policy: pal_municipalities, to: 0, apply_side_effects: false}}],
+     ax: {territory: 4}, dom: M08}
+  - {id: close_universities, zh: 关闭巴勒斯坦大学, cat: occ, cost: {pc: 5, par: {intl_legitimacy: -3}}, rep: true, cd: 180,
+     fx: [{op: add, target: pal_hostility, value: 4}, {op: add, target: faction_strength, key: fatah, value: -2}, {op: add, target: region_security, key: west_bank, value: 2}], ax: {security: 4}, dom: M08}
+
+# ───────── 外交（dipl）─────────
+  - {id: secret_channel, zh: 开辟秘密渠道, cat: dipl, args: {country: country}, pre: "not at_war({country})", cost: {pc: 8}, dur: 60, cd: 180,
+     succ: "0.30 + (60 - regime_hostility[{country}]) / 100 + max(0, min(1, relation[foreign_minister] - 19)) * 0.10",
+     fx: [{op: add, target: regime_hostility, key: "{country}", value: -5}, {op: set_flag, flag: "channel_{country}"}],
+     fail: [{op: add, target: party_standing, value: -2, chance: 0.5}], dom: M07, ai: [ai_pm]}
+  - {id: washington_visit, zh: 访问华盛顿, cat: dipl, cost: {pc: 6, fiscal: 0.05}, dur: 14, rep: true, cd: 180, oratory: true,
+     fx: [{op: add, target: us_admin_relation, value: 4}, {op: add, target: us_congress_relation, value: 3}], dom: M07, ai: [ai_pm]}
+  - {id: host_leader, zh: 接待外国领导人, cat: dipl, args: {country: country}, cost: {pc: 4, fiscal: 0.05}, dur: 7, rep: true, cd: 180,
+     fx: [{op: add, target: regime_hostility, key: "{country}", value: -2}, {op: add, target: intl_legitimacy, value: 1}], dom: M07}
+  - {id: un_lobbying, zh: 联合国游说, cat: dipl, cost: {pc: 5, fiscal: 0.1}, dur: 30, rep: true, cd: 180,
+     fx: [{op: add, target: intl_legitimacy, value: 3}], dom: M07}
+  - {id: arms_sale_third, zh: 对第三国军售, cat: dipl, args: {country: country}, cost: {pc: 6, par: {us_admin_relation: -2, intl_legitimacy: -2}}, rep: true, cd: 180,
+     fx: [{op: add, target: fx_reserves, value: 2}, {op: add, target: regime_stability, key: "{country}", value: 2}, {op: add, target: intl_legitimacy, value: -3, chance: 0.3}], dom: M07, note: "E-1977-08、E-G04-14"}
+  - {id: accept_us_proposal, zh: 接受美国斡旋方案, cat: dipl, w: major, pre: "flag(\"us_mediation_active\")", cost: {pc: 10, standing: -4, ally: {nrp: -5}}, cd: 365,
+     fx: [{op: add, target: us_admin_relation, value: 8}, {op: add, target: vision_progress, value: 5}, {op: add, target: promise_progress, key: cat_peace, value: 4}], ax: {territory: -8, foreign: -6}, dom: M07}
+  - {id: autonomy_proposal, zh: 提出巴勒斯坦自治方案, cat: dipl, w: major, cost: {pc: 10, standing: -2, ally: {nrp: -3}}, cd: 365,
+     fx: [{op: add, target: us_admin_relation, value: 4}, {op: add, target: intl_legitimacy, value: 3}, {op: add, target: vision_progress, value: 4}], ax: {territory: -12}, dom: M07,
+     note: "史实 1977-12 伊斯梅利亚方案"}
+  - {id: strategic_memorandum, zh: 与美国签署战略合作备忘录, cat: dipl, w: major, once: true, era: [1981, null], pre: "us_admin_relation >= 60",
+     cost: {pc: 12, par: {power_relation.ussr: -5, intl_legitimacy: -2}}, dur: 60,
+     fx: [{op: add, target: us_admin_relation, value: 6}, {op: add, target: arms_reliability, key: usa, value: 5}, {op: add, target: deterrence, value: 3}], ax: {foreign: -4}, dom: M07}
+
+# ───────── 外国影响力（infl）─────────
+  - {id: covert_support_faction, zh: 秘密资助巴勒斯坦派系, cat: infl, args: {faction: faction}, cost: {pc: 8, fiscal: 0.3}, dur: 60, rep: true, cd: 180,
+     fx: [{op: add, target: faction_strength, key: "{faction}", value: 6}, {op: add, target: faction_legitimacy, key: "{faction}", value: -6, chance: 0.25}], dom: M08,
+     note: "25% 暴露：合作者污名"}
+  - {id: lebanon_christian_alliance, zh: 与黎巴嫩基督徒结盟, cat: infl, w: major, era: [1975, 1985], once: true, cost: {pc: 12, fiscal: 0.5, par: {intl_legitimacy: -3}}, dur: 90,
+     fx: [{op: set_flag, flag: phalange_alliance}, {op: add, target: regime_stability, key: lebanon, value: -3}, {op: custom, target: custom, key: m05_change_policy, value: {policy: lebanon_proxy, to: 2, apply_side_effects: false}}],
+     ax: {security: 6}, dom: M07}
+  - {id: kurdish_support, zh: 支持伊拉克库尔德人, cat: infl, cost: {pc: 6, fiscal: 0.2, par: {regime_hostility.iraq: 4}}, dur: 60, rep: true, cd: 365,
+     fx: [{op: add, target: regime_stability, key: iraq, value: -3}], dom: M07}
+
+# ───────── 集权（cent，M13 细化）─────────
+  - {id: censorship_order, zh: 下达审查令, cat: cent, cost: {pc: 6, rol: -3}, cd: 90,
+     fx: [{op: add, target: centralization, value: 3}, {op: add_modifier, modifier: chilling_effect, duration_days: 365}], ax: {security: 3}, dom: M13, note: "E-G04-12 选项C 的行动版"}
+  - {id: bypass_attorney_general, zh: 绕过总检察长, cat: cent, cost: {pc: 10, rol: -4, standing: -1}, cd: 180,
+     fx: [{op: add, target: centralization, value: 4}, {op: set_flag, flag: ag_bypassed}], dom: M13}
+  - {id: emergency_decree, zh: 以紧急条例代替立法, cat: cent, w: major, args: {policy: policy, to: int}, arg_filter: {policy: "true"},
+     cost: {pc: 12, rol: -4, par: {us_congress_relation: -3}}, cd: 180,
+     fx: [{op: custom, target: custom, key: m05_change_policy, value: {policy: "{policy}", to: "{to}", max_steps: 1, apply_side_effects: true, charge_costs: true, skip_vote: true}}, {op: add, target: centralization, value: 5}],
+     dom: M13, note: "绕过议会把一条 law: true 的政策移动 1 档"}
+  - {id: shin_bet_surveil_opposition, zh: 辛贝特监控反对派, cat: cent, cost: {pc: 8, rol: -3}, cd: 180,
+     fx: [{op: add, target: centralization, value: 4}, {op: add_modifier, modifier: surveillance_risk, duration_days: 365}], dom: M13, note: "E-1978-04 选项C"}
+  - {id: pack_judiciary, zh: 操控法官任命, cat: cent, w: major, cost: {pc: 20, rol: -6, bloc: {liberal_middle: -4}}, dur: 90, cd: 1095,
+     fx: [{op: add, target: centralization, value: 8}], dom: M13}
+  - {id: postpone_election, zh: 以紧急状态推迟选举, cat: cent, w: major, pre: "at_war() or public_security < 30",
+     cost: {pc: 30, rol: -8, bloc: {liberal_middle: -6}, par: {us_congress_relation: -8}}, dur: 14, cd: 730, vote: absolute80,
+     fx: [{op: custom, target: custom, key: m03_postpone_election, value: {months: 6}}, {op: add, target: centralization, value: 10}], dom: M13,
+     note: "依据《基本法：议会》及 D-045 / D-083，推迟大选须经议会 80 票（absolute80）通过"}
+
+# ───────── 人情（favr）─────────
+  - {id: call_in_favor, zh: 兑现人情（要求表决支持或撤回威胁）, cat: favr, args: {party: party}, cost: {fav_spend: {e: "{party}", n: 2}}, cd: 30,
+     fx: [{op: custom, target: custom, key: m03_force_support, value: {party: "{party}", days: 60}}], dom: M03}
+  - {id: grant_favor, zh: 帮部长一个忙（批准其项目）, cat: favr, args: {character: character}, arg_filter: {character: "character_in_office({character})"}, cost: {fiscal: 0.3}, rep: true, cd: 90,
+     fx: [{op: custom, target: custom, key: m05_grant_favor, value: {entity: "{character}", kind: character, n: 1}}, {op: add, target: relation, key: "{character}", value: 5}]}
+  - {id: repay_favor, zh: 偿还人情, cat: favr, args: {party: party}, pre: "favor_party[{party}] < 0", cost: {fiscal: 0.4}, cd: 30,
+     fx: [{op: custom, target: custom, key: m05_grant_favor, value: {entity: "{party}", kind: party, n: 1}}, {op: add, target: ally_satisfaction, key: "{party}", value: 2}]}
+  - {id: broker_deal, zh: 撮合三方交易, cat: favr, args: {party: party, character: character}, cost: {pc: 4, fav_incur: {e: "{party}", n: 1}}, cd: 120,
+     fx: [{op: custom, target: custom, key: m05_grant_favor, value: {entity: "{character}", kind: character, n: 2}}]}
+
+# ═════════ M05 定义的修正器（M01 §3.6.1 schema + M02 B3 edges）═════════
+modifiers:
+  - {id: honeymoon, name_zh: 蜜月期, category: political, scope_type: national, duration: {unit: days, n: 100}, remove_on: [leader_change],
+     factors: [{key: pc_cost, mode: add_pct, value: -25}], desc_zh: "新政府前100天，行动政治资本成本 −25%。"}
+  - {id: lame_duck, name_zh: 跛脚鸭, category: political, scope_type: national, remove_if: "political_capital >= 25", remove_on: [election_held, leader_change],
+     factors: [{key: pc_cost, mode: mult, value: 1.25}], edges: [{target: ally_satisfaction, target_key: "*", shape: flag, coef: -5, label_zh: 跛脚鸭}],
+     desc_zh: "资本连续3个月低于5。行动资本成本 ×1.25，各盟党满意度目标 −5。资本回到25或赢得大选后移除。"}
+  - {id: favor_debt_burden, name_zh: 人情债缠身, category: political, scope_type: national, remove_if: "m05_iou_total() <= 5",
+     factors: [{key: pc_income, mode: add_pct, value: -10}], desc_zh: "欠出人情合计达到8。政治资本月产出 −10%。偿还到5以下移除。"}
+  - {id: war_cabinet, name_zh: 战时内阁, category: security, scope_type: national, remove_on: [war_end],
+     factors: [{key: exec_slots, mode: add_flat, value: 1}], desc_zh: "战争期间执行槽 +1。"}
+  - {id: bank_bubble, name_zh: 银行股泡沫, category: economic, scope_type: national, debt: {growth_per_year: 0.5, cap: 4.0},
+     edges: [{target: fx_reserves, shape: flag, coef: -1.0, label_zh: 托市消耗外汇}], desc_zh: "银行托市股价。外汇目标 −1（强度每年 +0.5 倍，最高4倍）；E-1983-10 概率读取本修正器强度。"}
+  - {id: state_tv_line, name_zh: 广播局政府指导, category: political, scope_type: national,
+     factors: [{key: oratory_effect, mode: add_pct, value: 20}], edges: [{target: rule_of_law, shape: flag, coef: -2.0, label_zh: 官方口径}], desc_zh: "演说类效果 +20%；民主法治目标 −2。"}
+  - {id: confidence_linked, name_zh: 信任案捆绑, category: political, scope_type: national, duration: {unit: days, n: 30},
+     desc_zh: "M03 读取：存续期间联合政府伙伴对政府法案的反对提示（hint −1）改为弃权。"}
+  - {id: free_vote_next, name_zh: 自由投票, category: political, scope_type: national, duration: {unit: days, n: 60},
+     desc_zh: "M03 读取：下一项政府法案按议员个人立场投票，反对党可提供支持。"}
+  - {id: trial_balloon, name_zh: 试探气球, category: political, scope_type: policy, duration: {unit: days, n: 60},
+     factors: [{key: pc_cost, mode: add_pct, value: -30}], desc_zh: "60天内调整该政策的资本成本 −30%。"}
+  - {id: renewal_twinning, name_zh: 结对社群, category: social, scope_type: national, duration: {unit: months, n: 60},
+     edges: [{target: alienation, target_key: mizrahi, shape: flag, coef: -0.833, label_zh: 街区复兴结对}], desc_zh: "疏离度[米兹拉希] 目标 −0.833（等价于每年 −1，M02 §4.5.3）。"}
+  - {id: prison_schools, name_zh: 监狱学校, category: security, scope_type: national, duration: {unit: months, n: 24},
+     edges: [{target: faction_strength, target_key: fatah, shape: flag, coef: 2.5, label_zh: 狱中组织化}], desc_zh: "被拘留者在狱中被组织起来：法塔赫实力目标 +2.5。"}
+  - {id: chilling_effect, name_zh: 寒蝉, category: political, scope_type: national, duration: {unit: months, n: 12},
+     desc_zh: "M12 读取：负面报道类事件概率 −30%，丑闻曝光冲击 ×2（E-G04-12）。"}
+  - {id: surveillance_risk, name_zh: 监控暴露风险, category: political, scope_type: national, duration: {unit: months, n: 12},
+     periodic: [{period: monthly, effects: [{op: add, target: rule_of_law, value: -5, chance: 0.05}]}], desc_zh: "每月5%概率泄露：民主法治 −5。"}
+  - {id: stabilization, name_zh: 稳定计划, category: economic, scope_type: national, duration: {unit: months, n: 24},
+     edges: [{target: inflation, shape: flag, coef: -60, label_zh: 稳定计划}, {target: growth, shape: flag, coef: -1.0, label_zh: 紧缩}], desc_zh: "通胀目标 −60，增长目标 −1（M10 节点模式决定实际速度）。"}
+  - {id: price_controls_mod, name_zh: 价格管制, category: economic, scope_type: national, duration: {unit: days, n: 180},
+     edges: [{target: inflation, shape: flag, coef: 3.0, label_zh: 管制到期后的反弹压力}], desc_zh: "被压住的通胀压力：通胀目标 +3。"}
+  - {id: inquiry_pending, name_zh: 调查进行中, category: political, scope_type: national, duration: {unit: days, n: 180},
+     factors: [{key: pc_income, mode: add_flat, value: -1}], desc_zh: "调查委员会工作期间政治资本月产出 −1。"}

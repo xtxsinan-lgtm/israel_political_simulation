@@ -1,0 +1,165 @@
+# data/world_tracks.yaml — M07 外部世界历史轨道与关键帧配置表（1977–1992 剧本）
+version: "1.0"
+reversion_rates:
+  country_relation: 0.02
+  country_stability: 0.03
+  country_war_readiness: 0.04
+  country_nuclear_progress: 0.00
+  peace_treaty_state: 0.00
+
+noise_sigmas:
+  default: {relation: 0.6, stability: 0.5, readiness: 0.5}
+  lebanon: {relation: 0.8, stability: 1.5, readiness: 0.6}
+  iran:    {relation: 0.8, stability: 1.2, readiness: 0.8}
+  iraq:    {relation: 0.6, stability: 0.8, readiness: 0.9}
+
+presidents_usa:
+  - {id: "carter",  name: "吉米·卡特",     party: "D", archetype: "human_rights_mediator", start: "1977-01-20", end: "1981-01-20", base_rel: 55.0, settle_k: 0.25}
+  - {id: "reagan",  name: "罗纳德·里根",   party: "R", archetype: "strategic_partner",     start: "1981-01-20", end: "1989-01-20", base_rel: 68.0, settle_k: 0.10}
+  - {id: "bush41",  name: "乔治·H·W·布什", party: "R", archetype: "cool_realist",          start: "1989-01-20", end: "1993-01-20", base_rel: 52.0, settle_k: 0.35}
+  - {id: "clinton", name: "比尔·克林顿",   party: "D", archetype: "peace_broker",          start: "1993-01-20", end: "2001-01-20", base_rel: 72.0, settle_k: 0.20}
+
+# 12 国 5 维关键帧表（注：阿拉伯/伊朗的 relation 列存亲以关系 100 - regime_hostility，引擎加载时同步映射为 regime_hostility = 100 - relation）
+countries:
+  usa:
+    peace_treaty_init: 3
+    nuclear_init: 100.0
+    keyframes:
+      "1977-06-20": {relation: 58.0, stability: 78.0, readiness: 80.0}
+      "1978-09-01": {relation: 62.0, stability: 75.0, readiness: 78.0}
+      "1980-03-01": {relation: 52.0, stability: 68.0, readiness: 78.0}
+      "1981-02-01": {relation: 68.0, stability: 82.0, readiness: 85.0}
+      "1982-09-01": {relation: 56.0, stability: 80.0, readiness: 85.0}
+      "1985-07-01": {relation: 72.0, stability: 86.0, readiness: 88.0}
+      "1989-02-01": {relation: 55.0, stability: 82.0, readiness: 86.0}
+      "1991-01-15": {relation: 68.0, stability: 85.0, readiness: 95.0}
+      "1991-09-01": {relation: 50.0, stability: 78.0, readiness: 85.0}
+      "1992-11-01": {relation: 66.0, stability: 80.0, readiness: 82.0}
+
+  ussr:
+    peace_treaty_init: 0
+    nuclear_init: 100.0
+    keyframes:
+      "1977-06-20": {relation: 15.0, stability: 82.0, readiness: 88.0}
+      "1979-12-25": {relation: 10.0, stability: 80.0, readiness: 90.0}
+      "1982-11-10": {relation: 12.0, stability: 74.0, readiness: 86.0}
+      "1985-03-11": {relation: 18.0, stability: 68.0, readiness: 82.0}
+      "1987-06-01": {relation: 32.0, stability: 52.0, readiness: 75.0}
+      "1988-06-01": {relation: 42.0, stability: 44.0, readiness: 68.0}
+      "1989-11-09": {relation: 52.0, stability: 30.0, readiness: 58.0}
+      "1991-10-18": {relation: 65.0, stability: 15.0, readiness: 45.0}
+      "1991-12-25": {relation: 68.0, stability: 12.0, readiness: 40.0}
+
+  egypt:
+    peace_treaty_init: 1              # 1=1975西奈二期停火协定; 戴维营/和约通过事件与谈判状态机推进至2和3
+    nuclear_init: 0.0
+    keyframes:
+      "1977-06-20": {relation: 42.0, stability: 52.0, readiness: 62.0} # hostility = 58.0
+      "1977-11-01": {relation: 46.0, stability: 50.0, readiness: 58.0} # hostility = 54.0
+      "1981-10-06": {relation: 52.0, stability: 42.0, readiness: 55.0} # 萨达特遇刺节点
+      "1982-09-20": {relation: 40.0, stability: 54.0, readiness: 55.0} # 黎巴嫩战争冷和平
+      "1989-03-15": {relation: 55.0, stability: 60.0, readiness: 56.0} # 塔巴仲裁归还后回暖
+      "1991-02-01": {relation: 60.0, stability: 64.0, readiness: 60.0}
+
+  jordan:
+    peace_treaty_init: 1
+    nuclear_init: 0.0
+    keyframes:
+      "1977-06-20": {relation: 48.0, stability: 65.0, readiness: 58.0} # hostility = 52.0
+      "1979-04-01": {relation: 40.0, stability: 64.0, readiness: 60.0} # 阿拉伯联盟抵制戴维营压力
+      "1985-02-01": {relation: 54.0, stability: 68.0, readiness: 56.0}
+      "1987-04-11": {relation: 58.0, stability: 66.0, readiness: 55.0} # 伦敦秘密协定窗口
+      "1988-07-31": {relation: 50.0, stability: 58.0, readiness: 54.0} # 放弃西岸主权声明
+      "1990-08-15": {relation: 38.0, stability: 48.0, readiness: 58.0} # 海湾危机中被迫倾向伊拉克
+      "1991-10-30": {relation: 56.0, stability: 62.0, readiness: 52.0} # 马德里和会
+
+  syria:
+    peace_treaty_init: 1
+    nuclear_init: 0.0
+    keyframes:
+      "1977-06-20": {relation: 15.0, stability: 68.0, readiness: 76.0} # hostility = 85.0
+      "1979-04-01": {relation: 10.0, stability: 62.0, readiness: 80.0} # 埃以单独媾和后叙利亚暴怒
+      "1982-02-02": {relation: 10.0, stability: 54.0, readiness: 82.0} # 哈马起义镇压与贝卡谷地对峙
+      "1983-11-01": {relation: 12.0, stability: 58.0, readiness: 84.0} # 苏联补充SS-21导弹(“战略均势”)
+      "1989-11-01": {relation: 18.0, stability: 66.0, readiness: 72.0} # 失去苏联无条件军援庇护
+      "1991-10-30": {relation: 26.0, stability: 72.0, readiness: 68.0} # 参加马德里和会
+
+  lebanon:
+    peace_treaty_init: 1
+    nuclear_init: 0.0
+    keyframes:
+      "1977-06-20": {relation: 45.0, stability: 25.0, readiness: 20.0} # 黎巴嫩内战碎裂状态
+      "1982-08-23": {relation: 58.0, stability: 30.0, readiness: 25.0} # 巴希尔·杰马耶勒当选短暂窗口
+      "1982-09-15": {relation: 32.0, stability: 15.0, readiness: 18.0} # 巴希尔遇刺
+      "1985-06-01": {relation: 25.0, stability: 20.0, readiness: 22.0} # 南黎安全区与真主党崛起
+      "1990-10-13": {relation: 22.0, stability: 45.0, readiness: 35.0} # 塔伊夫协议后叙利亚主导黎巴嫩
+
+  iraq:
+    peace_treaty_init: 0
+    nuclear_init: 35.0                # 之后按 §4.5.4 公式每月增长 +1.0（除非被空袭或外交阻滞）
+    keyframes:
+      "1977-06-20": {relation: 10.0, stability: 72.0, readiness: 68.0} # hostility = 90.0
+      "1979-07-16": {relation: 8.0,  stability: 78.0, readiness: 75.0} # 萨达姆正式掌权
+      "1980-09-22": {relation: 12.0, stability: 68.0, readiness: 72.0} # 两伊战争爆发，主力东调
+      "1988-08-20": {relation: 8.0,  stability: 65.0, readiness: 88.0} # 两伊停火，百万大军腾出手
+      "1990-08-02": {relation: 5.0,  stability: 60.0, readiness: 92.0} # 入侵科威特，威胁焚烧半个以色列
+      "1991-03-01": {relation: 8.0,  stability: 35.0, readiness: 30.0} # 海湾战争战败重创
+
+  iran:
+    peace_treaty_init: 1
+    nuclear_init: 5.0
+    keyframes:
+      "1977-06-20": {relation: 65.0, stability: 48.0, readiness: 60.0} # 巴列维王朝秘密盟友 (hostility = 35.0)
+      "1978-09-08": {relation: 58.0, stability: 28.0, readiness: 50.0} # 黑色星期五动乱
+      "1979-02-01": {relation: 5.0,  stability: 22.0, readiness: 45.0} # 霍梅尼革命 (触发 world_iranian_revolution, hostility = 95.0)
+      "1982-06-01": {relation: 5.0,  stability: 58.0, readiness: 70.0} # 派革命卫队赴黎巴嫩建真主党
+      "1988-08-20": {relation: 8.0,  stability: 65.0, readiness: 65.0} # 两伊停火，重启核计划
+      "1992-06-01": {relation: 6.0,  stability: 70.0, readiness: 70.0}
+
+  saudi:
+    peace_treaty_init: 0
+    nuclear_init: 0.0
+    keyframes:
+      "1977-06-20": {relation: 25.0, stability: 78.0, readiness: 45.0} # hostility = 75.0
+      "1981-08-01": {relation: 32.0, stability: 80.0, readiness: 55.0} # 法赫德八点和平计划与AWACS军售
+      "1991-02-01": {relation: 40.0, stability: 76.0, readiness: 62.0} # 海湾战争共同面对萨达姆威胁
+      "1991-10-30": {relation: 44.0, stability: 78.0, readiness: 60.0} # 观察员身份出席马德里和会
+
+  france:
+    peace_treaty_init: 3
+    nuclear_init: 100.0
+    keyframes:
+      "1977-06-20": {relation: 45.0, stability: 78.0, readiness: 75.0}
+      "1980-06-13": {relation: 40.0, stability: 76.0, readiness: 75.0} # 威尼斯宣言
+      "1981-05-10": {relation: 56.0, stability: 78.0, readiness: 76.0} # 密特朗当选并访以
+      "1982-08-01": {relation: 44.0, stability: 76.0, readiness: 75.0} # 黎巴嫩战争摩擦
+      "1991-03-01": {relation: 54.0, stability: 78.0, readiness: 76.0}
+
+  uk:
+    peace_treaty_init: 3
+    nuclear_init: 100.0
+    keyframes:
+      "1977-06-20": {relation: 52.0, stability: 74.0, readiness: 75.0}
+      "1979-05-04": {relation: 58.0, stability: 78.0, readiness: 78.0} # 撒切尔夫人执政
+      "1982-07-01": {relation: 46.0, stability: 80.0, readiness: 80.0} # 黎巴嫩战争期间短暂武器限制
+      "1986-05-24": {relation: 62.0, stability: 82.0, readiness: 78.0} # 撒切尔成为首位访以英国首相
+      "1991-03-01": {relation: 60.0, stability: 78.0, readiness: 78.0}
+
+  un:
+    peace_treaty_init: 3
+    nuclear_init: 0.0
+    keyframes:
+      "1977-06-20": {relation: 38.0, stability: 75.0, readiness: 0.0}  # 3379号“犹太复国主义即种族主义”决议阴影下
+      "1979-03-26": {relation: 42.0, stability: 75.0, readiness: 0.0}
+      "1982-09-01": {relation: 28.0, stability: 75.0, readiness: 0.0}
+      "1988-01-01": {relation: 30.0, stability: 75.0, readiness: 0.0}
+      "1991-12-16": {relation: 52.0, stability: 80.0, readiness: 0.0}  # 联大第46/86号决议废除3379号决议
+
+  # 附：移民与军售关联的 2 个辅助实体关键帧
+  ethiopia:
+    peace_treaty_init: 1
+    nuclear_init: 0.0
+    keyframes:
+      "1977-06-20": {relation: 45.0, stability: 38.0, readiness: 50.0} # 欧加登战争前夕，门格斯图秘购以军零件
+      "1984-09-01": {relation: 35.0, stability: 22.0, readiness: 45.0} # 1984大饥荒 (触发 world_ethiopia_famine)
+      "1991-05-21": {relation: 55.0, stability: 12.0, readiness: 20.0} # 门格斯图政权崩溃 (触发 world_ethiopia_mengistu_fall)

@@ -1,0 +1,992 @@
+# data/policies.yaml —— 草案 v1（M05 规格附录C）
+schema_version: 1
+policies:
+
+# ───────── 宗教现状（rel）─────────
+  - id: sabbath_transport
+    zh: 安息日公共交通
+    cat: rel
+    law: true
+    tiers: [{v: 0, zh: 全国运营, rsq: -6}, {v: 50, zh: 现状（海法与私营例外）, rsq: 0}, {v: 100, zh: 全面禁止, rsq: 4}]
+    start: {begin_1977: 1}
+    pc: 12
+    up: {bloc: {liberal_middle: -2}}
+    down: {ally: {agudat: -8, nrp: -3}}
+    ax: {religion: 8}
+    ask: {agudat: 2, nrp: 1}
+    e: [{t: ally_satisfaction, k: agudat, c: 0.10}, {t: ally_satisfaction, k: nrp, c: 0.04}, {t: bloc_support, k: haredi, c: 0.06}, {t: bloc_support, k: liberal_middle, c: -0.06}]
+    note: "1947 现状协议条款之一"
+
+  - id: sabbath_el_al
+    zh: 以色列航空安息日航班
+    cat: rel
+    law: false
+    tiers: [{v: 0, zh: 照常运营}, {v: 100, zh: 安息日停飞, rsq: 3, f: 0.3}]
+    start: {begin_1977: 0}
+    pc: 8
+    up: {bloc: {liberal_middle: -2}}
+    down: {ally: {agudat: -6}}
+    ax: {religion: 4}
+    ask: {agudat: 1}
+    e: [{t: ally_satisfaction, k: agudat, c: 0.08}, {t: bloc_support, k: haredi, c: 0.03}, {t: bloc_support, k: liberal_middle, c: -0.03}, {t: union_strength, c: 0.02, i: 6}]
+    note: "E-G04-03 A；史实 1982 年停飞并引发工会冲突"
+
+  - id: kashrut_state
+    zh: 国家机构洁食规范
+    cat: rel
+    law: true
+    tiers: [{v: 0, zh: 自愿, rsq: -3}, {v: 50, zh: 军队与国企强制（现状）, rsq: 0}, {v: 100, zh: 与营业执照挂钩, rsq: 3}]
+    start: {begin_1977: 1}
+    pc: 8
+    up: {bloc: {liberal_middle: -1}, par: {power_relation.diaspora: -1}}
+    down: {ally: {agudat: -5, nrp: -5}}
+    ax: {religion: 5}
+    ask: {agudat: 2, nrp: 1}
+    e: [{t: ally_satisfaction, k: agudat, c: 0.05}, {t: ally_satisfaction, k: nrp, c: 0.05}, {t: bloc_support, k: haredi, c: 0.04}, {t: bloc_support, k: liberal_middle, c: -0.03}]
+
+  - id: marriage_law
+    zh: 婚姻与离婚管辖
+    cat: rel
+    law: true
+    tiers: [{v: 0, zh: 引入民事婚姻, rsq: -10}, {v: 50, zh: 现状（只登记海外民事婚姻）, rsq: 0}, {v: 100, zh: 不再登记海外民事婚姻, rsq: 4}]
+    start: {begin_1977: 1}
+    pc: 15
+    up: {bloc: {liberal_middle: -3}, par: {power_relation.diaspora: -3}}
+    down: {ally: {nrp: -12, agudat: -12}, bloc: {religious_zionist: -3}}
+    ax: {religion: 10}
+    ask: {nrp: 1, agudat: 2}
+    e: [{t: ally_satisfaction, k: nrp, c: 0.10}, {t: ally_satisfaction, k: agudat, c: 0.10}, {t: bloc_support, k: liberal_middle, c: -0.06}, {t: power_relation, k: diaspora, c: -0.04, i: 6}]
+
+  - id: conversion_recognition
+    zh: 皈依认定（“谁是犹太人”）
+    cat: rel
+    law: true
+    tiers: [{v: 0, zh: 承认改革派与保守派皈依, rsq: -5}, {v: 50, zh: 现状（海外皈依可登记）, rsq: 0}, {v: 100, zh: 修改回归法：仅正统派, rsq: 6}]
+    start: {begin_1977: 1}
+    pc: 15
+    up: {par: {power_relation.diaspora: -8, us_congress_relation: -2}}
+    down: {ally: {agudat: -10, nrp: -4}}
+    ax: {religion: 8}
+    ask: {agudat: 2}
+    e: [{t: power_relation, k: diaspora, c: -0.12, i: 6}, {t: us_congress_relation, c: -0.03, i: 6}, {t: ally_satisfaction, k: agudat, c: 0.12}, {t: alienation, k: ethiopian, c: 0.04}]
+    note: "E-G04-13"
+
+  - id: exemption_coverage
+    zh: 耶希瓦学生兵役豁免
+    cat: rel
+    lever: exemption_coverage
+    law: false
+    tiers: [{v: 20, zh: 收紧（须服役或国民服役）, rsq: -2}, {v: 50, zh: 维持年度上限（现状）, rsq: 0}, {v: 80, zh: 取消上限, rsq: 2}, {v: 100, zh: 全面豁免, rsq: 3}]
+    start: {begin_1977: 1}
+    pc: 12
+    up: {bloc: {liberal_middle: -2}, standing: -1}
+    down: {ally: {agudat: -15}, bloc: {haredi: -5}}
+    ax: {religion: 6, security: -2}
+    ask: {agudat: 2}
+    e: [{t: ally_satisfaction, k: agudat, c: 0.10}, {t: bloc_support, k: haredi, c: 0.06}, {t: bloc_support, k: liberal_middle, c: -0.04}, {t: bloc_support, k: labor_ashkenazi, c: -0.02}]
+    note: "M02 边 DEX.01 另读取本杠杆；史实贝京取消上限（E-G04-03 A 附带修正器 uncapped_exemption）"
+
+  - id: abortion_social_clause
+    zh: 堕胎“社会理由”条款
+    cat: rel
+    law: true
+    tiers: [{v: 0, zh: 保留社会理由}, {v: 100, zh: 删除社会理由, rsq: 3}]
+    start: {begin_1977: 0}
+    pc: 8
+    up: {bloc: {liberal_middle: -3}}
+    down: {ally: {agudat: -6}}
+    ax: {religion: 4}
+    ask: {agudat: 1}
+    e: [{t: ally_satisfaction, k: agudat, c: 0.06}, {t: bloc_support, k: liberal_middle, c: -0.03}, {t: bloc_support, k: haredi, c: 0.02}]
+    note: "史实 1979 年应阿古达要求删除"
+
+  - id: autopsy_rules
+    zh: 尸检与古墓发掘
+    cat: rel
+    law: true
+    tiers: [{v: 0, zh: 医学与考古优先, rsq: -2}, {v: 50, zh: 现状}, {v: 100, zh: 须家属与拉比同意, rsq: 2}]
+    start: {begin_1977: 1}
+    pc: 6
+    up: {bloc: {liberal_middle: -1}}
+    down: {ally: {agudat: -4}}
+    ax: {religion: 3}
+    ask: {agudat: 2}
+    e: [{t: ally_satisfaction, k: agudat, c: 0.04}, {t: bloc_support, k: liberal_middle, c: -0.02}, {t: growth, c: -0.002, i: 12}]
+
+  - id: sabbath_commerce
+    zh: 安息日商业营业
+    cat: rel
+    law: true
+    tiers: [{v: 0, zh: 全面放开, rsq: -4}, {v: 50, zh: 地方自定（现状）}, {v: 100, zh: 全国禁止, rsq: 4}]
+    start: {begin_1977: 1}
+    pc: 10
+    up: {bloc: {liberal_middle: -2}, ally: {liberals: -3}}
+    down: {ally: {agudat: -6, nrp: -4}}
+    ax: {religion: 6}
+    ask: {agudat: 2, nrp: 2}
+    e: [{t: ally_satisfaction, k: agudat, c: 0.06}, {t: ally_satisfaction, k: nrp, c: 0.04}, {t: bloc_support, k: liberal_middle, c: -0.05}, {t: growth, c: -0.004, i: 6}]
+
+  - id: haredi_school_autonomy
+    zh: 哈雷迪独立教育网自主权
+    cat: rel
+    law: true
+    tiers: [{v: 0, zh: 强制核心课程, rsq: -3}, {v: 50, zh: 资助与核心课程挂钩, rsq: -1}, {v: 100, zh: 完全自主（现状）}]
+    start: {begin_1977: 2}
+    pc: 12
+    up: {bloc: {liberal_middle: -1}}
+    down: {ally: {agudat: -10}, bloc: {haredi: -4}}
+    ax: {religion: 5}
+    ask: {agudat: 2}
+    e: [{t: ally_satisfaction, k: agudat, c: 0.08}, {t: unemployment, c: 0.01, i: 12, d: 12}, {t: bloc_support, k: liberal_middle, c: -0.02}, {t: growth, c: -0.004, i: 12, d: 12}]
+
+  - id: sabbath_broadcasting
+    zh: 安息日电视广播
+    cat: rel
+    law: false
+    tiers: [{v: 0, zh: 照常播出（现状）}, {v: 100, zh: 安息日停播, rsq: 2}]
+    start: {begin_1977: 0}
+    pc: 6
+    up: {bloc: {liberal_middle: -2}}
+    down: {ally: {agudat: -3}}
+    ax: {religion: 3}
+    ask: {agudat: 1}
+    e: [{t: ally_satisfaction, k: agudat, c: 0.04}, {t: bloc_support, k: liberal_middle, c: -0.03}, {t: bloc_support, k: arab_citizens, c: -0.01}]
+
+# ───────── 经济（econ）─────────
+  - id: fx_regime
+    zh: 外汇制度
+    cat: econ
+    law: false
+    tiers: [{v: 0, zh: 全面外汇管制（现状）, em: -10}, {v: 50, zh: 有管理浮动, em: 0}, {v: 100, zh: 自由浮动、取消管制, em: 12}]
+    start: {begin_1977: 0}
+    pc: 10
+    up: {bloc: {labor_ashkenazi: -1}, par: {inflation: 4}}
+    down: {ally: {liberals: -6}}
+    ax: {economy: 12}
+    ask: {liberals: 2}
+    econ_gate: {2: "economic_model >= -60"}
+    e: [{t: fx_reserves, c: 0.04}, {t: inflation, c: 0.03}, {t: bloc_support, k: liberal_middle, c: 0.04}, {t: ally_satisfaction, k: liberals, c: 0.10}, {t: bloc_support, k: mizrahi, c: -0.02}]
+    note: "E-1977-10 经济翻转"
+
+  - id: food_subsidies
+    zh: 基本食品补贴
+    cat: econ
+    law: false
+    tiers: [{v: 0, zh: 取消, em: 6, f: -4}, {v: 33, zh: 削减, em: 3, f: -2}, {v: 67, zh: 现水平, em: 0, f: 0}, {v: 100, zh: 扩大, em: -3, f: 2}]
+    start: {begin_1977: 2}
+    pc: 8
+    up: {ally: {liberals: -4}}
+    down: {bloc: {mizrahi: -3, labor_ashkenazi: -1}, par: {inflation: 3}}
+    ax: {economy: -8}
+    ask: {liberals: 1}
+    e: [{t: inequality, c: -0.04, i: 6}, {t: bloc_support, k: mizrahi, c: 0.06}, {t: ally_satisfaction, k: liberals, c: -0.06}, {t: inflation, c: -0.02}]
+
+  - id: wage_indexation
+    zh: 工资生活费指数化
+    cat: econ
+    law: false
+    tiers: [{v: 0, zh: 暂停, em: 6}, {v: 50, zh: 部分（70%）, em: 2}, {v: 100, zh: 全额（现状）, em: 0}]
+    start: {begin_1977: 2}
+    pc: 12
+    up: {ally: {liberals: -4}}
+    down: {par: {union_strength: -4}, bloc: {labor_ashkenazi: -3, mizrahi: -2}}
+    ax: {economy: -10}
+    ask: {liberals: 0}
+    e: [{t: inflation, c: 0.06}, {t: union_strength, c: 0.06, i: 6}, {t: bloc_support, k: labor_ashkenazi, c: 0.04}, {t: ally_satisfaction, k: liberals, c: -0.04}]
+    note: "E-G04-02、E-1985-07"
+
+  - id: vat_rate
+    zh: 增值税率
+    cat: econ
+    law: true
+    tiers: [{v: 0, zh: 8%（现状）}, {v: 50, zh: 12%, f: -2.5}, {v: 100, zh: 15%, f: -4.5}]
+    start: {begin_1977: 0}
+    pc: 10
+    up: {bloc: {mizrahi: -2}, par: {inflation: 2}}
+    down: {ally: {liberals: -2}}
+    ax: {economy: 2}
+    ask: {liberals: 1}
+    e: [{t: inflation, c: 0.02}, {t: bloc_support, k: mizrahi, c: -0.03}, {t: inequality, c: 0.03, i: 6}, {t: growth, c: -0.005}]
+
+  - id: top_income_tax
+    zh: 所得税最高边际税率
+    cat: econ
+    law: true
+    tiers: [{v: 0, zh: 50%, em: 5, f: 2}, {v: 50, zh: 60%（现状）}, {v: 100, zh: 70%, em: -4, f: -1.5}]
+    start: {begin_1977: 1}
+    pc: 10
+    up: {ally: {liberals: -6}, bloc: {liberal_middle: -2}}
+    down: {bloc: {labor_ashkenazi: -1}, par: {inequality: 1}}
+    ax: {economy: -8}
+    ask: {liberals: 0}
+    e: [{t: bloc_support, k: liberal_middle, c: -0.04}, {t: inequality, c: -0.04, i: 6}, {t: growth, c: -0.01, i: 6}, {t: ally_satisfaction, k: liberals, c: -0.08}]
+
+  - id: privatization
+    zh: 国企与总工会企业私有化
+    cat: econ
+    law: false
+    tiers: [{v: 0, zh: 冻结（现状）}, {v: 50, zh: 选择性出售, em: 6, f: -0.5}, {v: 100, zh: 大规模出售, em: 14, f: -1.5}]
+    start: {begin_1977: 0}
+    pc: 12
+    up: {par: {union_strength: -3}, bloc: {labor_ashkenazi: -2}}
+    down: {ally: {liberals: -5}}
+    ax: {economy: 12}
+    ask: {liberals: 2}
+    econ_gate: {2: "economic_model >= 10"}
+    e: [{t: union_strength, c: -0.10, i: 6}, {t: unemployment, c: 0.02, i: 6}, {t: growth, c: 0.01, i: 12}, {t: ally_satisfaction, k: liberals, c: 0.08}, {t: bloc_support, k: labor_ashkenazi, c: -0.04}]
+
+  - id: capital_market
+    zh: 资本市场管制（强制购买政府债券）
+    cat: econ
+    law: false
+    tiers: [{v: 0, zh: 高度管制（现状）}, {v: 50, zh: 部分放宽, em: 4}, {v: 100, zh: 自由化, em: 8}]
+    start: {begin_1977: 0}
+    pc: 8
+    up: {bloc: {labor_ashkenazi: -1}, par: {fx_reserves: -1}}
+    down: {ally: {liberals: -3}}
+    ax: {economy: 8}
+    ask: {liberals: 2}
+    econ_gate: {2: "economic_model >= 0"}
+    e: [{t: growth, c: 0.01, i: 6}, {t: inflation, c: 0.02}, {t: public_debt, c: 0.02, i: 12}, {t: ally_satisfaction, k: liberals, c: 0.04}, {t: union_strength, c: -0.02, i: 12}]
+
+  - id: bank_share_support
+    zh: 银行股托市
+    cat: econ
+    law: false
+    tiers: [{v: 0, zh: 禁止托市}, {v: 100, zh: 默许托市（现状）, flag: bank_shares_regulation, mod: bank_bubble}]
+    start: {begin_1977: 1}
+    pc: 10
+    up: {par: {fx_reserves: -1}, standing: -1}
+    down: {bloc: {liberal_middle: -3, labor_ashkenazi: -2}}
+    ax: {economy: 2}
+    e: [{t: growth, c: 0.01}, {t: inflation, c: 0.01}, {t: bloc_support, k: liberal_middle, c: 0.02}, {t: fx_reserves, c: -0.02, i: 12}]
+    note: "E-1983-10 银行股危机读取旗标 bank_shares_regulation；修正器 bank_bubble 每年提高危机概率"
+
+  - id: import_protection
+    zh: 进口关税与保护
+    cat: econ
+    law: true
+    tiers: [{v: 0, zh: 高保护（现状）, em: -3}, {v: 50, zh: 降低关税, em: 3}, {v: 100, zh: 自由贸易（欧共体与美国协定）, em: 8}]
+    start: {begin_1977: 0}
+    pc: 10
+    up: {bloc: {kibbutz_moshav: -2}, par: {union_strength: -2}}
+    down: {ally: {liberals: -3}, par: {us_admin_relation: -1}}
+    ax: {economy: 8}
+    ask: {liberals: 2}
+    e: [{t: unemployment, c: 0.03, i: 6}, {t: inflation, c: -0.02}, {t: growth, c: 0.01, i: 12}, {t: bloc_support, k: kibbutz_moshav, c: -0.03}, {t: us_admin_relation, c: 0.02, i: 6}]
+
+  - id: central_bank
+    zh: 央行与赤字融资
+    cat: econ
+    law: true
+    tiers: [{v: 0, zh: 财政部可强制印钞（现状）}, {v: 50, zh: 限制赤字融资, em: 3}, {v: 100, zh: 法定独立, em: 5}]
+    start: {begin_1977: 0}
+    pc: 12
+    up: {standing: -2, bloc: {mizrahi: -1}}
+    down: {ally: {liberals: -4}, par: {inflation: 2}}
+    ax: {economy: 6}
+    ask: {liberals: 2}
+    e: [{t: inflation, c: -0.06, i: 6}, {t: growth, c: -0.01}, {t: ally_satisfaction, k: liberals, c: 0.04}, {t: public_debt, c: -0.02, i: 12}]
+    note: "1985 年“不印钞法”"
+
+  - id: dev_zone_incentives
+    zh: 发展区资本投资鼓励
+    cat: econ
+    law: true
+    tiers: [{v: 0, zh: 取消, em: 2, f: -0.5}, {v: 33, zh: 现行, f: 0}, {v: 67, zh: 扩大, em: -1, f: 0.8}, {v: 100, zh: 大幅扩大, em: -2, f: 1.6}]
+    start: {begin_1977: 1}
+    pc: 8
+    up: {ally: {liberals: -2}}
+    down: {bloc: {mizrahi: -3}}
+    ax: {economy: -4}
+    e: [{t: region_development, k: negev, c: 0.06, i: 12}, {t: region_development, k: galilee, c: 0.05, i: 12}, {t: alienation, k: mizrahi, c: -0.04, i: 6}, {t: bloc_support, k: mizrahi, c: 0.04}, {t: ally_satisfaction, k: liberals, c: -0.02}]
+
+# ───────── 福利与社会（welf）─────────
+  - id: child_allowance
+    zh: 多子女津贴
+    cat: welf
+    law: true
+    tiers: [{v: 0, zh: 低水平, em: 2, f: -1}, {v: 50, zh: 现行}, {v: 100, zh: 大幅提高, em: -2, f: 1.5}]
+    start: {begin_1977: 1}
+    pc: 8
+    up: {ally: {liberals: -3}}
+    down: {bloc: {mizrahi: -3, haredi: -3}, ally: {agudat: -3}}
+    ax: {economy: -4}
+    ask: {agudat: 2}
+    e: [{t: inequality, c: -0.05, i: 6}, {t: bloc_support, k: mizrahi, c: 0.05}, {t: bloc_support, k: haredi, c: 0.04}, {t: ally_satisfaction, k: agudat, c: 0.04}, {t: ally_satisfaction, k: liberals, c: -0.03}]
+
+  - id: veterans_benefit_gap
+    zh: 退伍军人津贴差别
+    cat: welf
+    law: true
+    tiers: [{v: 0, zh: 取消差别（全民同额）, f: 0.4}, {v: 50, zh: 现行（实际排除阿拉伯家庭）}, {v: 100, zh: 扩大差别}]
+    start: {begin_1977: 1}
+    pc: 8
+    up: {bloc: {arab_citizens: -3}, par: {intl_legitimacy: -1}}
+    down: {bloc: {religious_zionist: -2}, standing: -1}
+    ax: {security: 2}
+    e: [{t: civic_identification, k: arab, c: -0.08, i: 12}, {t: bloc_support, k: arab_citizens, c: -0.06}, {t: civic_identification, k: druze, c: 0.02}, {t: bloc_support, k: religious_zionist, c: 0.02}]
+
+  - id: public_housing
+    zh: 公共住房与抵押补贴
+    cat: welf
+    law: false
+    tiers: [{v: 0, zh: 削减, em: 3, f: -1}, {v: 50, zh: 现行}, {v: 100, zh: 扩大, em: -3, f: 1.5}]
+    start: {begin_1977: 1}
+    pc: 8
+    up: {ally: {liberals: -2}}
+    down: {bloc: {mizrahi: -2}}
+    ax: {economy: -4}
+    e: [{t: absorption_capacity, c: 0.08, i: 12}, {t: inequality, c: -0.03, i: 12}, {t: bloc_support, k: mizrahi, c: 0.04}, {t: alienation, k: mizrahi, c: -0.03, i: 6}, {t: inflation, c: 0.01}]
+
+  - id: school_integration
+    zh: 学校族群融合改革
+    cat: welf
+    law: false
+    tiers: [{v: 0, zh: 放缓}, {v: 50, zh: 现行}, {v: 100, zh: 强化（跨区就学）, f: 0.4}]
+    start: {begin_1977: 1}
+    pc: 6
+    up: {bloc: {liberal_middle: -2}}
+    down: {bloc: {mizrahi: -2}}
+    e: [{t: alienation, k: mizrahi, c: -0.05, i: 12}, {t: bloc_support, k: liberal_middle, c: -0.02}, {t: inequality, c: -0.02, i: 12, d: 12}]
+
+  - id: free_secondary_education
+    zh: 免费高中教育
+    cat: welf
+    law: true
+    tiers: [{v: 0, zh: 部分免费（现状）}, {v: 100, zh: 全面免费, f: 1.0}]
+    start: {begin_1977: 0}
+    pc: 8
+    up: {ally: {liberals: -2}}
+    down: {bloc: {mizrahi: -3}}
+    e: [{t: alienation, k: mizrahi, c: -0.04, i: 12}, {t: inequality, c: -0.04, i: 12}, {t: growth, c: 0.01, i: 12, d: 12}, {t: ally_satisfaction, k: liberals, c: -0.02}]
+    note: "史实 1978 年起分阶段实施"
+
+  - id: minimum_wage
+    zh: 法定最低工资
+    cat: welf
+    law: true
+    tiers: [{v: 0, zh: 无法定标准（现状）}, {v: 100, zh: 法定最低工资, em: -4}]
+    start: {begin_1977: 0}
+    pc: 8
+    up: {ally: {liberals: -5}}
+    down: {par: {union_strength: -2}, bloc: {mizrahi: -2}}
+    ax: {economy: -6}
+    e: [{t: inequality, c: -0.04, i: 6}, {t: unemployment, c: 0.02, i: 6}, {t: union_strength, c: 0.03}, {t: bloc_support, k: mizrahi, c: 0.03}, {t: ally_satisfaction, k: liberals, c: -0.05}]
+    note: "史实 1987 年立法"
+
+  - id: mizrahi_heritage
+    zh: 米兹拉希文化遗产与课程
+    cat: welf
+    law: false
+    tiers: [{v: 0, zh: 无（现状）}, {v: 50, zh: 有限, f: 0.1}, {v: 100, zh: 全面, f: 0.3}]
+    start: {begin_1977: 0}
+    pc: 6
+    up: {bloc: {labor_ashkenazi: -1}}
+    down: {bloc: {mizrahi: -3}}
+    e: [{t: alienation, k: mizrahi, c: -0.04, i: 6}, {t: historical_grievance, k: mizrahi, c: -0.002, s: above, p: 0}, {t: bloc_support, k: mizrahi, c: 0.03}, {t: bloc_support, k: labor_ashkenazi, c: -0.01}]
+
+# ───────── 移民与安置（immig）─────────
+  - id: absorption_basket
+    zh: 新移民吸收篮
+    cat: immig
+    law: false
+    tiers: [{v: 0, zh: 精简, f: -0.5}, {v: 50, zh: 现行}, {v: 100, zh: 慷慨, f: 1.0}]
+    start: {begin_1977: 1}
+    pc: 6
+    up: {bloc: {mizrahi: -2}}
+    down: {par: {power_relation.diaspora: -3}}
+    e: [{t: absorption_capacity, c: 0.08, i: 6}, {t: alienation, k: ethiopian, c: -0.04, i: 6}, {t: immigration_inflow, c: 100, i: 12}, {t: bloc_support, k: mizrahi, c: -0.02}]
+
+  - id: return_law_scope
+    zh: 回归法适用范围
+    cat: immig
+    law: true
+    tiers: [{v: 0, zh: 限缩（删除孙辈条款）, rsq: 2}, {v: 100, zh: 现行（含孙辈）}]
+    start: {begin_1977: 1}
+    pc: 15
+    up: {ally: {agudat: -4}}
+    down: {par: {power_relation.diaspora: -6}, bloc: {liberal_middle: -2}}
+    ax: {religion: -4}
+    ask: {agudat: 0}
+    e: [{t: immigration_inflow, c: 150, i: 12}, {t: ally_satisfaction, k: agudat, c: -0.06}, {t: power_relation, k: diaspora, c: 0.04, i: 6}]
+
+  - id: ethiopian_aliyah
+    zh: 埃塞俄比亚犹太人移民
+    cat: immig
+    law: false
+    tiers: [{v: 0, zh: 不主动}, {v: 50, zh: 秘密通道, f: 0.2}, {v: 100, zh: 国家行动优先, f: 0.6}]
+    start: {begin_1977: 0}
+    pc: 8
+    up: {par: {us_admin_relation: -1}, ally: {agudat: -2}}
+    down: {par: {power_relation.diaspora: -4}, bloc: {mizrahi: -1}}
+    e: [{t: power_relation, k: diaspora, c: 0.06, i: 6}, {t: immigration_inflow, c: 20, i: 6}, {t: alienation, k: ethiopian, c: -0.03, i: 6}, {t: absorption_capacity, c: -0.02, i: 6}]
+    note: "E-1977-08、E-1984-11"
+
+  - id: immigrant_dispersal
+    zh: 新移民向周边分散安置
+    cat: immig
+    law: false
+    tiers: [{v: 0, zh: 自由选择}, {v: 50, zh: 激励（现状）}, {v: 100, zh: 指令分配}]
+    start: {begin_1977: 1}
+    pc: 6
+    up: {bloc: {liberal_middle: -1}, par: {power_relation.diaspora: -1}}
+    down: {bloc: {mizrahi: -1}}
+    e: [{t: region_development, k: negev, c: 0.04, i: 12}, {t: region_development, k: galilee, c: 0.03, i: 12}, {t: alienation, k: ethiopian, c: 0.04, i: 6}, {t: absorption_capacity, c: -0.03, i: 6}]
+
+  - id: diaspora_partnership
+    zh: 海外社群与犹太代理处合作
+    cat: immig
+    law: false
+    tiers: [{v: 0, zh: 最小}, {v: 50, zh: 现行}, {v: 100, zh: 深度结对}]
+    start: {begin_1977: 1}
+    pc: 6
+    up: {standing: -1, bloc: {labor_ashkenazi: -1}}
+    down: {par: {power_relation.diaspora: -4}}
+    e: [{t: power_relation, k: diaspora, c: 0.08, i: 6}, {t: fx_reserves, c: 0.02, i: 6}, {t: alienation, k: mizrahi, c: -0.02, i: 12}, {t: us_congress_relation, c: 0.02, i: 6}]
+
+# ───────── 定居与领土（terr）─────────
+  - id: settlement_policy
+    zh: 定居点政策（按区）
+    cat: terr
+    lever: settlement_policy
+    keys: [west_bank, gaza, golan, sinai]
+    era: [1967, null]
+    law: false
+    tiers: [{v: 0, zh: 冻结}, {v: 30, zh: 仅加厚现有, f: 0.2}, {v: 40, zh: 阿隆框架内新建, f: 0.4}, {v: 70, zh: 全面扩张, f: 1.0}, {v: 100, zh: 积极扩张（德罗布莱斯计划）, f: 1.8}]
+    start: {begin_1977: {west_bank: 40, gaza: 30, golan: 40, sinai: 30}}
+    pc: 8
+    up: {par: {us_admin_relation: -2, intl_legitimacy: -1}}
+    down: {ally: {nrp: -6}, bloc: {religious_zionist: -3}}
+    ax: {territory: 20}
+    ask: {nrp: 3, tehiya: 4}
+    e: [{t: us_admin_relation, c: -0.08, i: 6}, {t: pal_hostility, c: 0.06, i: 6}, {t: intl_legitimacy, c: -0.04, i: 6}, {t: ally_satisfaction, k: nrp, c: 0.10}, {t: bloc_support, k: religious_zionist, c: 0.04}]
+    note: "owner M11（M02 附录A）；M02 边 SM.01 读取 west_bank；每个键各展开 5 条边"
+
+  - id: outpost_enforcement
+    zh: 前哨执法力度
+    cat: terr
+    lever: outpost_enforcement
+    era: [1967, null]
+    law: false
+    tiers: [{v: 0, zh: 默许并追认}, {v: 25, zh: 宽松}, {v: 50, zh: 现行}, {v: 100, zh: 全部拆除并起诉}]
+    start: {begin_1977: 2}
+    pc: 8
+    up: {ally: {nrp: -4}, bloc: {religious_zionist: -2}}
+    down: {par: {us_admin_relation: -2}, rol: -1}
+    ax: {territory: -10}
+    ask: {nrp: 1}
+    e: [{t: rule_of_law, c: 0.02, i: 6}, {t: ally_satisfaction, k: nrp, c: -0.08}, {t: us_admin_relation, c: 0.03, i: 6}, {t: pal_hostility, c: -0.02, i: 6}]
+    note: "M02 边 SM.03 读取"
+
+  - id: land_acquisition_mode
+    zh: 占领区土地获取方式
+    cat: terr
+    era: [1967, null]
+    law: false
+    tiers: [{v: 0, zh: 仅以军事需要征用私地（现状）}, {v: 50, zh: 国有土地宣告, flag: state_land_declaration}, {v: 100, zh: 大规模国有土地宣告, flag: state_land_declaration}]
+    start: {begin_1977: 0}
+    pc: 10
+    up: {par: {intl_legitimacy: -2, us_admin_relation: -1}}
+    down: {ally: {nrp: -4}}
+    ax: {territory: 8}
+    ask: {nrp: 2}
+    e: [{t: pal_hostility, c: 0.06, i: 6}, {t: settler_momentum, c: 0.04}, {t: intl_legitimacy, c: -0.03, i: 6}, {t: rule_of_law, c: 0.01, i: 6}]
+    note: "E-1979-10 A 后的史实路径；档1起法院以私地为由叫停的事件不再触发"
+
+  - id: settler_housing_incentives
+    zh: 定居点住房补贴与税收优惠
+    cat: terr
+    era: [1967, null]
+    law: false
+    tiers: [{v: 0, zh: 无, f: -0.3}, {v: 33, zh: 现行}, {v: 67, zh: 优厚, f: 0.6}, {v: 100, zh: 极优厚, f: 1.2}]
+    start: {begin_1977: 1}
+    pc: 6
+    up: {par: {us_admin_relation: -1}, ally: {liberals: -1}}
+    down: {ally: {nrp: -3}}
+    ax: {territory: 6}
+    e: [{t: settler_momentum, c: 0.04}, {t: bloc_support, k: religious_zionist, c: 0.03}, {t: us_admin_relation, c: -0.03, i: 6}, {t: bloc_support, k: mizrahi, c: 0.01}]
+
+  - id: settlement_layout
+    zh: 定居点布局优先
+    cat: terr
+    era: [1967, null]
+    law: false
+    tiers: [{v: 0, zh: 阿隆走廊（约旦河谷）优先（现状）}, {v: 50, zh: 均衡}, {v: 100, zh: 山地腹地优先}]
+    start: {begin_1977: 0}
+    pc: 8
+    up: {par: {us_admin_relation: -2}}
+    down: {ally: {nrp: -3}}
+    ax: {territory: 10}
+    ask: {nrp: 2}
+    e: [{t: us_admin_relation, c: -0.06, i: 6}, {t: pal_hostility, c: 0.06, i: 6}, {t: settler_momentum, c: 0.04}, {t: ally_satisfaction, k: nrp, c: 0.06}, {t: intl_legitimacy, c: -0.03, i: 6}]
+
+  - id: east_jerusalem_building
+    zh: 东耶路撒冷建设与规划
+    cat: terr
+    era: [1967, null]
+    law: false
+    tiers: [{v: 0, zh: 冻结}, {v: 50, zh: 现行}, {v: 100, zh: 扩张}]
+    start: {begin_1977: 1}
+    pc: 8
+    up: {par: {intl_legitimacy: -2}}
+    down: {bloc: {religious_zionist: -2}, standing: -1}
+    ax: {territory: 6}
+    e: [{t: pal_hostility, c: 0.04, i: 6}, {t: intl_legitimacy, c: -0.04, i: 6}, {t: popular_hostility, k: jordan, c: 0.04, i: 6}, {t: bloc_support, k: religious_zionist, c: 0.02}]
+
+  - id: region_land_policy
+    zh: 土地征用与规划执法（按区）
+    cat: terr
+    lever: region_land_policy
+    keys: [galilee, triangle, negev]
+    law: false
+    tiers: [{v: 0, zh: 不征地并补发许可}, {v: 30, zh: 克制}, {v: 50, zh: 加强征地}, {v: 75, zh: 大规模征地}, {v: 100, zh: 征地并拆除}]
+    start: {begin_1977: {galilee: 35, triangle: 30, negev: 35}}
+    pc: 8
+    up: {bloc: {arab_citizens: -3}, rol: -1}
+    down: {bloc: {religious_zionist: -1}}
+    ax: {territory: 4}
+    e: [{t: region_development, k: galilee, c: 0.02, i: 12}, {t: bloc_support, k: arab_citizens, c: -0.06}, {t: intl_legitimacy, c: -0.02, i: 6}, {t: bloc_support, k: kibbutz_moshav, c: 0.01}]
+    note: "owner M11；M02 边 LGR.* 另读取；本条 4 条边对每个键各展开"
+
+# ───────── 安全（sec）─────────
+  - id: reserve_duty
+    zh: 预备役年度服役天数
+    cat: sec
+    law: false
+    tiers: [{v: 0, zh: 30天}, {v: 50, zh: 45天（现状）}, {v: 100, zh: 60天}]
+    start: {begin_1977: 1}
+    pc: 8
+    up: {bloc: {liberal_middle: -2, kibbutz_moshav: -1}}
+    down: {rel: {chief_of_staff: -8}}
+    ax: {security: 6}
+    e: [{t: readiness, c: 0.08, i: 3}, {t: growth, c: -0.01}, {t: bloc_support, k: liberal_middle, c: -0.03}, {t: public_security, c: 0.02}]
+
+  - id: conscription_length
+    zh: 男性义务兵役年限
+    cat: sec
+    law: true
+    tiers: [{v: 0, zh: 30个月}, {v: 100, zh: 36个月（现状）}]
+    start: {begin_1977: 1}
+    pc: 10
+    up: {bloc: {liberal_middle: -3}}
+    down: {rel: {chief_of_staff: -10}, standing: -2}
+    ax: {security: 6}
+    e: [{t: readiness, c: 0.06, i: 6}, {t: growth, c: -0.01, i: 6}, {t: unemployment, c: -0.01, i: 6}, {t: bloc_support, k: liberal_middle, c: -0.02}]
+
+  - id: retaliation_doctrine
+    zh: 报复原则
+    cat: sec
+    law: false
+    tiers: [{v: 0, zh: 克制}, {v: 50, zh: 相称报复（现状）}, {v: 100, zh: 先发制人}]
+    start: {begin_1977: 1}
+    pc: 10
+    up: {par: {intl_legitimacy: -3, us_admin_relation: -2}}
+    down: {standing: -3, bloc: {mizrahi: -2}}
+    ax: {security: 15}
+    e: [{t: deterrence, c: 0.08, i: 3}, {t: intl_legitimacy, c: -0.06, i: 6}, {t: pal_hostility, c: 0.04, i: 6}, {t: us_admin_relation, c: -0.04, i: 6}, {t: public_security, c: 0.04}]
+
+  - id: nuclear_signaling
+    zh: 核模糊政策
+    cat: sec
+    era: [1957, null]
+    law: false
+    tiers: [{v: 0, zh: 严格模糊（现状）}, {v: 50, zh: 有意泄露信号}, {v: 100, zh: 公开宣示}]
+    start: {begin_1977: 0}
+    n: 25
+    pc: 15
+    up: {par: {us_admin_relation: -6, intl_legitimacy: -4}}
+    down: {rel: {defense_minister: -3}}
+    ax: {security: 5, foreign: 8}
+    e: [{t: deterrence, c: 0.06, i: 3}, {t: us_admin_relation, c: -0.06, i: 3}, {t: intl_legitimacy, c: -0.04, i: 6}, {t: nuclear_exposure_risk, c: 0.10}]
+
+  - id: military_censorship
+    zh: 军事审查力度
+    cat: sec
+    law: false
+    tiers: [{v: 0, zh: 只删作战机密}, {v: 50, zh: 现行}, {v: 100, zh: 广泛审查}]
+    start: {begin_1977: 1}
+    pc: 8
+    up: {bloc: {liberal_middle: -3}, rol: -1}
+    down: {rel: {chief_of_staff: -5}}
+    ax: {security: 4}
+    e: [{t: rule_of_law, c: -0.03, i: 6}, {t: us_congress_relation, c: -0.02, i: 6}, {t: bloc_support, k: liberal_middle, c: -0.03}, {t: centralization, c: 0.03}]
+    note: "E-G04-12"
+
+  - id: shin_bet_oversight
+    zh: 辛贝特审讯与内部规则
+    cat: sec
+    law: false
+    tiers: [{v: 0, zh: 议会与法律顾问监督, flag: shin_bet_reform}, {v: 50, zh: 总检察长审查, flag: shin_bet_reform}, {v: 100, zh: 无书面规则（现状）}]
+    start: {begin_1977: 2}
+    pc: 8
+    up: {rol: -2}
+    down: {rel: {shin_bet_chief: -10}}
+    ax: {security: 6}
+    e: [{t: rule_of_law, c: -0.04, i: 6}, {t: region_security, k: west_bank, c: 0.02}, {t: region_security, k: gaza, c: 0.02}, {t: centralization, c: 0.02}]
+    note: "E-G04-19；旗标 shin_bet_reform 使其失效"
+
+  - id: arms_sourcing
+    zh: 武器来源与国产军工
+    cat: sec
+    law: false
+    tiers: [{v: 0, zh: 依赖美国采购, f: -0.5}, {v: 50, zh: 均衡（现状）}, {v: 100, zh: 国产优先（拉维战机）, f: 1.5}]
+    start: {begin_1977: 1}
+    pc: 10
+    up: {par: {us_admin_relation: -3}}
+    down: {bloc: {mizrahi: -1}, par: {unemployment: 0.3}}
+    ax: {foreign: 8}
+    e: [{t: arms_reliability, k: usa, c: -0.04, i: 12}, {t: us_admin_relation, c: -0.03, i: 6}, {t: unemployment, c: -0.01, i: 12}, {t: strategic_dependence, c: -0.08, i: 12}]
+
+  - id: lebanon_proxy
+    zh: 南黎巴嫩代理民兵支持
+    cat: sec
+    law: false
+    tiers: [{v: 0, zh: 不支持}, {v: 50, zh: 有限支持（现状）, f: 0.2}, {v: 100, zh: 大规模扶植, f: 0.6}]
+    start: {begin_1977: 1}
+    pc: 8
+    up: {par: {intl_legitimacy: -2}}
+    down: {bloc: {mizrahi: -1}, rel: {chief_of_staff: -3}}
+    ax: {security: 6}
+    e: [{t: region_security, k: galilee, c: 0.05}, {t: regime_stability, k: lebanon, c: -0.04, i: 6}, {t: intl_legitimacy, c: -0.02, i: 6}, {t: popular_hostility, k: lebanon, c: 0.03, i: 6}]
+
+# ───────── 占领区管理（occ）─────────
+  - id: work_permits
+    zh: 巴勒斯坦劳工入境许可
+    cat: occ
+    era: [1967, null]
+    law: false
+    tiers: [{v: 0, zh: 严格限制}, {v: 50, zh: 现行开放}, {v: 100, zh: 大幅放宽}]
+    start: {begin_1977: 1}
+    pc: 6
+    up: {bloc: {mizrahi: -2}, par: {public_security: -1}}
+    down: {par: {pal_living_standard: -3}, bloc: {kibbutz_moshav: -1}}
+    ax: {security: -4}
+    e: [{t: pal_living_standard, c: 0.10, i: 3}, {t: pal_hostility, c: -0.04, i: 6}, {t: unemployment, c: 0.02}, {t: region_security, k: tel_aviv, c: -0.02}, {t: bloc_support, k: mizrahi, c: -0.02}]
+
+  - id: open_bridges
+    zh: 约旦河开放桥梁
+    cat: occ
+    era: [1967, null]
+    law: false
+    tiers: [{v: 0, zh: 关闭}, {v: 100, zh: 开放（现状）}]
+    start: {begin_1977: 1}
+    pc: 6
+    up: {par: {region_security.west_bank: -1}}
+    down: {par: {regime_hostility.jordan: 3, pal_living_standard: -3}}
+    ax: {security: -3}
+    e: [{t: pal_living_standard, c: 0.06, i: 3}, {t: regime_hostility, k: jordan, c: -0.04, i: 6}, {t: region_security, k: west_bank, c: -0.02}, {t: faction_strength, k: notables, c: 0.03, i: 6}]
+
+  - id: curfew_closure
+    zh: 宵禁与封锁
+    cat: occ
+    era: [1967, null]
+    law: false
+    tiers: [{v: 0, zh: 罕用}, {v: 50, zh: 现行}, {v: 100, zh: 频繁}]
+    start: {begin_1977: 1}
+    pc: 6
+    up: {par: {intl_legitimacy: -2, pal_living_standard: -2}}
+    down: {bloc: {religious_zionist: -2}, standing: -1}
+    ax: {security: 8}
+    e: [{t: region_security, k: west_bank, c: 0.05}, {t: region_security, k: gaza, c: 0.05}, {t: pal_hostility, c: 0.16, s: quad_above, w: 50}, {t: pal_living_standard, c: -0.06, i: 3}, {t: intl_legitimacy, c: -0.03, i: 6}]
+
+  - id: home_demolition
+    zh: 拆除武装分子住宅
+    cat: occ
+    era: [1967, null]
+    law: false
+    tiers: [{v: 0, zh: 停止}, {v: 50, zh: 个案（现状）}, {v: 100, zh: 例行}]
+    start: {begin_1977: 1}
+    pc: 6
+    up: {par: {intl_legitimacy: -2}, rol: -1}
+    down: {bloc: {religious_zionist: -2, mizrahi: -1}}
+    ax: {security: 6}
+    e: [{t: deterrence, c: 0.02}, {t: pal_hostility, c: 0.06, i: 6}, {t: intl_legitimacy, c: -0.04, i: 6}, {t: rule_of_law, c: -0.02, i: 6}]
+
+  - id: deportation
+    zh: 驱逐出境
+    cat: occ
+    era: [1967, null]
+    law: false
+    tiers: [{v: 0, zh: 停止}, {v: 50, zh: 个案（现状）}, {v: 100, zh: 例行}]
+    start: {begin_1977: 1}
+    pc: 8
+    up: {par: {us_admin_relation: -3, intl_legitimacy: -2}}
+    down: {rel: {shin_bet_chief: -5}}
+    ax: {security: 6}
+    e: [{t: region_security, k: west_bank, c: 0.03}, {t: pal_hostility, c: 0.05, i: 6}, {t: intl_legitimacy, c: -0.05, i: 6}, {t: faction_legitimacy, k: fatah, c: 0.03, i: 6}]
+    note: "E-G04-09 B"
+
+  - id: pal_municipalities
+    zh: 巴勒斯坦民选市政
+    cat: occ
+    era: [1967, null]
+    law: false
+    tiers: [{v: 0, zh: 解散并任命官员}, {v: 50, zh: 维持1976年当选者（现状）}, {v: 100, zh: 扩大地方自治}]
+    start: {begin_1977: 1}
+    pc: 10
+    up: {ally: {nrp: -4}, standing: -2}
+    down: {par: {us_admin_relation: -4, intl_legitimacy: -3}}
+    ax: {territory: -8}
+    e: [{t: pal_hostility, c: -0.06, i: 6}, {t: faction_strength, k: fatah, c: 0.04, i: 6}, {t: us_admin_relation, c: 0.04, i: 6}, {t: ally_satisfaction, k: nrp, c: -0.04}]
+
+  - id: civil_administration
+    zh: 占领区管理架构
+    cat: occ
+    era: [1967, null]
+    law: false
+    tiers: [{v: 0, zh: 军政府（现状）}, {v: 100, zh: 民政当局（军政分离）, flag: civil_administration}]
+    start: {begin_1977: 0}
+    pc: 10
+    up: {par: {pal_hostility: 2}, rel: {chief_of_staff: -3}}
+    down: {par: {intl_legitimacy: -1}, standing: -1}
+    ax: {territory: 3}
+    e: [{t: pal_living_standard, c: 0.03, i: 6}, {t: faction_strength, k: notables, c: 0.03, i: 6}, {t: pal_hostility, c: 0.02, i: 6}, {t: intl_legitimacy, c: 0.01, i: 6}]
+    note: "E-1981-11"
+
+  - id: village_leagues
+    zh: 村庄联盟扶持
+    cat: occ
+    era: [1967, null]
+    law: false
+    tiers: [{v: 0, zh: 不扶持（现状）}, {v: 50, zh: 有限, f: 0.1}, {v: 100, zh: 大力扶持, f: 0.3}]
+    start: {begin_1977: 0}
+    pc: 8
+    up: {par: {pal_hostility: 1}}
+    down: {rel: {defense_minister: -3}}
+    ax: {territory: 4}
+    e: [{t: faction_strength, k: notables, c: 0.06, i: 3}, {t: faction_legitimacy, k: notables, c: -0.08, i: 3, g: "pal_hostility / 50"}, {t: pal_hostility, c: 0.02, i: 6}, {t: faction_legitimacy, k: fatah, c: 0.02, i: 6}]
+    note: "设计文档 §14.2 合作者污名：门控 = 民间敌意/50"
+
+  - id: islamic_tolerance
+    zh: 对伊斯兰协会的态度
+    cat: occ
+    era: [1973, 1987]
+    law: false
+    tiers: [{v: 0, zh: 打压}, {v: 50, zh: 监控（现状）}, {v: 100, zh: 宽容以制衡巴解, flag: tolerate_islamists}]
+    start: {begin_1977: 1}
+    pc: 6
+    up: {rel: {shin_bet_chief: -3}}
+    down: {par: {pal_hostility: 2}}
+    ax: {security: -2}
+    e: [{t: islamic_assoc_strength, c: 0.08, i: 3}, {t: faction_strength, k: fatah, c: -0.03, i: 6}, {t: pal_living_standard, c: 0.02, i: 6}, {t: pal_hostility, c: -0.01, i: 6}]
+    note: "E-G04-10"
+
+  - id: pal_universities
+    zh: 巴勒斯坦大学与出版许可
+    cat: occ
+    era: [1967, null]
+    law: false
+    tiers: [{v: 0, zh: 关闭与严审}, {v: 50, zh: 许可审查（现状）}, {v: 100, zh: 宽松}]
+    start: {begin_1977: 1}
+    pc: 6
+    up: {bloc: {religious_zionist: -1}, par: {region_security.west_bank: -1}}
+    down: {par: {intl_legitimacy: -3, pal_hostility: 2}}
+    ax: {security: -3}
+    e: [{t: pal_hostility, c: -0.04, i: 6}, {t: faction_strength, k: fatah, c: 0.03, i: 6}, {t: intl_legitimacy, c: 0.03, i: 6}, {t: pal_living_standard, c: 0.01, i: 12}]
+
+# ───────── 阿拉伯公民（arab）─────────
+  - id: military_government
+    zh: 军事管制（按群体）
+    cat: arab
+    lever: military_government
+    keys: [arab, druze, bedouin]
+    law: false
+    tiers: [{v: 0, zh: 无（现状）}, {v: 50, zh: 局部安全区管制}, {v: 100, zh: 全面军事管制}]
+    start: {begin_1977: {arab: 0, druze: 0, bedouin: 0}}
+    pc: 20
+    up: {rol: -2, bloc: {arab_citizens: -5, liberal_middle: -2}}
+    down: {rel: {shin_bet_chief: -5}}
+    ax: {security: 10}
+    e: [{t: rule_of_law, c: -0.03, i: 3}, {t: intl_legitimacy, c: -0.03, i: 6}, {t: centralization, c: 0.04}, {t: bloc_support, k: arab_citizens, c: -0.04}]
+    note: "owner M11；M02 边 CIV.02、LGR.03 另读取；恢复属于集权类（M13 判定）"
+
+  - id: arab_local_budget
+    zh: 阿拉伯地方政府拨款
+    cat: arab
+    law: false
+    tiers: [{v: 0, zh: 低于犹太城镇一半, f: -0.3}, {v: 33, zh: 现行（约六成）}, {v: 67, zh: 缩小差距（八成）, f: 0.5}, {v: 100, zh: 平等, f: 1.0}]
+    start: {begin_1977: 1}
+    pc: 8
+    up: {bloc: {religious_zionist: -1}, ally: {nrp: -1}}
+    down: {bloc: {arab_citizens: -3}}
+    e: [{t: civic_identification, k: arab, c: 0.08, i: 12}, {t: civic_identification, k: druze, c: 0.04, i: 12}, {t: civic_identification, k: bedouin, c: 0.04, i: 12}, {t: bloc_support, k: arab_citizens, c: 0.06}, {t: bloc_support, k: religious_zionist, c: -0.02}]
+
+  - id: arab_planning
+    zh: 阿拉伯城镇规划与建筑许可
+    cat: arab
+    law: false
+    tiers: [{v: 0, zh: 冻结}, {v: 50, zh: 现行}, {v: 100, zh: 扩大规划区}]
+    start: {begin_1977: 1}
+    pc: 6
+    up: {bloc: {religious_zionist: -1}}
+    down: {bloc: {arab_citizens: -2}}
+    e: [{t: land_grievance, k: arab, c: -0.004}, {t: civic_identification, k: arab, c: 0.04, i: 12}, {t: region_development, k: triangle, c: 0.02, i: 12}, {t: bloc_support, k: religious_zionist, c: -0.01}]
+
+  - id: bedouin_villages
+    zh: 贝都因未承认村庄
+    cat: arab
+    law: false
+    tiers: [{v: 0, zh: 强制迁入规划镇}, {v: 50, zh: 现行（不承认、少量拆除）}, {v: 100, zh: 逐步承认, f: 0.3}]
+    start: {begin_1977: 1}
+    pc: 8
+    up: {bloc: {religious_zionist: -1}, ally: {nrp: -1}}
+    down: {par: {intl_legitimacy: -1}, bloc: {arab_citizens: -2}}
+    e: [{t: land_grievance, k: bedouin, c: -0.006}, {t: civic_identification, k: bedouin, c: 0.05, i: 12}, {t: region_development, k: negev, c: 0.01, i: 12}, {t: bloc_support, k: religious_zionist, c: -0.01}]
+
+  - id: druze_track
+    zh: 德鲁兹独立教育与优待
+    cat: arab
+    law: false
+    tiers: [{v: 0, zh: 取消}, {v: 100, zh: 现行}]
+    start: {begin_1977: 1}
+    pc: 6
+    up: {bloc: {arab_citizens: -1}}
+    down: {par: {civic_identification.druze: -4}}
+    e: [{t: civic_identification, k: druze, c: 0.06, i: 6}, {t: civic_identification, k: arab, c: -0.02, i: 12}, {t: readiness, c: 0.01}]
+
+  - id: arab_civil_service
+    zh: 阿拉伯公务员录用
+    cat: arab
+    law: false
+    tiers: [{v: 0, zh: 无政策（现状）}, {v: 50, zh: 目标比例, f: 0.1}, {v: 100, zh: 法定配额, f: 0.2}]
+    start: {begin_1977: 0}
+    pc: 8
+    up: {bloc: {mizrahi: -1, religious_zionist: -1}}
+    down: {bloc: {arab_citizens: -2}}
+    e: [{t: civic_identification, k: arab, c: 0.06, i: 12}, {t: bloc_support, k: arab_citizens, c: 0.04}, {t: bloc_support, k: mizrahi, c: -0.02}]
+
+# ───────── 媒体与民主（media）─────────
+  - id: iba_independence
+    zh: 广播局独立性
+    cat: media
+    law: true
+    tiers: [{v: 0, zh: 政府指导, mod: state_tv_line}, {v: 50, zh: 公共理事会（现状）}, {v: 100, zh: 完全独立}]
+    start: {begin_1977: 1}
+    pc: 10
+    up: {standing: -2}
+    down: {rol: -2, bloc: {liberal_middle: -3}}
+    ax: {security: -2}
+    e: [{t: rule_of_law, c: 0.03, i: 6}, {t: bloc_support, k: liberal_middle, c: 0.03}, {t: centralization, c: -0.04}, {t: us_congress_relation, c: 0.01, i: 6}]
+
+  - id: commercial_tv
+    zh: 第二电视频道与商业广播
+    cat: media
+    law: true
+    tiers: [{v: 0, zh: 无（现状）}, {v: 50, zh: 试播, f: 0.1}, {v: 100, zh: 商业频道, f: -0.2, em: 2}]
+    start: {begin_1977: 0}
+    pc: 8
+    up: {ally: {agudat: -3}, par: {union_strength: -1}}
+    down: {bloc: {liberal_middle: -2}}
+    ax: {economy: 3}
+    econ_gate: {2: "economic_model >= -20"}
+    e: [{t: bloc_support, k: liberal_middle, c: 0.03}, {t: rule_of_law, c: 0.02, i: 12}, {t: ally_satisfaction, k: agudat, c: -0.04}, {t: centralization, c: -0.02}]
+
+  - id: press_ordinance
+    zh: 委任统治新闻条例执行
+    cat: media
+    law: false
+    tiers: [{v: 0, zh: 不执行}, {v: 50, zh: 备用（现状）}, {v: 100, zh: 积极执行（报刊许可）}]
+    start: {begin_1977: 1}
+    pc: 10
+    up: {rol: -3, par: {us_congress_relation: -3}}
+    down: {rel: {shin_bet_chief: -3}}
+    ax: {security: 4}
+    e: [{t: rule_of_law, c: -0.05, i: 6}, {t: centralization, c: 0.05}, {t: us_congress_relation, c: -0.03, i: 6}, {t: bloc_support, k: liberal_middle, c: -0.04}, {t: bloc_support, k: arab_citizens, c: -0.02}]
+
+  - id: comptroller_powers
+    zh: 国家审计长权限
+    cat: media
+    law: true
+    tiers: [{v: 0, zh: 削弱}, {v: 50, zh: 现行}, {v: 100, zh: 扩大}]
+    start: {begin_1977: 1}
+    pc: 8
+    up: {standing: -2, ally: {agudat: -2}}
+    down: {rol: -2, bloc: {liberal_middle: -2}}
+    e: [{t: rule_of_law, c: 0.04, i: 12}, {t: centralization, c: -0.04}, {t: bloc_support, k: liberal_middle, c: 0.02}, {t: party_standing, c: -0.01}]
+
+  - id: electoral_threshold
+    zh: 选举门槛
+    cat: media
+    law: true
+    vote: absolute61
+    tiers: [{v: 0, zh: 1%（现状）}, {v: 50, zh: 1.5%}, {v: 100, zh: 2.5%}]
+    start: {begin_1977: 0}
+    pc: 15
+    up: {ally: {agudat: -6, tehiya: -6}}
+    down: {standing: -2}
+    e: [{t: ally_satisfaction, k: agudat, c: -0.04}, {t: ally_satisfaction, k: tehiya, c: -0.06}, {t: bloc_support, k: arab_citizens, c: -0.02}, {t: party_standing, c: 0.01}]
+    note: "M03 计算席位时直接读取本杠杆"
+
+  - id: emergency_regs_use
+    zh: 紧急状态条例使用
+    cat: media
+    law: false
+    tiers: [{v: 0, zh: 最低}, {v: 50, zh: 现行}, {v: 100, zh: 扩大（以条例代替立法）}]
+    start: {begin_1977: 1}
+    pc: 10
+    up: {rol: -3, bloc: {liberal_middle: -2}}
+    down: {rel: {defense_minister: -3}}
+    ax: {security: 5}
+    e: [{t: rule_of_law, c: -0.05, i: 6}, {t: centralization, c: 0.06}, {t: public_security, c: 0.02}, {t: us_congress_relation, c: -0.02, i: 6}]
+
+# ───────── 外交（fore）─────────
+  - id: un_posture
+    zh: 对联合国态度
+    cat: fore
+    law: false
+    tiers: [{v: 0, zh: 合作}, {v: 50, zh: 冷淡（现状）}, {v: 100, zh: 对抗}]
+    start: {begin_1977: 1}
+    pc: 6
+    up: {par: {intl_legitimacy: -3}}
+    down: {bloc: {religious_zionist: -1}, standing: -1}
+    ax: {foreign: 10}
+    e: [{t: intl_legitimacy, c: -0.06, i: 6}, {t: us_admin_relation, c: -0.02, i: 6}, {t: bloc_support, k: religious_zionist, c: 0.02}, {t: party_standing, c: 0.01}]
+
+  - id: third_world_aid
+    zh: 对第三世界技术援助
+    cat: fore
+    law: false
+    tiers: [{v: 0, zh: 收缩（现状）}, {v: 50, zh: 现行, f: 0.1}, {v: 100, zh: 扩大, f: 0.3}]
+    start: {begin_1977: 0}
+    pc: 6
+    up: {ally: {liberals: -1}}
+    down: {par: {intl_legitimacy: -1}}
+    ax: {foreign: -4}
+    e: [{t: intl_legitimacy, c: 0.06, i: 12}, {t: us_admin_relation, c: 0.01, i: 12}, {t: ally_satisfaction, k: liberals, c: -0.01}]
+
+  - id: south_africa_ties
+    zh: 与南非合作
+    cat: fore
+    law: false
+    tiers: [{v: 0, zh: 断绝}, {v: 50, zh: 低调合作（现状）}, {v: 100, zh: 公开军事合作}]
+    start: {begin_1977: 1}
+    pc: 8
+    up: {par: {us_congress_relation: -3, intl_legitimacy: -2}}
+    down: {par: {fx_reserves: -2}, rel: {defense_minister: -3}}
+    ax: {foreign: 6}
+    e: [{t: fx_reserves, c: 0.03, i: 6}, {t: intl_legitimacy, c: -0.06, i: 6}, {t: us_congress_relation, c: -0.04, i: 6}, {t: power_relation, k: diaspora, c: -0.02, i: 6}]
+
+  - id: us_lobbying
+    zh: 对美国国会游说投入
+    cat: fore
+    law: false
+    tiers: [{v: 0, zh: 低, f: -0.05}, {v: 50, zh: 现行}, {v: 100, zh: 高, f: 0.1}]
+    start: {begin_1977: 1}
+    pc: 6
+    up: {par: {us_admin_relation: -2}}
+    down: {par: {us_congress_relation: -2}}
+    ax: {foreign: 4}
+    e: [{t: us_congress_relation, c: 0.08, i: 6}, {t: us_admin_relation, c: -0.02, i: 6}, {t: power_relation, k: diaspora, c: 0.02, i: 6}]
+
+  - id: periphery_alliances
+    zh: 外围联盟（伊朗、埃塞俄比亚、库尔德、苏丹南部）
+    cat: fore
+    law: false
+    tiers: [{v: 0, zh: 收缩}, {v: 50, zh: 维持（现状）}, {v: 100, zh: 扩大, f: 0.3}]
+    start: {begin_1977: 1}
+    pc: 8
+    up: {par: {regime_hostility.iraq: 3}}
+    down: {rel: {mossad_chief: -5}}
+    ax: {foreign: 4}
+    e: [{t: regime_stability, k: iran, c: 0.02, i: 12}, {t: regime_hostility, k: iraq, c: 0.03, i: 6}, {t: deterrence, c: 0.01}, {t: us_admin_relation, c: 0.01, i: 12}]

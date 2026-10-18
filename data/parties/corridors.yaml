@@ -1,0 +1,411 @@
+schema_version: 1
+axes:
+- territory
+- security
+- economy
+- religion
+- foreign
+parties:
+  likud:
+    factions:
+    - herut_core
+    - herut_hawks
+    - liberal_wing
+    - laam
+    selection_method:
+    - from_year: 1973
+      to_year: 1992
+      method: central_committee
+    - from_year: 1993
+      to_year: 2100
+      method: primary
+    deviation_side:
+      territory: -1
+      security: -1
+      economy: -1
+      religion: -1
+      foreign: -1
+    core_blocs:
+      mizrahi: 0.5
+      religious_zionist: 0.2
+      liberal_middle: 0.3
+  labor:
+    factions:
+    - labor_peres
+    - labor_rabin
+    - ahdut_haavoda
+    - labor_doves
+    selection_method:
+    - from_year: 1968
+      to_year: 1991
+      method: central_committee
+    - from_year: 1992
+      to_year: 2100
+      method: primary
+    deviation_side:
+      territory: 1
+      security: 1
+      economy: 1
+      religion: 1
+      foreign: 1
+    core_blocs:
+      labor_ashkenazi: 0.5
+      kibbutz_moshav: 0.2
+      liberal_middle: 0.3
+factions:
+  herut_core:
+    party: likud
+    name_zh: 赫鲁特主流（贝京派）
+    leader_role: begin
+    rigid: false
+    exit_target: new_party_a
+    weight: 38
+    home:
+      territory:
+      - 0
+      - 100
+      - 50
+      - 1.2
+      security:
+      - -20
+      - 70
+      - 20
+      - 1.0
+      economy:
+      - -60
+      - 40
+      - -10
+      - 0.5
+      religion:
+      - -30
+      - 40
+      - 5
+      - 0.6
+      foreign:
+      - -25
+      - 40
+      - 10
+      - 0.8
+  herut_hawks:
+    party: likud
+    name_zh: 以色列地派（赫鲁特强硬派）
+    leader_role: geula_cohen
+    rigid: true
+    exit_target: tehiya
+    weight: 12
+    home:
+      territory:
+      - 30
+      - 100
+      - 75
+      - 1.8
+      security:
+      - 0
+      - 100
+      - 40
+      - 1.2
+      economy:
+      - -70
+      - 40
+      - -20
+      - 0.3
+      religion:
+      - -20
+      - 50
+      - 10
+      - 0.5
+      foreign:
+      - -10
+      - 100
+      - 25
+      - 1.0
+  liberal_wing:
+    party: likud
+    name_zh: 自由党
+    leader_role: ehrlich
+    rigid: false
+    exit_target: liberals
+    weight: 32
+    home:
+      territory:
+      - -40
+      - 80
+      - 20
+      - 0.7
+      security:
+      - -35
+      - 50
+      - 10
+      - 0.7
+      economy:
+      - -20
+      - 100
+      - 40
+      - 1.5
+      religion:
+      - -60
+      - 5
+      - -25
+      - 0.8
+      foreign:
+      - -40
+      - 25
+      - -10
+      - 0.9
+  laam:
+    party: likud
+    name_zh: 拉姆派（国家名单与自由中心）
+    leader_role: hurvitz
+    rigid: false
+    exit_target: new_party_b
+    weight: 18
+    home:
+      territory:
+      - -15
+      - 90
+      - 35
+      - 0.9
+      security:
+      - -25
+      - 60
+      - 15
+      - 0.9
+      economy:
+      - -45
+      - 70
+      - 10
+      - 1.0
+      religion:
+      - -50
+      - 20
+      - -15
+      - 0.5
+      foreign:
+      - -35
+      - 35
+      - 0
+      - 0.6
+  labor_peres:
+    party: labor
+    name_zh: 佩雷斯派
+    leader_role: peres
+    rigid: false
+    exit_target: new_party_a
+    weight: 40
+    home:
+      territory:
+      - -70
+      - 10
+      - -30
+      - 1.0
+      security:
+      - -30
+      - 50
+      - 10
+      - 0.8
+      economy:
+      - -80
+      - 0
+      - -40
+      - 0.8
+      religion:
+      - -50
+      - 10
+      - -20
+      - 0.6
+      foreign:
+      - -40
+      - 20
+      - -15
+      - 0.8
+  labor_rabin:
+    party: labor
+    name_zh: 拉宾派
+    leader_role: rabin
+    rigid: false
+    exit_target: new_party_b
+    weight: 30
+    home:
+      territory:
+      - -65
+      - 15
+      - -25
+      - 1.0
+      security:
+      - -15
+      - 60
+      - 20
+      - 1.1
+      economy:
+      - -80
+      - -10
+      - -45
+      - 0.8
+      religion:
+      - -50
+      - 5
+      - -25
+      - 0.5
+      foreign:
+      - -40
+      - 20
+      - -15
+      - 0.8
+  ahdut_haavoda:
+    party: labor
+    name_zh: 团结劳工派（阿隆派）
+    leader_role: ahdut_haavoda_leader
+    rigid: false
+    exit_target: new_party_c
+    weight: 15
+    home:
+      territory:
+      - -50
+      - 25
+      - -10
+      - 1.1
+      security:
+      - -10
+      - 65
+      - 25
+      - 1.0
+      economy:
+      - -95
+      - -30
+      - -65
+      - 1.0
+      religion:
+      - -50
+      - 5
+      - -25
+      - 0.4
+      foreign:
+      - -30
+      - 25
+      - -5
+      - 0.6
+  labor_doves:
+    party: labor
+    name_zh: 鸽派青年一代
+    leader_role: labor_doves_leader
+    rigid: true
+    exit_target: new_party_c
+    weight: 15
+    home:
+      territory:
+      - -100
+      - -35
+      - -70
+      - 1.4
+      security:
+      - -60
+      - 20
+      - -25
+      - 1.0
+      economy:
+      - -70
+      - 10
+      - -30
+      - 0.6
+      religion:
+      - -66
+      - -10
+      - -40
+      - 0.8
+      foreign:
+      - -44
+      - 5
+      - -25
+      - 0.8
+other_parties:
+  nrp:
+    center:
+      territory: 55
+      security: 25
+      economy: -20
+      religion: 40
+      foreign: 15
+    salience:
+      territory: 1.0
+      security: 1.0
+      economy: 1.0
+      religion: 1.8
+      foreign: 1.0
+  agudat:
+    center:
+      territory: 5
+      security: 0
+      economy: -20
+      religion: 60
+      foreign: 0
+    salience:
+      territory: 0.6
+      security: 1.0
+      economy: 1.0
+      religion: 1.8
+      foreign: 1.0
+  tehiya:
+    center:
+      territory: 85
+      security: 55
+      economy: -15
+      religion: 10
+      foreign: 35
+    salience:
+      territory: 1.0
+      security: 1.0
+      economy: 1.0
+      religion: 1.0
+      foreign: 1.0
+  dash:
+    center:
+      territory: -25
+      security: 5
+      economy: 15
+      religion: -30
+      foreign: -15
+    salience:
+      territory: 1.0
+      security: 1.0
+      economy: 1.0
+      religion: 1.0
+      foreign: 1.0
+  shinui:
+    center:
+      territory: -25
+      security: 5
+      economy: 35
+      religion: -45
+      foreign: -15
+    salience:
+      territory: 1.0
+      security: 1.0
+      economy: 1.0
+      religion: 1.0
+      foreign: 1.0
+  mapam:
+    center:
+      territory: -65
+      security: -25
+      economy: -80
+      religion: -50
+      foreign: -30
+    salience:
+      territory: 1.0
+      security: 1.0
+      economy: 1.0
+      religion: 1.0
+      foreign: 1.0
+  shas:
+    center:
+      territory: 0
+      security: 5
+      economy: -35
+      religion: 55
+      foreign: 0
+    salience:
+      territory: 0.6
+      security: 1.0
+      economy: 1.0
+      religion: 1.8
+      foreign: 1.0

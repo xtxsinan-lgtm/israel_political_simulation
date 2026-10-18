@@ -1,0 +1,945 @@
+# data/regions.yaml — M11 地图与区域完整初始数据配置（1977-06-20 开局）
+schema_version: "1.0"
+start_date: "1977-06-20"
+
+region_aliases:
+  north: galilee
+  central: triangle
+  south: negev
+  galilee: galilee
+  triangle: triangle
+  negev: negev
+
+regions:
+  # ==================== 1. 固定区域（6个） ====================
+  galilee:
+    region_id: galilee
+    alias_id: north
+    name_zh: "北部区（加利利）"
+    name_en: "Northern District (Galilee)"
+    is_dynamic: false
+    exists: true
+    legal_status: sovereign
+    total_population: 550000
+    jewish_population: 295000
+    non_citizen_pop: 0
+    settler_population: 0
+    pop_by_group:
+      ashkenazi: 95000
+      mizrahi: 165000
+      religious_zionist: 25000
+      haredi: 10000
+      russian: 0
+      ethiopian: 0
+      arab_citizen: 215000
+      druze: 40000
+      bedouin: 0
+      palestinian_resident: 0
+    region_development: 38.0
+    region_security: 58.0
+    region_alienation:
+      ashkenazi: 18.0
+      mizrahi: 44.0
+      religious_zionist: 22.0
+      haredi: 35.0
+      russian: 30.0
+      ethiopian: 35.0
+      arab: 48.0
+      druze: 22.0
+      bedouin: 42.0
+    strategic_value: 75.0
+    economic_value: 42.0
+    symbolic_value: 65.0
+    settlement_count: 0
+    outpost_count: 0
+    sliders:
+      region_absorption_priority: 50.0
+      region_investment_priority: 50.0
+      region_security_posture: 50.0
+      region_land_policy: 50.0
+      settlement_policy: 0.0
+    adjacent_regions: [haifa, triangle, golan, south_lebanon]
+    active_modifiers: []
+
+  haifa:
+    region_id: haifa
+    alias_id: haifa
+    name_zh: "海法区"
+    name_en: "Haifa District"
+    is_dynamic: false
+    exists: true
+    legal_status: sovereign
+    total_population: 550000
+    jewish_population: 465000
+    non_citizen_pop: 0
+    settler_population: 0
+    pop_by_group:
+      ashkenazi: 260000
+      mizrahi: 145000
+      religious_zionist: 35000
+      haredi: 25000
+      russian: 0
+      ethiopian: 0
+      arab_citizen: 73000
+      druze: 12000
+      bedouin: 0
+      palestinian_resident: 0
+    region_development: 55.0
+    region_security: 72.0
+    region_alienation:
+      ashkenazi: 15.0
+      mizrahi: 32.0
+      religious_zionist: 20.0
+      haredi: 32.0
+      russian: 25.0
+      ethiopian: 30.0
+      arab: 36.0
+      druze: 18.0
+      bedouin: 35.0
+    strategic_value: 65.0
+    economic_value: 78.0
+    symbolic_value: 45.0
+    settlement_count: 0
+    outpost_count: 0
+    sliders:
+      region_absorption_priority: 50.0
+      region_investment_priority: 50.0
+      region_security_posture: 30.0
+      region_land_policy: 30.0
+      settlement_policy: 0.0
+    adjacent_regions: [galilee, triangle, tel_aviv]
+    active_modifiers: []
+
+  tel_aviv:
+    region_id: tel_aviv
+    alias_id: tel_aviv
+    name_zh: "特拉维夫区（古什丹核心）"
+    name_en: "Tel Aviv District (Gush Dan)"
+    is_dynamic: false
+    exists: true
+    legal_status: sovereign
+    total_population: 1200000
+    jewish_population: 1185000
+    non_citizen_pop: 0
+    settler_population: 0
+    pop_by_group:
+      ashkenazi: 610000
+      mizrahi: 375000
+      religious_zionist: 90000
+      haredi: 110000
+      russian: 0
+      ethiopian: 0
+      arab_citizen: 15000
+      druze: 0
+      bedouin: 0
+      palestinian_resident: 0
+    region_development: 75.0
+    region_security: 72.0
+    region_alienation:
+      ashkenazi: 12.0
+      mizrahi: 34.0
+      religious_zionist: 18.0
+      haredi: 34.0
+      russian: 22.0
+      ethiopian: 28.0
+      arab: 38.0
+      druze: 20.0
+      bedouin: 35.0
+    strategic_value: 70.0
+    economic_value: 95.0
+    symbolic_value: 60.0
+    settlement_count: 0
+    outpost_count: 0
+    sliders:
+      region_absorption_priority: 50.0
+      region_investment_priority: 50.0
+      region_security_posture: 30.0
+      region_land_policy: 30.0
+      settlement_policy: 0.0
+    adjacent_regions: [haifa, triangle]
+    active_modifiers: []
+
+  triangle:
+    region_id: triangle
+    alias_id: central
+    name_zh: "中央区与三角地带"
+    name_en: "Central District & The Triangle"
+    is_dynamic: false
+    exists: true
+    legal_status: sovereign
+    total_population: 600000
+    jewish_population: 465000
+    non_citizen_pop: 0
+    settler_population: 0
+    pop_by_group:
+      ashkenazi: 195000
+      mizrahi: 190000
+      religious_zionist: 60000
+      haredi: 20000
+      russian: 0
+      ethiopian: 0
+      arab_citizen: 135000
+      druze: 0
+      bedouin: 0
+      palestinian_resident: 0
+    region_development: 30.0
+    region_security: 66.0
+    region_alienation:
+      ashkenazi: 16.0
+      mizrahi: 38.0
+      religious_zionist: 20.0
+      haredi: 34.0
+      russian: 26.0
+      ethiopian: 32.0
+      arab: 46.0
+      druze: 20.0
+      bedouin: 38.0
+    strategic_value: 68.0
+    economic_value: 62.0
+    symbolic_value: 45.0
+    settlement_count: 0
+    outpost_count: 0
+    sliders:
+      region_absorption_priority: 25.0
+      region_investment_priority: 25.0
+      region_security_posture: 30.0
+      region_land_policy: 30.0
+      settlement_policy: 0.0
+    adjacent_regions: [galilee, haifa, tel_aviv, jerusalem, negev, west_bank]
+    active_modifiers: []
+
+  jerusalem:
+    region_id: jerusalem
+    alias_id: jerusalem
+    name_zh: "耶路撒冷区（含东城扩界区）"
+    name_en: "Jerusalem District"
+    is_dynamic: false
+    exists: true
+    legal_status: annexed_disputed
+    total_population: 410000
+    jewish_population: 295000
+    non_citizen_pop: 105000
+    settler_population: 0
+    pop_by_group:
+      ashkenazi: 85000
+      mizrahi: 105000
+      religious_zionist: 40000
+      haredi: 65000
+      russian: 0
+      ethiopian: 0
+      arab_citizen: 10000
+      druze: 0
+      bedouin: 0
+      palestinian_resident: 105000
+    region_development: 48.0
+    region_security: 58.0
+    region_alienation:
+      ashkenazi: 20.0
+      mizrahi: 42.0
+      religious_zionist: 18.0
+      haredi: 38.0
+      russian: 28.0
+      ethiopian: 32.0
+      arab: 52.0
+      druze: 22.0
+      bedouin: 40.0
+    strategic_value: 85.0
+    economic_value: 52.0
+    symbolic_value: 100.0
+    settlement_count: 0
+    outpost_count: 0
+    sliders:
+      region_absorption_priority: 50.0
+      region_investment_priority: 50.0
+      region_security_posture: 50.0
+      region_land_policy: 50.0
+      settlement_policy: 0.0
+    adjacent_regions: [triangle, west_bank]
+    active_modifiers: []
+
+  negev:
+    region_id: negev
+    alias_id: south
+    name_zh: "南部区（内盖夫）"
+    name_en: "Southern District (Negev)"
+    is_dynamic: false
+    exists: true
+    legal_status: sovereign
+    total_population: 415000
+    jewish_population: 355000
+    non_citizen_pop: 0
+    settler_population: 0
+    pop_by_group:
+      ashkenazi: 85000
+      mizrahi: 220000
+      religious_zionist: 30000
+      haredi: 20000
+      russian: 0
+      ethiopian: 0
+      arab_citizen: 11000
+      druze: 0
+      bedouin: 49000
+      palestinian_resident: 0
+    region_development: 32.0
+    region_security: 67.0
+    region_alienation:
+      ashkenazi: 22.0
+      mizrahi: 48.0
+      religious_zionist: 22.0
+      haredi: 36.0
+      russian: 32.0
+      ethiopian: 38.0
+      arab: 44.0
+      druze: 22.0
+      bedouin: 46.0
+    strategic_value: 80.0
+    economic_value: 45.0
+    symbolic_value: 55.0
+    settlement_count: 0
+    outpost_count: 0
+    sliders:
+      region_absorption_priority: 50.0
+      region_investment_priority: 50.0
+      region_security_posture: 30.0
+      region_land_policy: 50.0
+      settlement_policy: 0.0
+    adjacent_regions: [triangle, west_bank, gaza, sinai]
+    active_modifiers: []
+
+  # ==================== 2. 动态占领/缓冲区（5个） ====================
+  west_bank:
+    region_id: west_bank
+    alias_id: west_bank
+    name_zh: "犹太与撒马利亚（约旦河西岸）"
+    name_en: "Judea and Samaria (West Bank)"
+    is_dynamic: true
+    exists: true
+    legal_status: occupied_military
+    total_population: 685000
+    jewish_population: 5000
+    non_citizen_pop: 680000
+    settler_population: 5000
+    pop_by_group:
+      ashkenazi: 1000
+      mizrahi: 500
+      religious_zionist: 3300
+      haredi: 200
+      russian: 0
+      ethiopian: 0
+      arab_citizen: 0
+      druze: 0
+      bedouin: 0
+      palestinian_resident: 680000
+    region_development: 28.0
+    region_security: 52.0
+    region_alienation:
+      ashkenazi: 20.0
+      mizrahi: 28.0
+      religious_zionist: 15.0
+      haredi: 25.0
+      russian: 30.0
+      ethiopian: 30.0
+      arab: 58.0
+      druze: 25.0
+      bedouin: 48.0
+    strategic_value: 88.0
+    economic_value: 25.0
+    symbolic_value: 92.0
+    settlement_count: 24
+    outpost_count: 3
+    sliders:
+      region_absorption_priority: 25.0
+      region_investment_priority: 50.0
+      region_security_posture: 50.0
+      region_land_policy: 30.0
+      settlement_policy: 40.0
+    adjacent_regions: [galilee, triangle, jerusalem, negev]
+    active_modifiers: []
+
+  gaza:
+    region_id: gaza
+    alias_id: gaza
+    name_zh: "加沙地带"
+    name_en: "Gaza Strip"
+    is_dynamic: true
+    exists: true
+    legal_status: occupied_military
+    total_population: 440500
+    jewish_population: 500
+    non_citizen_pop: 440000
+    settler_population: 500
+    pop_by_group:
+      ashkenazi: 100
+      mizrahi: 100
+      religious_zionist: 300
+      haredi: 0
+      russian: 0
+      ethiopian: 0
+      arab_citizen: 0
+      druze: 0
+      bedouin: 0
+      palestinian_resident: 440000
+    region_development: 18.0
+    region_security: 45.0
+    region_alienation:
+      ashkenazi: 25.0
+      mizrahi: 32.0
+      religious_zionist: 20.0
+      haredi: 30.0
+      russian: 35.0
+      ethiopian: 35.0
+      arab: 68.0
+      druze: 30.0
+      bedouin: 52.0
+    strategic_value: 52.0
+    economic_value: 12.0
+    symbolic_value: 35.0
+    settlement_count: 5
+    outpost_count: 0
+    sliders:
+      region_absorption_priority: 0.0
+      region_investment_priority: 25.0
+      region_security_posture: 50.0
+      region_land_policy: 30.0
+      settlement_policy: 30.0
+    adjacent_regions: [negev, sinai]
+    active_modifiers: []
+
+  golan:
+    region_id: golan
+    alias_id: golan
+    name_zh: "戈兰高地"
+    name_en: "Golan Heights"
+    is_dynamic: true
+    exists: true
+    legal_status: occupied_military
+    total_population: 14500
+    jewish_population: 3500
+    non_citizen_pop: 11000
+    settler_population: 3500
+    pop_by_group:
+      ashkenazi: 1800
+      mizrahi: 1000
+      religious_zionist: 700
+      haredi: 0
+      russian: 0
+      ethiopian: 0
+      arab_citizen: 0
+      druze: 11000
+      bedouin: 0
+      palestinian_resident: 0
+    region_development: 35.0
+    region_security: 68.0
+    region_alienation:
+      ashkenazi: 14.0
+      mizrahi: 24.0
+      religious_zionist: 16.0
+      haredi: 25.0
+      russian: 25.0
+      ethiopian: 28.0
+      arab: 40.0
+      druze: 38.0
+      bedouin: 35.0
+    strategic_value: 95.0
+    economic_value: 38.0
+    symbolic_value: 68.0
+    settlement_count: 25
+    outpost_count: 0
+    sliders:
+      region_absorption_priority: 25.0
+      region_investment_priority: 50.0
+      region_security_posture: 50.0
+      region_land_policy: 30.0
+      settlement_policy: 40.0
+    adjacent_regions: [galilee, south_lebanon]
+    active_modifiers: []
+
+  sinai:
+    region_id: sinai
+    alias_id: sinai
+    name_zh: "西奈半岛"
+    name_en: "Sinai Peninsula"
+    is_dynamic: true
+    exists: true
+    legal_status: occupied_military
+    total_population: 59500
+    jewish_population: 4500
+    non_citizen_pop: 55000
+    settler_population: 4500
+    pop_by_group:
+      ashkenazi: 2000
+      mizrahi: 1500
+      religious_zionist: 1000
+      haredi: 0
+      russian: 0
+      ethiopian: 0
+      arab_citizen: 0
+      druze: 0
+      bedouin: 55000
+      palestinian_resident: 0
+    region_development: 25.0
+    region_security: 62.0
+    region_alienation:
+      ashkenazi: 18.0
+      mizrahi: 26.0
+      religious_zionist: 20.0
+      haredi: 25.0
+      russian: 28.0
+      ethiopian: 30.0
+      arab: 40.0
+      druze: 25.0
+      bedouin: 34.0
+    strategic_value: 90.0
+    economic_value: 72.0
+    symbolic_value: 40.0
+    settlement_count: 18
+    outpost_count: 0
+    sliders:
+      region_absorption_priority: 25.0
+      region_investment_priority: 25.0
+      region_security_posture: 50.0
+      region_land_policy: 30.0
+      settlement_policy: 30.0
+    adjacent_regions: [negev, gaza]
+    active_modifiers: []
+
+  south_lebanon:
+    region_id: south_lebanon
+    alias_id: south_lebanon
+    name_zh: "南黎巴嫩安全区"
+    name_en: "South Lebanon Security Belt"
+    is_dynamic: true
+    exists: false
+    legal_status: inactive_buffer
+    total_population: 0
+    jewish_population: 0
+    non_citizen_pop: 0
+    settler_population: 0
+    pop_by_group:
+      ashkenazi: 0
+      mizrahi: 0
+      religious_zionist: 0
+      haredi: 0
+      russian: 0
+      ethiopian: 0
+      arab_citizen: 0
+      druze: 0
+      bedouin: 0
+      palestinian_resident: 0
+    region_development: 20.0
+    region_security: 35.0
+    region_alienation:
+      ashkenazi: 30.0
+      mizrahi: 35.0
+      religious_zionist: 25.0
+      haredi: 35.0
+      russian: 35.0
+      ethiopian: 35.0
+      arab: 65.0
+      druze: 45.0
+      bedouin: 45.0
+    strategic_value: 72.0
+    economic_value: 5.0
+    symbolic_value: 15.0
+    settlement_count: 0
+    outpost_count: 0
+    sliders:
+      region_absorption_priority: 0.0
+      region_investment_priority: 0.0
+      region_security_posture: 75.0
+      region_land_policy: 0.0
+      settlement_policy: 0.0
+    adjacent_regions: [galilee, golan]
+    active_modifiers: []
+
+# ==================== 3. 关键地点（25个 Key Sites） ====================
+key_sites:
+  - site_id: site_kiryat_shmona
+    region_id: galilee
+    name_zh: "基里亚特什莫纳"
+    site_type: dev_town
+    status: active
+    land_type: sovereign
+    jewish_pop: 15500
+    local_pop: 0
+    strategic_weight: 18.0
+    symbolic_weight: 20.0
+    available_decisions: [site_dec_kiryat_shmona_shield]
+    linked_events: [E-G04-05]
+
+  - site_id: site_nazareth_sakhnin
+    region_id: galilee
+    name_zh: "拿撒勒与萨赫宁河谷"
+    site_type: arab_city
+    status: active
+    land_type: sovereign
+    jewish_pop: 18000
+    local_pop: 85000
+    strategic_weight: 15.0
+    symbolic_weight: 22.0
+    available_decisions: [site_dec_galilee_land_compromise]
+    linked_events: [E-G02-01, E-G02-02]
+
+  - site_id: site_jezreel_kibbutzim
+    region_id: galilee
+    name_zh: "耶斯列山谷基布兹群"
+    site_type: kibbutz_cluster
+    status: active
+    land_type: sovereign
+    jewish_pop: 42000
+    local_pop: 0
+    strategic_weight: 12.0
+    symbolic_weight: 18.0
+    available_decisions: []
+    linked_events: [E-1985-10]
+
+  - site_id: site_haifa_port_refinery
+    region_id: haifa
+    name_zh: "海法港与湾岸石化工业带"
+    site_type: port_industrial
+    status: active
+    land_type: sovereign
+    jewish_pop: 210000
+    local_pop: 25000
+    strategic_weight: 28.0
+    symbolic_weight: 15.0
+    available_decisions: []
+    linked_events: [E-G01-03]
+
+  - site_id: site_technion_carmel
+    region_id: haifa
+    name_zh: "以色列理工学院与卡梅尔高新园"
+    site_type: metro_core
+    status: active
+    land_type: sovereign
+    jewish_pop: 65000
+    local_pop: 5000
+    strategic_weight: 22.0
+    symbolic_weight: 15.0
+    available_decisions: []
+    linked_events: [E-1990-02]
+
+  - site_id: site_tel_aviv_kirya
+    region_id: tel_aviv
+    name_zh: "特拉维夫基里亚国防部与国王广场"
+    site_type: metro_core
+    status: active
+    land_type: sovereign
+    jewish_pop: 380000
+    local_pop: 8000
+    strategic_weight: 35.0
+    symbolic_weight: 30.0
+    available_decisions: []
+    linked_events: [E-1982-09b]
+
+  - site_id: site_bnei_brak
+    region_id: tel_aviv
+    name_zh: "布内布拉克（哈雷迪之都）"
+    site_type: holy_site
+    status: active
+    land_type: sovereign
+    jewish_pop: 85000
+    local_pop: 0
+    strategic_weight: 10.0
+    symbolic_weight: 28.0
+    available_decisions: []
+    linked_events: [E-G02-04]
+
+  - site_id: site_hatikva_south_ta
+    region_id: tel_aviv
+    name_zh: "哈蒂克瓦社区（南特拉维夫）"
+    site_type: dev_town
+    status: active
+    land_type: sovereign
+    jewish_pop: 45000
+    local_pop: 0
+    strategic_weight: 8.0
+    symbolic_weight: 18.0
+    available_decisions: []
+    linked_events: [E-1981-06c]
+
+  - site_id: site_umm_al_fahm_tayibe
+    region_id: triangle
+    name_zh: "乌姆阿法姆与泰贝（三角地带核心）"
+    site_type: arab_city
+    status: active
+    land_type: sovereign
+    jewish_pop: 0
+    local_pop: 72000
+    strategic_weight: 20.0
+    symbolic_weight: 18.0
+    available_decisions: []
+    linked_events: [E-1984-07b, E-G02-01]
+
+  - site_id: site_ben_gurion_lod
+    region_id: triangle
+    name_zh: "本-古里安国际机场与洛德枢纽"
+    site_type: military_base
+    status: active
+    land_type: sovereign
+    jewish_pop: 58000
+    local_pop: 14000
+    strategic_weight: 32.0
+    symbolic_weight: 20.0
+    available_decisions: []
+    linked_events: [E-1989-12, E-1991-05]
+
+  - site_id: site_old_city_temple_mount
+    region_id: jerusalem
+    name_zh: "耶路撒冷老城、西墙与圣殿山"
+    site_type: holy_site
+    status: active
+    land_type: state_unregistered
+    jewish_pop: 2500
+    local_pop: 26000
+    strategic_weight: 30.0
+    symbolic_weight: 50.0
+    available_decisions: []
+    linked_events: [E-1980-07, E-1984-04b, E-1990-10]
+
+  - site_id: site_knesset_meah_shearim
+    region_id: jerusalem
+    name_zh: "议会山与百倍之地"
+    site_type: metro_core
+    status: active
+    land_type: sovereign
+    jewish_pop: 165000
+    local_pop: 0
+    strategic_weight: 25.0
+    symbolic_weight: 35.0
+    available_decisions: []
+    linked_events: [E-G02-03, E-1990-03]
+
+  - site_id: site_east_jerusalem_ring
+    region_id: jerusalem
+    name_zh: "东耶路撒冷环城社区与舒阿法特"
+    site_type: settlement_bloc
+    status: active
+    land_type: state_unregistered
+    jewish_pop: 38000
+    local_pop: 79000
+    strategic_weight: 24.0
+    symbolic_weight: 30.0
+    available_decisions: []
+    linked_events: [E-1980-07]
+
+  - site_id: site_sderot_ofakim
+    region_id: negev
+    name_zh: "斯德洛特、奥法基姆与迪莫纳"
+    site_type: dev_town
+    status: active
+    land_type: sovereign
+    jewish_pop: 62000
+    local_pop: 0
+    strategic_weight: 28.0
+    symbolic_weight: 22.0
+    available_decisions: [site_dec_sderot_industrial_grant]
+    linked_events: [E-G04-06]
+
+  - site_id: site_beersheba_rahat
+    region_id: negev
+    name_zh: "贝尔谢巴与拉哈特贝都因定居点"
+    site_type: metro_core
+    status: active
+    land_type: sovereign
+    jewish_pop: 105000
+    local_pop: 32000
+    strategic_weight: 22.0
+    symbolic_weight: 18.0
+    available_decisions: []
+    linked_events: [E-G02-02]
+
+  - site_id: site_kiryat_arba_hebron
+    region_id: west_bank
+    name_zh: "基里亚特阿巴与希伯伦"
+    site_type: settlement_bloc
+    status: active
+    land_type: military_requisition
+    jewish_pop: 1500
+    local_pop: 55000
+    strategic_weight: 20.0
+    symbolic_weight: 42.0
+    available_decisions: [site_dec_expand_hebron]
+    linked_events: [E-1980-05b, E-1980-06, E-1983-07]
+
+  - site_id: site_elon_moreh_nablus
+    region_id: west_bank
+    name_zh: "埃隆莫雷赫与纳布卢斯（示剑）"
+    site_type: settlement_bloc
+    status: under_construction
+    land_type: private_cultivated
+    jewish_pop: 350
+    local_pop: 85000
+    strategic_weight: 18.0
+    symbolic_weight: 38.0
+    available_decisions: [site_dec_authorize_elon_moreh]
+    linked_events: [E-1979-10, E-1980-06]
+
+  - site_id: site_ariel_samaria
+    region_id: west_bank
+    name_zh: "阿里埃勒（撒马利亚中心走廊）"
+    site_type: settlement_bloc
+    status: inactive
+    land_type: state_unregistered
+    jewish_pop: 0
+    local_pop: 12000
+    strategic_weight: 24.0
+    symbolic_weight: 25.0
+    available_decisions: [site_dec_found_ariel]
+    linked_events: []
+
+  - site_id: site_maale_adumim
+    region_id: west_bank
+    name_zh: "马阿莱阿杜米姆与古什埃齐翁"
+    site_type: settlement_bloc
+    status: under_construction
+    land_type: state_unregistered
+    jewish_pop: 1200
+    local_pop: 18000
+    strategic_weight: 26.0
+    symbolic_weight: 32.0
+    available_decisions: [site_dec_upgrade_maale_adumim]
+    linked_events: []
+
+  - site_id: site_jordan_valley_belt
+    region_id: west_bank
+    name_zh: "约旦河谷农业安全定居带（阿隆防线）"
+    site_type: settlement_bloc
+    status: active
+    land_type: state_unregistered
+    jewish_pop: 1950
+    local_pop: 22000
+    strategic_weight: 35.0
+    symbolic_weight: 18.0
+    available_decisions: [site_dec_expand_jordan_valley]
+    linked_events: []
+
+  - site_id: site_jabalia_gaza_city
+    region_id: gaza
+    name_zh: "贾巴利亚难民营与加沙城"
+    site_type: refugee_camp
+    status: active
+    land_type: private_cultivated
+    jewish_pop: 0
+    local_pop: 260000
+    strategic_weight: 18.0
+    symbolic_weight: 22.0
+    available_decisions: []
+    linked_events: [E-1987-12, E-1987-12b]
+
+  - site_id: site_gush_katif
+    region_id: gaza
+    name_zh: "古什卡蒂夫定居点群"
+    site_type: settlement_bloc
+    status: active
+    land_type: state_unregistered
+    jewish_pop: 500
+    local_pop: 15000
+    strategic_weight: 15.0
+    symbolic_weight: 20.0
+    available_decisions: [site_dec_expand_gush_katif]
+    linked_events: []
+
+  - site_id: site_katzrin_golan
+    region_id: golan
+    name_zh: "卡茨林与黑门山雷达站"
+    site_type: settlement_bloc
+    status: active
+    land_type: state_unregistered
+    jewish_pop: 3500
+    local_pop: 11000
+    strategic_weight: 40.0
+    symbolic_weight: 28.0
+    available_decisions: []
+    linked_events: [E-1981-12]
+
+  - site_id: site_yamit_rafah
+    region_id: sinai
+    name_zh: "亚米特海滨城镇与拉法走廊"
+    site_type: settlement_bloc
+    status: active
+    land_type: state_unregistered
+    jewish_pop: 4200
+    local_pop: 8000
+    strategic_weight: 22.0
+    symbolic_weight: 28.0
+    available_decisions: [site_dec_evacuate_yamit]
+    linked_events: [E-1978-09b, E-1982-04]
+
+  - site_id: site_alma_oil_fields
+    region_id: sinai
+    name_zh: "阿尔玛油田与沙姆沙伊赫（奥菲拉）"
+    site_type: oil_field
+    status: active
+    land_type: state_unregistered
+    jewish_pop: 300
+    local_pop: 12000
+    strategic_weight: 38.0
+    symbolic_weight: 18.0
+    available_decisions: [site_dec_develop_alma_oil]
+    linked_events: [E-1979-03]
+
+  - site_id: site_marjayoun_beaufort
+    region_id: south_lebanon
+    name_zh: "马尔贾عيون（SLA总部）与博福特堡"
+    site_type: military_base
+    status: inactive
+    land_type: military_requisition
+    jewish_pop: 0
+    local_pop: 95000
+    strategic_weight: 30.0
+    symbolic_weight: 15.0
+    available_decisions: [site_dec_withdraw_security_zone]
+    linked_events: [E-1978-03, E-1982-06, E-1985-01]
+
+# ==================== 4. 规划图（5类 Planning Overlays） ====================
+planning_overlays:
+  plan_allon:
+    plan_id: plan_allon
+    name_zh: "阿隆计划（约旦河谷安全走廊）"
+    is_active: true
+    progress: 45.0
+    monthly_rate: 1.5
+    monthly_fiscal_cost: 0.10
+    budget_category: settlements
+    target_regions: [west_bank, golan, sinai]
+
+  plan_drobles_sharon:
+    plan_id: plan_drobles_sharon
+    name_zh: "沙龙‘星点计划’与撒马利亚横向走廊"
+    is_active: false
+    progress: 0.0
+    monthly_rate: 2.8
+    monthly_fiscal_cost: 0.35
+    budget_category: settlements
+    target_regions: [west_bank, galilee, triangle]
+
+  plan_dayan_functional:
+    plan_id: plan_dayan_functional
+    name_zh: "达扬功能性分权与自治共生规划"
+    is_active: false
+    progress: 0.0
+    monthly_rate: 3.5
+    monthly_fiscal_cost: 0.15
+    budget_category: defense
+    target_regions: [west_bank, gaza]
+
+  plan_galilee_negev_dispersal:
+    plan_id: plan_galilee_negev_dispersal
+    name_zh: "加利利与内盖夫人口疏散复兴总规划"
+    is_active: false
+    progress: 0.0
+    monthly_rate: 3.0
+    monthly_fiscal_cost: 0.30
+    budget_category: dev_towns
+    target_regions: [galilee, negev]
+
+  plan_seam_zone_barrier:
+    plan_id: plan_seam_zone_barrier
+    name_zh: "接缝区防渗透安全屏障规划"
+    is_active: false
+    progress: 0.0
+    monthly_rate: 2.5
+    monthly_fiscal_cost: 0.45
+    budget_category: defense
+    target_regions: [triangle, jerusalem, west_bank]

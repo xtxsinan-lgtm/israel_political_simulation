@@ -1,0 +1,77 @@
+schema_version: 1
+id: begin_1977
+name_zh: 贝京 1977：大翻盘（HaMahapach）
+subtitle_zh: 民族主义的宿命与戴维营的抉择
+era_tag: 1977-1992
+start_date: '1977-06-20'
+default_seed: 19770620
+leader_id: begin
+party_id: likud
+era_file: 04_1977_1992
+opening_events:
+- E-1977-06
+early_fork_events:
+- E-1977-06
+- E-1977-07
+- E-1977-10
+- E-1977-10b
+- E-1977-11
+- E-1978-03b
+dynamic_regions:
+- west_bank
+- gaza
+- golan
+- sinai
+inactive_dynamic_regions:
+- south_lebanon
+series_extra:
+- trilemma_jewish
+- trilemma_democratic
+- trilemma_territory
+- uprising_risk
+required_modules:
+- M02
+- M03
+- M04
+- M05
+- M06
+- M07
+- M08
+- M09
+- M10
+- M11
+- M12
+- M13
+- M14
+- M15
+min_save_version: 1
+initial_coalition_summary:
+  total_seats: 61
+  post_day0_dayan_seats: 62
+  oct_1977_dash_expansion_seats: 77
+  parties:
+  - id: likud
+    seats: 45
+    note: 含大选43席及沙龙什洛姆锡安并入2席
+  - id: nrp
+    seats: 12
+    note: 国家宗教党（布尔格/哈默）
+  - id: agudat
+    seats: 4
+    note: 正统派犹太教托拉阵线/以色列正教党，入盟不入阁
+  - id: independents
+    seats: 1
+    note: 摩西·达扬（E-1977-06选项A确认后自工党转入任外长）
+  - id: dash
+    seats: 15
+    note: 民主变革运动（1977-10经E-1977-10b入阁）
+supported_variants:
+- id: historical_gravity
+  name_zh: 史实引力轨道（默认）
+  desc_zh: 外部世界按真实历史基线演进并叠加微扰，重大历史事件约有70–80%概率重演。
+- id: high_pressure_random
+  name_zh: 高压动荡世界
+  desc_zh: 外部扰动幅度翻倍，阿拉伯邻国政变、石油危机与超级大国施压时机高度随机化。
+- id: persona_shuffle
+  name_zh: 政坛性格洗牌
+  desc_zh: 内阁部长、党内对手与外国元首的次要特质、野心与忠诚度在开局时随机重抽。

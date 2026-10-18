@@ -1,0 +1,243 @@
+# 总参数表（唯一事实来源）
+# 所有模块规格、事件、模拟脚本和 Godot 实现只能使用这里定义的参数。
+# 新增参数必须先改这个文件，并在 docs/registry/CHANGELOG.md 记录。
+#
+# 字段说明
+#   id        英文ID，snake_case，代码中使用
+#   zh        中文名，事件文本中使用（与 docs/events/README.md 词典一致）
+#   type      axis(−100..100) | stock(0..100) | debt(只增，主动偿还才减) | derived(由公式算出，不能直接写)
+#             | lever(政策/预算滑块杠杆，无自然漂移) | currency(可消耗) | hidden(玩家不可直接见)
+#             | count(计数) | money | percent | seats
+#   scope     national | party | party_faction | bloc | group | arab_group | power | arab_state
+#             | pal_faction | region | character | promise | axis | country | policy | budget_item
+#   range     [min, max]
+#   tick      结算周期：daily | weekly | monthly | quarterly | yearly | event(只由事件/行动改变)
+#   owner     主写模块（其他模块只能通过“效果”请求修改，见 contracts.md）
+#   visible   true | false | fuzzy（通过情报/顾问以模糊措辞显示）
+#   era       [起始年, 结束年]，null 表示全时代
+#   drift     无外力时每个结算周期的回归方式（权威数值定义在 data/causal_edges.yaml 的 nodes 段，见 M02 规格）
+
+modules:
+  M01: 核心循环与结算顺序
+  M02: 数值模型与矛盾联动
+  M03: 议会、选举与组阁
+  M04: 党内政治、承诺与立场走廊
+  M05: 行动系统与政治资本经济
+  M06: 人物与AI内阁
+  M07: 外部世界与外交
+  M08: 巴勒斯坦政治
+  M09: 军事、安全与情报
+  M10: 经济与预算
+  M11: 地图与区域
+  M12: 事件引擎
+  M13: 独裁路线
+  M14: 剧本、结局与历史评价
+  M15: 界面与信息呈现
+
+parameters:
+
+  # ───────── 权力生存层 ─────────
+  - {id: political_capital, zh: 政治资本, type: currency, scope: national, range: [0, 200], tick: monthly, owner: M05, visible: true, era: null, drift: none}
+  - {id: party_standing, zh: 党内地位, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M04, visible: true, era: null, drift: "toward 50 at 2%/month"}
+  - {id: ally_satisfaction, zh: 盟党满意度, type: stock, scope: party, range: [0, 100], tick: monthly, owner: M03, visible: true, era: null, drift: "toward demand-fulfilment target"}
+  - {id: bloc_support, zh: 选民集团支持, type: stock, scope: bloc, range: [0, 100], tick: weekly, owner: M03, visible: true, era: null, drift: "toward bloc utility target"}
+  - {id: coalition_seats, zh: 联合政府席位, type: seats, scope: national, range: [0, 120], tick: event, owner: M03, visible: true, era: null, drift: none}
+  - {id: promise_progress, zh: 承诺进度, type: percent, scope: promise, range: [0, 100], tick: monthly, owner: M04, visible: true, era: null, drift: none}
+  - {id: stance_deviation, zh: 立场偏离, type: derived, scope: axis, range: [0, 100], tick: monthly, owner: M04, visible: true, era: null, drift: "derived from gov_axis_position vs party corridor; see M04 (D-050)"}
+  - {id: vision_progress, zh: 愿景进度, type: percent, scope: national, range: [0, 100], tick: event, owner: M04, visible: true, era: null, drift: none}
+  - {id: centralization, zh: 集权度, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M13, visible: true, era: null, drift: "−0.5/month if no authoritarian action in 12 months"}
+  - {id: relation, zh: 人物关系, type: axis, scope: character, range: [-100, 100], tick: monthly, owner: M06, visible: true, era: null, drift: "toward trait baseline at 1/month"}
+  - {id: health, zh: 人物健康, type: stock, scope: character, range: [0, 100], tick: monthly, owner: M06, visible: fuzzy, era: null, drift: "age curve, see M06"}
+  - {id: character_stress, zh: 人物压力, type: stock, scope: character, range: [0, 100], tick: monthly, owner: M06, visible: true, era: null, drift: "driven by office load, war casualties, crisis & corridor conflict; erodes health (D-065)", note: "贝京1977开局默认15，贝京本人28"}
+
+  # ───────── 议会、选举与组阁扩充（M03，D-045） ─────────
+  - {id: knesset_seats, zh: 议会席位, type: seats, scope: party, range: [0, 120], tick: event, owner: M03, visible: true, era: null, drift: none, note: "各名单在议会中的席位。大选、分裂、倒戈时改变"}
+  - {id: poll_share, zh: 民调支持率, type: percent, scope: party, range: [0, 100], tick: weekly, owner: M03, visible: true, era: null, drift: "computed weekly with error, see M03 §4.4"}
+  - {id: poll_seats, zh: 民调席位预测, type: seats, scope: party, range: [0, 120], tick: weekly, owner: M03, visible: true, era: null, drift: "allocate(poll_share)"}
+  - {id: poll_lead, zh: 执政党民调领先, type: derived, scope: national, range: [-120, 120], tick: weekly, owner: M03, visible: true, era: null, drift: "poll_seats[pm] − 最大反对党 poll_seats", note: "单位：席。贝京1977开局约 +13"}
+  - {id: months_to_election, zh: 距大选月数, type: derived, scope: national, range: [0, 60], tick: weekly, owner: M03, visible: true, era: null, drift: "calendar", note: "贝京1977开局 52"}
+  - {id: govt_fatigue, zh: 执政疲劳, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M03, visible: true, era: null, drift: "rate node: +0.5/month (+0.25 term2, +0.5 term3+), headroom; see M03 §4.8.1", note: "开局 0（新政府）"}
+  - {id: bloc_policy_gap, zh: 政策距离, type: derived, scope: bloc, range: [0, 100], tick: weekly, owner: M03, visible: true, era: null, drift: "D(ideal, gpos; sal)/2"}
+  - {id: bloc_promise_score, zh: 承诺兑现感, type: derived, scope: bloc, range: [-100, 100], tick: weekly, owner: M03, visible: true, era: null, drift: "progress − expected, weighted by promise-bloc links"}
+  - {id: ally_deal_score, zh: 诉求满足度, type: derived, scope: party, range: [-100, 100], tick: monthly, owner: M03, visible: true, era: null, drift: "portfolios + clauses + asks − breaches − policy gap"}
+  - {id: seat_expectation_bonus, zh: 大选席位期望修正, type: seats, scope: party, range: [-10, 10], tick: event, owner: M03, visible: true, era: null, drift: "cleared to 0 after each election"}
+
+  # ───────── 党内政治、承诺与走廊扩充（M04，D-055） ─────────
+  - {id: faction_mood, zh: 派系情绪, type: stock, scope: party_faction, range: [0, 100], tick: monthly, owner: M04, visible: true, era: null, drift: "level，基线55，α 0.10，项提供器 m04_terms", note: "贝京1977开局 herut_core 64 / herut_hawks 50 / liberal_wing 52 / laam 56"}
+  - {id: faction_weight, zh: 派系权重, type: percent, scope: party_faction, range: [0, 100], tick: event, owner: M04, visible: true, era: null, drift: none, note: "党中央委员会中的份额，同党派系合计100。贝京1977开局 38/12/32/18"}
+  - {id: party_cohesion, zh: 党的团结, type: derived, scope: national, range: [0, 100], tick: monthly, owner: M04, visible: true, era: null, drift: "Σ 权重 × 派系情绪", note: "贝京1977开局 57.04"}
+  - {id: challenger_strength, zh: 挑战者强度, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M04, visible: true, era: null, drift: "level，基线0，α 0.15；挑战者存在时由 m04_terms 提供项", note: "开局0"}
+  - {id: cynicism, zh: 犬儒度, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M04, visible: true, era: null, drift: "level，基线20，α 0.05，memory_rho 0；入边 M04.CY.01", note: "统一原 M03 voter_cynicism 与 M04 cynicism（D-055）；承诺违背与条款违约推高，经 M03.BS.10 压低全部选民集团支持。开局20"}
+  - {id: promise_credit, zh: 承诺信誉, type: axis, scope: bloc, range: [-100, 100], tick: monthly, owner: M04, visible: true, era: null, drift: "level，目标0，α 0.02，memory_rho 0", note: "各选民集团对承诺兑现与竞选承诺的记忆；经 M03 边进入 bloc_support。开局全0"}
+
+  # ───────── 行动、政策杠杆与人情（M05，D-035） ─────────
+  - {id: policy_level, zh: 政策档位, type: lever, scope: policy, range: [0, 100], tick: event, owner: M05, visible: true, era: null, drift: none, note: "持续性政策的杠杆值，键为 data/policies.yaml 的政策 id"}
+  - {id: gov_axis_position, zh: 政府立场位置, type: derived, scope: axis, range: [-100, 100], tick: event, owner: M05, visible: true, era: null, drift: "computed: base + 政策贡献 + 行动冲量（冲量每月 ×0.95）", note: "territory +吞并 / security +武力 / economy +市场 / religion +律法 / foreign +对抗外部压力"}
+  - {id: favor_party, zh: 政党人情, type: count, scope: party, range: [-6, 6], tick: event, owner: M05, visible: true, era: null, drift: "正值每满365天无往来 −1；负值不衰减"}
+  - {id: favor_character, zh: 人物人情, type: count, scope: character, range: [-6, 6], tick: event, owner: M05, visible: true, era: null, drift: "同 favor_party；键可为人物ID或职位ID"}
+
+  # ───────── 国家能力层 ─────────
+  - {id: budget_balance, zh: 财政, type: percent, scope: national, range: [-50, 50], tick: monthly, owner: M10, visible: true, era: null, drift: "computed from revenue − spending", note: "以占年度预算的%表示的月度盈亏；事件效果 '财政 −3%' 表示一次性支出年度预算的3%（记入 one_off_flows，D-010）"}
+  - {id: public_debt, zh: 公共债务, type: percent, scope: national, range: [0, 300], tick: monthly, owner: M10, visible: true, era: null, drift: "accumulates deficits", note: "占GDP%"}
+  - {id: fx_reserves, zh: 外汇, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M10, visible: true, era: null, drift: "trade balance + aid + reparations − imports"}
+  - {id: inflation, zh: 通胀, type: percent, scope: national, range: [-5, 500], tick: quarterly, owner: M10, visible: true, era: null, drift: "see M10"}
+  - {id: growth, zh: 经济增长, type: percent, scope: national, range: [-15, 20], tick: quarterly, owner: M10, visible: true, era: null, drift: "see M10"}
+  - {id: unemployment, zh: 失业率, type: percent, scope: national, range: [0, 40], tick: quarterly, owner: M10, visible: true, era: null, drift: "see M10"}
+  - {id: budget_slider, zh: 预算拨款滑块, type: lever, scope: budget_item, range: [0, 100], tick: event, owner: M10, visible: true, era: null, drift: none, note: "8大国家预算科目的拨款水平滑块（50为常态基准，D-060）"}
+  - {id: strike_risk, zh: 罢工风险指数, type: derived, scope: national, range: [0, 100], tick: monthly, owner: M10, visible: true, era: null, drift: "computed from union_strength × wage_erosion_index × policy_hostility", note: ">=60 部门警告罢工，>=80 全国总罢工（D-060）"}
+  - {id: readiness, zh: 战备, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M09, visible: true, era: null, drift: "toward budget-funded baseline"}
+  - {id: mobilization, zh: 动员水平, type: stock, scope: national, range: [0, 100], tick: daily, owner: M09, visible: true, era: null, drift: "player-set; costs growth", note: "1977-06-20 开局 10.0（D-080）"}
+  - {id: intel_accuracy, zh: 情报精度, type: derived, scope: national, range: [0, 100], tick: monthly, owner: M09, visible: true, era: null, drift: "computed from mossad/shin_bet chief competence, defense budget & complacency", note: "1977-06-20 开局 79.650（D-069）"}
+  - {id: absorption_capacity, zh: 移民吸收容量, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M10, visible: true, era: null, drift: "housing + jobs investment"}
+  - {id: immigration_inflow, zh: 移民流入, type: count, scope: national, range: [0, 1000000], tick: monthly, owner: M07, visible: true, era: null, drift: "world track + Law of Return + push factors", note: "每年人数"}
+  - {id: state_integration, zh: 国家整合度, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M09, visible: true, era: [1948, 1950], drift: "rises with 'one army' actions"}
+  - {id: arms_reliability, zh: 武器来源可靠度, type: stock, scope: power, range: [0, 100], tick: monthly, owner: M07, visible: true, era: null, drift: "follows relation with supplier"}
+
+  # ───────── 矛盾 1：世俗与宗教 ─────────
+  - {id: religious_status_quo, zh: 宗教现状指数, type: axis, scope: national, range: [-100, 100], tick: event, owner: M02, visible: true, era: null, drift: none}
+  - {id: draft_exemption, zh: 兵役豁免规模, type: debt, scope: national, range: [0, 100], tick: yearly, owner: M02, visible: true, era: null, drift: "+ haredi_cohort × exemption_rate"}
+  - {id: exemption_coverage, zh: 豁免覆盖率, type: lever, scope: national, range: [0, 100], tick: event, owner: M05, visible: true, era: null, drift: none, note: "哈雷迪适龄男性中获得耶希瓦豁免的比例（%），开局=50（D-002）"}
+  - {id: haredi_cohort, zh: 哈雷迪适龄男性, type: count, scope: national, range: [0, 100], tick: yearly, owner: M11, visible: true, era: null, drift: "×1.05/年（生育率），M11 校准", note: "单位：千人/年，贝京1977开局=1.6（D-002）"}
+
+  # ───────── 矛盾 2：族群与移民 ─────────
+  - {id: alienation, zh: 疏离度, type: stock, scope: group, range: [0, 100], tick: monthly, owner: M02, visible: true, era: null, drift: "see contradiction_parameters.md §2"}
+  - {id: historical_grievance, zh: 历史怨气, type: debt, scope: group, range: [0, 100], tick: monthly, owner: M02, visible: true, era: null, drift: "+ when alienation > 50; −0.1/month otherwise"}
+  - {id: appointment_gap, zh: 任命构成偏差, type: derived, scope: group, range: [0, 100], tick: monthly, owner: M06, visible: true, era: null, drift: "computed from current appointments", note: "贝京1977：mizrahi=45, ethiopian=100, russian=100（D-002）"}
+
+  # ───────── 矛盾 3：阿拉伯公民 ─────────
+  - {id: civic_identification, zh: 国家认同度, type: stock, scope: arab_group, range: [0, 100], tick: monthly, owner: M02, visible: true, era: null, drift: "toward equality-driven target"}
+  - {id: land_grievance, zh: 土地怨气, type: debt, scope: arab_group, range: [0, 100], tick: monthly, owner: M02, visible: true, era: null, drift: "+ land expropriation; −0.1/month"}
+  - {id: military_government, zh: 军事管制强度, type: lever, scope: arab_group, range: [0, 100], tick: event, owner: M11, visible: true, era: null, drift: none, note: "1966-12取消后为0；贝京1977开局全为0（D-002）"}
+
+  # ───────── 矛盾 4：大国依赖 ─────────
+  - {id: strategic_dependence, zh: 战略依赖度, type: derived, scope: national, range: [0, 100], tick: monthly, owner: M07, visible: true, era: null, drift: "aid share of defense budget × supplier concentration"}
+  - {id: intl_legitimacy, zh: 国际合法性, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M07, visible: true, era: null, drift: "toward 50 at 1%/month"}
+  - {id: us_admin_relation, zh: 美国政府关系, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M07, visible: true, era: null, drift: "toward administration baseline (world track)"}
+  - {id: us_congress_relation, zh: 美国国会关系, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M07, visible: true, era: null, drift: "toward 60 at 1%/month"}
+  - {id: power_relation, zh: 关系, type: stock, scope: power, range: [0, 100], tick: monthly, owner: M07, visible: true, era: null, drift: "toward world-track baseline"}
+
+  # ───────── 矛盾 5：领土与定居 ─────────
+  - {id: trilemma, zh: 三难三角, type: derived, scope: national, range: [0, 100], tick: monthly, owner: M11, visible: true, era: null, drift: "computed: jewish_share, democratic_legitimacy, territorial_control"}
+  - {id: trilemma_jewish, zh: 三难三角·犹太性, type: derived, scope: national, range: [0, 100], tick: monthly, owner: M11, visible: true, era: null, drift: "computed from jewish demographic share & settlement entanglement", note: "1977-06-20开局 68.39（D-076）"}
+  - {id: trilemma_democratic, zh: 三难三角·民主性, type: derived, scope: national, range: [0, 100], tick: monthly, owner: M11, visible: true, era: null, drift: "computed from rule of law, centralization & disenfranchised pop share", note: "1977-06-20开局 56.94（D-076）"}
+  - {id: trilemma_territory, zh: 三难三角·领土完整, type: derived, scope: national, range: [0, 100], tick: monthly, owner: M11, visible: true, era: null, drift: "computed from controlled regions, settlement density & annexation", note: "1977-06-20开局 85.50（D-076）"}
+  - {id: settler_momentum, zh: 定居者运动动量, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M02, visible: true, era: [1967, null], drift: "toward government-support target"}
+  - {id: settlement_policy, zh: 定居点政策, type: lever, scope: region, range: [0, 100], tick: event, owner: M11, visible: true, era: [1967, null], drift: none, note: "只对动态区有效；开局 west_bank=40, gaza=30, golan=40, sinai=30（D-002）"}
+  - {id: outpost_enforcement, zh: 前哨执法力度, type: lever, scope: national, range: [0, 100], tick: event, owner: M05, visible: true, era: [1967, null], drift: none, note: "0=默许并追认，100=全部拆除；开局=50（D-002）"}
+  - {id: settler_population, zh: 定居者人口, type: count, scope: region, range: [0, 2000000], tick: monthly, owner: M11, visible: true, era: [1967, null], drift: "settlement policy + natural growth + incentives", note: "动态占领区犹太定居者人口，1977-06-20合计13500人（D-076）"}
+
+  # ───────── 矛盾 6：经济意识形态 ─────────
+  - {id: economic_model, zh: 经济模式, type: axis, scope: national, range: [-100, 100], tick: event, owner: M10, visible: true, era: null, drift: none}
+  - {id: inequality, zh: 贫富差距, type: stock, scope: national, range: [0, 100], tick: quarterly, owner: M10, visible: true, era: null, drift: "see M10"}
+  - {id: union_strength, zh: 工会实力, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M10, visible: true, era: null, drift: "toward state-sector-size target"}
+
+  # ───────── 矛盾 7：安全与法治 / 独裁与危机（M02/M09/M13） ─────────
+  - {id: rule_of_law, zh: 民主法治指数, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M02, visible: true, era: null, drift: "toward 70 at 1%/month unless centralization > 30"}
+  - {id: public_security, zh: 公众安全感, type: stock, scope: national, range: [0, 100], tick: weekly, owner: M09, visible: true, era: null, drift: "toward deterrence-driven target", note: "1977-06-20开局 62.0（D-080）；别名 security_index（D-069）"}
+  - {id: judicial_conflict, zh: 司法冲突度, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M02, visible: true, era: [1992, null], drift: "−1/month"}
+  - {id: coup_risk, zh: 政变风险, type: derived, scope: national, range: [0, 100], tick: monthly, owner: M13, visible: fuzzy, era: null, drift: "computed in step 14 from military resistance, centralization & crisis", note: "1977-06-20开局 2.0（D-085）"}
+  - {id: assassination_risk, zh: 暗杀风险, type: derived, scope: national, range: [0, 100], tick: monthly, owner: M13, visible: fuzzy, era: null, drift: "computed in step 14 from polarization, extremist anger & security", note: "1977-06-20开局 4.0（D-085）"}
+  - {id: social_protest_tier, zh: 全国抗议与罢工等级, type: derived, scope: national, range: [0, 3], tick: monthly, owner: M13, visible: true, era: null, drift: "0=局部异议, 1=街头每周抗议, 2=总工会全国大罢工, 3=宪政停摆与预备役拒服潮", note: "1977-06-20开局 0（D-085）"}
+
+  # ───────── 矛盾 8：外部冲突与巴勒斯坦政治（M07/M08/M09） ─────────
+  - {id: regime_hostility, zh: 政权敌意, type: stock, scope: arab_state, range: [0, 100], tick: monthly, owner: M07, visible: true, era: null, drift: "world track"}
+  - {id: popular_hostility, zh: 民间敌意, type: stock, scope: arab_state, range: [0, 100], tick: monthly, owner: M07, visible: true, era: null, drift: "−0.5/month toward 50"}
+  - {id: regime_stability, zh: 政权稳定度, type: stock, scope: arab_state, range: [0, 100], tick: monthly, owner: M07, visible: fuzzy, era: null, drift: "world track + perturbation"}
+  - {id: country_war_readiness, zh: 敌国战备度, type: derived, scope: country, range: [0, 100], tick: monthly, owner: M07, visible: fuzzy, era: null, drift: "world track + Δ_perm (step 12a)", note: "索引: egypt, jordan, syria, lebanon, iraq, iran, saudi（D-066）"}
+  - {id: peace_treaty_state, zh: 和平条约状态, type: count, scope: country, range: [0, 3], tick: event, owner: M07, visible: true, era: null, drift: none, note: "0=敌对无约, 1=停火协定, 2=框架协议, 3=正式和平条约（D-066）"}
+  - {id: war_probability, zh: 开战概率, type: derived, scope: arab_state, range: [0, 100], tick: monthly, owner: M07, visible: fuzzy, era: null, drift: "computed, see contradiction_parameters.md §8.1"}
+  - {id: pal_hostility, zh: 巴勒斯坦民间敌意, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M08, visible: true, era: null, drift: "−0.3/month toward 50"}
+  - {id: pal_living_standard, zh: 巴勒斯坦生活水平, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M08, visible: true, era: [1967, null], drift: "permits + closures + aid"}
+  - {id: faction_strength, zh: 实力, type: stock, scope: pal_faction, range: [0, 100], tick: monthly, owner: M08, visible: fuzzy, era: null, drift: "funding + patrons − strikes"}
+  - {id: faction_legitimacy, zh: 合法性, type: stock, scope: pal_faction, range: [0, 100], tick: monthly, owner: M08, visible: fuzzy, era: null, drift: "results + martyrdom − collaborator stigma"}
+  - {id: faction_moderation, zh: 派系温和度, type: stock, scope: pal_faction, range: [0, 100], tick: monthly, owner: M08, visible: fuzzy, era: null, drift: "autonomy progress − pal_hostility + diplomatic shifts", note: ">=50 可作为和平伙伴，<=35 解锁武装袭击（D-073）"}
+  - {id: faction_cohesion, zh: 组织完整度, type: stock, scope: pal_faction, range: [0, 100], tick: monthly, owner: M08, visible: fuzzy, era: null, drift: "base + patrons + prison_schools − targeted strikes − deportations − stigma fracture", note: "指挥链与基层网络完整度（D-073）"}
+  - {id: collaborator_stigma, zh: 合作者污名, type: stock, scope: pal_faction, range: [0, 100], tick: monthly, owner: M08, visible: true, era: [1967, null], drift: "base + k_stigma × israel_overt_support × (pal_hostility / 50)", note: "接受以方公开扶持积累的街头污名（D-073）"}
+  - {id: autonomy_progress, zh: 巴勒斯坦自治落实度, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M08, visible: true, era: [1977, null], drift: "delegation + partner bonus + municipal policy − settlement drag", note: ">=60 视为巴勒斯坦自治正式建立（D-073）"}
+  - {id: uprising_risk, zh: 起义风险, type: derived, scope: national, range: [0, 100], tick: monthly, owner: M08, visible: fuzzy, era: [1967, null], drift: "computed from pal_hostility and pal_living_standard"}
+  - {id: deterrence, zh: 威慑值, type: stock, scope: national, range: [0, 100], tick: monthly, owner: M09, visible: true, era: null, drift: "−0.5/month"}
+  - {id: complacency, zh: 战略自满度, type: hidden, scope: national, range: [0, 100], tick: monthly, owner: M09, visible: fuzzy, era: null, drift: "+0.5/month in peace; reset by surprise"}
+
+  # ───────── 区级（M11，D-002 / D-076） ─────────
+  - {id: region_security, zh: 安全, type: stock, scope: region, range: [0, 100], tick: weekly, owner: M11, visible: true, era: null, drift: "toward security posture target"}
+  - {id: region_development, zh: 发展水平, type: stock, scope: region, range: [0, 100], tick: monthly, owner: M11, visible: true, era: null, drift: "investment slider"}
+  - {id: region_vote_share, zh: 选民倾向, type: derived, scope: region, range: [0, 100], tick: weekly, owner: M03, visible: true, era: null, drift: "computed from bloc_support × regional population"}
+  - {id: region_population, zh: 人口构成, type: count, scope: region, range: [0, 10000000], tick: yearly, owner: M11, visible: true, era: null, drift: "births + migration"}
+  - {id: region_land_policy, zh: 土地政策, type: lever, scope: region, range: [0, 100], tick: event, owner: M11, visible: true, era: null, drift: none, note: "征地与规划执法力度（0=补发许可，100=大规模征地拆除，D-002）"}
+  - {id: region_absorption_priority, zh: 区域移民安置倾向, type: lever, scope: region, range: [0, 100], tick: monthly, owner: M11, visible: true, era: null, drift: none, note: "0暂缓接收/25低优先/50均衡分配/75重点吸纳/100优先定向安置（D-076）"}
+  - {id: region_investment_priority, zh: 区域公共投资优先级, type: lever, scope: region, range: [0, 100], tick: monthly, owner: M11, visible: true, era: null, drift: none, note: "0紧缩维持/25低投入/50常规拨款/75重点倾斜/100旗舰开发（D-076）"}
+  - {id: region_security_posture, zh: 区域安全姿态, type: lever, scope: region, range: [0, 100], tick: weekly, owner: M11, visible: true, era: null, drift: none, note: "0社区自治/30常规警务/50强化戒备/75严密军警管控/100全面军事封控宵禁（D-076）"}
+  - {id: region_alienation, zh: 区域社会疏离度, type: stock, scope: region, range: [0, 100], tick: monthly, owner: M11, visible: true, era: null, drift: "development gap + security posture + land expropriation (D-076)"}
+
+  # ───────── 隐藏层 ─────────
+  - {id: nuclear_progress, zh: 核计划进度, type: hidden, scope: national, range: [0, 100], tick: monthly, owner: M09, visible: fuzzy, era: [1957, null], drift: "funding"}
+  - {id: nuclear_exposure_risk, zh: 核计划暴露风险, type: hidden, scope: national, range: [0, 100], tick: monthly, owner: M09, visible: fuzzy, era: [1957, null], drift: "+ with progress; − with ambiguity policy"}
+  - {id: enemy_nuclear_progress, zh: 敌国核计划进度, type: hidden, scope: country, range: [0, 100], tick: monthly, owner: M07, visible: fuzzy, era: null, drift: "world track", note: "scope 修正为 country，目标 iraq, iran（D-066）"}
+  - {id: islamic_assoc_strength, zh: 伊斯兰协会实力, type: hidden, scope: national, range: [0, 100], tick: monthly, owner: M08, visible: fuzzy, era: [1973, 1987], drift: "tolerance policy", note: "与 faction_strength[mujama] 双向同步（D-072）"}
+  - {id: historical_rating, zh: 历史评价, type: hidden, scope: national, range: [-100, 100], tick: event, owner: M14, visible: false, era: null, drift: none}
+
+entities:
+  blocs: [labor_ashkenazi, mizrahi, kibbutz_moshav, religious_zionist, haredi, arab_citizens, russian, liberal_middle]
+  groups: [mizrahi, russian, ethiopian]          # 疏离度 / 历史怨气 / 任命构成偏差
+  arab_groups: [arab, druze, bedouin]           # 国家认同度 / 土地怨气 / 军事管制强度
+  axes: [territory, security, economy, religion, foreign]
+  powers: [usa, ussr, france, uk, west_germany, diaspora]
+  arab_states: [egypt, jordan, syria, lebanon, iraq, saudi]
+  peripheral_states: [iran, turkey, ethiopia, sudan, morocco]
+  countries: [egypt, jordan, syria, lebanon, iraq, saudi, iran, turkey, ethiopia, sudan, morocco, usa, ussr, france, uk, west_germany, un]
+  pal_factions: [fatah, pflp, jordan_notables, local_mayors, village_leagues, mujama, hamas, pij, pa_security]
+  lebanese_factions: [phalange, sla, hezbollah]
+  regions_fixed: [galilee, haifa, tel_aviv, triangle, jerusalem, negev]
+  regions_dynamic: [west_bank, gaza, golan, sinai, south_lebanon]
+  budget_items: [defense, absorption, religion, dev_towns, education, welfare, infrastructure, settlements]
+  party_factions: [herut_core, herut_hawks, liberal_wing, laam, labor_peres, labor_rabin, ahdut_haavoda, labor_doves, founders_a, founders_b, founders_c]
+  promise_categories: [cat_economy, cat_security, cat_peace, cat_religion, cat_social, cat_immigration, cat_territory]
+  offices: [prime_minister, defense_minister, finance_minister, foreign_minister, interior_minister, justice_minister, housing_minister, religion_minister, education_minister, absorption_minister, chief_of_staff, mossad_chief, shin_bet_chief, attorney_general, boi_governor, supreme_court_president, opposition_leader]
+  # 政党按时代开放，详见 M03 规格（含 D-041 新增 17 项及 D-054 静态新党槽位 new_party_a/b/c）
+  parties: [mapai, labor, mapam, ahdut_haavoda, rafi, herut, gahal, likud, general_zionists, liberals, progressives, nrp, agudat, poalei_agudat, shas, utj, meretz, dash, tehiya, kach, yisrael_baalia, shinui, kadima, arab_lists, maki, rakah_hadash, shlomtzion, flatto_sharon, sheli, ilp, ratz, tami, telem, morasha, yahad, ometz, plp, tzomet, moledet, degel_hatorah, adp, independents, other_lists, new_party_a, new_party_b, new_party_c]
+
+# 参数与实体别名映射表（D-054, D-055, D-068, D-069, D-072, D-077）
+  policies:
+    [
+      sabbath_transport, sabbath_el_al, kashrut_state, marriage_law, conversion_recognition,
+      exemption_coverage, abortion_social_clause, autopsy_rules, sabbath_commerce, haredi_school_autonomy,
+      sabbath_broadcasting, fx_regime, food_subsidies, wage_indexation, vat_rate,
+      top_income_tax, privatization, capital_market, bank_share_support, import_protection,
+      central_bank, dev_zone_incentives, child_allowance, veterans_benefit_gap, public_housing,
+      school_integration, free_secondary_education, minimum_wage, mizrahi_heritage, absorption_basket,
+      return_law_scope, ethiopian_aliyah, immigrant_dispersal, diaspora_partnership, settlement_policy,
+      outpost_enforcement, land_acquisition_mode, settler_housing_incentives, settlement_layout, east_jerusalem_building,
+      region_land_policy, reserve_duty, conscription_length, retaliation_doctrine, nuclear_signaling,
+      military_censorship, shin_bet_oversight, arms_sourcing, lebanon_proxy, work_permits,
+      open_bridges, curfew_closure, home_demolition, deportation, pal_municipalities,
+      civil_administration, village_leagues, islamic_tolerance, pal_universities, military_government,
+      arab_local_budget, arab_planning, bedouin_villages, druze_track, arab_civil_service,
+      iba_independence, commercial_tv, press_ordinance, comptroller_powers, electoral_threshold,
+      emergency_regs_use, un_posture, third_world_aid, south_africa_ties, us_lobbying,
+      periphery_alliances
+    ]
+
+aliases:
+  parameters:
+    voter_cynicism: cynicism
+    security_index: public_security
+    country_stability: regime_stability
+    country_nuclear_progress: enemy_nuclear_progress
+    annual_immigration: immigration_inflow
+    country_relation: "@route_country_relation"  # usa -> us_admin_relation; powers -> power_relation[c]; arab/peripheral -> 100 - regime_hostility[c]
+    palestinian_hostility: pal_hostility
+    intifada_risk: uprising_risk
+    islamic_assoc_strength: "faction_strength[mujama]"
+  pal_factions:
+    notables: jordan_notables
+    left_factions: pflp
+    islamic_jihad: pij
+  regions:
+    north: galilee
+    central: triangle
+    south: negev
+  parties:
+    pm_new_party: new_party_a
+    alignment: labor
+    agudat_yisrael: agudat
+    hadash: rakah_hadash

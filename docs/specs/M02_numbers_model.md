@@ -332,8 +332,8 @@ $$T_{raw} = B + \sum_{e \in \text{入边}} c_e + M$$
 | civic_identification[arab] | 38 | region_development[triangle] | 30 |
 | civic_identification[druze] | 72 | absorption_capacity | 55 |
 | civic_identification[bedouin] | 50 | pal_hostility | 55 |
-| land_grievance[arab] | 55 | mobilization | 5 |
-| land_grievance[druze] | 15 | public_security | 55 |
+| land_grievance[arab] | 55 | mobilization | 10.0（D-080） |
+| land_grievance[druze] | 15 | public_security | 62.0（D-080） |
 | land_grievance[bedouin] | 40 | centralization | 5 |
 | settler_momentum | 45 | bloc_support[religious_zionist] | 60 |
 | rule_of_law | 66 | lever settlement_policy[west_bank] | 40 |
