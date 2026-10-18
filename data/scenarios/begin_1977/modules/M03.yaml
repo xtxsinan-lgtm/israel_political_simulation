@@ -92,7 +92,6 @@ calendar:
   dissolution_day: -1
 term_count: 1
 govt_fatigue: 0
-voter_cynicism: 20
 exp_drift:
   labor_ashkenazi: 0
   mizrahi: 0

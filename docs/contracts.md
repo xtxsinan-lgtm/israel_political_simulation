@@ -31,8 +31,8 @@ docs/
   events/                     事件库（Markdown，供人阅读）
 data/                         机器可读设计数据（YAML），游戏与模拟共用
   causal_edges.yaml           M02 因果网节点、本模块边、跨模块边与政策杠杆边
-  policies.yaml               M05 持续性政策定义（26项）
-  actions.yaml                M05 政治/内阁/外交/军事/秘密行动目录（56项）
+  policies.yaml               M05 持续性政策定义（76项）
+  actions.yaml                M05 政治/内阁/外交/军事/秘密行动目录（104项）
   characters.yaml             M06 历史人物库（43名）
   world_tracks.yaml           M07 1977–1992 外部世界历史轨道与世界旗标
   palestine_factions.yaml     M08 巴勒斯坦九大派系初始数据与AI参数
@@ -174,13 +174,26 @@ game/                         Godot 工程（阶段4以后）
 | `m10_pass_budget` / `m10_budget_result` | M10 | `{year?: int, passed?: bool}` | 年度预算法案通过生效或接收 M03 预算表决结果回调（`D-061`） |
 | `m10_set_draft_slider` / `m10_set_enacted_slider_delta` | M10 | `{item: str, value?: float, delta?: float}` | 调整预算草案滑块或直接微调已生效预算科目拨款 |
 | `m10_apply_stabilization_plan` / `m10_trigger_bank_bailout` / `m10_inject_external_inflation_shock` / `m10_spawn_aliyah_cohort` | M10 | `{...}` | 执行 1985 式经济稳定计划、银行股崩盘救市接管、外部石油通胀冲击或生成大规模移民安置队列 |
-| `m11_activate_region` / `m11_remove_region` | M11 | `{region: str, evacuate_settlers?: bool}` | 激活动态区（如 `south_lebanon`，别名 `m11_create_region`）或撤离归还动态区（如归还 `sinai`，`D-076`） |
+| `m11_activate_region` / `m11_remove_region` | M11 | `{region: str, evacuate_settlers?: bool}` | 激活动态区（如 `south_lebanon`，别名 `m11_create_region` / `m11_add_region`）或撤离归还动态区（如归还 `sinai`，`D-076`） |
 | `m11_set_legal_status` | M11 | `{region: str, status: str}` | 切换区域法律地位（`"sovereign"`, `"annexed_disputed"`, `"occupied_military"`, `"occupied_civil_admin"`, `"autonomy_transitional"`, `"security_zone"`, `"returned"`，`D-076`） |
 | `m11_activate_overlay` | M11 | `{plan_id: str}` | 激活或切换战略区域规划图（如 `allon_plan`, `sharon_seven_stars`，`D-076`） |
 | `m13_apply_centralization_impulse` | M13 | `{delta: float, source_action_id: str}` | 注入集权行动或事件脉冲并触发阻力方反制计算（`D-085`） |
 | `m14_record_turning_point` | M14 | `{title_zh: str, summary_zh?: str, weight?: float, category?: str, player_caused?: bool}` | 向任期档案登记重大历史转折点（供双页历史书总结使用，`D-081`） |
 | `m14_grant_achievement` | M14 | `{id: str}` | 立即授予全局成就（`ACH_01`..`ACH_30`，`D-081`） |
 | `m14_generate_fictional_leader` | M14 | `{party_id: str, template_char?: str}` | 生成虚构同党或换党继任者并写入人物库（`D-081`） |
+
+#### 4.2.1 因果网 `term_provider` 动态贡献项提供器总表（`D-052`）
+
+挂载于 `data/causal_edges.yaml` `nodes:` 的 `term_provider` 回调必须在此登记：
+
+| 提供器名称 | 所属模块 | 挂载节点 | 返回语义 |
+|---|---|---|---|
+| `m04_terms` | M04 | `party_standing, faction_mood, challenger_strength` | 走廊偏离惩罚、内阁派系分肥偏差 $ms_f - w_f$、挑战者实力动态项 |
+| `m07_us_admin_baseline` | M07 | `us_admin_relation` | 当前美国执政政府（卡特/里根/布什）世界轨道基线偏移 |
+| `m07_power_baseline` | M07 | `power_relation` | 各外部大国（`usa, ussr, france, uk, west_germany, diaspora`）世界轨道基线偏移 |
+| `m10_monthly_terms` | M10 | `public_debt, fx_reserves, absorption_capacity, union_strength` | 月度经济动态项（财政赤字累债、经常账户与美援外汇流、吸收容量承载项 `m10_absorption_capacity_term`、工会实力项 `m10_union_strength_term`） |
+| `m10_quarterly_terms` | M10 | `inflation, growth, unemployment, inequality` | 季度宏观经济动态项（工资-物价指数化螺旋、动员档位拖累、奥肯法则与基尼系数项） |
+| `m11_settler_demography_term` | M11 | `settler_momentum` | 定居点政策、财政补贴与定居者人口规模对定居者运动动量的目标项 |
 
 ### 4.3 修正器因子总登记表（`KNOWN_MODIFIER_FACTORS`）
 

@@ -46,12 +46,12 @@ milestones:
   type: hold
   requires: []
   cond: flag("autonomy_framework_signed") and pal_hostility <= 45 and pal_living_standard
-    >= 55 and faction_legitimacy[notables] >= 35 and uprising_risk <= 40
+    >= 55 and faction_legitimacy[jordan_notables] >= 35 and uprising_risk <= 40
   hold_months: 12
   fail: flag("first_intifada_active")
   fail_mode: permanent
   closeness: (clamp((65 - pal_hostility) / 20, 0, 1) + clamp((pal_living_standard
-    - 35) / 20, 0, 1) + clamp((faction_legitimacy[notables] - 15) / 20, 0, 1) + clamp((60
+    - 35) / 20, 0, 1) + clamp((faction_legitimacy[jordan_notables] - 15) / 20, 0, 1) + clamp((60
     - uprising_risk) / 20, 0, 1)) / 4 * (0.5 + 0.5 * auto_flag)
 - id: m4_jordan
   name_zh: 约旦河两岸：与约旦缔结和平

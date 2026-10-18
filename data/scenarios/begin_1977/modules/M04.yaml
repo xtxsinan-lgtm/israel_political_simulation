@@ -5,7 +5,7 @@ faction_mood_init:
   liberal_wing: 52
   laam: 56
 party_standing_init: 70
-cynicism_init: 25
+cynicism_init: 20
 promise_credit_init:
   labor_ashkenazi: 0
   mizrahi: 0

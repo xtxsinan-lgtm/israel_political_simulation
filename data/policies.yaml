@@ -675,7 +675,7 @@ policies:
     up: {par: {region_security.west_bank: -1}}
     down: {par: {regime_hostility.jordan: 3, pal_living_standard: -3}}
     ax: {security: -3}
-    e: [{t: pal_living_standard, c: 0.06, i: 3}, {t: regime_hostility, k: jordan, c: -0.04, i: 6}, {t: region_security, k: west_bank, c: -0.02}, {t: faction_strength, k: notables, c: 0.03, i: 6}]
+    e: [{t: pal_living_standard, c: 0.06, i: 3}, {t: regime_hostility, k: jordan, c: -0.04, i: 6}, {t: region_security, k: west_bank, c: -0.02}, {t: faction_strength, k: jordan_notables, c: 0.03, i: 6}]
 
   - id: curfew_closure
     zh: 宵禁与封锁
@@ -741,7 +741,7 @@ policies:
     up: {par: {pal_hostility: 2}, rel: {chief_of_staff: -3}}
     down: {par: {intl_legitimacy: -1}, standing: -1}
     ax: {territory: 3}
-    e: [{t: pal_living_standard, c: 0.03, i: 6}, {t: faction_strength, k: notables, c: 0.03, i: 6}, {t: pal_hostility, c: 0.02, i: 6}, {t: intl_legitimacy, c: 0.01, i: 6}]
+    e: [{t: pal_living_standard, c: 0.03, i: 6}, {t: faction_strength, k: jordan_notables, c: 0.03, i: 6}, {t: pal_hostility, c: 0.02, i: 6}, {t: intl_legitimacy, c: 0.01, i: 6}]
     note: "E-1981-11"
 
   - id: village_leagues
@@ -755,7 +755,7 @@ policies:
     up: {par: {pal_hostility: 1}}
     down: {rel: {defense_minister: -3}}
     ax: {territory: 4}
-    e: [{t: faction_strength, k: notables, c: 0.06, i: 3}, {t: faction_legitimacy, k: notables, c: -0.08, i: 3, g: "pal_hostility / 50"}, {t: pal_hostility, c: 0.02, i: 6}, {t: faction_legitimacy, k: fatah, c: 0.02, i: 6}]
+    e: [{t: faction_strength, k: jordan_notables, c: 0.06, i: 3}, {t: faction_legitimacy, k: jordan_notables, c: -0.08, i: 3, g: "pal_hostility / 50"}, {t: pal_hostility, c: 0.02, i: 6}, {t: faction_legitimacy, k: fatah, c: 0.02, i: 6}]
     note: "设计文档 §14.2 合作者污名：门控 = 民间敌意/50"
 
   - id: islamic_tolerance

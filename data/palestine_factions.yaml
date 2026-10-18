@@ -71,8 +71,8 @@ factions:
     active_at_1977: true
     activate_cond: null
     init_values:
-      strength: 32.0
-      legitimacy: 16.0
+      strength: 34.0
+      legitimacy: 28.0
       moderation: 10.0
       cohesion: 62.0
       stigma: 0.0
@@ -145,8 +145,8 @@ factions:
     active_at_1977: true
     activate_cond: null
     init_values:
-      strength: 36.0
-      legitimacy: 28.0
+      strength: 38.0
+      legitimacy: 48.0
       moderation: 45.0
       cohesion: 64.0
       stigma: 5.0

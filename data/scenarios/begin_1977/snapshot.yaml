@@ -9,8 +9,7 @@ params:
   vision_progress: 0.0
   historical_rating: 0.0
   cynicism: 20.0
-  voter_cynicism: 20.0
-  party_cohesion: 72.0
+  party_cohesion: 57.04
   challenger_strength: 0.0
   ally_satisfaction:
     nrp: 65.0
@@ -152,6 +151,11 @@ params:
     lebanon: 60.0
     iraq: 90.0
     saudi: 80.0
+    iran: 25.0
+    turkey: 35.0
+    ethiopia: 40.0
+    sudan: 70.0
+    morocco: 45.0
   popular_hostility:
     egypt: 68.0
     jordan: 72.0
@@ -166,6 +170,11 @@ params:
     lebanon: 25.0
     iraq: 72.0
     saudi: 80.0
+    iran: 48.0
+    turkey: 55.0
+    ethiopia: 30.0
+    sudan: 45.0
+    morocco: 65.0
   country_war_readiness:
     egypt: 62.0
     jordan: 48.0
@@ -266,6 +275,501 @@ params:
     sinai: 30.0
     jerusalem: 50.0
     south_lebanon: 0.0
+    galilee: 0.0
+    haifa: 0.0
+    tel_aviv: 0.0
+    triangle: 0.0
+    negev: 0.0
+  relation:
+    begin: 50.0
+    dayan: 50.0
+    weizman: 50.0
+    sharon: 50.0
+    shamir: 50.0
+    levy: 50.0
+    ehrlich: 50.0
+    arens: 50.0
+    modai: 50.0
+    patt: 50.0
+    hurvitz: 50.0
+    meridor: 50.0
+    begin_b: 50.0
+    livni_etzion: 50.0
+    yadin: 50.0
+    tamir: 50.0
+    rubinstein: 50.0
+    burg: 50.0
+    hammer: 50.0
+    abuhatzeira: 50.0
+    shapira: 50.0
+    lorincz: 50.0
+    peres: 50.0
+    rabin: 50.0
+    allon: 50.0
+    bar_lev: 50.0
+    dove_youth_rep: 50.0
+    gur: 50.0
+    eitan: 50.0
+    hofi: 50.0
+    shalom: 50.0
+    barak_aharon: 50.0
+    kahan: 50.0
+    gafni: 50.0
+    zamir: 50.0
+    sadat: 50.0
+    carter: 50.0
+    reagan: 50.0
+    hussein: 50.0
+    arafat: 50.0
+    bashir_gemayel: 50.0
+    shaka: 50.0
+    mengistu: 50.0
+  health:
+    begin: 68.0
+    dayan: 54.0
+    weizman: 78.0
+    sharon: 82.0
+    shamir: 80.0
+    levy: 84.0
+    ehrlich: 58.0
+    arens: 82.0
+    modai: 76.0
+    patt: 80.0
+    hurvitz: 72.0
+    meridor: 90.0
+    begin_b: 88.0
+    livni_etzion: 72.0
+    yadin: 64.0
+    tamir: 74.0
+    rubinstein: 86.0
+    burg: 76.0
+    hammer: 78.0
+    abuhatzeira: 86.0
+    shapira: 78.0
+    lorincz: 80.0
+    peres: 86.0
+    rabin: 82.0
+    allon: 52.0
+    bar_lev: 78.0
+    dove_youth_rep: 88.0
+    gur: 82.0
+    eitan: 84.0
+    hofi: 82.0
+    shalom: 80.0
+    barak_aharon: 90.0
+    kahan: 72.0
+    gafni: 84.0
+    zamir: 86.0
+    sadat: 75.0
+    carter: 86.0
+    reagan: 74.0
+    hussein: 78.0
+    arafat: 80.0
+    bashir_gemayel: 88.0
+    shaka: 76.0
+    mengistu: 84.0
+  character_stress:
+    begin: 28.0
+    dayan: 15.0
+    weizman: 15.0
+    sharon: 15.0
+    shamir: 15.0
+    levy: 15.0
+    ehrlich: 15.0
+    arens: 15.0
+    modai: 15.0
+    patt: 15.0
+    hurvitz: 15.0
+    meridor: 15.0
+    begin_b: 15.0
+    livni_etzion: 15.0
+    yadin: 15.0
+    tamir: 15.0
+    rubinstein: 15.0
+    burg: 15.0
+    hammer: 15.0
+    abuhatzeira: 15.0
+    shapira: 15.0
+    lorincz: 15.0
+    peres: 15.0
+    rabin: 15.0
+    allon: 15.0
+    bar_lev: 15.0
+    dove_youth_rep: 15.0
+    gur: 15.0
+    eitan: 15.0
+    hofi: 15.0
+    shalom: 15.0
+    barak_aharon: 15.0
+    kahan: 15.0
+    gafni: 15.0
+    zamir: 15.0
+    sadat: 15.0
+    carter: 15.0
+    reagan: 15.0
+    hussein: 15.0
+    arafat: 15.0
+    bashir_gemayel: 15.0
+    shaka: 15.0
+    mengistu: 15.0
+  knesset_seats:
+    likud: 45
+    labor: 32
+    dash: 15
+    nrp: 12
+    rakah_hadash: 5
+    agudat: 4
+    sheli: 2
+    flatto_sharon: 1
+    poalei_agudat: 1
+    ilp: 1
+    ratz: 1
+    arab_lists: 1
+    independents: 0
+  poll_seats:
+    likud: 45
+    labor: 32
+    dash: 15
+    nrp: 12
+    rakah_hadash: 5
+    agudat: 4
+    sheli: 2
+    flatto_sharon: 1
+    poalei_agudat: 1
+    ilp: 1
+    ratz: 1
+    arab_lists: 1
+    independents: 0
+  poll_share:
+    likud: 37.5
+    labor: 26.67
+    dash: 12.5
+    nrp: 10.0
+    rakah_hadash: 4.17
+    agudat: 3.33
+    sheli: 1.67
+    flatto_sharon: 0.83
+    poalei_agudat: 0.83
+    ilp: 0.83
+    ratz: 0.83
+    arab_lists: 0.83
+    independents: 0.0
+  poll_lead: 13
+  months_to_election: 52
+  govt_fatigue: 0.0
+  bloc_policy_gap:
+    labor_ashkenazi: 15.0
+    mizrahi: 15.0
+    kibbutz_moshav: 15.0
+    religious_zionist: 15.0
+    haredi: 15.0
+    arab_citizens: 15.0
+    russian: 15.0
+    liberal_middle: 15.0
+  bloc_promise_score:
+    labor_ashkenazi: 0.0
+    mizrahi: 0.0
+    kibbutz_moshav: 0.0
+    religious_zionist: 0.0
+    haredi: 0.0
+    arab_citizens: 0.0
+    russian: 0.0
+    liberal_middle: 0.0
+  ally_deal_score:
+    nrp: 15.0
+    agudat: 15.0
+    liberals: 15.0
+    dash: 0.0
+    labor: 0.0
+    mapam: 0.0
+    flatto_sharon: 0.0
+    poalei_agudat: 0.0
+    ilp: 0.0
+    ratz: 0.0
+    sheli: 0.0
+    rakah_hadash: 0.0
+    arab_lists: 0.0
+    likud: 0.0
+  seat_expectation_bonus:
+    likud: 0
+    labor: 0
+    dash: 0
+    nrp: 0
+    rakah_hadash: 0
+    agudat: 0
+    sheli: 0
+    flatto_sharon: 0
+    poalei_agudat: 0
+    ilp: 0
+    ratz: 0
+    arab_lists: 0
+    independents: 0
+  policy_level:
+    sabbath_transport: 50.0
+    sabbath_el_al: 0.0
+    kashrut_state: 50.0
+    marriage_law: 50.0
+    conversion_recognition: 50.0
+    exemption_coverage: 50.0
+    abortion_social_clause: 0.0
+    autopsy_rules: 50.0
+    sabbath_commerce: 50.0
+    haredi_school_autonomy: 100.0
+    sabbath_broadcasting: 0.0
+    fx_regime: 0.0
+    food_subsidies: 67.0
+    wage_indexation: 100.0
+    vat_rate: 0.0
+    top_income_tax: 50.0
+    privatization: 0.0
+    capital_market: 0.0
+    bank_share_support: 100.0
+    import_protection: 0.0
+    central_bank: 0.0
+    dev_zone_incentives: 33.0
+    child_allowance: 50.0
+    veterans_benefit_gap: 50.0
+    public_housing: 50.0
+    school_integration: 50.0
+    free_secondary_education: 0.0
+    minimum_wage: 0.0
+    mizrahi_heritage: 0.0
+    absorption_basket: 50.0
+    return_law_scope: 100.0
+    ethiopian_aliyah: 0.0
+    immigrant_dispersal: 50.0
+    diaspora_partnership: 50.0
+    settlement_policy: 50.0
+    outpost_enforcement: 50.0
+    land_acquisition_mode: 0.0
+    settler_housing_incentives: 33.0
+    settlement_layout: 0.0
+    east_jerusalem_building: 50.0
+    region_land_policy: 50.0
+    reserve_duty: 50.0
+    conscription_length: 100.0
+    retaliation_doctrine: 50.0
+    nuclear_signaling: 0.0
+    military_censorship: 50.0
+    shin_bet_oversight: 100.0
+    arms_sourcing: 50.0
+    lebanon_proxy: 50.0
+    work_permits: 50.0
+    open_bridges: 100.0
+    curfew_closure: 50.0
+    home_demolition: 50.0
+    deportation: 50.0
+    pal_municipalities: 50.0
+    civil_administration: 0.0
+    village_leagues: 0.0
+    islamic_tolerance: 50.0
+    pal_universities: 50.0
+    military_government: 50.0
+    arab_local_budget: 33.0
+    arab_planning: 50.0
+    bedouin_villages: 50.0
+    druze_track: 100.0
+    arab_civil_service: 0.0
+    iba_independence: 50.0
+    commercial_tv: 0.0
+    press_ordinance: 50.0
+    comptroller_powers: 50.0
+    electoral_threshold: 0.0
+    emergency_regs_use: 50.0
+    un_posture: 50.0
+    third_world_aid: 0.0
+    south_africa_ties: 50.0
+    us_lobbying: 50.0
+    periphery_alliances: 50.0
+  gov_axis_position:
+    territory: 35.0
+    security: 25.0
+    economy: -45.0
+    religion: 10.0
+    foreign: 15.0
+  favor_party:
+    likud: 0
+    labor: 0
+    dash: 0
+    nrp: 0
+    rakah_hadash: 0
+    agudat: 0
+    sheli: 0
+    flatto_sharon: 0
+    poalei_agudat: 0
+    ilp: 0
+    ratz: 0
+    arab_lists: 0
+    independents: 0
+  favor_character:
+    begin: 0
+    dayan: 0
+    weizman: 0
+    sharon: 0
+    shamir: 0
+    levy: 0
+    ehrlich: 0
+    arens: 0
+    modai: 0
+    patt: 0
+    hurvitz: 0
+    meridor: 0
+    begin_b: 0
+    livni_etzion: 0
+    yadin: 0
+    tamir: 0
+    rubinstein: 0
+    burg: 0
+    hammer: 0
+    abuhatzeira: 0
+    shapira: 0
+    lorincz: 0
+    peres: 0
+    rabin: 0
+    allon: 0
+    bar_lev: 0
+    dove_youth_rep: 0
+    gur: 0
+    eitan: 0
+    hofi: 0
+    shalom: 0
+    barak_aharon: 0
+    kahan: 0
+    gafni: 0
+    zamir: 0
+    sadat: 0
+    carter: 0
+    reagan: 0
+    hussein: 0
+    arafat: 0
+    bashir_gemayel: 0
+    shaka: 0
+    mengistu: 0
+  intel_accuracy: 79.65
+  war_probability:
+    egypt: 18.0
+    jordan: 8.0
+    syria: 24.0
+    lebanon: 35.0
+    iraq: 12.0
+    saudi: 5.0
+  faction_moderation:
+    fatah: 22.0
+    pflp: 10.0
+    jordan_notables: 72.0
+    local_mayors: 45.0
+    village_leagues: 82.0
+    mujama: 35.0
+    hamas: 8.0
+    pij: 5.0
+    pa_security: 65.0
+  faction_cohesion:
+    fatah: 68.0
+    pflp: 62.0
+    jordan_notables: 58.0
+    local_mayors: 64.0
+    village_leagues: 35.0
+    mujama: 78.0
+    hamas: 82.0
+    pij: 72.0
+    pa_security: 60.0
+  collaborator_stigma:
+    fatah: 0.0
+    pflp: 0.0
+    jordan_notables: 15.0
+    local_mayors: 5.0
+    village_leagues: 45.0
+    mujama: 8.0
+    hamas: 0.0
+    pij: 0.0
+    pa_security: 25.0
+  coup_risk: 2.0
+  assassination_risk: 4.0
+  social_protest_tier: 0
+  settler_population:
+    galilee: 0
+    haifa: 0
+    tel_aviv: 0
+    triangle: 0
+    jerusalem: 0
+    negev: 0
+    west_bank: 5000
+    gaza: 500
+    golan: 3500
+    sinai: 4500
+    south_lebanon: 0
+  region_vote_share:
+    galilee: 42.0
+    haifa: 38.0
+    tel_aviv: 46.0
+    triangle: 18.0
+    jerusalem: 58.0
+    negev: 54.0
+    west_bank: 72.0
+    gaza: 70.0
+    golan: 55.0
+    sinai: 60.0
+    south_lebanon: 0.0
+  region_population:
+    galilee: 550000
+    haifa: 550000
+    tel_aviv: 1200000
+    triangle: 600000
+    jerusalem: 410000
+    negev: 415000
+    west_bank: 685000
+    gaza: 440500
+    golan: 14500
+    sinai: 59500
+    south_lebanon: 0
+  region_absorption_priority:
+    galilee: 50.0
+    haifa: 50.0
+    tel_aviv: 50.0
+    triangle: 25.0
+    jerusalem: 75.0
+    negev: 50.0
+    west_bank: 50.0
+    gaza: 25.0
+    golan: 50.0
+    sinai: 25.0
+    south_lebanon: 0.0
+  region_investment_priority:
+    galilee: 50.0
+    haifa: 50.0
+    tel_aviv: 50.0
+    triangle: 25.0
+    jerusalem: 75.0
+    negev: 50.0
+    west_bank: 50.0
+    gaza: 25.0
+    golan: 50.0
+    sinai: 25.0
+    south_lebanon: 0.0
+  region_security_posture:
+    galilee: 30.0
+    haifa: 30.0
+    tel_aviv: 30.0
+    triangle: 30.0
+    jerusalem: 50.0
+    negev: 30.0
+    west_bank: 50.0
+    gaza: 50.0
+    golan: 50.0
+    sinai: 50.0
+    south_lebanon: 50.0
+  region_alienation:
+    galilee: 36.0
+    haifa: 22.0
+    tel_aviv: 18.0
+    triangle: 46.0
+    jerusalem: 38.0
+    negev: 42.0
+    west_bank: 58.0
+    gaza: 66.0
+    golan: 34.0
+    sinai: 30.0
+    south_lebanon: 55.0
 parliament:
   version: 1
   knesset_seats:
@@ -361,7 +865,6 @@ parliament:
     dissolution_day: -1
   term_count: 1
   govt_fatigue: 0
-  voter_cynicism: 20
   exp_drift:
     labor_ashkenazi: 0
     mizrahi: 0
@@ -927,7 +1430,7 @@ party_state:
     liberal_wing: 52
     laam: 56
   party_standing_init: 70
-  cynicism_init: 25
+  cynicism_init: 20
   promise_credit_init:
     labor_ashkenazi: 0
     mizrahi: 0
