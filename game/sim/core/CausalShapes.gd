@@ -4,6 +4,8 @@ extends RefCounted
 
 static func eval_shape(x: float, edge: Dictionary) -> float:
 	var shape: String = String(edge.get("shape", "linear"))
+	if shape == "linear" or shape == "":
+		return float(edge.get("coef", edge.get("w", 1.0))) * (x - float(edge.get("pivot", edge.get("ref", 0.0))))
 	var pivot: float = float(edge.get("pivot", edge.get("ref", 0.0)))
 	var coef: float = float(edge.get("coef", edge.get("w", 1.0)))
 	var width: float = float(edge.get("w", edge.get("scale", 20.0)))
@@ -67,6 +69,8 @@ static func read_source_effective_val(state: SimState, edge: Dictionary, scope_k
 	var key: String = scope_key
 	if edge.get("source_key", null) != null:
 		key = String(edge.get("source_key", ""))
+	if not edge.has("lag_months") and not edge.has("delay") and not edge.has("smooth_months"):
+		return state.params.get_val(param_id, key, state)
 	var lag: int = int(edge.get("lag_months", edge.get("delay", 0)))
 	var smooth: int = int(edge.get("smooth_months", 0))
 	if lag <= 0 and smooth <= 0:

@@ -5,6 +5,9 @@ const INERTIA_ALPHA: float = 0.10
 const MEMORY_RHO: float = 0.30
 const MEMORY_MU: float = 0.05
 
+var _edge_cache: Dictionary = {}
+var _edge_index_ready: bool = false
+
 
 func on_effect_applied(state: SimState, param_id: String, scope_key: String, delta_actual: float, source_id: String, is_owner_set: bool) -> void:
 	if is_owner_set or absf(delta_actual) < 1.0e-9:
@@ -43,7 +46,7 @@ func on_effect_applied(state: SimState, param_id: String, scope_key: String, del
 	state.modules["M02"] = m02
 
 
-func compute_node_step_breakdown(state: SimState, param_id: String, scope_key: String, expr: ExprEngine, modules: Dictionary) -> Dictionary:
+func compute_node_step_breakdown(state: SimState, param_id: String, scope_key: String, expr: ExprEngine, modules: Dictionary, include_contribs: bool = true) -> Dictionary:
 	var current_val: float = state.params.get_val(param_id, scope_key, state)
 	var ndef: Dictionary = {}
 	if GameData.current != null:
@@ -66,28 +69,30 @@ func compute_node_step_breakdown(state: SimState, param_id: String, scope_key: S
 			var cap: float = float(edge["cap"])
 			raw_contrib = clampf(raw_contrib, -cap, cap)
 		target_sum += raw_contrib
-		contributions.append({
-			"source_id": String(edge.get("id", "edge")),
-			"source_label_zh": String(edge.get("label_zh", edge.get("id", "edge"))),
-			"linked_param": String(edge.get("source", "")),
-			"delta_per_tick": SimMath.quantize(raw_contrib * _alpha(ndef)),
-			"raw_target_shift": raw_contrib,
-			"kind": "edge",
-		})
+		if include_contribs:
+			contributions.append({
+				"source_id": String(edge.get("id", "edge")),
+				"source_label_zh": String(edge.get("label_zh", edge.get("id", "edge"))),
+				"linked_param": String(edge.get("source", "")),
+				"delta_per_tick": SimMath.quantize(raw_contrib * _alpha(ndef)),
+				"raw_target_shift": raw_contrib,
+				"kind": "edge",
+			})
 	var injected: Dictionary = _as_dict(m02.get("injected_edges", {}))
 	var extra: Array = _as_array(injected.get(param_id, []))
 	for i: int in range(extra.size()):
 		var edge: Dictionary = _as_dict(extra[i])
 		var raw_contrib: float = float(edge.get("raw_target_shift", edge.get("delta", 0.0)))
 		target_sum += raw_contrib
-		contributions.append({
-			"source_id": String(edge.get("source_id", "injected")),
+		if include_contribs:
+			contributions.append({
+				"source_id": String(edge.get("source_id", "injected")),
 			"source_label_zh": String(edge.get("source_label_zh", edge.get("source_id", "injected"))),
 			"linked_param": String(edge.get("linked_param", "")),
 			"delta_per_tick": SimMath.quantize(float(edge.get("delta_per_tick", raw_contrib * _alpha(ndef)))),
 			"raw_target_shift": raw_contrib,
-			"kind": "edge",
-		})
+				"kind": "edge",
+			})
 	var provider_name: String = String(ndef.get("term_provider", ""))
 	if provider_name != "":
 		var owner_mod_id: String = String(ndef.get("provider_module", ""))
@@ -98,28 +103,30 @@ func compute_node_step_breakdown(state: SimState, param_id: String, scope_key: S
 				var term: Dictionary = dynamic_terms[i]
 				var t_val: float = float(term.get("value", 0.0))
 				target_sum += t_val
-				contributions.append({
+				if include_contribs:
+					contributions.append({
 					"source_id": String(term.get("id", provider_name)),
 					"source_label_zh": String(term.get("label_zh", provider_name)),
 					"linked_param": String(term.get("linked_param", "")),
 					"delta_per_tick": SimMath.quantize(t_val),
 					"raw_target_shift": t_val,
-					"kind": "term_provider",
-				})
+						"kind": "term_provider",
+					})
 	var memories: Dictionary = _as_dict(m02.get("shock_memories", {}))
 	var mem_list: Array = _as_array(memories.get(node_key, []))
 	for i: int in range(mem_list.size()):
 		var item: Dictionary = _as_dict(mem_list[i])
 		var rem: float = float(item.get("remaining", 0.0))
 		target_sum += rem
-		contributions.append({
-			"source_id": String(item.get("source_id", "memory")),
+		if include_contribs:
+			contributions.append({
+				"source_id": String(item.get("source_id", "memory")),
 			"source_label_zh": "事件冲击余波 (" + String(item.get("source_id", "")) + ")",
 			"linked_param": "",
 			"delta_per_tick": SimMath.quantize(rem * _alpha(ndef)),
 			"raw_target_shift": rem,
-			"kind": "memory",
-		})
+				"kind": "memory",
+			})
 	var alpha: float = _alpha(ndef)
 	var raw_step: float = alpha * (target_sum - current_val)
 	var max_step: float = float(ndef.get("max_step_per_month", 5.0))
@@ -161,7 +168,7 @@ func step_all_nodes(state: SimState, expr: ExprEngine, modules: Dictionary) -> A
 		var keys: Array[String] = _node_keys(state, param_id, ndef)
 		for k: int in range(keys.size()):
 			var scope_key: String = keys[k]
-			var breakdown: Dictionary = compute_node_step_breakdown(state, param_id, scope_key, expr, modules)
+			var breakdown: Dictionary = compute_node_step_breakdown(state, param_id, scope_key, expr, modules, false)
 			var next_val: float = SimMath.quantize(float(breakdown["current_val"]) + float(breakdown["clamped_step"]))
 			effects.append({
 				"op": "set",
@@ -365,31 +372,47 @@ func _decay_memories(state: SimState) -> void:
 	state.modules["M02"] = m02
 
 
-func _get_active_edges_for_target(state: SimState, param_id: String, scope_key: String) -> Array[Dictionary]:
+func _get_active_edges_for_target(_state: SimState, param_id: String, scope_key: String) -> Array[Dictionary]:
+	var built: Array = _edges_for_param(param_id)
 	var out: Array[Dictionary] = []
-	if GameData.current == null:
-		return out
-	for i: int in range(GameData.current.causal_edges_def.size()):
-		var edge: Dictionary = GameData.current.causal_edges_def[i]
-		var target: String = String(edge.get("target", edge.get("to", "")))
-		if target != param_id:
-			continue
-		if String(edge.get("status", "active")) != "active":
-			continue
+	for i: int in range(built.size()):
+		var edge: Dictionary = built[i]
 		var target_key: String = "" if edge.get("target_key", null) == null else String(edge.get("target_key"))
 		if target_key != "" and target_key != "*" and target_key != scope_key:
 			continue
 		out.append(edge)
-	var policy_ids: Array[String] = []
-	if GameData.current != null:
-		policy_ids = SimMath.sorted_keys(GameData.current.policies_def)
+	return out
+
+
+func _edges_for_param(param_id: String) -> Array:
+	_ensure_edge_index()
+	if not _edge_cache.has(param_id):
+		return []
+	return _edge_cache[param_id]
+
+
+func _ensure_edge_index() -> void:
+	if _edge_index_ready:
+		return
+	_edge_index_ready = true
+	if GameData.current == null:
+		return
+	for i: int in range(GameData.current.causal_edges_def.size()):
+		var edge: Dictionary = GameData.current.causal_edges_def[i]
+		if String(edge.get("status", "active")) != "active":
+			continue
+		var target: String = String(edge.get("target", edge.get("to", "")))
+		if target == "":
+			continue
+		_cache_edge(target, edge)
+	var policy_ids: Array[String] = SimMath.sorted_keys(GameData.current.policies_def)
 	for i: int in range(policy_ids.size()):
 		var pol: Dictionary = _as_dict(GameData.current.policies_def[policy_ids[i]])
 		var lever_edges: Array = _as_array(pol.get("e", []))
 		for j: int in range(lever_edges.size()):
 			var pe: Dictionary = _as_dict(lever_edges[j])
 			var target: String = String(pe.get("t", pe.get("to", pe.get("target", ""))))
-			if target != param_id:
+			if target == "":
 				continue
 			var synthetic: Dictionary = pe.duplicate(true)
 			synthetic["id"] = "pol." + policy_ids[i]
@@ -397,8 +420,15 @@ func _get_active_edges_for_target(state: SimState, param_id: String, scope_key: 
 			synthetic["label_zh"] = String(pol.get("name_zh", policy_ids[i]))
 			if not synthetic.has("shape"):
 				synthetic["shape"] = "linear"
-			out.append(synthetic)
-	return out
+			_cache_edge(target, synthetic)
+
+
+func _cache_edge(target: String, edge: Dictionary) -> void:
+	var bucket: Array = []
+	if _edge_cache.has(target):
+		bucket = _edge_cache[target]
+	bucket.append(edge)
+	_edge_cache[target] = bucket
 
 
 func _node_keys(state: SimState, param_id: String, ndef: Dictionary) -> Array[String]:

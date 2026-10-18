@@ -17,7 +17,8 @@ DataRegistry="*res://autoload/DataRegistry.gd"
 SimEngine="*res://autoload/SimEngine.gd"
 EventBus="*res://ui/EventBus.gd"
 UIManager="*res://ui/UIManager.gd"
-AudioManager="*res://autoload/AudioManager.gd"
+AudioManager="*res://ui/AudioManager.gd"
+AccessibilityManager="*res://ui/AccessibilityManager.gd"
 
 [display]
 

@@ -142,7 +142,7 @@ func _kill(state: SimState, char_id: String) -> Array[Dictionary]:
 	row["alive"] = false
 	characters[char_id] = row
 	var archived: Array = []
-	if typeof(m06.get("archived_characters", [])) == TYPE_ARRAY:
+	if m06.has("archived_characters") and typeof(m06["archived_characters"]) == TYPE_ARRAY:
 		archived = m06["archived_characters"]
 	archived.append(char_id)
 	m06["archived_characters"] = archived

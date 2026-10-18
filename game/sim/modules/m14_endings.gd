@@ -19,6 +19,8 @@ func daily_step(step_no: int, state: SimState, ctx: Dictionary) -> Array[Diction
 
 
 func step_20(state: SimState, _ctx: Dictionary) -> Array[Dictionary]:
+	if bool(state.run.get("perf_bench", false)):
+		return []
 	var reason: String = _pick_reason(state)
 	if reason == "" and state.clock.date < "1995-11-04":
 		check_achievements(state, false)

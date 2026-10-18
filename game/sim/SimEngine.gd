@@ -4,6 +4,8 @@ extends RefCounted
 var state: SimState = null
 var scheduler: DailyScheduler = DailyScheduler.new()
 var bot: RefCounted = null
+var recording: bool = true
+var command_log: Array[Dictionary] = []
 
 
 func start_new_game(scenario_id: String, custom_seed: int = -1, is_ironman: bool = false) -> Error:
@@ -27,6 +29,13 @@ func submit_command(cmd: Dictionary) -> Error:
 	var kind: String = String(cmd.get("op", cmd.get("type", "")))
 	var ctx: Dictionary = {"processor": scheduler.processor, "expr": scheduler.expr, "headless": true}
 	scheduler.expr.bind(state)
+	if recording:
+		command_log.append({
+			"day_index": state.clock.day_index,
+			"seq": command_log.size(),
+			"cmd_type": kind,
+			"payload": cmd.duplicate(true),
+		})
 	match kind:
 		"resolve_event":
 			scheduler.m12.resolve_event_choice(state, String(cmd.get("event", "")), String(cmd.get("option", "A")), ctx)
