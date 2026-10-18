@@ -25,8 +25,8 @@ events:
       add:
       - when: flag("gaza_raid_1955")
         value: 0.2
-    invalidation: flag("world_west_arms_to_egypt") and flag("egypt_secret_peace_talks_succeeded")
-      and character_in_office("nasser")
+    invalidation: flag("world_west_arms_to_egypt") and flag("egypt_secret_peace_talks_succeeded") and
+      character_in_office("nasser")
   background: 1955年9月，纳赛尔宣布从捷克斯洛伐克（实为苏联）购入大批米格战机、坦克和火炮，数量远超以色列全部装备。11月本-古里安重任总理时，总参谋部估计军力平衡将在一年内彻底倒向埃及。
   narrative: 1955年9月，纳赛尔宣布从捷克斯洛伐克（实为苏联）购入大批米格战机、坦克和火炮，数量远超以色列全部装备。11月本-古里安重任总理时，总参谋部估计军力平衡将在一年内彻底倒向埃及。
   summary: 1955年9月，纳赛尔宣布从捷克斯洛伐克（实为苏联）购入大批米格战机、坦克和。
@@ -80,8 +80,8 @@ events:
       from: '1955-01-01'
       to: '1967-06-10'
     prerequisites: character_in_office("sharett") and event_done("E-1955-11a")
-    condition: region_security[galilee] < 50 and regime_hostility[syria] >= 40 and
-      promise_progress[cat_security] < 40
+    condition: region_security[galilee] < 50 and regime_hostility[syria] >= 40 and promise_progress[cat_security]
+      < 40
     probability:
       period: month
       base: 0.35
@@ -277,6 +277,9 @@ events:
     - op: add
       target: readiness
       value: -1.0
+    - op: add
+      target: political_capital
+      value: 3.0
   - id: C
     title: 义务兵役，同时承诺德鲁兹村庄与犹
     label: 义务兵役，同时承诺德鲁兹村庄与犹太社区预算同等
@@ -440,8 +443,7 @@ events:
     window:
       from: '1955-01-01'
       to: '1967-06-10'
-    prerequisites: flag("world_algerian_war") and character_in_office("peres") and
-      event_done("E-1955-11a")
+    prerequisites: flag("world_algerian_war") and character_in_office("peres") and event_done("E-1955-11a")
     condition: power_relation[france] >= 40 and promise_progress[cat_security] < 60
     probability:
       period: month
@@ -573,15 +575,12 @@ events:
     window:
       from: '1955-01-01'
       to: '1967-06-10'
-    prerequisites: flag("franco_israeli_alliance") and flag("world_suez_canal_nationalized")
-      and character_in_office("nasser")
-    condition: regime_hostility[egypt] >= 55 and power_relation[france] >= 50 and
-      readiness >= 50
+    prerequisites: flag("franco_israeli_alliance") and flag("world_suez_canal_nationalized") and character_in_office("nasser")
+    condition: regime_hostility[egypt] >= 55 and power_relation[france] >= 50 and readiness >= 50
     probability:
       period: month
       base: 0.4
-    invalidation: flag("world_suez_diplomatic_settlement") and power_relation[france]
-      < 30
+    invalidation: flag("world_suez_diplomatic_settlement") and power_relation[france] < 30
   background: 1956年7月，纳赛尔宣布将苏伊士运河公司国有化。英法决定以武力夺回运河，需要一个出兵借口。10月22–24日，本-古里安、达扬、佩雷斯在巴黎近郊色佛尔与英法代表秘密商定：以色列进攻西奈，英法以"隔开交战双方"为名发出最后通牒并出兵运河区。
   narrative: 1956年7月，纳赛尔宣布将苏伊士运河公司国有化。英法决定以武力夺回运河，需要一个出兵借口。10月22–24日，本-古里安、达扬、佩雷斯在巴黎近郊色佛尔与英法代表秘密商定：以色列进攻西奈，英法以"隔开交战双方"为名发出最后通牒并出兵运河区。
   summary: 1956年7月，纳赛尔宣布将苏伊士运河公司国有化。
@@ -699,7 +698,7 @@ events:
 - id: E-1956-10d
   kind: fixed
   type: anchor
-  form: choice
+  form: predecision
   major: true
   minor: false
   repeatable: false
@@ -730,6 +729,17 @@ events:
     - authoritarian
     requires: 'true'
     effects:
+    - op: event_multiplier
+      event: E-1956-10b
+      value: 1.0
+      display: hidden
+    - op: event_multiplier
+      event: E-1956-11e
+      value: 1.0
+      display: hidden
+    - op: add
+      target: rule_of_law
+      value: -2.0
     - op: add
       target: readiness
       value: 3.0
@@ -744,6 +754,7 @@ events:
     - op: add
       target: centralization
       value: 1.0
+    risk_hint: 高
   - id: B
     title: 书面规则：宵禁须提前通知到每个村
     label: 书面规则：宵禁须提前通知到每个村庄，禁止向未抵抗的平民开火，搜捕时须有军法官在场
@@ -752,6 +763,14 @@ events:
     - hardline
     requires: 'true'
     effects:
+    - op: event_multiplier
+      event: E-1956-10b
+      value: 0.15
+      display: hidden
+    - op: event_multiplier
+      event: E-1956-11e
+      value: 0.2
+      display: hidden
     - op: add
       target: readiness
       value: -3.0
@@ -769,6 +788,7 @@ events:
     - op: add
       target: rule_of_law
       value: 2.0
+    risk_hint: 低
   - id: C
     title: 区别对待：境内阿拉伯公民从严保护
     label: 区别对待：境内阿拉伯公民从严保护，占领区放手
@@ -777,6 +797,14 @@ events:
     - economic
     requires: 'true'
     effects:
+    - op: event_multiplier
+      event: E-1956-10b
+      value: 0.3
+      display: hidden
+    - op: event_multiplier
+      event: E-1956-11e
+      value: 0.6
+      display: hidden
     - op: add
       target: political_capital
       value: -5.0
@@ -788,6 +816,7 @@ events:
       target: region_security
       value: 1.0
       key: triangle
+    risk_hint: 中
   perspectives:
   - group: group_1
     label: 边防警察旅长
@@ -1098,6 +1127,7 @@ events:
     historical: false
     tags:
     - authoritarian
+    - extreme
     requires: 'true'
     effects:
     - op: set_flag
@@ -1322,8 +1352,7 @@ events:
       from: '1955-01-01'
       to: '1967-06-10'
     prerequisites: 'true'
-    condition: flag("sevres_secret_protocol") and us_admin_relation < 50 and power_relation[ussr]
-      < 40
+    condition: flag("sevres_secret_protocol") and us_admin_relation < 50 and power_relation[ussr] < 40
     probability:
       period: week
       base: 0.6
@@ -1455,6 +1484,12 @@ events:
     - op: add
       target: pal_hostility
       value: 8.0
+    - op: add
+      target: deterrence
+      value: 3.0
+    - op: add
+      target: party_standing
+      value: 3.0
   - id: C
     title: 无条件迅速撤军
     label: 无条件迅速撤军
@@ -1836,10 +1871,8 @@ events:
     window:
       from: '1955-01-01'
       to: '1967-06-10'
-    prerequisites: flag("world_uar_formed") and flag("world_iraq_revolution_1958")
-      and character_in_office("shah_pahlavi")
-    condition: regime_hostility[egypt] >= 50 and power_relation[usa] >= 10 and relation[harel]
-      >= 0
+    prerequisites: flag("world_uar_formed") and flag("world_iraq_revolution_1958") and character_in_office("shah_pahlavi")
+    condition: regime_hostility[egypt] >= 50 and power_relation[usa] >= 10 and relation[harel] >= 0
     probability:
       period: month
       base: 0.15
@@ -2161,8 +2194,7 @@ events:
   - group: opposition
     label: 反对派议员
     text: 议会走廊里，反对派已经在起草质询案。
-  notes: 此事件是1967年"等待期"的预演，纳赛尔从中得出"可以把部队开进西奈而不必打仗"的错误结论。旗标：罗特姆先例（E-1967-05a 中埃及的冒险倾向
-    +10%）。
+  notes: 此事件是1967年"等待期"的预演，纳赛尔从中得出"可以把部队开进西奈而不必打仗"的错误结论。旗标：罗特姆先例（E-1967-05a 中埃及的冒险倾向 +10%）。
 - id: E-1960-03
   kind: fixed
   type: anchor
@@ -2622,6 +2654,13 @@ events:
     - op: add
       target: centralization
       value: 3.0
+    - op: add
+      target: deterrence
+      value: 3.0
+    - op: add
+      target: relation
+      key: ben_gurion
+      value: 5.0
   - id: C
     title: 主动邀请美国科学家参观，换取外交
     label: 主动邀请美国科学家参观，换取外交信任
@@ -2727,6 +2766,12 @@ events:
       target: power_relation
       value: 3.0
       key: diaspora
+    - op: add
+      target: budget_balance
+      value: -0.3
+    - op: add
+      target: political_capital
+      value: -5.0
   - id: C
     title: 交易，但同时启动对发展城镇的安置
     label: 交易，但同时启动对发展城镇的安置质量改革
@@ -2986,8 +3031,8 @@ events:
       from: '1955-01-01'
       to: '1967-06-10'
     prerequisites: character_in_office("ben_gurion")
-    condition: has_modifier("ghost_of_lavon_affair") and party_standing < 50 and health[ben_gurion]
-      < 40 and us_admin_relation < 30 and relation[harel] < -20
+    condition: has_modifier("ghost_of_lavon_affair") and party_standing < 50 and health[ben_gurion] <
+      40 and us_admin_relation < 30 and relation[harel] < -20
     probability:
       period: month
       base: 0.06
@@ -3068,6 +3113,13 @@ events:
     - op: add
       target: centralization
       value: -3.0
+    - op: add
+      target: political_capital
+      value: -5.0
+    - op: add
+      target: relation
+      key: lavon
+      value: -5.0
   - id: B
     title: 清洗本-古里安的'青年派'，起用
     label: 清洗本-古里安的'青年派'，起用老卫兵与劳工联盟
@@ -4134,8 +4186,8 @@ events:
       from: '1955-01-01'
       to: '1967-06-10'
     prerequisites: 'true'
-    condition: promise_progress[cat_social] >= 40 and civic_identification[arab] >=
-      35 and public_security >= 50
+    condition: promise_progress[cat_social] >= 40 and civic_identification[arab] >= 35 and public_security
+      >= 50
     probability:
       period: month
       base: 0.1
@@ -4283,8 +4335,8 @@ events:
       from: '1955-01-01'
       to: '1967-06-10'
     prerequisites: 'true'
-    condition: region_security[negev] < 45 and region_security[triangle] < 45 and
-      faction_strength[fatah] >= 10
+    condition: region_security[negev] < 45 and region_security[triangle] < 45 and faction_strength[fatah]
+      >= 10
     probability:
       period: month
       base: 0.2
@@ -4840,6 +4892,13 @@ events:
     - op: add
       target: public_security
       value: -5.0
+    - op: add
+      target: relation
+      key: allon
+      value: 8.0
+    - op: add
+      target: political_capital
+      value: 5.0
   perspectives:
   - group: group_1
     label: 将军们
@@ -4902,6 +4961,12 @@ events:
     - op: schedule_event
       event: E-1967-06b
       delay_days: 30
+    - op: add
+      target: deterrence
+      value: 6.0
+    - op: add
+      target: readiness
+      value: 4.0
   - id: B
     title: 只对埃及动手，向约旦和叙利亚保证
     label: 只对埃及动手，向约旦和叙利亚保证不进攻
@@ -4913,6 +4978,14 @@ events:
     - op: add
       target: us_admin_relation
       value: 3.0
+    - op: add
+      target: region_security
+      key: galilee
+      value: -3.0
+    - op: add
+      target: relation
+      key: allon
+      value: -5.0
   - id: C
     title: 继续等待，让埃及先开火
     label: 继续等待，让埃及先开火
@@ -5267,6 +5340,12 @@ events:
     - op: add
       target: party_standing
       value: -8.0
+    - op: add
+      target: intl_legitimacy
+      value: 3.0
+    - op: add
+      target: us_admin_relation
+      value: 3.0
   perspectives:
   - group: group_1
     label: 加利利的基布兹成员
@@ -5366,6 +5445,7 @@ events:
     historical: false
     tags:
     - peace
+    - extreme
     requires: 'true'
     effects:
     - op: add_modifier
@@ -5391,6 +5471,9 @@ events:
       target: ally_satisfaction
       value: -10.0
       key: agudat
+    - op: add
+      target: rule_of_law
+      value: -4.0
   perspectives:
   - group: group_1
     label: 达扬
@@ -6154,8 +6237,8 @@ events:
       from: '1955-01-01'
       to: '1967-06-10'
     prerequisites: 'true'
-    condition: flag("waiting_period_1967") and flag("war_in_progress") and at_war()
-      and health[prime_minister] < 50
+    condition: flag("waiting_period_1967") and flag("war_in_progress") and at_war() and health[prime_minister]
+      < 50
     probability:
       period: month
       base: 0.04

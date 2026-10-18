@@ -60,10 +60,10 @@ events:
   repeat_changes:
   - n: 2
     title_prefix: 再次：
-    background_prefix: 设置记忆旗标“连续干旱”，媒体开始问“国家水政策是什么”，R-01a 增加选项 **D「成立国家水务委员会，统一水价」**（政治资本
-      −15；工会实力 −2；选民集团支持[基布兹与莫沙夫] −5；修正器「统一水价」（永久：此后 R-01 的 k × 0.8））
-    description: 设置记忆旗标“连续干旱”，媒体开始问“国家水政策是什么”，R-01a 增加选项 **D「成立国家水务委员会，统一水价」**（政治资本
-      −15；工会实力 −2；选民集团支持[基布兹与莫沙夫] −5；修正器「统一水价」（永久：此后 R-01 的 k × 0.8））
+    background_prefix: 设置记忆旗标“连续干旱”，媒体开始问“国家水政策是什么”，R-01a 增加选项 **D「成立国家水务委员会，统一水价」**（政治资本 −15；工会实力 −2；选民集团支持[基布兹与莫沙夫]
+      −5；修正器「统一水价」（永久：此后 R-01 的 k × 0.8））
+    description: 设置记忆旗标“连续干旱”，媒体开始问“国家水政策是什么”，R-01a 增加选项 **D「成立国家水务委员会，统一水价」**（政治资本 −15；工会实力 −2；选民集团支持[基布兹与莫沙夫]
+      −5；修正器「统一水价」（永久：此后 R-01 的 k × 0.8））
     extra_effects:
     - op: add_modifier
       modifier: uniform_water_pricing
@@ -91,17 +91,15 @@ events:
     background_suffix: 1948–1955：过渡营地断水，移民吸收容量 −2×k；没有国家输水工程，k 不打折。
     description: 1948–1955：过渡营地断水，移民吸收容量 −2×k；没有国家输水工程，k 不打折。
   - when: year >= 1964
-    background_suffix: 1964年以后：国家输水工程把太巴列湖的水引到南方，{水源}为太巴列湖时，叙利亚的“引水改道”问题浮出水面，政权敌意[叙利亚]
-      +2。
+    background_suffix: 1964年以后：国家输水工程把太巴列湖的水引到南方，{水源}为太巴列湖时，叙利亚的“引水改道”问题浮出水面，政权敌意[叙利亚] +2。
     description: 1964年以后：国家输水工程把太巴列湖的水引到南方，{水源}为太巴列湖时，叙利亚的“引水改道”问题浮出水面，政权敌意[叙利亚] +2。
   - when: year >= 1967
     background_suffix: 1967年以后：山地含水层的分配成为占领区争议，巴勒斯坦相关效果生效。
     description: 1967年以后：山地含水层的分配成为占领区争议，巴勒斯坦相关效果生效。
   - when: year >= 1994
-    background_suffix: 1994年以后：若与约旦签有和约，旱年时约旦要求按和约供水，R-01a 增加选项「照约供水」（关系改善：政权敌意[约旦]
-      −3；选民集团支持[基布兹与莫沙夫] −3）。
-    description: 1994年以后：若与约旦签有和约，旱年时约旦要求按和约供水，R-01a 增加选项「照约供水」（关系改善：政权敌意[约旦] −3；选民集团支持[基布兹与莫沙夫]
+    background_suffix: 1994年以后：若与约旦签有和约，旱年时约旦要求按和约供水，R-01a 增加选项「照约供水」（关系改善：政权敌意[约旦] −3；选民集团支持[基布兹与莫沙夫]
       −3）。
+    description: 1994年以后：若与约旦签有和约，旱年时约旦要求按和约供水，R-01a 增加选项「照约供水」（关系改善：政权敌意[约旦] −3；选民集团支持[基布兹与莫沙夫] −3）。
   passive_effects:
   - op: add
     target: growth
@@ -152,6 +150,10 @@ events:
       - op: add
         target: growth
         value: -0.3
+      - op: add
+        target: bloc_support
+        key: liberal_middle
+        value: 2.0
     - id: B
       title: 保农业，城市限时供水
       label: 保农业，城市限时供水
@@ -173,6 +175,10 @@ events:
         target: bloc_support
         value: -2.0
         key: mizrahi
+      - op: add
+        target: bloc_support
+        key: kibbutz_moshav
+        value: 3.0
     - id: C
       title: 动用外汇进口粮食，开采深层水
       label: 动用外汇进口粮食，开采深层水
@@ -188,6 +194,9 @@ events:
         target: fx_reserves
         value: -2.0
         scale: k
+      - op: add
+        target: public_security
+        value: 1.0
 - id: R-02
   kind: random
   category: disaster
@@ -304,6 +313,9 @@ events:
     - op: add
       target: budget_balance
       value: -0.5
+    - op: add
+      target: public_security
+      value: 2.0
   - id: C
     title: 宣布纵火是恐怖行为
     label: 宣布纵火是恐怖行为
@@ -753,6 +765,9 @@ events:
     - op: add
       target: political_capital
       value: -2.0
+    - op: add
+      target: budget_balance
+      value: 0.2
 - id: R-06
   kind: random
   category: disaster
@@ -875,6 +890,9 @@ events:
       target: bloc_support
       value: -2.0
       key: liberal_middle
+    - op: add
+      target: growth
+      value: 0.2
   - id: C
     title: 国家出资赔偿并接管安全监管
     label: 国家出资赔偿并接管安全监管
@@ -1118,11 +1136,10 @@ events:
       value: -2.0
   era_variants:
   - when: year >= 1948 and year <= 1952
-    background_suffix: 1955年一架以色列客机在保加利亚领空被击落，是“被击落”变体的原型；1948–1952年移民船变体会使 关系[海外犹太社群]
-      −3、移民吸收容量 −1；1968年潜艇在地中海失踪，是“潜艇”变体的原型（失事原因长期不明，修正器「未解之谜」（36个月：每年一次搜寻要求，政治资本
+    background_suffix: 1955年一架以色列客机在保加利亚领空被击落，是“被击落”变体的原型；1948–1952年移民船变体会使 关系[海外犹太社群] −3、移民吸收容量 −1；1968年潜艇在地中海失踪，是“潜艇”变体的原型（失事原因长期不明，修正器「未解之谜」（36个月：每年一次搜寻要求，政治资本
       −5））。
-    description: 1955年一架以色列客机在保加利亚领空被击落，是“被击落”变体的原型；1948–1952年移民船变体会使 关系[海外犹太社群] −3、移民吸收容量
-      −1；1968年潜艇在地中海失踪，是“潜艇”变体的原型（失事原因长期不明，修正器「未解之谜」（36个月：每年一次搜寻要求，政治资本 −5））。
+    description: 1955年一架以色列客机在保加利亚领空被击落，是“被击落”变体的原型；1948–1952年移民船变体会使 关系[海外犹太社群] −3、移民吸收容量 −1；1968年潜艇在地中海失踪，是“潜艇”变体的原型（失事原因长期不明，修正器「未解之谜」（36个月：每年一次搜寻要求，政治资本
+      −5））。
   - when: year >= 1977
     background_suffix: --
     description: --
@@ -1610,8 +1627,7 @@ events:
   repeat_changes:
   - n: 2
     title_prefix: 再次：
-    background_prefix: 央行行长要求更大的独立性，增加选项「赋予央行独立地位」（政治资本 −15；此后 R-12 的 k × 0.6；通胀长期
-      −1）
+    background_prefix: 央行行长要求更大的独立性，增加选项「赋予央行独立地位」（政治资本 −15；此后 R-12 的 k × 0.6；通胀长期 −1）
     description: 央行行长要求更大的独立性，增加选项「赋予央行独立地位」（政治资本 −15；此后 R-12 的 k × 0.6；通胀长期 −1）
     extra_effects:
     - op: add
@@ -1619,10 +1635,8 @@ events:
       value: -15.0
   era_variants:
   - when: year >= 1948 and year <= 1955
-    background_suffix: 1948–1955年的银行多为总工会与政党所有，{银行} 为工人银行时，选项B会得罪总工会（工会实力 −3，盟党满意度[马帕姆]
-      −4）
-    description: 1948–1955年的银行多为总工会与政党所有，{银行} 为工人银行时，选项B会得罪总工会（工会实力 −3，盟党满意度[马帕姆]
-      −4）
+    background_suffix: 1948–1955年的银行多为总工会与政党所有，{银行} 为工人银行时，选项B会得罪总工会（工会实力 −3，盟党满意度[马帕姆] −4）
+    description: 1948–1955年的银行多为总工会与政党所有，{银行} 为工人银行时，选项B会得罪总工会（工会实力 −3，盟党满意度[马帕姆] −4）
   - when: year >= 1977
     background_suffix: 1983年的银行股危机是锚点，本事件在其后五年内 k + 0.5
     description: 1983年的银行股危机是锚点，本事件在其后五年内 k + 0.5
@@ -1697,6 +1711,9 @@ events:
     - op: add
       target: intl_legitimacy
       value: -1.0
+    - op: add
+      target: fx_reserves
+      value: 2.0
 - id: R-13
   kind: random
   category: economy
@@ -1767,10 +1784,8 @@ events:
       value: -3.0
   era_variants:
   - when: year >= 1950 and year <= 1980
-    background_suffix: 1950–1980年代 {企业} 多为总工会企业，选项B同时削弱工党的政治机器（工会实力 −3，盟党满意度[工党] −5，若玩家是工党：党内地位
-      −5）
-    description: 1950–1980年代 {企业} 多为总工会企业，选项B同时削弱工党的政治机器（工会实力 −3，盟党满意度[工党] −5，若玩家是工党：党内地位
-      −5）
+    background_suffix: 1950–1980年代 {企业} 多为总工会企业，选项B同时削弱工党的政治机器（工会实力 −3，盟党满意度[工党] −5，若玩家是工党：党内地位 −5）
+    description: 1950–1980年代 {企业} 多为总工会企业，选项B同时削弱工党的政治机器（工会实力 −3，盟党满意度[工党] −5，若玩家是工党：党内地位 −5）
   - when: year >= 1985
     background_suffix: 1985年后经济稳定计划之后，选项A需要先通过财政部（政治资本 −10）
     description: 1985年后经济稳定计划之后，选项A需要先通过财政部（政治资本 −10）
@@ -1940,10 +1955,8 @@ events:
       value: -2.0
   era_variants:
   - when: year >= 1948 and year <= 1955
-    background_suffix: 1948–1955年为配给制时期，{商品} 限于食品，选项B不可用（改为「扩大配给范围」：集权度 +1，选民集团支持[中产自由派]
-      −3）
-    description: 1948–1955年为配给制时期，{商品} 限于食品，选项B不可用（改为「扩大配给范围」：集权度 +1，选民集团支持[中产自由派]
-      −3）
+    background_suffix: 1948–1955年为配给制时期，{商品} 限于食品，选项B不可用（改为「扩大配给范围」：集权度 +1，选民集团支持[中产自由派] −3）
+    description: 1948–1955年为配给制时期，{商品} 限于食品，选项B不可用（改为「扩大配给范围」：集权度 +1，选民集团支持[中产自由派] −3）
   - when: year >= 1977 and year <= 1985
     background_suffix: 1977–1985年恶性通胀时期 {商品} 多为美元和电器，k + 0.5
     description: 1977–1985年恶性通胀时期 {商品} 多为美元和电器，k + 0.5
@@ -2012,6 +2025,9 @@ events:
       value: -10.0
     - op: add
       target: public_security
+      value: -2.0
+    - op: add
+      target: inflation
       value: -2.0
 - id: R-15
   kind: random
@@ -2174,10 +2190,10 @@ events:
   repeat_changes:
   - n: 2
     title_prefix: 再次：
-    background_prefix: 黑市被写进电影和讽刺剧，选项A的中产效果翻倍；第3次：财政部长主张货币改革，增加选项「货币改革（新谢克尔）」（政治资本
-      −20；通胀 −3；修正器「币制转换」（6个月：经济增长 −0.5））
-    description: 黑市被写进电影和讽刺剧，选项A的中产效果翻倍；第3次：财政部长主张货币改革，增加选项「货币改革（新谢克尔）」（政治资本 −20；通胀
-      −3；修正器「币制转换」（6个月：经济增长 −0.5））
+    background_prefix: 黑市被写进电影和讽刺剧，选项A的中产效果翻倍；第3次：财政部长主张货币改革，增加选项「货币改革（新谢克尔）」（政治资本 −20；通胀 −3；修正器「币制转换」（6个月：经济增长
+      −0.5））
+    description: 黑市被写进电影和讽刺剧，选项A的中产效果翻倍；第3次：财政部长主张货币改革，增加选项「货币改革（新谢克尔）」（政治资本 −20；通胀 −3；修正器「币制转换」（6个月：经济增长
+      −0.5））
     extra_effects:
     - op: add_modifier
       modifier: currency_conversion_shock
@@ -2190,8 +2206,7 @@ events:
       value: -3.0
   - n: 3
     title_prefix: 第三次：
-    background_prefix: 财政部长主张货币改革，增加选项「货币改革（新谢克尔）」（政治资本 −20；通胀 −3；修正器「币制转换」（6个月：经济增长
-      −0.5））
+    background_prefix: 财政部长主张货币改革，增加选项「货币改革（新谢克尔）」（政治资本 −20；通胀 −3；修正器「币制转换」（6个月：经济增长 −0.5））
     description: 财政部长主张货币改革，增加选项「货币改革（新谢克尔）」（政治资本 −20；通胀 −3；修正器「币制转换」（6个月：经济增长 −0.5））
     extra_effects:
     - op: add_modifier
@@ -2205,10 +2220,8 @@ events:
       value: -3.0
   era_variants:
   - when: year >= 1956 and year <= 1976
-    background_suffix: 1956–1976年以进口电器与汽车为主；1977年“经济翻转”后外汇管制放宽，{商品} 转向美元；1985年经济稳定计划后通胀下降，k
-      显著变小；1992年后本事件退出，改由灰色经济与逃税议题在时代文件中处理。
-    description: 1956–1976年以进口电器与汽车为主；1977年“经济翻转”后外汇管制放宽，{商品} 转向美元；1985年经济稳定计划后通胀下降，k
-      显著变小；1992年后本事件退出，改由灰色经济与逃税议题在时代文件中处理。
+    background_suffix: 1956–1976年以进口电器与汽车为主；1977年“经济翻转”后外汇管制放宽，{商品} 转向美元；1985年经济稳定计划后通胀下降，k 显著变小；1992年后本事件退出，改由灰色经济与逃税议题在时代文件中处理。
+    description: 1956–1976年以进口电器与汽车为主；1977年“经济翻转”后外汇管制放宽，{商品} 转向美元；1985年经济稳定计划后通胀下降，k 显著变小；1992年后本事件退出，改由灰色经济与逃税议题在时代文件中处理。
   - when: year >= 1977
     background_suffix: --
     description: --
@@ -2256,6 +2269,10 @@ events:
     - op: add
       target: rule_of_law
       value: -1.0
+    - op: add
+      target: bloc_support
+      key: liberal_middle
+      value: 2.0
   - id: C
     title: 放开部分外汇与进口管制
     label: 放开部分外汇与进口管制
@@ -2403,6 +2420,9 @@ events:
       target: ally_satisfaction
       value: -5.0
       key: nrp
+    - op: add
+      target: growth
+      value: 0.3
   - id: C
     title: 拖下去，看谁先撑不住
     label: 拖下去，看谁先撑不住
@@ -2420,6 +2440,9 @@ events:
     - op: add
       target: union_strength
       value: -1.0
+    - op: add
+      target: budget_balance
+      value: 0.3
 - id: R-18
   kind: random
   category: social
@@ -2794,10 +2817,8 @@ events:
   repeat_changes:
   - n: 2
     title_prefix: 再次：
-    background_prefix: 媒体称“黑帮战争”；第3次：犯罪家族的势力渗透进地方选举，增加选项「推动反有组织犯罪法」（政治资本 −15；民主法治指数
-      +3；此后 R-20 的 k × 0.7）
-    description: 媒体称“黑帮战争”；第3次：犯罪家族的势力渗透进地方选举，增加选项「推动反有组织犯罪法」（政治资本 −15；民主法治指数 +3；此后
-      R-20 的 k × 0.7）
+    background_prefix: 媒体称“黑帮战争”；第3次：犯罪家族的势力渗透进地方选举，增加选项「推动反有组织犯罪法」（政治资本 −15；民主法治指数 +3；此后 R-20 的 k × 0.7）
+    description: 媒体称“黑帮战争”；第3次：犯罪家族的势力渗透进地方选举，增加选项「推动反有组织犯罪法」（政治资本 −15；民主法治指数 +3；此后 R-20 的 k × 0.7）
     extra_effects:
     - op: add
       target: political_capital
@@ -2807,8 +2828,7 @@ events:
       value: 3.0
   - n: 3
     title_prefix: 第三次：
-    background_prefix: 犯罪家族的势力渗透进地方选举，增加选项「推动反有组织犯罪法」（政治资本 −15；民主法治指数 +3；此后 R-20 的
-      k × 0.7）
+    background_prefix: 犯罪家族的势力渗透进地方选举，增加选项「推动反有组织犯罪法」（政治资本 −15；民主法治指数 +3；此后 R-20 的 k × 0.7）
     description: 犯罪家族的势力渗透进地方选举，增加选项「推动反有组织犯罪法」（政治资本 −15；民主法治指数 +3；此后 R-20 的 k × 0.7）
     extra_effects:
     - op: add
@@ -2889,6 +2909,9 @@ events:
       target: civic_identification
       value: -2.0
       key: arab
+    - op: add
+      target: political_capital
+      value: 2.0
 - id: R-21
   kind: random
   category: social
@@ -2977,10 +3000,8 @@ events:
     background_suffix: 1970年代后加入“谁是犹太人”（与 E-G04-13 联动，本事件只处理个案）
     description: 1970年代后加入“谁是犹太人”（与 E-G04-13 联动，本事件只处理个案）
   - when: year >= 1977
-    background_suffix: 1990年代后加入俄裔移民的身份与安葬问题、号召士兵抗拒撤离定居点的裁决（选项A改为“容忍”，集权度不变但 民主法治指数
-      −3，人物关系[总参谋长] −5）。
-    description: 1990年代后加入俄裔移民的身份与安葬问题、号召士兵抗拒撤离定居点的裁决（选项A改为“容忍”，集权度不变但 民主法治指数 −3，人物关系[总参谋长]
-      −5）。
+    background_suffix: 1990年代后加入俄裔移民的身份与安葬问题、号召士兵抗拒撤离定居点的裁决（选项A改为“容忍”，集权度不变但 民主法治指数 −3，人物关系[总参谋长] −5）。
+    description: 1990年代后加入俄裔移民的身份与安葬问题、号召士兵抗拒撤离定居点的裁决（选项A改为“容忍”，集权度不变但 民主法治指数 −3，人物关系[总参谋长] −5）。
   options:
   - id: A
     title: 支持拉比的权威
@@ -3180,6 +3201,10 @@ events:
       value: -4.0
       key: agudat
       scale: k
+    - op: add
+      target: bloc_support
+      key: liberal_middle
+      value: 2.0
   - id: C
     title: 妥协：只在祈祷时段封闭
     label: 妥协：只在祈祷时段封闭
@@ -3199,6 +3224,9 @@ events:
       target: bloc_support
       value: -1.0
       key: liberal_middle
+    - op: add
+      target: religious_status_quo
+      value: 1.0
 - id: R-23
   kind: random
   category: social
@@ -3409,10 +3437,10 @@ events:
       value: -2.0
   era_variants:
   - when: year >= 2005
-    background_suffix: 1950年代小儿麻痹流行，儿童效果显著（选民集团支持[米兹拉希] −2）；1970年霍乱疫情迫使政府关闭部分海滩与市场（经济增长
-      −0.2）；1990年代后外籍劳工的医疗问题成为议题；2005年后禽流感恐慌使家禽业损失（选民集团支持[基布兹与莫沙夫] −2）。
-    description: 1950年代小儿麻痹流行，儿童效果显著（选民集团支持[米兹拉希] −2）；1970年霍乱疫情迫使政府关闭部分海滩与市场（经济增长
-      −0.2）；1990年代后外籍劳工的医疗问题成为议题；2005年后禽流感恐慌使家禽业损失（选民集团支持[基布兹与莫沙夫] −2）。
+    background_suffix: 1950年代小儿麻痹流行，儿童效果显著（选民集团支持[米兹拉希] −2）；1970年霍乱疫情迫使政府关闭部分海滩与市场（经济增长 −0.2）；1990年代后外籍劳工的医疗问题成为议题；2005年后禽流感恐慌使家禽业损失（选民集团支持[基布兹与莫沙夫]
+      −2）。
+    description: 1950年代小儿麻痹流行，儿童效果显著（选民集团支持[米兹拉希] −2）；1970年霍乱疫情迫使政府关闭部分海滩与市场（经济增长 −0.2）；1990年代后外籍劳工的医疗问题成为议题；2005年后禽流感恐慌使家禽业损失（选民集团支持[基布兹与莫沙夫]
+      −2）。
   - when: year >= 1977
     background_suffix: --
     description: --
@@ -3522,6 +3550,9 @@ events:
       target: relation
       value: -5.0
       key: '{minister}'
+    - op: add
+      target: party_standing
+      value: 2.0
   - id: B
     title: 力挺部长
     label: 力挺部长
@@ -3555,6 +3586,13 @@ events:
     - op: add
       target: party_standing
       value: -3.0
+    - op: add
+      target: rule_of_law
+      value: 2.0
+    - op: add
+      target: bloc_support
+      key: liberal_middle
+      value: 2.0
 - id: R-26
   kind: random
   category: politics
@@ -3613,10 +3651,8 @@ events:
   repeat_changes:
   - n: 3
     title_prefix: 第三次：
-    background_prefix: 修正器「腐败政府」（12个月：每月 政治资本产出 −2，选民集团支持[中产自由派] −0.3）；第4次：反对党提出不信任案（联合政府席位
-      的稳定性检定）
-    description: 修正器「腐败政府」（12个月：每月 政治资本产出 −2，选民集团支持[中产自由派] −0.3）；第4次：反对党提出不信任案（联合政府席位
-      的稳定性检定）
+    background_prefix: 修正器「腐败政府」（12个月：每月 政治资本产出 −2，选民集团支持[中产自由派] −0.3）；第4次：反对党提出不信任案（联合政府席位 的稳定性检定）
+    description: 修正器「腐败政府」（12个月：每月 政治资本产出 −2，选民集团支持[中产自由派] −0.3）；第4次：反对党提出不信任案（联合政府席位 的稳定性检定）
     extra_effects:
     - op: add_modifier
       modifier: corrupt_government_stigma
@@ -3682,6 +3718,10 @@ events:
       target: bloc_support
       value: -4.0
       key: liberal_middle
+    - op: add
+      target: ally_satisfaction
+      key: shas
+      value: 5.0
   - id: C
     title: 调换到次要部门，明降暗保
     label: 调换到次要部门，明降暗保
@@ -3704,6 +3744,10 @@ events:
       target: relation
       value: -3.0
       key: '{minister}'
+    - op: add
+      target: ally_satisfaction
+      key: shas
+      value: 3.0
 - id: R-27
   kind: random
   category: politics
@@ -3818,6 +3862,12 @@ events:
     - op: add
       target: rule_of_law
       value: -2.0
+    - op: add
+      target: deterrence
+      value: 1.0
+    - op: add
+      target: party_standing
+      value: 2.0
   - id: B
     title: 不予追究
     label: 不予追究
@@ -3829,6 +3879,16 @@ events:
     - op: add_modifier
       modifier: leaky_cabinet
       duration_days: 180
+    - op: add
+      target: ally_satisfaction
+      key: nrp
+      value: 2.0
+    - op: add
+      target: political_capital
+      value: 2.0
+    - op: add
+      target: rule_of_law
+      value: -1.0
   - id: C
     title: 把决策缩小到‘厨房内阁’
     label: 把决策缩小到‘厨房内阁’
@@ -3847,6 +3907,12 @@ events:
     - op: add
       target: rule_of_law
       value: -1.0
+    - op: add
+      target: readiness
+      value: 1.0
+    - op: add
+      target: political_capital
+      value: 2.0
 - id: R-28
   kind: random
   category: politics
@@ -3905,10 +3971,8 @@ events:
   repeat_changes:
   - n: 2
     title_prefix: 再次：
-    background_prefix: 媒体称“勒索政治”，选项A的党内代价翻倍；第3次：增加选项「换掉这个盟党，拉另一个小党入阁」（政治资本 −20；盟党满意度[{政党}]
-      归零并退出；需要议会中存在可替代的小党）
-    description: 媒体称“勒索政治”，选项A的党内代价翻倍；第3次：增加选项「换掉这个盟党，拉另一个小党入阁」（政治资本 −20；盟党满意度[{政党}]
-      归零并退出；需要议会中存在可替代的小党）
+    background_prefix: 媒体称“勒索政治”，选项A的党内代价翻倍；第3次：增加选项「换掉这个盟党，拉另一个小党入阁」（政治资本 −20；盟党满意度[{政党}] 归零并退出；需要议会中存在可替代的小党）
+    description: 媒体称“勒索政治”，选项A的党内代价翻倍；第3次：增加选项「换掉这个盟党，拉另一个小党入阁」（政治资本 −20；盟党满意度[{政党}] 归零并退出；需要议会中存在可替代的小党）
     extra_effects:
     - op: add
       target: political_capital
@@ -3978,6 +4042,12 @@ events:
       value: -8.0
       key: '{party}'
       scale: k
+    - op: add
+      target: budget_balance
+      value: 0.4
+    - op: add
+      target: party_standing
+      value: 2.0
   - id: C
     title: 私下许诺，日后兑现
     label: 私下许诺，日后兑现
@@ -3996,6 +4066,9 @@ events:
       target: ally_satisfaction
       value: -12.0
       key: '{party}'
+    - op: add
+      target: budget_balance
+      value: 0.3
 - id: R-29
   kind: random
   category: politics
@@ -4434,6 +4507,12 @@ events:
       - op: add
         target: centralization
         value: 1.0
+      - op: add
+        target: political_capital
+        value: 3.0
+      - op: add
+        target: readiness
+        value: -1.0
     - id: B
       title: 由同党副部长代理
       label: 由同党副部长代理
@@ -4465,6 +4544,9 @@ events:
         target: relation
         value: -20.0
         key: '{minister}'
+      - op: add
+        target: party_standing
+        value: 3.0
 - id: R-33
   kind: random
   category: politics
@@ -4535,10 +4617,10 @@ events:
       value: -2.0
   era_variants:
   - when: year >= 1948 and year <= 1965
-    background_suffix: 1948–1965年马帕伊的“老卫队”与“少壮派”之争是原型；1977年后利库德内部自由党与赫鲁特的分歧；1990年代后党内初选制度使元老的影响下降，k
-      × 0.8，但选民集团支持效果出现（{议题} 相关集团 −1）。
-    description: 1948–1965年马帕伊的“老卫队”与“少壮派”之争是原型；1977年后利库德内部自由党与赫鲁特的分歧；1990年代后党内初选制度使元老的影响下降，k
-      × 0.8，但选民集团支持效果出现（{议题} 相关集团 −1）。
+    background_suffix: 1948–1965年马帕伊的“老卫队”与“少壮派”之争是原型；1977年后利库德内部自由党与赫鲁特的分歧；1990年代后党内初选制度使元老的影响下降，k ×
+      0.8，但选民集团支持效果出现（{议题} 相关集团 −1）。
+    description: 1948–1965年马帕伊的“老卫队”与“少壮派”之争是原型；1977年后利库德内部自由党与赫鲁特的分歧；1990年代后党内初选制度使元老的影响下降，k × 0.8，但选民集团支持效果出现（{议题}
+      相关集团 −1）。
   - when: year >= 1977
     background_suffix: --
     description: --
@@ -4614,10 +4696,9 @@ events:
   repeat_changes:
   - n: 2
     title_prefix: 再次：
-    background_prefix: 居民要求撤离或要求更强的回应，选项C的党内代价翻倍；同一任期第3次：增加选项「设立安全区或缓冲带」（战备 −3；财政
-      −1%；安全[{区}] +6；国际合法性 −3）
-    description: 居民要求撤离或要求更强的回应，选项C的党内代价翻倍；同一任期第3次：增加选项「设立安全区或缓冲带」（战备 −3；财政 −1%；安全[{区}]
-      +6；国际合法性 −3）
+    background_prefix: 居民要求撤离或要求更强的回应，选项C的党内代价翻倍；同一任期第3次：增加选项「设立安全区或缓冲带」（战备 −3；财政 −1%；安全[{区}] +6；国际合法性
+      −3）
+    description: 居民要求撤离或要求更强的回应，选项C的党内代价翻倍；同一任期第3次：增加选项「设立安全区或缓冲带」（战备 −3；财政 −1%；安全[{区}] +6；国际合法性 −3）
     extra_effects:
     - op: add
       target: readiness
@@ -5005,8 +5086,8 @@ events:
   repeat_changes:
   - n: 2
     title_prefix: 再次：
-    background_prefix: “不让士兵留在战场”的原则被反复引用，选项C的修正器每月代价翻倍；第3次：增加选项「设定换俘的固定比例原则」（政治资本
-      −15；此后选项B的党内代价减半，但对手的绑架动机上升：R-37 基础概率 +0.5%）
+    background_prefix: “不让士兵留在战场”的原则被反复引用，选项C的修正器每月代价翻倍；第3次：增加选项「设定换俘的固定比例原则」（政治资本 −15；此后选项B的党内代价减半，但对手的绑架动机上升：R-37
+      基础概率 +0.5%）
     description: “不让士兵留在战场”的原则被反复引用，选项C的修正器每月代价翻倍；第3次：增加选项「设定换俘的固定比例原则」（政治资本 −15；此后选项B的党内代价减半，但对手的绑架动机上升：R-37
       基础概率 +0.5%）
     extra_effects:
@@ -5015,8 +5096,7 @@ events:
       value: -15.0
   - n: 3
     title_prefix: 第三次：
-    background_prefix: 增加选项「设定换俘的固定比例原则」（政治资本 −15；此后选项B的党内代价减半，但对手的绑架动机上升：R-37 基础概率
-      +0.5%）
+    background_prefix: 增加选项「设定换俘的固定比例原则」（政治资本 −15；此后选项B的党内代价减半，但对手的绑架动机上升：R-37 基础概率 +0.5%）
     description: 增加选项「设定换俘的固定比例原则」（政治资本 −15；此后选项B的党内代价减半，但对手的绑架动机上升：R-37 基础概率 +0.5%）
     extra_effects:
     - op: add
@@ -5167,10 +5247,8 @@ events:
   repeat_changes:
   - n: 2
     title_prefix: 再次：
-    background_prefix: 第2次敌方间谍落网：辛贝特要求扩大国内监控权（增加选项「扩大监控授权」：集权度 +3，民主法治指数 −3，此后敌方间谍案的
-      k × 0.7）。
-    description: 第2次敌方间谍落网：辛贝特要求扩大国内监控权（增加选项「扩大监控授权」：集权度 +3，民主法治指数 −3，此后敌方间谍案的 k ×
-      0.7）。
+    background_prefix: 第2次敌方间谍落网：辛贝特要求扩大国内监控权（增加选项「扩大监控授权」：集权度 +3，民主法治指数 −3，此后敌方间谍案的 k × 0.7）。
+    description: 第2次敌方间谍落网：辛贝特要求扩大国内监控权（增加选项「扩大监控授权」：集权度 +3，民主法治指数 −3，此后敌方间谍案的 k × 0.7）。
     extra_effects:
     - op: add
       target: party_standing
@@ -5210,6 +5288,10 @@ events:
     - op: add
       target: rule_of_law
       value: 1.0
+    - &id001
+      op: add
+      target: intl_legitimacy
+      value: 1.0
   - id: B
     title: 秘密处理，用来交换
     label: 秘密处理，用来交换
@@ -5225,6 +5307,10 @@ events:
     - op: add
       target: rule_of_law
       value: -2.0
+    - &id002
+      op: add
+      target: party_standing
+      value: 2.0
   - id: C
     title: 策反为双面间谍
     label: 策反为双面间谍
@@ -5244,6 +5330,10 @@ events:
       target: relation
       value: -5.0
       key: shin_bet_chief
+    - &id003
+      op: add
+      target: party_standing
+      value: 3.0
   - id: A
     title: 否认与以色列有关
     label: 否认与以色列有关
@@ -5259,6 +5349,7 @@ events:
     - op: add
       target: party_standing
       value: -3.0
+    - *id001
   - id: B
     title: 秘密谈判赎回
     label: 秘密谈判赎回
@@ -5279,6 +5370,7 @@ events:
       target: relation
       value: 5.0
       key: mossad_chief
+    - *id002
   - id: C
     title: 公开施压，动员国际舆论
     label: 公开施压，动员国际舆论
@@ -5294,6 +5386,7 @@ events:
       target: power_relation
       value: -5.0
       key: '{country}'
+    - *id003
   - id: A
     title: 道歉并交出相关人员
     label: 道歉并交出相关人员
@@ -5309,6 +5402,7 @@ events:
     - op: add
       target: party_standing
       value: -2.0
+    - *id001
   - id: B
     title: 否认
     label: 否认
@@ -5325,6 +5419,7 @@ events:
     - op: add
       target: us_congress_relation
       value: -3.0
+    - *id002
   - id: C
     title: 声称是‘个人行为’，内部调查
     label: 声称是‘个人行为’，内部调查
@@ -5340,6 +5435,7 @@ events:
     - op: add
       target: rule_of_law
       value: -1.0
+    - *id003
 - id: R-39
   kind: random
   category: security
@@ -5402,8 +5498,7 @@ events:
   repeat_changes:
   - n: 2
     title_prefix: 再次：
-    background_prefix: 美国要求以色列提供证据用于制裁（美国政府关系 +2）；第3次：增加提示“走私网络正在扩大”，时代文件中的相关结构事件阈值
-      −10
+    background_prefix: 美国要求以色列提供证据用于制裁（美国政府关系 +2）；第3次：增加提示“走私网络正在扩大”，时代文件中的相关结构事件阈值 −10
     description: 美国要求以色列提供证据用于制裁（美国政府关系 +2）；第3次：增加提示“走私网络正在扩大”，时代文件中的相关结构事件阈值 −10
     extra_effects:
     - op: add
@@ -5428,10 +5523,8 @@ events:
     background_suffix: 1982年后加沙与埃及之间的地道出现
     description: 1982年后加沙与埃及之间的地道出现
   - when: year >= 1977
-    background_suffix: 2002年海上截获一艘武器船是此类原型，那一次的政治影响远超一般个案（巴勒斯坦权力机构的合法性受损：合法性[巴勒斯坦权力机构安全部门]
-      −5，美国政府关系 +5）。
-    description: 2002年海上截获一艘武器船是此类原型，那一次的政治影响远超一般个案（巴勒斯坦权力机构的合法性受损：合法性[巴勒斯坦权力机构安全部门]
-      −5，美国政府关系 +5）。
+    background_suffix: 2002年海上截获一艘武器船是此类原型，那一次的政治影响远超一般个案（巴勒斯坦权力机构的合法性受损：合法性[巴勒斯坦权力机构安全部门] −5，美国政府关系 +5）。
+    description: 2002年海上截获一艘武器船是此类原型，那一次的政治影响远超一般个案（巴勒斯坦权力机构的合法性受损：合法性[巴勒斯坦权力机构安全部门] −5，美国政府关系 +5）。
   passive_effects:
   - op: add
     target: faction_strength
@@ -5500,10 +5593,8 @@ events:
   repeat_changes:
   - n: 2
     title_prefix: 再次：
-    background_prefix: 人权组织发布报告（国际合法性 −2）；第3次：美国国会提出质询（美国国会关系 −3），增加选项「修订交战规则」（战备
-      −2；此后 R-40 的国际效果减半）
-    description: 人权组织发布报告（国际合法性 −2）；第3次：美国国会提出质询（美国国会关系 −3），增加选项「修订交战规则」（战备 −2；此后
-      R-40 的国际效果减半）
+    background_prefix: 人权组织发布报告（国际合法性 −2）；第3次：美国国会提出质询（美国国会关系 −3），增加选项「修订交战规则」（战备 −2；此后 R-40 的国际效果减半）
+    description: 人权组织发布报告（国际合法性 −2）；第3次：美国国会提出质询（美国国会关系 −3），增加选项「修订交战规则」（战备 −2；此后 R-40 的国际效果减半）
     extra_effects:
     - op: add
       target: intl_legitimacy
@@ -5655,10 +5746,10 @@ events:
   repeat_changes:
   - n: 2
     title_prefix: 再次：
-    background_prefix: 定居者青年组织“价格标签”式的报复（巴勒斯坦民间敌意 +3，民主法治指数 −2）；同一任期第3次：增加选项「设立专门的警察与检察小组」（财政
-      −0.5%；民主法治指数 +3；定居者运动动量 −3；盟党满意度[宗教民族政党] −6）
-    description: 定居者青年组织“价格标签”式的报复（巴勒斯坦民间敌意 +3，民主法治指数 −2）；同一任期第3次：增加选项「设立专门的警察与检察小组」（财政
-      −0.5%；民主法治指数 +3；定居者运动动量 −3；盟党满意度[宗教民族政党] −6）
+    background_prefix: 定居者青年组织“价格标签”式的报复（巴勒斯坦民间敌意 +3，民主法治指数 −2）；同一任期第3次：增加选项「设立专门的警察与检察小组」（财政 −0.5%；民主法治指数
+      +3；定居者运动动量 −3；盟党满意度[宗教民族政党] −6）
+    description: 定居者青年组织“价格标签”式的报复（巴勒斯坦民间敌意 +3，民主法治指数 −2）；同一任期第3次：增加选项「设立专门的警察与检察小组」（财政 −0.5%；民主法治指数 +3；定居者运动动量
+      −3；盟党满意度[宗教民族政党] −6）
     extra_effects:
     - op: add
       target: pal_hostility
@@ -5681,8 +5772,7 @@ events:
       key: nrp
   - n: 3
     title_prefix: 第三次：
-    background_prefix: 增加选项「设立专门的警察与检察小组」（财政 −0.5%；民主法治指数 +3；定居者运动动量 −3；盟党满意度[宗教民族政党]
-      −6）
+    background_prefix: 增加选项「设立专门的警察与检察小组」（财政 −0.5%；民主法治指数 +3；定居者运动动量 −3；盟党满意度[宗教民族政党] −6）
     description: 增加选项「设立专门的警察与检察小组」（财政 −0.5%；民主法治指数 +3；定居者运动动量 −3；盟党满意度[宗教民族政党] −6）
     extra_effects:
     - op: add
@@ -5838,20 +5928,16 @@ events:
   repeat_changes:
   - n: 2
     title_prefix: 再次：
-    background_prefix: 同一 {国家} 第2次访问：背景改为“老朋友”，选项B的取消概率降为10%；同一年内第3次外国访问：媒体称“外交春天”，党内地位
-      +1。
-    description: 同一 {国家} 第2次访问：背景改为“老朋友”，选项B的取消概率降为10%；同一年内第3次外国访问：媒体称“外交春天”，党内地位
-      +1。
+    background_prefix: 同一 {国家} 第2次访问：背景改为“老朋友”，选项B的取消概率降为10%；同一年内第3次外国访问：媒体称“外交春天”，党内地位 +1。
+    description: 同一 {国家} 第2次访问：背景改为“老朋友”，选项B的取消概率降为10%；同一年内第3次外国访问：媒体称“外交春天”，党内地位 +1。
     extra_effects:
     - op: add
       target: party_standing
       value: -2.0
   era_variants:
   - when: year >= 1957 and year <= 1973
-    background_suffix: 1957–1973年非洲领导人访问是对非援助外交（E-G02-03）的成果，选项C改为“签订农业与培训援助协议”（财政
-      −0.5%，关系 +6）
-    description: 1957–1973年非洲领导人访问是对非援助外交（E-G02-03）的成果，选项C改为“签订农业与培训援助协议”（财政 −0.5%，关系
-      +6）
+    background_suffix: 1957–1973年非洲领导人访问是对非援助外交（E-G02-03）的成果，选项C改为“签订农业与培训援助协议”（财政 −0.5%，关系 +6）
+    description: 1957–1973年非洲领导人访问是对非援助外交（E-G02-03）的成果，选项C改为“签订农业与培训援助协议”（财政 −0.5%，关系 +6）
   - when: year >= 1965
     background_suffix: 1965年后西德领导人访问会引发大屠杀幸存者团体的抗议（选民集团支持[劳工派阿什肯纳兹] −2）
     description: 1965年后西德领导人访问会引发大屠杀幸存者团体的抗议（选民集团支持[劳工派阿什肯纳兹] −2）
@@ -6160,6 +6246,9 @@ events:
     - op: add
       target: party_standing
       value: -1.0
+    - op: add
+      target: us_admin_relation
+      value: 2.0
 - id: R-45
   kind: random
   category: foreign
@@ -6465,6 +6554,12 @@ events:
       target: promise_progress
       value: 1.0
       key: cat_immigration
+    - op: add
+      target: absorption_capacity
+      value: -2.0
+    - op: add
+      target: budget_balance
+      value: -0.2
   - id: C
     title: 暂缓，以免压垮吸收能力
     label: 暂缓，以免压垮吸收能力
@@ -6489,6 +6584,12 @@ events:
       target: historical_grievance
       value: 1.0
       key: mizrahi
+    - op: add
+      target: absorption_capacity
+      value: 3.0
+    - op: add
+      target: budget_balance
+      value: 0.3
 - id: R-48
   kind: random
   category: foreign
@@ -6547,10 +6648,8 @@ events:
   repeat_changes:
   - n: 2
     title_prefix: 再次：
-    background_prefix: 同一 {国家} 第2次卖出：关系固化为“军售伙伴”，选项B的关系代价翻倍；同一任期第3次与恶名政权交易：美国国会提出质询（美国国会关系
-      −3）。
-    description: 同一 {国家} 第2次卖出：关系固化为“军售伙伴”，选项B的关系代价翻倍；同一任期第3次与恶名政权交易：美国国会提出质询（美国国会关系
-      −3）。
+    background_prefix: 同一 {国家} 第2次卖出：关系固化为“军售伙伴”，选项B的关系代价翻倍；同一任期第3次与恶名政权交易：美国国会提出质询（美国国会关系 −3）。
+    description: 同一 {国家} 第2次卖出：关系固化为“军售伙伴”，选项B的关系代价翻倍；同一任期第3次与恶名政权交易：美国国会提出质询（美国国会关系 −3）。
     extra_effects:
     - op: add
       target: party_standing
@@ -6730,10 +6829,10 @@ events:
   repeat_changes:
   - n: 2
     title_prefix: 再次：
-    background_prefix: 外交部发布旅行警告（下次 R-15 为坏的概率 +10%）；{身份} 为退役军官第2次：增加选项「推动立法保护军人免于海外起诉」（政治资本
-      −10；国际合法性 −2；党内地位 +2）
-    description: 外交部发布旅行警告（下次 R-15 为坏的概率 +10%）；{身份} 为退役军官第2次：增加选项「推动立法保护军人免于海外起诉」（政治资本
-      −10；国际合法性 −2；党内地位 +2）
+    background_prefix: 外交部发布旅行警告（下次 R-15 为坏的概率 +10%）；{身份} 为退役军官第2次：增加选项「推动立法保护军人免于海外起诉」（政治资本 −10；国际合法性
+      −2；党内地位 +2）
+    description: 外交部发布旅行警告（下次 R-15 为坏的概率 +10%）；{身份} 为退役军官第2次：增加选项「推动立法保护军人免于海外起诉」（政治资本 −10；国际合法性 −2；党内地位
+      +2）
     extra_effects:
     - op: add
       target: political_capital
@@ -6927,28 +7026,20 @@ events:
   - id: v1
     when: 'true'
     weight: 1
-    background: "- 夺冠：以色列的{参赛者}赢得欧洲歌唱大赛，按惯例明年由以色列主办。\n  - 争议参赛者：{参赛者}被选为代表，宗教党议员称这是“国家耻辱”。\n\
-      \  - 末名：以色列得了最后一名，电视评论员说“欧洲不喜欢我们”。"
-    narrative: "- 夺冠：以色列的{参赛者}赢得欧洲歌唱大赛，按惯例明年由以色列主办。\n  - 争议参赛者：{参赛者}被选为代表，宗教党议员称这是“国家耻辱”。\n\
-      \  - 末名：以色列得了最后一名，电视评论员说“欧洲不喜欢我们”。"
+    background: "- 夺冠：以色列的{参赛者}赢得欧洲歌唱大赛，按惯例明年由以色列主办。\n  - 争议参赛者：{参赛者}被选为代表，宗教党议员称这是“国家耻辱”。\n  - 末名：以色列得了最后一名，电视评论员说“欧洲不喜欢我们”。"
+    narrative: "- 夺冠：以色列的{参赛者}赢得欧洲歌唱大赛，按惯例明年由以色列主办。\n  - 争议参赛者：{参赛者}被选为代表，宗教党议员称这是“国家耻辱”。\n  - 末名：以色列得了最后一名，电视评论员说“欧洲不喜欢我们”。"
   - id: v2
     when: 'true'
     weight: 1
-    background: "- 夺冠：以色列的{参赛者}赢得欧洲歌唱大赛，按惯例明年由以色列主办。\n  - 争议参赛者：{参赛者}被选为代表，宗教党议员称这是“国家耻辱”。\n\
-      \  - 末名：以色列得了最后一名，电视评论员说“欧洲不喜欢我们”。"
-    narrative: "- 夺冠：以色列的{参赛者}赢得欧洲歌唱大赛，按惯例明年由以色列主办。\n  - 争议参赛者：{参赛者}被选为代表，宗教党议员称这是“国家耻辱”。\n\
-      \  - 末名：以色列得了最后一名，电视评论员说“欧洲不喜欢我们”。"
+    background: "- 夺冠：以色列的{参赛者}赢得欧洲歌唱大赛，按惯例明年由以色列主办。\n  - 争议参赛者：{参赛者}被选为代表，宗教党议员称这是“国家耻辱”。\n  - 末名：以色列得了最后一名，电视评论员说“欧洲不喜欢我们”。"
+    narrative: "- 夺冠：以色列的{参赛者}赢得欧洲歌唱大赛，按惯例明年由以色列主办。\n  - 争议参赛者：{参赛者}被选为代表，宗教党议员称这是“国家耻辱”。\n  - 末名：以色列得了最后一名，电视评论员说“欧洲不喜欢我们”。"
   - id: v3
     when: 'true'
     weight: 1
-    background: "- 夺冠：以色列的{参赛者}赢得欧洲歌唱大赛，按惯例明年由以色列主办。\n  - 争议参赛者：{参赛者}被选为代表，宗教党议员称这是“国家耻辱”。\n\
-      \  - 末名：以色列得了最后一名，电视评论员说“欧洲不喜欢我们”。"
-    narrative: "- 夺冠：以色列的{参赛者}赢得欧洲歌唱大赛，按惯例明年由以色列主办。\n  - 争议参赛者：{参赛者}被选为代表，宗教党议员称这是“国家耻辱”。\n\
-      \  - 末名：以色列得了最后一名，电视评论员说“欧洲不喜欢我们”。"
-  background: "- 夺冠：以色列的{参赛者}赢得欧洲歌唱大赛，按惯例明年由以色列主办。\n  - 争议参赛者：{参赛者}被选为代表，宗教党议员称这是“国家耻辱”。\n\
-    \  - 末名：以色列得了最后一名，电视评论员说“欧洲不喜欢我们”。"
-  narrative: "- 夺冠：以色列的{参赛者}赢得欧洲歌唱大赛，按惯例明年由以色列主办。\n  - 争议参赛者：{参赛者}被选为代表，宗教党议员称这是“国家耻辱”。\n\
-    \  - 末名：以色列得了最后一名，电视评论员说“欧洲不喜欢我们”。"
+    background: "- 夺冠：以色列的{参赛者}赢得欧洲歌唱大赛，按惯例明年由以色列主办。\n  - 争议参赛者：{参赛者}被选为代表，宗教党议员称这是“国家耻辱”。\n  - 末名：以色列得了最后一名，电视评论员说“欧洲不喜欢我们”。"
+    narrative: "- 夺冠：以色列的{参赛者}赢得欧洲歌唱大赛，按惯例明年由以色列主办。\n  - 争议参赛者：{参赛者}被选为代表，宗教党议员称这是“国家耻辱”。\n  - 末名：以色列得了最后一名，电视评论员说“欧洲不喜欢我们”。"
+  background: "- 夺冠：以色列的{参赛者}赢得欧洲歌唱大赛，按惯例明年由以色列主办。\n  - 争议参赛者：{参赛者}被选为代表，宗教党议员称这是“国家耻辱”。\n  - 末名：以色列得了最后一名，电视评论员说“欧洲不喜欢我们”。"
+  narrative: "- 夺冠：以色列的{参赛者}赢得欧洲歌唱大赛，按惯例明年由以色列主办。\n  - 争议参赛者：{参赛者}被选为代表，宗教党议员称这是“国家耻辱”。\n  - 末名：以色列得了最后一名，电视评论员说“欧洲不喜欢我们”。"
   summary: "- 夺冠：以色列的{参赛者}赢得欧洲歌唱大赛，按惯例明年由以色列主办。\n  。"
   repeat_changes:
   - n: 2
@@ -7458,6 +7549,9 @@ events:
     - op: add
       target: party_standing
       value: -1.0
+    - op: add
+      target: intl_legitimacy
+      value: 2.0
   - id: C
     title: 把争议交给地方政府自行决定
     label: 把争议交给地方政府自行决定
@@ -7469,6 +7563,10 @@ events:
     - op: add
       target: political_capital
       value: -5.0
+    - op: add
+      target: bloc_support
+      key: liberal_middle
+      value: 2.0
 - id: R-56
   kind: random
   category: flavor
@@ -7607,10 +7705,10 @@ events:
   repeat_changes:
   - n: 2
     title_prefix: 再次：
-    background_prefix: 对方社区不再相信“个人行为”的说法，选项C不可用，民间敌意效果 × 1.5；第3次：增加选项「立法设立圣地保护部队，并取缔相关极端组织」（政治资本
-      −15；民主法治指数 +2；盟党满意度[宗教民族政党] −5；此后 R-57 的 k × 0.7）
-    description: 对方社区不再相信“个人行为”的说法，选项C不可用，民间敌意效果 × 1.5；第3次：增加选项「立法设立圣地保护部队，并取缔相关极端组织」（政治资本
-      −15；民主法治指数 +2；盟党满意度[宗教民族政党] −5；此后 R-57 的 k × 0.7）
+    background_prefix: 对方社区不再相信“个人行为”的说法，选项C不可用，民间敌意效果 × 1.5；第3次：增加选项「立法设立圣地保护部队，并取缔相关极端组织」（政治资本 −15；民主法治指数
+      +2；盟党满意度[宗教民族政党] −5；此后 R-57 的 k × 0.7）
+    description: 对方社区不再相信“个人行为”的说法，选项C不可用，民间敌意效果 × 1.5；第3次：增加选项「立法设立圣地保护部队，并取缔相关极端组织」（政治资本 −15；民主法治指数
+      +2；盟党满意度[宗教民族政党] −5；此后 R-57 的 k × 0.7）
     extra_effects:
     - op: add
       target: political_capital
@@ -7624,10 +7722,8 @@ events:
       key: nrp
   - n: 3
     title_prefix: 第三次：
-    background_prefix: 增加选项「立法设立圣地保护部队，并取缔相关极端组织」（政治资本 −15；民主法治指数 +2；盟党满意度[宗教民族政党]
-      −5；此后 R-57 的 k × 0.7）
-    description: 增加选项「立法设立圣地保护部队，并取缔相关极端组织」（政治资本 −15；民主法治指数 +2；盟党满意度[宗教民族政党] −5；此后
-      R-57 的 k × 0.7）
+    background_prefix: 增加选项「立法设立圣地保护部队，并取缔相关极端组织」（政治资本 −15；民主法治指数 +2；盟党满意度[宗教民族政党] −5；此后 R-57 的 k × 0.7）
+    description: 增加选项「立法设立圣地保护部队，并取缔相关极端组织」（政治资本 −15；民主法治指数 +2；盟党满意度[宗教民族政党] −5；此后 R-57 的 k × 0.7）
     extra_effects:
     - op: add
       target: political_capital
@@ -7642,24 +7738,18 @@ events:
   era_variants:
   - when: year <= 1969
     background_suffix: '**1969年阿克萨清真寺纵火【史实】**：一名精神失常的澳大利亚基督徒游客纵火，烧毁了萨拉丁时代的讲坛。阿拉伯世界指责以色列，消防救援迟缓的传言加剧了愤怒；事件直接促成了伊斯兰会议组织的成立。玩家处于1969年前后且
-      {圣地} 为阿克萨清真寺时，使用此文本：{肇事者} 固定为外国游客，{损毁} 固定为严重，并附加 旗标：伊斯兰会议成立（政权敌意[沙特] +5，国际合法性
-      −3）。史实中以色列迅速逮捕并审判了纵火者（法庭认定其精神失常），并允许伊斯兰宗教基金会主持修复，对应选项A。'
+      {圣地} 为阿克萨清真寺时，使用此文本：{肇事者} 固定为外国游客，{损毁} 固定为严重，并附加 旗标：伊斯兰会议成立（政权敌意[沙特] +5，国际合法性 −3）。史实中以色列迅速逮捕并审判了纵火者（法庭认定其精神失常），并允许伊斯兰宗教基金会主持修复，对应选项A。'
     description: '**1969年阿克萨清真寺纵火【史实】**：一名精神失常的澳大利亚基督徒游客纵火，烧毁了萨拉丁时代的讲坛。阿拉伯世界指责以色列，消防救援迟缓的传言加剧了愤怒；事件直接促成了伊斯兰会议组织的成立。玩家处于1969年前后且
-      {圣地} 为阿克萨清真寺时，使用此文本：{肇事者} 固定为外国游客，{损毁} 固定为严重，并附加 旗标：伊斯兰会议成立（政权敌意[沙特] +5，国际合法性
-      −3）。史实中以色列迅速逮捕并审判了纵火者（法庭认定其精神失常），并允许伊斯兰宗教基金会主持修复，对应选项A。'
+      {圣地} 为阿克萨清真寺时，使用此文本：{肇事者} 固定为外国游客，{损毁} 固定为严重，并附加 旗标：伊斯兰会议成立（政权敌意[沙特] +5，国际合法性 −3）。史实中以色列迅速逮捕并审判了纵火者（法庭认定其精神失常），并允许伊斯兰宗教基金会主持修复，对应选项A。'
   - when: year >= 1948 and year <= 1967
     background_suffix: 1948–1967年：只能抽到以色列境内被废弃的清真寺或教堂，国际效果减半，但 国家认同度[阿拉伯人] 效果不变。
     description: 1948–1967年：只能抽到以色列境内被废弃的清真寺或教堂，国际效果减半，但 国家认同度[阿拉伯人] 效果不变。
   - when: year >= 1977
-    background_suffix: 1980年代：犹太地下组织曾策划炸毁圣殿山上的清真寺（未遂，由时代文件的锚点处理）；本事件抽到犹太极端分子时，若 旗标：犹太地下组织
-      存在，k + 0.5。
-    description: 1980年代：犹太地下组织曾策划炸毁圣殿山上的清真寺（未遂，由时代文件的锚点处理）；本事件抽到犹太极端分子时，若 旗标：犹太地下组织
-      存在，k + 0.5。
+    background_suffix: 1980年代：犹太地下组织曾策划炸毁圣殿山上的清真寺（未遂，由时代文件的锚点处理）；本事件抽到犹太极端分子时，若 旗标：犹太地下组织 存在，k + 0.5。
+    description: 1980年代：犹太地下组织曾策划炸毁圣殿山上的清真寺（未遂，由时代文件的锚点处理）；本事件抽到犹太极端分子时，若 旗标：犹太地下组织 存在，k + 0.5。
   - when: year >= 1977
-    background_suffix: 1990年代后：卫星电视使画面即时传播，k × 1.3；2000年纳布卢斯约瑟墓在起义中被焚，可以作为 {圣地} 为犹太圣地、{肇事者}
-      为巴勒斯坦人群的变体。
-    description: 1990年代后：卫星电视使画面即时传播，k × 1.3；2000年纳布卢斯约瑟墓在起义中被焚，可以作为 {圣地} 为犹太圣地、{肇事者}
-      为巴勒斯坦人群的变体。
+    background_suffix: 1990年代后：卫星电视使画面即时传播，k × 1.3；2000年纳布卢斯约瑟墓在起义中被焚，可以作为 {圣地} 为犹太圣地、{肇事者} 为巴勒斯坦人群的变体。
+    description: 1990年代后：卫星电视使画面即时传播，k × 1.3；2000年纳布卢斯约瑟墓在起义中被焚，可以作为 {圣地} 为犹太圣地、{肇事者} 为巴勒斯坦人群的变体。
   passive_effects:
   - op: add_modifier
     modifier: demand_retaliation
@@ -7828,10 +7918,9 @@ events:
   repeat_changes:
   - n: 2
     title_prefix: 再次：
-    background_prefix: 媒体称“又一次空中恐怖”，选项B的党内代价翻倍；第3次：增加选项「全球航空安保计划（便衣空警、机场安检）」（财政 −1%；此后
-      {目标} 为以色列航空时，R-58 不再抽到该目标）
-    description: 媒体称“又一次空中恐怖”，选项B的党内代价翻倍；第3次：增加选项「全球航空安保计划（便衣空警、机场安检）」（财政 −1%；此后 {目标}
-      为以色列航空时，R-58 不再抽到该目标）
+    background_prefix: 媒体称“又一次空中恐怖”，选项B的党内代价翻倍；第3次：增加选项「全球航空安保计划（便衣空警、机场安检）」（财政 −1%；此后 {目标} 为以色列航空时，R-58
+      不再抽到该目标）
+    description: 媒体称“又一次空中恐怖”，选项B的党内代价翻倍；第3次：增加选项「全球航空安保计划（便衣空警、机场安检）」（财政 −1%；此后 {目标} 为以色列航空时，R-58 不再抽到该目标）
     extra_effects:
     - op: add
       target: budget_balance
@@ -7847,17 +7936,16 @@ events:
   era_variants:
   - when: year <= 1976
     background_suffix: '**1976年恩德培行动【史实】**：法航客机被人阵派系与德国左翼分子劫持到乌干达恩德培，乌干达政权同情劫持者，劫持者把以色列与犹太乘客分开关押。以军远程飞行约4000公里突袭，人质大部分获救，突击队指挥官阵亡。玩家处于1976年前后时可以使用此文本：{态度}
-      固定为同情劫持者，{国家} 固定为乌干达；选项A成功时额外 关系[肯尼亚] +5（史实中肯尼亚允许以军加油），威慑值 额外 +5，修正器「恩德培神话」（36个月：公众安全感
-      +2，战略自满度 +5（隐藏））。'
+      固定为同情劫持者，{国家} 固定为乌干达；选项A成功时额外 关系[肯尼亚] +5（史实中肯尼亚允许以军加油），威慑值 额外 +5，修正器「恩德培神话」（36个月：公众安全感 +2，战略自满度
+      +5（隐藏））。'
     description: '**1976年恩德培行动【史实】**：法航客机被人阵派系与德国左翼分子劫持到乌干达恩德培，乌干达政权同情劫持者，劫持者把以色列与犹太乘客分开关押。以军远程飞行约4000公里突袭，人质大部分获救，突击队指挥官阵亡。玩家处于1976年前后时可以使用此文本：{态度}
-      固定为同情劫持者，{国家} 固定为乌干达；选项A成功时额外 关系[肯尼亚] +5（史实中肯尼亚允许以军加油），威慑值 额外 +5，修正器「恩德培神话」（36个月：公众安全感
-      +2，战略自满度 +5（隐藏））。'
+      固定为同情劫持者，{国家} 固定为乌干达；选项A成功时额外 关系[肯尼亚] +5（史实中肯尼亚允许以军加油），威慑值 额外 +5，修正器「恩德培神话」（36个月：公众安全感 +2，战略自满度
+      +5（隐藏））。'
   - when: year >= 1968 and year <= 1973
     background_suffix: 1968–1973年：劫机潮初期，以色列航空几乎是唯一的目标，1968年一架以色列客机被劫持到阿尔及利亚后以释放囚犯告终，对应选项B；1972年在以色列境内机场挫败劫持的萨贝纳航空事件由时代文件处理。
     description: 1968–1973年：劫机潮初期，以色列航空几乎是唯一的目标，1968年一架以色列客机被劫持到阿尔及利亚后以释放囚犯告终，对应选项B；1972年在以色列境内机场挫败劫持的萨贝纳航空事件由时代文件处理。
   - when: year >= 1977
-    background_suffix: 1972年慕尼黑奥运会人质事件为锚点，不在本池中；但 {目标} 为海外代表团时，背景引用“慕尼黑之后”，选项C的成功率
-      −20%（东道国营救能力存疑）。
+    background_suffix: 1972年慕尼黑奥运会人质事件为锚点，不在本池中；但 {目标} 为海外代表团时，背景引用“慕尼黑之后”，选项C的成功率 −20%（东道国营救能力存疑）。
     description: 1972年慕尼黑奥运会人质事件为锚点，不在本池中；但 {目标} 为海外代表团时，背景引用“慕尼黑之后”，选项C的成功率 −20%（东道国营救能力存疑）。
   - when: year >= 1985
     background_suffix: 1985年后：劫持多发生在地中海（游轮、客机），美国介入增多，选项C的成功率 +10%，美国政府关系效果出现（±3）。
@@ -7943,6 +8031,12 @@ events:
     - op: add
       target: party_standing
       value: -3.0
+    - op: add
+      target: public_security
+      value: 2.0
+    - op: add
+      target: intl_legitimacy
+      value: 2.0
   - id: C
     title: 通过东道国或第三国斡旋
     label: 通过东道国或第三国斡旋
@@ -8128,6 +8222,9 @@ events:
       - op: add
         target: rule_of_law
         value: -1.0
+      - op: add
+        target: budget_balance
+        value: 0.2
     - id: C
       title: 指责对方未表明身份、闯入战区
       label: 指责对方未表明身份、闯入战区

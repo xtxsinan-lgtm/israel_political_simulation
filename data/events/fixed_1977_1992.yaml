@@ -17,8 +17,7 @@ events:
       from: '1977-06-20'
       to: '1992-07-12'
     prerequisites: flag("likud_in_government") and character_alive("dayan")
-    condition: intl_legitimacy <= 60 and us_admin_relation <= 60 and relation[dayan]
-      >= -20
+    condition: intl_legitimacy <= 60 and us_admin_relation <= 60 and relation[dayan] >= -20
     probability:
       period: month
       base: 0.4
@@ -98,6 +97,9 @@ events:
       target: relation
       value: -10.0
       key: dayan
+    - op: add
+      target: party_standing
+      value: 3.0
   perspectives:
   - group: group_1
     label: 利库德基层
@@ -124,8 +126,8 @@ events:
       from: '1977-06-20'
       to: '1992-07-12'
     prerequisites: flag("likud_in_government") and region_exists("west_bank")
-    condition: settler_momentum >= 40 and promise_progress[settle_eretz_israel] <=
-      20 and ally_satisfaction[nrp] <= 70
+    condition: settler_momentum >= 40 and promise_progress[settle_eretz_israel] <= 20 and ally_satisfaction[nrp]
+      <= 70
     probability:
       period: month
       base: 0.4
@@ -507,10 +509,9 @@ events:
     window:
       from: '1977-06-20'
       to: '1992-07-12'
-    prerequisites: not flag("egypt_peace_treaty_signed") and region_exists("sinai")
-      and character_in_office("sadat")
-    condition: flag("dayan_foreign_minister") and regime_hostility[egypt] <= 60 and
-      regime_stability[egypt] >= 30 and relation[foreign_minister] >= 20
+    prerequisites: not flag("egypt_peace_treaty_signed") and region_exists("sinai") and character_in_office("sadat")
+    condition: flag("dayan_foreign_minister") and regime_hostility[egypt] <= 60 and regime_stability[egypt]
+      >= 30 and relation[foreign_minister] >= 20
     probability:
       period: month
       base: 0.15
@@ -723,8 +724,7 @@ events:
       from: '1977-06-20'
       to: '1992-07-12'
     prerequisites: event_done("E-1978-03a")
-    condition: region_security[galilee] <= 50 and public_security <= 45 and readiness
-      >= 40
+    condition: region_security[galilee] <= 50 and public_security <= 45 and readiness >= 40
     probability:
       period: month
       base: 0.8
@@ -881,8 +881,8 @@ events:
       from: '1977-06-20'
       to: '1992-07-12'
     prerequisites: event_choice("E-1977-11") == "A"
-    condition: bloc_support[liberal_middle] <= 50 and promise_progress[peace_and_security]
-      <= 25 and rule_of_law >= 40
+    condition: bloc_support[liberal_middle] <= 50 and promise_progress[peace_and_security] <= 25 and rule_of_law
+      >= 40
     probability:
       period: month
       base: 0.25
@@ -965,6 +965,10 @@ events:
     - op: add
       target: party_standing
       value: -5.0
+    - op: add
+      target: bloc_support
+      key: religious_zionist
+      value: 2.0
   perspectives:
   - group: group_1
     label: 预备役军官
@@ -1128,8 +1132,8 @@ events:
     window:
       from: '1977-06-20'
       to: '1992-07-12'
-    prerequisites: not has_modifier("cool_realist") and character_in_office("sadat")
-      and event_choice("E-1977-11") == "A" and us_admin_relation >= 60
+    prerequisites: not has_modifier("cool_realist") and character_in_office("sadat") and event_choice("E-1977-11")
+      == "A" and us_admin_relation >= 60
     condition: regime_hostility[egypt] <= 40 and us_admin_relation >= 40
     probability:
       period: month
@@ -1238,6 +1242,13 @@ events:
       target: regime_stability
       value: -8.0
       key: egypt
+    - op: add
+      target: party_standing
+      value: 4.0
+    - op: add
+      target: ally_satisfaction
+      key: nrp
+      value: 5.0
   - id: C
     title: 拒绝拆除西奈定居点，离开戴维营
     label: 拒绝拆除西奈定居点，离开戴维营
@@ -1426,6 +1437,10 @@ events:
       target: relation
       value: -30.0
       key: geula_cohen
+    - op: add
+      target: promise_progress
+      key: cat_peace
+      value: 5.0
   - id: C
     title: 以石油与亚米特换取更多时间，拖延
     label: 以石油与亚米特换取更多时间，拖延签约
@@ -1452,6 +1467,13 @@ events:
     - op: add
       target: us_admin_relation
       value: -5.0
+    - op: add
+      target: bloc_support
+      key: religious_zionist
+      value: 4.0
+    - op: add
+      target: party_standing
+      value: 3.0
   perspectives:
   - group: group_1
     label: 和平支持者
@@ -1595,10 +1617,8 @@ events:
     window:
       from: '1977-06-20'
       to: '1992-07-12'
-    prerequisites: flag("autonomy_framework_signed") and character_in_office("weizman")
-      and character_in_office("dayan")
-    condition: relation[weizman] <= 10 and relation[dayan] <= 10 and budget_balance
-      <= -3
+    prerequisites: flag("autonomy_framework_signed") and character_in_office("weizman") and character_in_office("dayan")
+    condition: relation[weizman] <= 10 and relation[dayan] <= 10 and budget_balance <= -3
     probability:
       period: month
       base: 0.1
@@ -1797,8 +1817,8 @@ events:
     window:
       from: '1977-06-20'
       to: '1992-07-12'
-    prerequisites: flag("settlers_momentum_high") and event_done("E-1980-05b") and
-      settler_momentum >= 50
+    prerequisites: flag("settlers_momentum_high") and event_done("E-1980-05b") and settler_momentum >=
+      50
     condition: settler_momentum >= 50 and rule_of_law <= 65
     probability:
       period: month
@@ -1878,6 +1898,7 @@ events:
     historical: false
     tags:
     - authoritarian
+    - extreme
     requires: 'true'
     effects:
     - op: add_modifier
@@ -2007,6 +2028,12 @@ events:
     - op: add
       target: party_standing
       value: -3.0
+    - op: add
+      target: us_admin_relation
+      value: 3.0
+    - op: add
+      target: intl_legitimacy
+      value: 2.0
   - id: C
     title: 交给外交：施压法国与美国停止供料
     label: 交给外交：施压法国与美国停止供料
@@ -2143,6 +2170,12 @@ events:
       target: bloc_support
       value: 2.0
       key: mizrahi
+    - op: add
+      target: party_standing
+      value: -3.0
+    - op: add
+      target: political_capital
+      value: -5.0
   perspectives:
   - group: group_1
     label: 发展城镇的选民
@@ -2169,8 +2202,7 @@ events:
       from: '1977-06-20'
       to: '1992-07-12'
     prerequisites: flag("defense_minister_vacant") and character_alive("sharon")
-    condition: character_in_office("sharon") and relation[sharon] >= -20 and party_standing
-      <= 70
+    condition: character_in_office("sharon") and relation[sharon] >= -20 and party_standing <= 70
     probability:
       period: month
       base: 0.7
@@ -2247,6 +2279,12 @@ events:
     - op: add
       target: centralization
       value: 3.0
+    - op: add
+      target: political_capital
+      value: 3.0
+    - op: add
+      target: intl_legitimacy
+      value: 2.0
   notes: A 是黎巴嫩战争事件链的关键开关。若选择 B 或 C，E-1982-06b 的越权概率大幅降低，但仍可能发生。
 - id: E-1981-10
   kind: fixed
@@ -2321,8 +2359,7 @@ events:
       from: '1977-06-20'
       to: '1992-07-12'
     prerequisites: flag("autonomy_framework_signed") and region_exists("west_bank")
-    condition: faction_strength[fatah] >= 50 and faction_legitimacy[jordan_notables]
-      <= 40
+    condition: faction_strength[fatah] >= 50 and faction_legitimacy[jordan_notables] <= 40
     probability:
       period: month
       base: 0.1
@@ -2425,6 +2462,13 @@ events:
     - op: add
       target: readiness
       value: -2.0
+    - op: add
+      target: region_security
+      key: west_bank
+      value: 2.0
+    - op: add
+      target: deterrence
+      value: 2.0
   perspectives:
   - group: group_1
     label: 村庄联盟的成员
@@ -2450,8 +2494,7 @@ events:
       from: '1977-06-20'
       to: '1992-07-12'
     prerequisites: region_exists("golan")
-    condition: party_standing <= 60 and stance_deviation[territory] >= 15 and settler_momentum
-      >= 45
+    condition: party_standing <= 60 and stance_deviation[territory] >= 15 and settler_momentum >= 45
     probability:
       period: month
       base: 0.08
@@ -2734,8 +2777,7 @@ events:
       from: '1977-06-20'
       to: '1992-07-12'
     prerequisites: 'true'
-    condition: region_security[galilee] <= 50 and public_security <= 45 and readiness
-      >= 50
+    condition: region_security[galilee] <= 50 and public_security <= 45 and readiness >= 50
     probability:
       period: month
       base: 0.05
@@ -3122,6 +3164,13 @@ events:
     - op: add
       target: party_standing
       value: -2.0
+    - op: add
+      target: faction_strength
+      key: fatah
+      value: -4.0
+    - op: add
+      target: deterrence
+      value: 3.0
   perspectives:
   - group: group_1
     label: 西贝鲁特居民
@@ -3228,7 +3277,7 @@ events:
     requires: 'true'
     effects:
     - op: event_multiplier
-      event: E-1982-09a
+      event: E-1982-09c
       value: 1.0
       display: hidden
     - op: set_flag
@@ -3248,6 +3297,9 @@ events:
       target: faction_strength
       value: 3.0
       key: phalange
+    - op: add
+      target: rule_of_law
+      value: -2.0
     risk_hint: 高
   - id: B
     title: 只许在以军直接监督下进入，派联络
@@ -3258,7 +3310,7 @@ events:
     requires: 'true'
     effects:
     - op: event_multiplier
-      event: E-1982-09a
+      event: E-1982-09c
       value: 0.4
       display: hidden
     - op: set_flag
@@ -3276,6 +3328,9 @@ events:
       target: relation
       value: -5.0
       key: chief_of_staff
+    - op: add
+      target: intl_legitimacy
+      value: 2.0
     risk_hint: 中
   - id: C
     title: 拒绝长枪党入营，由以军或黎巴嫩军
@@ -3287,7 +3342,7 @@ events:
     requires: 'true'
     effects:
     - op: event_multiplier
-      event: E-1982-09a
+      event: E-1982-09c
       value: 0.05
       display: hidden
     - op: add
@@ -3316,6 +3371,9 @@ events:
       target: faction_strength
       value: 2.0
       key: fatah
+    - op: add
+      target: rule_of_law
+      value: 3.0
     risk_hint: 低
   perspectives:
   - group: group_1
@@ -3343,8 +3401,7 @@ events:
       from: '1977-06-20'
       to: '1992-07-12'
     prerequisites: event_done("E-1982-09b")
-    condition: faction_strength[phalange] >= 40 and popular_hostility[lebanon] >=
-      40
+    condition: faction_strength[phalange] >= 40 and popular_hostility[lebanon] >= 40
     probability:
       period: month
       base: 0.8
@@ -3484,6 +3541,7 @@ events:
     historical: false
     tags:
     - restraint
+    - extreme
     requires: 'true'
     effects:
     - op: add_modifier
@@ -3542,6 +3600,10 @@ events:
       target: ally_satisfaction
       value: -25.0
       key: nrp
+    - op: add
+      target: relation
+      key: sharon
+      value: 5.0
   perspectives:
   - group: group_1
     label: 示威者
@@ -3693,6 +3755,7 @@ events:
     - restraint
     - hardline
     - authoritarian
+    - extreme
     requires: 'true'
     effects:
     - op: add_modifier
@@ -3805,8 +3868,8 @@ events:
       from: '1977-06-20'
       to: '1992-07-12'
     prerequisites: 'true'
-    condition: has_modifier("silent_pm") and has_modifier("lebanon_quagmire") and
-      health[prime_minister] <= 30 and party_standing <= 30
+    condition: has_modifier("silent_pm") and has_modifier("lebanon_quagmire") and health[prime_minister]
+      <= 30 and party_standing <= 30
     probability:
       period: month
       base: 0.15
@@ -3826,6 +3889,12 @@ events:
     - op: add
       target: political_capital
       value: -2.0
+    - op: add
+      target: rule_of_law
+      value: 2.0
+    - op: add
+      target: intl_legitimacy
+      value: 2.0
   - id: B
     title: 留任，把日常政务交给副手
     label: 留任，把日常政务交给副手
@@ -3837,6 +3906,16 @@ events:
     - op: add_modifier
       modifier: invisible_pm_depression
       duration_days: null
+    - op: add
+      target: party_standing
+      value: 2.0
+    - op: add
+      target: ally_satisfaction
+      key: nrp
+      value: 2.0
+    - op: add
+      target: readiness
+      value: -1.0
   - id: C
     title: 留任，并推动从黎巴嫩撤军以求解脱
     label: 留任，并推动从黎巴嫩撤军以求解脱
@@ -3866,6 +3945,12 @@ events:
     - op: add
       target: public_security
       value: -3.0
+    - op: add
+      target: intl_legitimacy
+      value: 3.0
+    - op: add
+      target: budget_balance
+      value: 0.5
   perspectives:
   - group: group_1
     label: 贝京的支持者
@@ -3888,8 +3973,7 @@ events:
       from: '1977-06-20'
       to: '1992-07-12'
     prerequisites: flag("bank_shares_manipulation")
-    condition: has_modifier("indexation_spiral") and inflation >= 130 and fx_reserves
-      <= 30
+    condition: has_modifier("indexation_spiral") and inflation >= 130 and fx_reserves <= 30
     probability:
       period: month
       base: 0.1
@@ -4228,8 +4312,7 @@ events:
       from: '1977-06-20'
       to: '1992-07-12'
     prerequisites: 'true'
-    condition: flag("kach_in_knesset") and rule_of_law <= 60 and alienation[mizrahi]
-      >= 35
+    condition: flag("kach_in_knesset") and rule_of_law <= 60 and alienation[mizrahi] >= 35
     probability:
       period: month
       base: 0.15
@@ -4404,6 +4487,12 @@ events:
       target: historical_grievance
       value: 5.0
       key: ethiopian
+    - op: add
+      target: us_admin_relation
+      value: 2.0
+    - op: add
+      target: absorption_capacity
+      value: 2.0
   - id: C
     title: 交给美国与国际组织处理
     label: 交给美国与国际组织处理
@@ -4560,6 +4649,9 @@ events:
     - op: add
       target: public_security
       value: -8.0
+    - op: add
+      target: deterrence
+      value: 2.0
   perspectives:
   - group: cabinet
     label: 内阁成员
@@ -4803,6 +4895,10 @@ events:
       target: power_relation
       value: -5.0
       key: diaspora
+    - op: add
+      target: bloc_support
+      key: religious_zionist
+      value: 2.0
   - id: C
     title: 以紧急条例取缔卡赫并拘押其骨干
     label: 以紧急条例取缔卡赫并拘押其骨干
@@ -4886,6 +4982,9 @@ events:
     - op: add
       target: intl_legitimacy
       value: -3.0
+    - op: add
+      target: us_admin_relation
+      value: 2.0
   - id: B
     title: 全面配合调查，交出相关官员
     label: 全面配合调查，交出相关官员
@@ -4913,6 +5012,12 @@ events:
       target: relation
       value: -15.0
       key: mossad_chief
+    - op: add
+      target: rule_of_law
+      value: 3.0
+    - op: add
+      target: intl_legitimacy
+      value: 2.0
   - id: C
     title: 否认一切，指控美方栽赃
     label: 否认一切，指控美方栽赃
@@ -5046,6 +5151,7 @@ events:
     historical: false
     tags:
     - restraint
+    - extreme
     requires: 'true'
     effects:
     - op: set_flag
@@ -5063,6 +5169,9 @@ events:
       target: relation
       value: -40.0
       key: shin_bet_chief
+    - op: add
+      target: rule_of_law
+      value: -5.0
   perspectives:
   - group: group_1
     label: 举报的辛贝特官员
@@ -5191,8 +5300,7 @@ events:
     window:
       from: '1977-06-20'
       to: '1992-07-12'
-    prerequisites: flag("national_unity_government") and not flag("jordan_option_ended")
-      and character_in_office("hussein")
+    prerequisites: flag("national_unity_government") and not flag("jordan_option_ended") and character_in_office("hussein")
     condition: regime_hostility[jordan] <= 40 and relation[foreign_minister] <= 30
     probability:
       period: month
@@ -5307,6 +5415,13 @@ events:
     - op: add
       target: political_capital
       value: -10.0
+    - op: add
+      target: party_standing
+      value: 3.0
+    - op: add
+      target: bloc_support
+      key: religious_zionist
+      value: 2.0
   perspectives:
   - group: group_1
     label: 佩雷斯
@@ -5625,8 +5740,8 @@ events:
       from: '1977-06-20'
       to: '1992-07-12'
     prerequisites: has_modifier("first_intifada") and character_in_office("hussein")
-    condition: has_modifier("missed_jordan_option") and regime_stability[jordan] <=
-      50 and faction_legitimacy[fatah] >= 50
+    condition: has_modifier("missed_jordan_option") and regime_stability[jordan] <= 50 and faction_legitimacy[fatah]
+      >= 50
     probability:
       period: month
       base: 0.08
@@ -5680,8 +5795,8 @@ events:
       from: '1977-06-20'
       to: '1992-07-12'
     prerequisites: power_relation[diaspora] >= 60 and us_congress_relation >= 60
-    condition: flag("world_us_refugee_quota_tightened") and power_relation[ussr] >=
-      20 and regime_stability[egypt] <= 40
+    condition: flag("world_us_refugee_quota_tightened") and power_relation[ussr] >= 20 and regime_stability[egypt]
+      <= 40
     probability:
       period: month
       base: 0.2
@@ -5817,8 +5932,8 @@ events:
       from: '1977-06-20'
       to: '1992-07-12'
     prerequisites: flag("national_unity_government")
-    condition: ally_satisfaction[labor] <= 40 and relation[foreign_minister] <= 0
-      and ally_satisfaction[shas] <= 60
+    condition: ally_satisfaction[labor] <= 40 and relation[foreign_minister] <= 0 and ally_satisfaction[shas]
+      <= 60
     probability:
       period: month
       base: 0.1
@@ -6132,6 +6247,9 @@ events:
       target: historical_grievance
       value: 8.0
       key: ethiopian
+    - op: add
+      target: budget_balance
+      value: 0.5
   - id: C
     title: 只接走已确认犹太身份者，暂缓'法
     label: 只接走已确认犹太身份者，暂缓'法拉什穆拉'
@@ -6181,8 +6299,7 @@ events:
       from: '1977-06-20'
       to: '1992-07-12'
     prerequisites: event_done("E-1989-10")
-    condition: absorption_capacity <= 40 and settler_momentum >= 40 and us_admin_relation
-      <= 60
+    condition: absorption_capacity <= 40 and settler_momentum >= 40 and us_admin_relation <= 60
     probability:
       period: month
       base: 0.15
@@ -6326,8 +6443,7 @@ events:
       from: '1977-06-20'
       to: '1992-07-12'
     prerequisites: regime_stability[egypt] <= 30
-    condition: flag("gulf_war_restraint") and us_admin_relation >= 40 and regime_hostility[syria]
-      <= 80
+    condition: flag("gulf_war_restraint") and us_admin_relation >= 40 and regime_hostility[syria] <= 80
     probability:
       period: month
       base: 0.15
@@ -7130,6 +7246,13 @@ events:
     - op: add
       target: budget_balance
       value: -3.0
+    - op: add
+      target: bloc_support
+      key: mizrahi
+      value: 4.0
+    - op: add
+      target: party_standing
+      value: 4.0
   - id: B
     title: 只给定向补贴（发展城镇、新移民）
     label: 只给定向补贴（发展城镇、新移民）
@@ -7466,6 +7589,12 @@ events:
     - op: add
       target: political_capital
       value: -3.0
+    - op: add
+      target: deterrence
+      value: 2.0
+    - op: add
+      target: party_standing
+      value: 2.0
   - id: C
     title: 拒绝交易，尝试营救行动
     label: 拒绝交易，尝试营救行动
@@ -7555,6 +7684,13 @@ events:
     - op: add
       target: political_capital
       value: -10.0
+    - op: add
+      target: public_security
+      value: 2.0
+    - op: add
+      target: relation
+      key: shin_bet_chief
+      value: 4.0
   - id: C
     title: 勒令停刊并起诉编辑
     label: 勒令停刊并起诉编辑
@@ -7579,6 +7715,10 @@ events:
       target: bloc_support
       value: -5.0
       key: liberal_middle
+    - op: add
+      target: relation
+      key: shin_bet_chief
+      value: 5.0
   notes: 独裁路线的核心杠杆之一。"寒蝉"修正器把短期平静换成延迟的、更大的冲击。
 - id: E-G04-13
   kind: fixed
@@ -7681,6 +7821,10 @@ events:
     - op: add
       target: political_capital
       value: -5.0
+    - op: add
+      target: bloc_support
+      key: liberal_middle
+      value: 2.0
 - id: E-G04-14
   kind: fixed
   type: flavor
@@ -8001,6 +8145,7 @@ events:
     historical: false
     tags:
     - authoritarian
+    - extreme
     requires: 'true'
     effects:
     - op: event_multiplier
@@ -8020,6 +8165,12 @@ events:
     - op: add
       target: public_security
       value: 2.0
+    - op: add
+      target: rule_of_law
+      value: -6.0
+    - op: add
+      target: intl_legitimacy
+      value: -4.0
     risk_hint: 高
   notes: 'C 是极端选项，短期安全收益很小，曝光代价远大于收益。
 

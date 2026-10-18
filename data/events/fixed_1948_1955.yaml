@@ -159,6 +159,7 @@ events:
     historical: false
     tags:
     - authoritarian
+    - extreme
     requires: 'true'
     effects:
     - op: set_flag
@@ -299,6 +300,7 @@ events:
     historical: false
     tags:
     - authoritarian
+    - extreme
     requires: 'true'
     effects:
     - op: add_modifier
@@ -344,7 +346,7 @@ events:
 - id: E-1948-03a
   kind: fixed
   type: anchor
-  form: choice
+  form: predecision
   major: true
   minor: false
   repeatable: false
@@ -356,8 +358,7 @@ events:
       from: '1948-05-14'
       to: '1955-12-31'
     prerequisites: flag("war_in_progress") and flag("first_truce_1948") and at_war()
-    condition: readiness >= 40 and region_security[tel_aviv] < 70 and region_security[jerusalem]
-      < 60
+    condition: readiness >= 40 and region_security[tel_aviv] < 70 and region_security[jerusalem] < 60
     probability:
       period: month
       base: 0.8
@@ -374,6 +375,13 @@ events:
     - economic
     requires: 'true'
     effects:
+    - op: event_multiplier
+      event: E-1948-04
+      value: 1.0
+      display: hidden
+    - op: add
+      target: rule_of_law
+      value: -1.0
     - op: set_flag
       flag: civilian_policy_vacuum
     - op: add
@@ -386,6 +394,7 @@ events:
     - op: add
       target: readiness
       value: 2.0
+    risk_hint: 高
   - id: B
     title: 书面命令：居民留在原地，由军政府
     label: 书面命令：居民留在原地，由军政府管理，禁止驱逐与抢掠
@@ -394,6 +403,10 @@ events:
     - hardline
     requires: 'true'
     effects:
+    - op: event_multiplier
+      event: E-1948-04
+      value: 0.2
+      display: hidden
     - op: add
       target: political_capital
       value: -10.0
@@ -411,14 +424,26 @@ events:
     - op: add
       target: rule_of_law
       value: 3.0
+    risk_hint: 低
   - id: C
     title: 授权清除交通线沿线的敌对人口
     label: 授权清除交通线沿线的敌对人口
     historical: false
     tags:
     - hardline
+    - extreme
     requires: 'true'
     effects:
+    - op: event_multiplier
+      event: E-1948-04
+      value: 2.0
+      display: hidden
+    - op: add
+      target: intl_legitimacy
+      value: -6.0
+    - op: add
+      target: pal_hostility
+      value: 8.0
     - op: add_modifier
       modifier: sealed_expulsion_order
       duration_days: null
@@ -435,6 +460,7 @@ events:
       target: ally_satisfaction
       value: -8.0
       key: mapam
+    risk_hint: 高
   perspectives:
   - group: group_1
     label: 前线指挥官
@@ -461,8 +487,8 @@ events:
       from: '1948-05-14'
       to: '1955-12-31'
     prerequisites: flag("war_in_progress") and event_done("E-1948-03a") and at_war()
-    condition: readiness >= 40 and region_security[tel_aviv] < 70 and region_security[jerusalem]
-      < 60 and rule_of_law < 70
+    condition: readiness >= 40 and region_security[tel_aviv] < 70 and region_security[jerusalem] < 60
+      and rule_of_law < 70
     probability:
       period: month
       base: 0.6
@@ -610,6 +636,7 @@ events:
     tags:
     - hardline
     - authoritarian
+    - extreme
     requires: 'true'
     effects:
     - op: add_modifier
@@ -680,10 +707,8 @@ events:
     window:
       from: '1948-05-14'
       to: '1955-12-31'
-    prerequisites: flag("war_in_progress") and character_in_office("bernadotte") and
-      at_war()
-    condition: faction_strength[fatah] >= 15 and promise_progress[cat_security] <
-      70
+    prerequisites: flag("war_in_progress") and character_in_office("bernadotte") and at_war()
+    condition: faction_strength[fatah] >= 15 and promise_progress[cat_security] < 70
     probability:
       period: month
       base: 0.25
@@ -937,6 +962,7 @@ events:
     tags:
     - hardline
     - authoritarian
+    - extreme
     requires: 'true'
     effects:
     - op: add
@@ -962,6 +988,13 @@ events:
     - op: add
       target: centralization
       value: 5.0
+    - op: add
+      target: region_security
+      key: jerusalem
+      value: 4.0
+    - op: add
+      target: rule_of_law
+      value: -3.0
   perspectives:
   - group: cabinet
     label: 内阁成员
@@ -988,8 +1021,7 @@ events:
       from: '1948-05-14'
       to: '1955-12-31'
     prerequisites: 'true'
-    condition: promise_progress[cat_security] >= 40 and ally_satisfaction[mapam] <
-      70
+    condition: promise_progress[cat_security] >= 40 and ally_satisfaction[mapam] < 70
     probability:
       period: month
       base: 0.3
@@ -1111,7 +1143,7 @@ events:
 - id: E-1948-09a
   kind: fixed
   type: anchor
-  form: choice
+  form: predecision
   major: true
   minor: false
   repeatable: false
@@ -1123,8 +1155,7 @@ events:
       from: '1948-05-14'
       to: '1955-12-31'
     prerequisites: flag("war_in_progress") and event_done("E-1948-05") and at_war()
-    condition: readiness >= 50 and region_security[negev] < 40 and region_security[galilee]
-      < 50
+    condition: readiness >= 50 and region_security[negev] < 40 and region_security[galilee] < 50
     probability:
       period: month
       base: 0.7
@@ -1141,6 +1172,13 @@ events:
     - economic
     requires: 'true'
     effects:
+    - op: event_multiplier
+      event: E-1948-11
+      value: 1.0
+      display: hidden
+    - op: add
+      target: rule_of_law
+      value: -1.0
     - op: add
       target: political_capital
       value: 3.0
@@ -1148,6 +1186,7 @@ events:
       target: relation
       value: 3.0
       key: allon
+    risk_hint: 高
   - id: B
     title: 颁布平民保护令，随军派驻军法官，
     label: 颁布平民保护令，随军派驻军法官，违者送军事法庭
@@ -1156,6 +1195,10 @@ events:
     - economic
     requires: 'true'
     effects:
+    - op: event_multiplier
+      event: E-1948-11
+      value: 0.25
+      display: hidden
     - op: add
       target: political_capital
       value: -10.0
@@ -1173,14 +1216,23 @@ events:
       target: ally_satisfaction
       value: 5.0
       key: mapam
+    risk_hint: 低
   - id: C
     title: 授权指挥官促使村民撤离战区
     label: 授权指挥官促使村民撤离战区
     historical: false
     tags:
     - restraint
+    - extreme
     requires: 'true'
     effects:
+    - op: event_multiplier
+      event: E-1948-11
+      value: 1.8
+      display: hidden
+    - op: add
+      target: intl_legitimacy
+      value: -5.0
     - op: add
       target: readiness
       value: 3.0
@@ -1199,6 +1251,7 @@ events:
       target: land_grievance
       value: 5.0
       key: arab
+    risk_hint: 高
   perspectives:
   - group: cabinet
     label: 内阁成员
@@ -1278,8 +1331,7 @@ events:
   - group: opposition
     label: 反对派议员
     text: 议会走廊里，反对派已经在起草质询案。
-  notes: 法鲁贾口袋中的纳赛尔后来回忆，他在围城中开始思考埃及失败的根源。行动中针对平民的暴行是否发展到需要内阁处置，由 E-1948-09a（事前决策点）的乘数决定，见
-    E-1948-11 的触发概率。
+  notes: 法鲁贾口袋中的纳赛尔后来回忆，他在围城中开始思考埃及失败的根源。行动中针对平民的暴行是否发展到需要内阁处置，由 E-1948-09a（事前决策点）的乘数决定，见 E-1948-11 的触发概率。
 - id: E-1948-11
   kind: fixed
   type: anchor
@@ -1294,8 +1346,7 @@ events:
     window:
       from: '1948-05-14'
       to: '1955-12-31'
-    prerequisites: flag("wartime_atrocity_reports") and event_done("E-1948-09a") and
-      at_war()
+    prerequisites: flag("wartime_atrocity_reports") and event_done("E-1948-09a") and at_war()
     condition: ally_satisfaction[mapam] >= 20 and rule_of_law >= 50
     probability:
       period: month
@@ -1557,8 +1608,7 @@ events:
     window:
       from: '1948-05-14'
       to: '1955-12-31'
-    prerequisites: flag("war_in_progress") and has_modifier("war_of_independence_mobilization")
-      and at_war()
+    prerequisites: flag("war_in_progress") and has_modifier("war_of_independence_mobilization") and at_war()
     condition: public_security >= 35
     probability:
       period: month
@@ -1870,8 +1920,7 @@ events:
     window:
       from: '1948-05-14'
       to: '1955-12-31'
-    prerequisites: flag("egypt_armistice_signed") and character_alive("abdullah_i")
-      and event_done("E-1949-02")
+    prerequisites: flag("egypt_armistice_signed") and character_alive("abdullah_i") and event_done("E-1949-02")
     condition: readiness >= 45 and regime_hostility[jordan] < 85
     probability:
       period: month
@@ -1965,6 +2014,10 @@ events:
     - op: add
       target: rule_of_law
       value: -3.0
+    - op: add
+      target: region_security
+      key: triangle
+      value: 3.0
   perspectives:
   - group: group_1
     label: 三角地带村民
@@ -2647,8 +2700,7 @@ events:
   - group: opposition
     label: 反对派议员
     text: 议会走廊里，反对派已经在起草质询案。
-  notes: A选项的长期成本会随时间显现，这是全游戏最重要的历史债务之一。宗教女子是否应服"国民服役"会在1952–1953年再次引爆（以色列正教党1952年因此退出政府，见第8节
-    E-G01-09）。
+  notes: A选项的长期成本会随时间显现，这是全游戏最重要的历史债务之一。宗教女子是否应服"国民服役"会在1952–1953年再次引爆（以色列正教党1952年因此退出政府，见第8节 E-G01-09）。
 - id: E-1949-10
   kind: fixed
   type: anchor
@@ -3133,6 +3185,9 @@ events:
       target: historical_grievance
       value: 5.0
       key: mizrahi
+    - op: add
+      target: budget_balance
+      value: 0.5
   perspectives:
   - group: group_1
     label: 伊拉克犹太人
@@ -3159,8 +3214,8 @@ events:
       from: '1948-05-14'
       to: '1955-12-31'
     prerequisites: flag("unwritten_constitution_harari")
-    condition: promise_progress[cat_social] < 50 and ally_satisfaction[nrp] >= 20
-      and centralization >= 30
+    condition: promise_progress[cat_social] < 50 and ally_satisfaction[nrp] >= 20 and centralization >=
+      30
     probability:
       period: month
       base: 0.2
@@ -3300,8 +3355,7 @@ events:
       from: '1948-05-14'
       to: '1955-12-31'
     prerequisites: flag("unrestricted_aliyah")
-    condition: promise_progress[absorb_immigration] >= 20 and power_relation[diaspora]
-      >= 30
+    condition: promise_progress[absorb_immigration] >= 20 and power_relation[diaspora] >= 30
     probability:
       period: month
       base: 0.2
@@ -3426,8 +3480,8 @@ events:
       from: '1948-05-14'
       to: '1955-12-31'
     prerequisites: flag("world_korean_war_proxy")
-    condition: us_admin_relation >= 30 and power_relation[ussr] >= 30 and ally_satisfaction[mapam]
-      >= 40
+    condition: us_admin_relation >= 30 and power_relation[ussr] >= 30 and ally_satisfaction[mapam] >=
+      40
     probability:
       period: month
       base: 0.8
@@ -4053,6 +4107,10 @@ events:
     - op: add
       target: intl_legitimacy
       value: -3.0
+    - op: add
+      target: region_security
+      key: galilee
+      value: 3.0
   - id: B
     title: 执行判决，允许村民返回
     label: 执行判决，允许村民返回
@@ -4101,6 +4159,10 @@ events:
     - op: add
       target: rule_of_law
       value: -2.0
+    - op: add
+      target: region_security
+      key: galilee
+      value: 2.0
   perspectives:
   - group: group_1
     label: 村民
@@ -4125,8 +4187,7 @@ events:
     window:
       from: '1948-05-14'
       to: '1955-12-31'
-    prerequisites: flag("eastern_bloc_alignment") and power_relation[west_germany]
-      >= 0
+    prerequisites: flag("eastern_bloc_alignment") and power_relation[west_germany] >= 0
     condition: fx_reserves < 25 and promise_progress[absorb_immigration] >= 30
     probability:
       period: month
@@ -4270,8 +4331,7 @@ events:
       from: '1948-05-14'
       to: '1955-12-31'
     prerequisites: has_modifier("tzena_austerity_rationing")
-    condition: has_modifier("tzena_austerity_rationing") and inflation > 15 and fx_reserves
-      < 20
+    condition: has_modifier("tzena_austerity_rationing") and inflation > 15 and fx_reserves < 20
     probability:
       period: month
       base: 0.25
@@ -4597,7 +4657,7 @@ events:
 - id: E-1953-02a
   kind: fixed
   type: anchor
-  form: choice
+  form: predecision
   major: true
   minor: false
   repeatable: false
@@ -4629,6 +4689,13 @@ events:
     - hardline
     requires: 'true'
     effects:
+    - op: event_multiplier
+      event: E-1953-04
+      value: 1.0
+      display: hidden
+    - op: add
+      target: rule_of_law
+      value: -2.0
     - op: add_modifier
       modifier: unit_101
       duration_days: null
@@ -4646,6 +4713,7 @@ events:
       target: relation
       value: 5.0
       key: dayan
+    risk_hint: 高
   - id: B
     title: 组建特种部队，但交战规则限于军事
     label: 组建特种部队，但交战规则限于军事目标，每次行动须经总理书面批准
@@ -4654,6 +4722,10 @@ events:
     - hardline
     requires: 'true'
     effects:
+    - op: event_multiplier
+      event: E-1953-04
+      value: 0.35
+      display: hidden
     - op: add_modifier
       modifier: unit_101
       duration_days: null
@@ -4674,6 +4746,7 @@ events:
     - op: add
       target: rule_of_law
       value: 2.0
+    risk_hint: 中
   - id: C
     title: 不组建，改为加强边境防御与常规部
     label: 不组建，改为加强边境防御与常规部队训练
@@ -4682,6 +4755,16 @@ events:
     - economic
     requires: 'true'
     effects:
+    - op: event_multiplier
+      event: E-1953-04
+      value: 0.15
+      display: hidden
+    - op: add
+      target: rule_of_law
+      value: 2.0
+    - op: add
+      target: intl_legitimacy
+      value: 2.0
     - op: custom
       handler: stance_shift_by_corridor
       key: security
@@ -4700,6 +4783,7 @@ events:
       target: relation
       value: -10.0
       key: dayan
+    risk_hint: 低
   perspectives:
   - group: group_1
     label: 边境定居点
@@ -4998,6 +5082,7 @@ events:
     tags:
     - hardline
     - authoritarian
+    - extreme
     requires: 'true'
     effects:
     - op: add_modifier
@@ -5032,6 +5117,9 @@ events:
     - op: add
       target: centralization
       value: 3.0
+    - op: add
+      target: rule_of_law
+      value: -3.0
   perspectives:
   - group: group_1
     label: 夏里特
@@ -5098,6 +5186,9 @@ events:
     - op: add
       target: political_capital
       value: -10.0
+    - op: add
+      target: readiness
+      value: 2.0
   - id: C
     title: 留任，但把国防部交给自己的门生，
     label: 留任，但把国防部交给自己的门生，另任国防部长
@@ -5123,7 +5214,7 @@ events:
 - id: E-1953-06a
   kind: fixed
   type: anchor
-  form: choice
+  form: predecision
   major: true
   minor: false
   repeatable: false
@@ -5152,6 +5243,13 @@ events:
     - economic
     requires: 'true'
     effects:
+    - op: event_multiplier
+      event: E-1954-01
+      value: 1.0
+      display: hidden
+    - op: add
+      target: rule_of_law
+      value: -1.0
     - op: add
       target: political_capital
       value: 3.0
@@ -5159,6 +5257,7 @@ events:
       target: relation
       value: 5.0
       key: lavon
+    risk_hint: 高
   - id: B
     title: 建立审批制度：激活潜伏网络必须经
     label: 建立审批制度：激活潜伏网络必须经总理书面批准
@@ -5167,6 +5266,10 @@ events:
     - economic
     requires: 'true'
     effects:
+    - op: event_multiplier
+      event: E-1954-01
+      value: 0.3
+      display: hidden
     - op: add
       target: political_capital
       value: -15.0
@@ -5184,6 +5287,7 @@ events:
     - op: add
       target: vision_progress
       value: 3.0
+    risk_hint: 中
   - id: C
     title: 解散在埃及的潜伏网络，安排成员撤
     label: 解散在埃及的潜伏网络，安排成员撤离
@@ -5192,6 +5296,10 @@ events:
     - restraint
     requires: 'true'
     effects:
+    - op: event_multiplier
+      event: E-1954-01
+      value: 0.05
+      display: hidden
     - op: add
       target: political_capital
       value: -5.0
@@ -5206,6 +5314,7 @@ events:
       target: power_relation
       value: 2.0
       key: diaspora
+    risk_hint: 低
   perspectives:
   - group: cabinet
     label: 内阁成员
@@ -5231,10 +5340,9 @@ events:
     window:
       from: '1948-05-14'
       to: '1955-12-31'
-    prerequisites: has_modifier("diarchy_sde_boker") and event_done("E-1953-06a")
-      and relation[defense_minister] < 0
-    condition: regime_hostility[egypt] >= 60 and relation[chief_of_staff] <= 20 and
-      rule_of_law < 60
+    prerequisites: has_modifier("diarchy_sde_boker") and event_done("E-1953-06a") and relation[defense_minister]
+      < 0
+    condition: regime_hostility[egypt] >= 60 and relation[chief_of_staff] <= 20 and rule_of_law < 60
     probability:
       period: month
       base: 0.1
@@ -5840,8 +5948,8 @@ events:
       from: '1948-05-14'
       to: '1955-12-31'
     prerequisites: character_in_office("nasser")
-    condition: flag("gaza_raid_1955") and regime_hostility[egypt] > 70 and power_relation[ussr]
-      < 40 and deterrence >= 30
+    condition: flag("gaza_raid_1955") and regime_hostility[egypt] > 70 and power_relation[ussr] < 40 and
+      deterrence >= 30
     probability:
       period: month
       base: 0.1
@@ -6362,6 +6470,13 @@ events:
       target: bloc_support
       value: -3.0
       key: labor_ashkenazi
+    - op: add
+      target: budget_balance
+      value: 0.4
+    - op: add
+      target: bloc_support
+      key: liberal_middle
+      value: 2.0
 - id: E-G01-05
   kind: fixed
   type: structure

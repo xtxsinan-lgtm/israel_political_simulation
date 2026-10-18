@@ -49,6 +49,9 @@ events:
       target: relation
       value: 5.0
       key: allon
+    - op: add
+      target: rule_of_law
+      value: -2.0
     risk_hint: 高
   - id: B
     title: 任何拆除都必须经内阁批准，并先安
@@ -69,6 +72,9 @@ events:
       target: bloc_support
       value: -2.0
       key: religious_zionist
+    - op: add
+      target: rule_of_law
+      value: 2.0
     risk_hint: 中
   - id: C
     title: 战时禁止一切拆除，哭墙前的空间留
@@ -94,6 +100,12 @@ events:
       target: relation
       value: -8.0
       key: allon
+    - op: add
+      target: rule_of_law
+      value: 3.0
+    - op: add
+      target: intl_legitimacy
+      value: 2.0
     risk_hint: 低
   perspectives:
   - group: cabinet
@@ -122,8 +134,8 @@ events:
       from: '1967-06-11'
       to: '1977-06-19'
     prerequisites: flag("east_jerusalem_occupied") and event_done("E-1967-01a")
-    condition: bloc_support[religious_zionist] >= 30 and religious_status_quo >= -10
-      and rule_of_law <= 70
+    condition: bloc_support[religious_zionist] >= 30 and religious_status_quo >= -10 and rule_of_law <=
+      70
     probability:
       period: day
       base: 0.3
@@ -219,6 +231,10 @@ events:
     - op: add
       target: intl_legitimacy
       value: -1.0
+    - op: add
+      target: bloc_support
+      key: religious_zionist
+      value: 2.0
   - id: B
     title: 公开承认程序违法，全面安置并赔偿
     label: 公开承认程序违法，全面安置并赔偿
@@ -270,6 +286,9 @@ events:
     - op: add
       target: pal_hostility
       value: 4.0
+    - op: add
+      target: political_capital
+      value: 3.0
   perspectives:
   - group: cabinet
     label: 内阁成员
@@ -296,8 +315,7 @@ events:
       from: '1967-06-11'
       to: '1977-06-19'
     prerequisites: flag("east_jerusalem_occupied") and flag("temple_mount_status_quo")
-    condition: popular_hostility[jordan] >= 40 and bloc_support[religious_zionist]
-      >= 30
+    condition: popular_hostility[jordan] >= 40 and bloc_support[religious_zionist] >= 30
     probability:
       period: week
       base: 0.5
@@ -653,6 +671,9 @@ events:
       target: ally_satisfaction
       value: -6.0
       key: gahal
+    - op: add
+      target: us_admin_relation
+      value: 2.0
   - id: C
     title: 维持军事管制，不吞并
     label: 维持军事管制，不吞并
@@ -1108,8 +1129,8 @@ events:
       from: '1967-06-11'
       to: '1977-06-19'
     prerequisites: flag("west_bank_occupied") and flag("plo_relocated_to_lebanon")
-    condition: faction_strength[fatah] >= 20 and region_security[west_bank] < 50 and
-      public_security < 60
+    condition: faction_strength[fatah] >= 20 and region_security[west_bank] < 50 and public_security <
+      60
     probability:
       period: month
       base: 0.15
@@ -1582,6 +1603,12 @@ events:
     - op: add
       target: rule_of_law
       value: -2.0
+    - op: add
+      target: readiness
+      value: 2.0
+    - op: add
+      target: political_capital
+      value: 3.0
   - id: B
     title: 重大问题回到正式内阁与议会外交国
     label: 重大问题回到正式内阁与议会外交国防委员会讨论
@@ -1831,6 +1858,12 @@ events:
       target: ally_satisfaction
       value: -6.0
       key: gahal
+    - op: add
+      target: us_admin_relation
+      value: 3.0
+    - op: add
+      target: readiness
+      value: 1.0
   - id: C
     title: 请美国斡旋，寻求停火
     label: 请美国斡旋，寻求停火
@@ -2127,8 +2160,7 @@ events:
       from: '1967-06-11'
       to: '1977-06-19'
     prerequisites: flag("un_resolution_242_framework") and has_modifier("war_of_attrition_mod")
-    condition: flag("soviet_forces_in_egypt") and us_admin_relation >= 40 and public_security
-      < 50
+    condition: flag("soviet_forces_in_egypt") and us_admin_relation >= 40 and public_security < 50
     probability:
       period: month
       base: 0.25
@@ -2701,8 +2733,8 @@ events:
       from: '1967-06-11'
       to: '1977-06-19'
     prerequisites: 'true'
-    condition: has_modifier("soviet_refusenik_movement") and alienation[mizrahi] >=
-      40 and alienation[mizrahi] >= 30
+    condition: has_modifier("soviet_refusenik_movement") and alienation[mizrahi] >= 40 and alienation[mizrahi]
+      >= 30
     probability:
       period: month
       base: 0.1
@@ -2745,6 +2777,9 @@ events:
       target: bloc_support
       value: -2.0
       key: liberal_middle
+    - op: add
+      target: public_security
+      value: 2.0
   - id: B
     title: 接见领袖，设立贫困青少年委员会，
     label: 接见领袖，设立贫困青少年委员会，增加社会预算
@@ -2863,6 +2898,14 @@ events:
       target: bloc_support
       value: -3.0
       key: liberal_middle
+    - op: add
+      target: region_security
+      key: galilee
+      value: 2.0
+    - op: add
+      target: relation
+      key: dayan
+      value: 4.0
   - id: B
     title: 允许村民回到原址重建
     label: 允许村民回到原址重建
@@ -3207,6 +3250,9 @@ events:
     - op: add
       target: public_security
       value: 2.0
+    - op: add
+      target: intl_legitimacy
+      value: -1.0
     risk_hint: 高
   - id: B
     title: 开火必须由总参谋长或国防部长亲自
@@ -3226,6 +3272,9 @@ events:
       target: relation
       value: -4.0
       key: chief_of_staff
+    - op: add
+      target: rule_of_law
+      value: 1.0
     risk_hint: 中
   - id: C
     title: 只允许拦截迫降，不得击落民航机
@@ -3248,6 +3297,9 @@ events:
       target: ally_satisfaction
       value: -3.0
       key: gahal
+    - op: add
+      target: intl_legitimacy
+      value: 2.0
     risk_hint: 低
   notes: 玩家只能看到风险提示。选项决定 E-1973-01b 的触发概率乘数。
 - id: E-1973-01b
@@ -3344,6 +3396,12 @@ events:
       target: power_relation
       value: -2.0
       key: france
+    - op: add
+      target: deterrence
+      value: 1.0
+    - op: add
+      target: party_standing
+      value: 2.0
   - id: B
     title: 坚称客机拒不服从指令，责任在利方
     label: 坚称客机拒不服从指令，责任在利方
@@ -3489,6 +3547,10 @@ events:
       target: relation
       value: -3.0
       key: zamir
+    - op: add
+      target: relation
+      key: mossad_chief
+      value: 4.0
   - id: B
     title: 暂停行动，秘密向遇难者家属赔偿
     label: 暂停行动，秘密向遇难者家属赔偿
@@ -3510,6 +3572,9 @@ events:
       target: relation
       value: -5.0
       key: zamir
+    - op: add
+      target: intl_legitimacy
+      value: 2.0
   - id: C
     title: 继续行动，加大保密力度
     label: 继续行动，加大保密力度
@@ -3530,6 +3595,9 @@ events:
     - op: add
       target: intl_legitimacy
       value: -8.0
+    - op: add
+      target: deterrence
+      value: 3.0
   perspectives:
   - group: cabinet
     label: 内阁成员
@@ -3687,8 +3755,7 @@ events:
       from: '1967-06-11'
       to: '1977-06-19'
     prerequisites: has_modifier("sadat_patience_countdown") and has_modifier("conception_egypt_cannot_war")
-    condition: complacency >= 60 and war_probability[egypt] >= 40 and war_probability[syria]
-      >= 40
+    condition: complacency >= 60 and war_probability[egypt] >= 40 and war_probability[syria] >= 40
     probability:
       period: month
       base: 0.5
@@ -3710,6 +3777,12 @@ events:
     - op: add
       target: complacency
       value: 5.0
+    - op: add
+      target: budget_balance
+      value: 0.5
+    - op: add
+      target: us_admin_relation
+      value: 2.0
   - id: B
     title: 北线增兵，局部动员
     label: 北线增兵，局部动员
@@ -3848,6 +3921,16 @@ events:
     - op: add
       target: readiness
       value: 2.0
+    - op: add
+      target: public_security
+      value: -8.0
+    - op: add
+      target: deterrence
+      value: -5.0
+    - op: add
+      target: relation
+      key: elazar
+      value: -10.0
   perspectives:
   - group: group_1
     label: 梅厄
@@ -3874,8 +3957,8 @@ events:
       from: '1967-06-11'
       to: '1977-06-19'
     prerequisites: flag("suez_interim_agreement") and character_in_office("sadat")
-    condition: flag("sadat_initiative_rejected_1971") and regime_hostility[egypt]
-      >= 70 and regime_hostility[syria] >= 70 and complacency >= 50
+    condition: flag("sadat_initiative_rejected_1971") and regime_hostility[egypt] >= 70 and regime_hostility[syria]
+      >= 70 and complacency >= 50
     probability:
       period: month
       base: 0.2
@@ -4001,6 +4084,12 @@ events:
     - op: add
       target: centralization
       value: 3.0
+    - op: add
+      target: deterrence
+      value: 5.0
+    - op: add
+      target: us_admin_relation
+      value: 2.0
   - id: C
     title: 接受原地停火，埃军保留运河东岸
     label: 接受原地停火，埃军保留运河东岸
@@ -4140,6 +4229,9 @@ events:
     - op: add
       target: vision_progress
       value: -3.0
+    - op: add
+      target: political_capital
+      value: 4.0
   perspectives:
   - group: cabinet
     label: 内阁成员
@@ -4172,10 +4264,8 @@ events:
       period: day
       base: 0.5
     invalidation: 'false'
-  background: 10月22日安理会通过338号决议要求停火。停火后战斗仍在继续，以军包围了埃及第三军。苏联威胁单方面出兵，美国把全球战备提升至三级（DEFCON
-    3）。在基辛格压力下，以色列允许向第三军运送补给。10月28日，以埃军官在“101公里处”举行了1949年以来的首次直接军事会谈。
-  narrative: 10月22日安理会通过338号决议要求停火。停火后战斗仍在继续，以军包围了埃及第三军。苏联威胁单方面出兵，美国把全球战备提升至三级（DEFCON
-    3）。在基辛格压力下，以色列允许向第三军运送补给。10月28日，以埃军官在“101公里处”举行了1949年以来的首次直接军事会谈。
+  background: 10月22日安理会通过338号决议要求停火。停火后战斗仍在继续，以军包围了埃及第三军。苏联威胁单方面出兵，美国把全球战备提升至三级（DEFCON 3）。在基辛格压力下，以色列允许向第三军运送补给。10月28日，以埃军官在“101公里处”举行了1949年以来的首次直接军事会谈。
+  narrative: 10月22日安理会通过338号决议要求停火。停火后战斗仍在继续，以军包围了埃及第三军。苏联威胁单方面出兵，美国把全球战备提升至三级（DEFCON 3）。在基辛格压力下，以色列允许向第三军运送补给。10月28日，以埃军官在“101公里处”举行了1949年以来的首次直接军事会谈。
   summary: 10月22日安理会通过338号决议要求停火。
   options:
   - id: A
@@ -4290,10 +4380,9 @@ events:
     window:
       from: '1967-06-11'
       to: '1977-06-19'
-    prerequisites: flag("yom_kippur_war_started") and flag("territorial_concession_talks")
-      and flag("gush_emunim_bloc")
-    condition: settler_momentum >= 15 and bloc_support[religious_zionist] >= 40 and
-      ally_satisfaction[nrp] <= 60
+    prerequisites: flag("yom_kippur_war_started") and flag("territorial_concession_talks") and flag("gush_emunim_bloc")
+    condition: settler_momentum >= 15 and bloc_support[religious_zionist] >= 40 and ally_satisfaction[nrp]
+      <= 60
     probability:
       period: month
       base: 0.2
@@ -4462,8 +4551,8 @@ events:
       from: '1967-06-11'
       to: '1977-06-19'
     prerequisites: character_in_office("meir")
-    condition: flag("agranat_exonerated_cabinet") and has_modifier("cover_up_vulnerability")
-      and party_standing < 40 and bloc_support[liberal_middle] < 35
+    condition: flag("agranat_exonerated_cabinet") and has_modifier("cover_up_vulnerability") and party_standing
+      < 40 and bloc_support[liberal_middle] < 35
     probability:
       period: month
       base: 0.5
@@ -4556,6 +4645,12 @@ events:
     - op: add
       target: party_standing
       value: -6.0
+    - op: add
+      target: public_security
+      value: 2.0
+    - op: add
+      target: intl_legitimacy
+      value: 2.0
   - id: C
     title: 拖延谈判，争取更多准备时间后再救
     label: 拖延谈判，争取更多准备时间后再救援
@@ -5001,6 +5096,10 @@ events:
       target: bloc_support
       value: 2.0
       key: religious_zionist
+    - op: add
+      target: land_grievance
+      key: arab
+      value: 3.0
     risk_hint: 高
   - id: B
     title: 缩小征地范围，事先与阿拉伯市镇协
@@ -5151,6 +5250,7 @@ events:
     historical: true
     tags:
     - restraint
+    - extreme
     requires: 'true'
     effects:
     - op: add
@@ -5175,6 +5275,10 @@ events:
     - op: add
       target: intl_legitimacy
       value: -2.0
+    - op: add
+      target: region_development
+      key: galilee
+      value: 2.0
   - id: B
     title: 设立调查委员会，暂缓部分征地
     label: 设立调查委员会，暂缓部分征地
@@ -5358,6 +5462,9 @@ events:
       target: bloc_support
       value: -10.0
       key: liberal_middle
+    - op: add
+      target: political_capital
+      value: 4.0
   - id: C
     title: 撤回提名，但私下施压，把调查拖到
     label: 撤回提名，但私下施压，把调查拖到选举之后
@@ -5380,6 +5487,9 @@ events:
       target: bloc_support
       value: -8.0
       key: liberal_middle
+    - op: add
+      target: political_capital
+      value: 2.0
   notes: 亚德林的在世情况需核实。
 - id: E-1976-04
   kind: fixed
@@ -5553,6 +5663,10 @@ events:
     - op: add
       target: party_standing
       value: -10.0
+    - op: add
+      target: relation
+      key: rabin
+      value: 5.0
   - id: C
     title: 向检察总长施压，要求不予起诉
     label: 向检察总长施压，要求不予起诉
@@ -5574,6 +5688,10 @@ events:
     - op: add
       target: party_standing
       value: -20.0
+    - op: add
+      target: relation
+      key: rabin
+      value: 10.0
   notes: 涉及马加利特【在世人物】、检察总长阿哈龙·巴拉克【在世人物】。C 是集权方向的选项，泄露后的代价远超“保住候选人”的收益。
 - id: E-1977-02
   kind: fixed
@@ -5591,8 +5709,8 @@ events:
       from: '1967-06-11'
       to: '1977-06-19'
     prerequisites: 'true'
-    condition: flag("labor_corruption_exposed") and has_modifier("labor_corruption_atmosphere")
-      and historical_grievance[mizrahi] >= 60
+    condition: flag("labor_corruption_exposed") and has_modifier("labor_corruption_atmosphere") and historical_grievance[mizrahi]
+      >= 60
     probability:
       period: immediate
     invalidation: 'false'
@@ -5712,6 +5830,12 @@ events:
     - op: add
       target: settler_momentum
       value: 2.0
+    - op: add
+      target: rule_of_law
+      value: -2.0
+    - op: add
+      target: us_admin_relation
+      value: -2.0
 - id: E-G03-02
   kind: fixed
   type: structure
@@ -6157,6 +6281,13 @@ events:
       target: power_relation
       value: 2.0
       key: diaspora
+    - op: add
+      target: ally_satisfaction
+      key: agudat
+      value: -4.0
+    - op: add
+      target: political_capital
+      value: -3.0
   - id: B
     title: 启动秘密移民行动
     label: 启动秘密移民行动
