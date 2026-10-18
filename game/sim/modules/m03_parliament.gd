@@ -105,7 +105,7 @@ func compute_party_vote_shares(state: SimState) -> Dictionary:
 func weekly_step(step_no: int, state: SimState, ctx: Dictionary) -> Array[Dictionary]:
 	if step_no != 7:
 		return []
-	var effects: Array[Dictionary] = []
+	var effects: Array[Dictionary] = open_campaign_if_due(state)
 	if SimCalendar.is_first_sunday_of_month(state.clock.weekday, state.clock.d):
 		effects.append_array(_step_7a(state))
 	effects.append_array(_step_7b(state))
@@ -246,6 +246,14 @@ func _resolve_due_bills(state: SimState, ctx: Dictionary) -> Array[Dictionary]:
 
 func _resolve_scheduled_bill(bill: Dictionary, state: SimState, _rng: SimRNG.Stream) -> Array[Dictionary]:
 	var vote: String = String(bill.get("vote", "simple"))
+	if bill.has("votes_for_override"):
+		var forced: int = int(bill["votes_for_override"])
+		var forced_pass: bool = _vote_passes(vote, forced, KNESSET_SEATS - forced)
+		if forced_pass and (vote == "absolute80" or vote == "entrenched80"):
+			var m03_force: Dictionary = _m03(state)
+			m03_force["months_to_election"] = int(m03_force.get("months_to_election", 0)) + int(bill.get("extend_months", 6))
+			state.modules["M03"] = m03_force
+		return [{"op": "custom", "key": "m05_bill_result", "value": {"bill_uid": String(bill.get("uid", "")), "passed": forced_pass, "votes_for": forced}}]
 	var votes_for: int = 0
 	var votes_against: int = 0
 	var coalition: Array = _as_array(_m03(state).get("coalition_parties", []))
@@ -413,7 +421,69 @@ func _move_seats(state: SimState, from_party: String, to_party: String, seats: i
 
 
 func _dissolve(state: SimState, party_id: String) -> Array[Dictionary]:
-	return _move_seats(state, party_id, String(state.player.get("party_id", "likud")), 999)
+	var m03: Dictionary = _m03(state)
+	var archived: Array = _as_array(m03.get("archived_parties", []))
+	archived.append(party_id)
+	m03["archived_parties"] = archived
+	state.modules["M03"] = m03
+	var moved: Array[Dictionary] = _move_seats(state, party_id, String(state.player.get("party_id", "likud")), 999)
+	state.params.deactivate_key("knesset_seats", party_id)
+	state.params.deactivate_key("ally_satisfaction", party_id)
+	return moved
+
+
+func open_campaign_if_due(state: SimState) -> Array[Dictionary]:
+	var days: int = int(_m03(state).get("days_to_election", 9999))
+	if days != 90:
+		return []
+	state.flags["campaign_period_active"] = {"value": 1.0, "set_day": state.clock.day_index}
+	return [{"op": "custom", "key": "m04_open_campaign_pool", "value": {}}]
+
+
+func note_reelection(state: SimState) -> void:
+	var m03: Dictionary = _m03(state)
+	var bonus: float = float(m03.get("seat_expectation_bonus", 0.0)) + 4.0
+	m03["seat_expectation_bonus"] = bonus
+	state.modules["M03"] = m03
+
+
+func score_offer(state: SimState, args: Dictionary) -> float:
+	var offer_type: String = String(args.get("offer_type", "portfolio"))
+	var score: float = 0.0
+	if offer_type == "portfolio":
+		score += clampf(float(args.get("weight", 12.0)), 8.0, 22.0)
+	elif offer_type == "policy_clause":
+		score += 10.0
+	elif offer_type == "budget_guarantee":
+		score += 8.0
+	var ideological_dist: float = 0.0
+	var axes: Array[String] = SimTypes.STANCE_AXES
+	for i: int in range(axes.size()):
+		var d: float = float(state.gov_axis_position.get(axes[i], 0.0)) - float(args.get(axes[i], 0.0))
+		ideological_dist += d * d
+	ideological_dist = sqrt(ideological_dist)
+	score -= ideological_dist * 0.05
+	if bool(args.get("red_line", false)):
+		return -999.0
+	return score
+
+
+func enter_caretaker(state: SimState) -> void:
+	var m03: Dictionary = _m03(state)
+	m03["caretaker"] = true
+	m03["caretaker_govt"] = true
+	state.modules["M03"] = m03
+	state.modifiers.add_modifier("caretaker_government", {"factors": [{"key": "pc_cost", "mode": "mult", "value": 1.30}], "duration_days": 120}, "M03", state)
+
+
+func _vote_passes(vote: String, votes_for: int, votes_against: int) -> bool:
+	match vote:
+		"absolute61", "confidence", "budget":
+			return votes_for >= 61
+		"absolute80", "entrenched80":
+			return votes_for >= 80
+		_:
+			return votes_for > votes_against
 
 
 func _assign_role(state: SimState, args: Dictionary) -> Array[Dictionary]:

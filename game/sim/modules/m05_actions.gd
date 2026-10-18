@@ -122,6 +122,11 @@ func handle_custom_op(op_name: String, state: SimState, args: Dictionary, _ctx: 
 		"m05_cancel_action":
 			return _cancel(state, String(args.get("action", "")))
 		"m05_unlock":
+			var unlocked: Dictionary = _as_dict(_m05(state).get("unlocked_actions", {}))
+			unlocked[String(args.get("action_id", args.get("id", "")))] = true
+			var m05u: Dictionary = _m05(state)
+			m05u["unlocked_actions"] = unlocked
+			state.modules["M05"] = m05u
 			state.flags["unlock." + String(args.get("id", ""))] = {"value": 1.0, "set_day": state.clock.day_index}
 			return []
 		"m05_bill_result":
@@ -143,6 +148,56 @@ func handle_custom_op(op_name: String, state: SimState, args: Dictionary, _ctx: 
 		_:
 			return []
 	return []
+
+
+func get_available_actions(state: SimState, expr: ExprEngine) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	if GameData.current == null:
+		return out
+	expr.bind(state)
+	var ids: Array[String] = SimMath.sorted_keys(GameData.current.actions_def)
+	var m05: Dictionary = _m05(state)
+	var unlocked: Dictionary = _as_dict(m05.get("unlocked_actions", {}))
+	var running: Dictionary = {}
+	var active: Array = _as_array(m05.get("active_actions", []))
+	for i: int in range(active.size()):
+		running[String(_as_dict(active[i]).get("id", ""))] = true
+	for i: int in range(ids.size()):
+		var action_def: Dictionary = _as_dict(GameData.current.actions_def[ids[i]])
+		if running.has(ids[i]):
+			continue
+		var cool: int = int(_as_dict(m05.get("action_cooldowns", {})).get(ids[i], -1))
+		if cool > state.clock.day_index:
+			continue
+		if action_def.has("unlock_ast") and not expr.eval_bool(action_def["unlock_ast"], {}):
+			continue
+		if bool(action_def.get("locked", false)) and not bool(unlocked.get(ids[i], false)):
+			continue
+		out.append(action_def)
+	return out
+
+
+func compute_action_success_interval(state: SimState, action_def: Dictionary, _expr: ExprEngine) -> Dictionary:
+	var capability: float = float(action_def.get("capability", 50.0))
+	var intel: float = state.params.get_val("intel_accuracy", "", state)
+	var mid: float = clampf(0.35 + capability / 200.0 + intel / 400.0, 0.05, 0.95)
+	return {"p_lo": SimMath.quantize(maxf(0.0, mid - 0.08)), "p_hi": SimMath.quantize(minf(1.0, mid + 0.08))}
+
+
+func sync_derived_policy_params(state: SimState) -> void:
+	var exemption: float = state.params.get_val("policy_level", "haredi_exemption", state) * 12.0
+	state.params.set_val("exemption_coverage", "", exemption, state)
+	var enforcement: float = state.params.get_val("policy_level", "outpost_law", state) * 10.0
+	state.params.set_val("outpost_enforcement", "", enforcement, state)
+
+
+func _note_pc(state: SimState, income: float, spent: float) -> void:
+	var m05: Dictionary = _m05(state)
+	var ledger: Dictionary = _as_dict(m05.get("pc_ledger", {}))
+	ledger["income"] = float(ledger.get("income", 0.0)) + income
+	ledger["spent"] = float(ledger.get("spent", 0.0)) + spent
+	m05["pc_ledger"] = ledger
+	state.modules["M05"] = m05
 
 
 func minister_proposal_cost(base_cost: int) -> int:
@@ -240,11 +295,20 @@ func _cancel(state: SimState, action_id: String) -> Array[Dictionary]:
 	var m05: Dictionary = _m05(state)
 	var running: Array = _as_array(m05.get("active_actions", []))
 	var still: Array = []
+	var refund: float = 0.0
 	for i: int in range(running.size()):
-		if String(_as_dict(running[i]).get("id", "")) != action_id:
+		var action: Dictionary = _as_dict(running[i])
+		if String(action.get("id", "")) == action_id:
+			var total_days: float = maxf(1.0, float(action.get("total_days", action.get("remaining_days", 1))))
+			var left: float = float(action.get("remaining_days", 0))
+			refund += float(action.get("pc_cost", 0.0)) * 0.5 * left / total_days
+		else:
 			still.append(running[i])
 	m05["active_actions"] = still
 	state.modules["M05"] = m05
+	if refund > 0.0:
+		state.params.set_val("political_capital", "", state.params.get_val("political_capital", "", state) + refund, state)
+		_note_pc(state, refund, 0.0)
 	return []
 
 

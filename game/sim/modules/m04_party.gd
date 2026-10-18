@@ -104,6 +104,8 @@ func monthly_step(step_no: int, state: SimState, _ctx: Dictionary) -> Array[Dict
 		state.params.set_val("stance_deviation", axes[i], dev, state)
 	_tick_promises(state, m04)
 	_tick_vision(state, m04)
+	var cohesion: float = 100.0 - absf(state.params.get_val("faction_mood", "likud_liberal", state) - state.params.get_val("faction_mood", "likud_herut", state))
+	state.params.set_val("party_cohesion", "", clampf(cohesion, 0.0, 100.0), state)
 	var stage: int = 0
 	var standing: float = state.params.get_val("party_standing", "", state)
 	if standing < 20.0:
@@ -134,8 +136,10 @@ func handle_custom_op(op_name: String, state: SimState, args: Dictionary, _ctx: 
 			m04["promises"] = _as_array(args.get("promises", []))
 			state.modules["M04"] = m04
 			return []
-		"m04_party_convention", "m04_faction_deal":
-			state.params.set_val("party_standing", "", state.params.get_val("party_standing", "", state) + float(args.get("value", 2.0)), state)
+		"m04_party_convention":
+			return _convention(state, args)
+		"m04_faction_deal":
+			state.params.set_val("faction_mood", String(args.get("faction", "")), state.params.get_val("faction_mood", String(args.get("faction", "")), state) + float(args.get("value", 8.0)), state)
 			return []
 		"m04_faction_exit", "m04_party_split":
 			return [{"op": "custom", "key": "m03_split_party", "value": args}]
@@ -275,13 +279,48 @@ func _tick_vision(state: SimState, m04: Dictionary) -> void:
 		state.params.set_val("vision_progress", "", clampf(float(count) * 33.4, 0.0, 100.0), state)
 
 
+func explain_m04(state: SimState, param_id: String, key: String) -> Dictionary:
+	return {
+		"param_id": param_id,
+		"key": key,
+		"promise": state.params.get_val("promise_progress", key, state),
+		"corridor": stance_deviation(state, key if key != "" else "territory"),
+		"vision": state.params.get_val("vision_progress", "", state),
+	}
+
+
+func _convention(state: SimState, args: Dictionary) -> Array[Dictionary]:
+	var amount: float = clampf(float(args.get("amount", 0.0)), -15.0, 15.0)
+	var axis: String = String(args.get("axis", "territory"))
+	_push_corridor(state, axis, amount, amount)
+	var faction: String = String(args.get("opposed_faction", ""))
+	if faction != "":
+		state.params.set_val("faction_mood", faction, state.params.get_val("faction_mood", faction, state) - absf(amount), state)
+	return []
+
+
 func _finalize(state: SimState) -> Array[Dictionary]:
-	var m04: Dictionary = _m04(state)
-	var promises: Array = _as_array(m04.get("promises", []))
+	var promises: Array = _as_array(_m04(state).get("promises", []))
+	var done: int = 0
+	var total: int = 0
 	for i: int in range(promises.size()):
 		var row: Dictionary = _as_dict(promises[i])
-		row["active"] = false
-		promises[i] = row
+		total += 1
+		if float(row.get("progress", state.params.get_val("promise_progress", String(row.get("id", "")), state))) >= 100.0:
+			done += 1
+	if total > 0:
+		var ratio: float = float(done) / float(total)
+		if ratio >= 0.75:
+			state.params.set_val("promise_credit", "", state.params.get_val("promise_credit", "", state) + 12.0, state)
+			state.params.set_val("cynicism", "", state.params.get_val("cynicism", "", state) - 6.0, state)
+		elif ratio < 0.40:
+			state.params.set_val("promise_credit", "", state.params.get_val("promise_credit", "", state) - 15.0, state)
+			state.params.set_val("cynicism", "", state.params.get_val("cynicism", "", state) + 10.0, state)
+	var m04: Dictionary = _m04(state)
+	for j: int in range(promises.size()):
+		var done_row: Dictionary = _as_dict(promises[j])
+		done_row["active"] = false
+		promises[j] = done_row
 	m04["promises"] = promises
 	state.modules["M04"] = m04
 	return []

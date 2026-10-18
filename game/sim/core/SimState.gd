@@ -352,7 +352,8 @@ func _load_flags(raw: Variant) -> void:
 
 
 func _load_modifiers(raw: Variant) -> void:
-	active_modifiers = []
+	active_modifiers.clear()
+	modifiers.active = active_modifiers
 	if typeof(raw) != TYPE_ARRAY:
 		return
 	var items: Array = raw

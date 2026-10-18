@@ -42,10 +42,11 @@ func weekly_step(step_no: int, state: SimState, _ctx: Dictionary) -> Array[Dicti
 	if step_no != 6:
 		return []
 	recompute_appointment_gap(state)
-	var rng: SimRNG.Stream = state.rng.get_stream("characters")
+	var rng: SimRNG.Stream = state.rng.get_stream("ai")
 	var proposal: Dictionary = {}
 	if rng.chance(0.15):
-		proposal = {"id": "minister_proposal", "is_minister_proposal": true, "pc_cost": 10, "days": 3}
+		var reason: Dictionary = {"actor_id": "weizman", "primary_param_id": "relation", "current_val": 40.0, "threshold_val": 35.0, "top_factors": ["portfolio"]}
+		proposal = {"id": "minister_proposal", "is_minister_proposal": true, "pc_cost": 10, "days": 3, "discount": 0.30, "free_slot": true, "kind": "MinisterProposal", "ai_reason_breakdown": reason}
 		var m05: Dictionary = _as_dict(state.modules.get("M05", {}))
 		var staged: Array = []
 		if typeof(m05.get("staged_actions", [])) == TYPE_ARRAY:
@@ -102,10 +103,9 @@ func handle_custom_op(op_name: String, state: SimState, args: Dictionary, _ctx: 
 			state.params.set_val("appointment_gap", String(args.get("group", "mizrahi")), state.params.get_val("appointment_gap", String(args.get("group", "mizrahi")), state) + float(args.get("value", 1.0)), state)
 			return []
 		"m06_pick_successor":
-			state.player["successor"] = String(args.get("character", ""))
-			return []
+			return _pick_successor(state, args)
 		"m06_rebase_relations":
-			return []
+			return _rebase(state, args)
 		"m06_health_check":
 			return annual_step(17, state, {})
 		"m06_kill_character":
@@ -141,7 +141,14 @@ func _kill(state: SimState, char_id: String) -> Array[Dictionary]:
 	var row: Dictionary = _as_dict(characters.get(char_id, {}))
 	row["alive"] = false
 	characters[char_id] = row
+	var archived: Array = []
+	if typeof(m06.get("archived_characters", [])) == TYPE_ARRAY:
+		archived = m06["archived_characters"]
+	archived.append(char_id)
+	m06["archived_characters"] = archived
 	m06["characters"] = characters
+	if char_id == String(state.player.get("leader_id", "")):
+		state.pending["tenure_end"] = {"reason": "death"}
 	var offices: Dictionary = _as_dict(m06.get("offices", {}))
 	var keys: Array[String] = SimMath.sorted_keys(offices)
 	for i: int in range(keys.size()):
@@ -149,6 +156,40 @@ func _kill(state: SimState, char_id: String) -> Array[Dictionary]:
 			offices[keys[i]] = ""
 	m06["offices"] = offices
 	state.modules["M06"] = m06
+	return []
+
+
+func _pick_successor(state: SimState, args: Dictionary) -> Array[Dictionary]:
+	var requested: String = String(args.get("character", ""))
+	if requested != "" and _living_blocked(state, requested):
+		state.record_error("E_LIVING_PERSON", requested)
+		requested = ""
+	if requested == "":
+		requested = "fictional_successor"
+		state.flags["m14_generate_fictional_leader"] = {"value": 1.0, "set_day": state.clock.day_index}
+	state.player["successor"] = requested
+	return _rebase(state, {"same_party": bool(args.get("same_party", true))})
+
+
+func _living_blocked(state: SimState, char_id: String) -> bool:
+	var row: Dictionary = _as_dict(_characters(state).get(char_id, {}))
+	var living: bool = bool(row.get("is_living_person", false))
+	var playable: bool = bool(row.get("playable_as_pm", false))
+	if GameData.current != null and GameData.current.characters_def.has(char_id):
+		var src: Dictionary = _as_dict(GameData.current.characters_def[char_id])
+		living = living or bool(src.get("is_living_person", false))
+		playable = playable or bool(src.get("playable_as_pm", false))
+	return living and not playable
+
+
+func _rebase(state: SimState, args: Dictionary) -> Array[Dictionary]:
+	var same_party: bool = bool(args.get("same_party", true))
+	state.params.set_val("political_capital", "", 40.0, state)
+	var standing: float = state.params.get_val("party_standing", "", state)
+	if same_party:
+		state.params.set_val("party_standing", "", maxf(30.0, standing - 5.0), state)
+	else:
+		state.params.set_val("party_standing", "", 60.0, state)
 	return []
 
 
@@ -168,6 +209,8 @@ func _characters(state: SimState) -> Dictionary:
 				"group": String(src.get("group", src.get("ethnic", "ashkenazi"))),
 				"faction": String(src.get("faction", "")),
 				"health": 80.0,
+				"is_living_person": bool(src.get("is_living_person", false)),
+				"playable_as_pm": bool(src.get("playable_as_pm", false)),
 			}
 		var m06: Dictionary = _m06(state)
 		m06["characters"] = current
