@@ -90,6 +90,11 @@
 | D-069 | 采纳 M09 附录A/B/C：将 M10 读取的 `security_index` 设为指向 M09 `public_security` 的只读属性别名（初值同为 `62.0`）；在 M12 表达式中注册 `front_phase(front_id)` 与 `casualties_total(front_id)`；在 M01 信号总线与 `AP04` 自动暂停触发器中登记 `minister_overreach` 信号。 |
 | D-070 | 批准 `M09.GRO.01`（`mobilization -> growth`）采用 M09 按动员档位非线性注入 `[0.0, -0.08, -0.25, -0.75]` 的 `term_provider` 实现。 |
 | D-071 | 批准 1991 海湾战争部署“爱国者”防空系统对 `under_missile_attack` 每周 `public_security` 惩罚减半（`-12.0 -> -6.0`）的细则。 |
+| D-072 | 采纳 M08 B-1/B-2：`entities.pal_factions` 扩充为 9 枚举（`fatah, pflp, jordan_notables, local_mayors, village_leagues, mujama, hamas, pij, pa_security`），并在 `ParameterStore` 内置 `notables -> jordan_notables`、`left_factions -> pflp`、`islamic_jihad -> pij`、`islamic_assoc_strength <-> faction_strength[mujama]`、`palestinian_hostility -> pal_hostility`、`intifada_risk -> uprising_risk` 兼容别名。 |
+| D-073 | 采纳 M08 附录A 的 4 个参数（`faction_moderation, faction_cohesion, collaborator_stigma, autonomy_progress`）及 B-3..B-5（含 `m08_spawn_hamas, m08_activate_delegation, m08_set_autonomy_modality, m08_start_intifada` 处理器）。 |
+| D-074 | M02 跨模块边 `X.SM.02`（`pal_living_standard -> uprising_risk`）系数定稿为 `coef: 0.12`。 |
+| D-075 | **巴方武装袭击联动**：M08 在步骤8通过效果队列追加 `public_security` / `deterrence` 的即时冲击（遵循 D-010 增量原则），同时发出 `sig.m08_armed_incident` 供 M09 更新报复窗口与军事统计。 |
+
 
 
 
