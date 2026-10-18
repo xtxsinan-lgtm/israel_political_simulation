@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://topbar1977"]
+
+[ext_resource type="Script" path="res://ui/controllers/TopBarController.gd" id="1_top"]
+
+[node name="TopBar" type="HBoxContainer"]
+offset_right = 1920.0
+offset_bottom = 52.0
+script = ExtResource("1_top")

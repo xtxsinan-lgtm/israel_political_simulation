@@ -15,8 +15,8 @@ config/features=PackedStringArray("4.6", "Forward Plus")
 
 DataRegistry="*res://autoload/DataRegistry.gd"
 SimEngine="*res://autoload/SimEngine.gd"
-EventBus="*res://autoload/EventBus.gd"
-UIManager="*res://autoload/UIManager.gd"
+EventBus="*res://ui/EventBus.gd"
+UIManager="*res://ui/UIManager.gd"
 AudioManager="*res://autoload/AudioManager.gd"
 
 [display]

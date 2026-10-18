@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://mappin1977"]
+
+[ext_resource type="Script" path="res://ui/map/MapSitePin.gd" id="1_pin"]
+
+[node name="MapSitePin" type="Node2D"]
+script = ExtResource("1_pin")

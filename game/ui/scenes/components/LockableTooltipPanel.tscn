@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://tooltip1977"]
+
+[ext_resource type="Script" path="res://ui/components/CausalTooltipManager.gd" id="1_tip"]
+
+[node name="CausalTooltipManager" type="Control"]
+offset_left = 980.0
+offset_top = 80.0
+offset_right = 1280.0
+offset_bottom = 280.0
+script = ExtResource("1_tip")

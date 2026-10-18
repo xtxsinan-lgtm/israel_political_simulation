@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://regioncard1977"]
+
+[ext_resource type="Script" path="res://ui/map/RegionInspectorCard.gd" id="1_card"]
+
+[node name="RegionInspectorCard" type="PanelContainer"]
+offset_left = 1180.0
+offset_top = 700.0
+offset_right = 1420.0
+offset_bottom = 980.0
+script = ExtResource("1_card")

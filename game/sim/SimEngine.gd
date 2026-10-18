@@ -34,6 +34,10 @@ func submit_command(cmd: Dictionary) -> Error:
 			var adjusted: Array[Dictionary] = scheduler.m05.adjust_policy_level(state, String(cmd.get("policy", "")), int(cmd.get("level", 0)), true)
 			if not adjusted.is_empty():
 				scheduler.processor.apply_effects(adjusted, ctx, state, 0)
+		"set_region_priority":
+			var region_id: String = String(cmd.get("region", ""))
+			var field: String = String(cmd.get("param", "region_investment_priority"))
+			state.params.set_val(field, region_id, float(cmd.get("value", 0.0)), state)
 		"enqueue_action":
 			var queue: Array = []
 			var m05: Variant = state.modules.get("M05", {})

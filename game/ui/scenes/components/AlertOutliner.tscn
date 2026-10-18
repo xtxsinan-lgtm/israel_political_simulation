@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://alertoutliner1977"]
+
+[ext_resource type="Script" path="res://ui/controllers/AlertOutlinerController.gd" id="1_alert"]
+
+[node name="AlertOutliner" type="VBoxContainer"]
+offset_left = 1680.0
+offset_top = 52.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+script = ExtResource("1_alert")

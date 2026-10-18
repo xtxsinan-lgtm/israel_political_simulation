@@ -1,0 +1,52 @@
+[gd_scene load_steps=9 format=3 uid="uid://deskmain1977"]
+
+[ext_resource type="Script" path="res://ui/controllers/DeskMainController.gd" id="1_desk"]
+[ext_resource type="PackedScene" path="res://ui/scenes/map/IsraelMapCanvas.tscn" id="2_map"]
+[ext_resource type="PackedScene" path="res://ui/scenes/map/RegionInspectorCard.tscn" id="3_card"]
+[ext_resource type="PackedScene" path="res://ui/scenes/components/DiegeticDeskPropsBar.tscn" id="4_props"]
+[ext_resource type="PackedScene" path="res://ui/scenes/components/TopBar.tscn" id="5_top"]
+[ext_resource type="PackedScene" path="res://ui/scenes/components/AlertOutliner.tscn" id="6_alert"]
+[ext_resource type="PackedScene" path="res://ui/scenes/components/LockableTooltipPanel.tscn" id="7_tip"]
+[ext_resource type="Theme" path="res://ui/theme/mahapach_1977_theme.tres" id="8_theme"]
+
+[node name="DeskMain" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource("8_theme")
+script = ExtResource("1_desk")
+
+[node name="MapDeskLayer" type="CanvasLayer" parent="."]
+layer = 0
+
+[node name="MapArea" parent="MapDeskLayer" instance=ExtResource("2_map")]
+offset_left = 240.0
+offset_top = 52.0
+offset_right = 1680.0
+offset_bottom = 994.0
+
+[node name="RegionInspectorCard" parent="MapDeskLayer" instance=ExtResource("3_card")]
+
+[node name="DiegeticDeskPropsBar" parent="MapDeskLayer" instance=ExtResource("4_props")]
+
+[node name="HUDLayer" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="TopBar" parent="HUDLayer" instance=ExtResource("5_top")]
+
+[node name="AlertOutliner" parent="HUDLayer" instance=ExtResource("6_alert")]
+
+[node name="DrawerLayer" type="CanvasLayer" parent="."]
+layer = 20
+
+[node name="LedgerCodexLayer" type="CanvasLayer" parent="."]
+layer = 30
+
+[node name="ModalLayer" type="CanvasLayer" parent="."]
+layer = 40
+
+[node name="TooltipTutorialLayer" type="CanvasLayer" parent="."]
+layer = 50
+
+[node name="CausalTooltipManager" parent="TooltipTutorialLayer" instance=ExtResource("7_tip")]

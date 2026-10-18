@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://deskprops1977"]
+
+[ext_resource type="Script" path="res://ui/controllers/DiegeticDeskPropsController.gd" id="1_props"]
+
+[node name="DiegeticDeskPropsBar" type="HBoxContainer"]
+offset_left = 240.0
+offset_top = 994.0
+offset_right = 1680.0
+offset_bottom = 1080.0
+script = ExtResource("1_props")

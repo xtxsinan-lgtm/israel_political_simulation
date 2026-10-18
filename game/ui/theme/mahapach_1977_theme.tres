@@ -1,0 +1,19 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://mahapach1977theme"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_paper"]
+bg_color = Color(0.956863, 0.937255, 0.901961, 1)
+border_color = Color(0.117647, 0.109804, 0.101961, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[resource]
+default_font_size = 14
+Label/colors/font_color = Color(0.117647, 0.109804, 0.101961, 1)
+Label/font_sizes/font_size = 14
+Button/colors/font_color = Color(0.117647, 0.109804, 0.101961, 1)
+Button/colors/font_hover_color = Color(0, 0.219608, 0.721569, 1)
+Button/colors/font_focus_color = Color(0.784314, 0.541176, 0.117647, 1)
+Button/font_sizes/font_size = 14
+Panel/styles/panel = SubResource("StyleBoxFlat_paper")

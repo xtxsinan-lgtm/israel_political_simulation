@@ -22,6 +22,7 @@ var world_tracks_def: Dictionary = {}
 var pal_factions_def: Dictionary = {}
 var regions_def: Dictionary = {}
 var sites_def: Dictionary = {}
+var sites_list: Array = []
 var plans_def: Dictionary = {}
 var events_def: Dictionary = {}
 var ui_config: Dictionary = {}
@@ -72,6 +73,8 @@ func load_all_runtime_data() -> Error:
 	var regions: Dictionary = _load_dict("res://res/data/regions.json")
 	regions_def = _as_dict(regions.get("regions", {}))
 	sites_def = _as_dict(regions.get("key_sites", {}))
+	var raw_sites: Variant = regions.get("key_sites", [])
+	sites_list = raw_sites if typeof(raw_sites) == TYPE_ARRAY else []
 	plans_def = _as_dict(regions.get("planning_overlays", {}))
 
 	var events: Dictionary = _load_dict("res://res/data/events.json")
