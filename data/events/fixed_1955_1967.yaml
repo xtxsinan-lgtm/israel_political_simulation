@@ -1,0 +1,6174 @@
+schema_version: 1
+era_file: 02_1955_1967
+total_events: 61
+events:
+- id: E-1955-11a
+  kind: fixed
+  type: anchor
+  form: passive
+  major: true
+  minor: false
+  repeatable: false
+  title: 捷克军火的阴影
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1955-09-30'
+    prerequisites: flag("world_west_refuses_arms_to_egypt") and character_in_office("nasser")
+    condition: regime_hostility[egypt] >= 45 and us_admin_relation < 60
+    probability:
+      period: month
+      base: 0.3
+      add:
+      - when: flag("gaza_raid_1955")
+        value: 0.2
+    invalidation: flag("world_west_arms_to_egypt") and flag("egypt_secret_peace_talks_succeeded")
+      and character_in_office("nasser")
+  background: 1955年9月，纳赛尔宣布从捷克斯洛伐克（实为苏联）购入大批米格战机、坦克和火炮，数量远超以色列全部装备。11月本-古里安重任总理时，总参谋部估计军力平衡将在一年内彻底倒向埃及。
+  narrative: 1955年9月，纳赛尔宣布从捷克斯洛伐克（实为苏联）购入大批米格战机、坦克和火炮，数量远超以色列全部装备。11月本-古里安重任总理时，总参谋部估计军力平衡将在一年内彻底倒向埃及。
+  summary: 1955年9月，纳赛尔宣布从捷克斯洛伐克（实为苏联）购入大批米格战机、坦克和。
+  passive_effects:
+  - op: add_modifier
+    modifier: military_imbalance_1955
+    duration_days: null
+  - op: add
+    target: regime_hostility
+    value: 5.0
+    key: egypt
+  - op: add
+    target: public_security
+    value: -8.0
+  - op: add
+    target: deterrence
+    value: -5.0
+  - op: add
+    target: power_relation
+    value: -5.0
+    key: ussr
+  - op: schedule_event
+    event: E-1956-06b
+    delay_days: 30
+  - op: schedule_event
+    event: E-1955-12
+    delay_days: 30
+  perspectives:
+  - group: group_1
+    label: 以色列国防部
+    text: 一扇正在关上的窗口，"要么现在，要么永不"。
+  - group: group_2
+    label: 开罗
+    text: 巴格达条约与西方禁运之后，终于有人愿意卖武器给我们。
+  - group: group_3
+    label: 莫斯科
+    text: 以最低的代价打开进入中东的大门。
+- id: E-1955-12
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 基内雷特行动
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: character_in_office("sharett") and event_done("E-1955-11a")
+    condition: region_security[galilee] < 50 and regime_hostility[syria] >= 40 and
+      promise_progress[cat_security] < 40
+    probability:
+      period: month
+      base: 0.35
+      add:
+      - when: relation[dayan] >= 30
+        value: 0.1
+    invalidation: promise_progress[cat_security] >= 60
+  background: 叙利亚哨所多次向湖上的以色列警艇和渔船开火。国防部提出夜袭湖东岸的叙利亚阵地。此时外交部长夏里特正在华盛顿请求美国出售武器。
+  narrative: 叙利亚哨所多次向湖上的以色列警艇和渔船开火。国防部提出夜袭湖东岸的叙利亚阵地。此时外交部长夏里特正在华盛顿请求美国出售武器。
+  summary: 叙利亚哨所多次向湖上的以色列警艇和渔船开火。
+  options:
+  - id: A
+    title: 批准大规模夜袭
+    label: 批准大规模夜袭
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: sharett_alienated
+    - op: add
+      target: deterrence
+      value: 6.0
+    - op: add
+      target: regime_hostility
+      value: 6.0
+      key: syria
+    - op: add
+      target: popular_hostility
+      value: 5.0
+      key: syria
+    - op: add
+      target: intl_legitimacy
+      value: -6.0
+    - op: add
+      target: us_admin_relation
+      value: -8.0
+    - op: add
+      target: relation
+      value: -20.0
+      key: sharett
+    - op: add
+      target: relation
+      value: 10.0
+      key: dayan
+    - op: add
+      target: promise_progress
+      value: 5.0
+      key: cat_security
+    - op: add
+      target: promise_progress
+      value: -5.0
+      key: cat_security
+  - id: B
+    title: 推迟到夏里特返国之后
+    label: 推迟到夏里特返国之后
+    historical: false
+    tags:
+    - peace
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: security
+      value: 3.0
+      direction: away
+    - op: add
+      target: us_admin_relation
+      value: 3.0
+    - op: add
+      target: relation
+      value: 10.0
+      key: sharett
+    - op: add
+      target: relation
+      value: -8.0
+      key: dayan
+    - op: add
+      target: deterrence
+      value: -3.0
+    - op: add
+      target: party_standing
+      value: -3.0
+  - id: C
+    title: 只做有限炮击回应
+    label: 只做有限炮击回应
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: deterrence
+      value: 2.0
+    - op: add
+      target: intl_legitimacy
+      value: -2.0
+    - op: add
+      target: regime_hostility
+      value: 2.0
+      key: syria
+    - op: add
+      target: relation
+      value: -4.0
+      key: dayan
+    - op: add
+      target: relation
+      value: 3.0
+      key: sharett
+    - op: add
+      target: political_capital
+      value: -5.0
+  perspectives:
+  - group: cabinet
+    label: 内阁成员
+    text: 围绕「基内雷特行动」的争论在会议室里持续到深夜。
+  - group: street
+    label: 街头市民
+    text: 早报头条刊登了政府决定的消息，咖啡馆里议论纷纷。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+  notes: 这是一个"安全与外交"互相拆台的典型事件。玩家会发现美国的武器几乎不可能到手，这推动玩家转向法国。
+- id: E-1956-05
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 德鲁兹人的义务兵役
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("minority_units_established")
+    condition: civic_identification[druze] >= 40 and relation[allon] >= 0
+    probability:
+      period: month
+      base: 0.15
+    invalidation: civic_identification[druze] < 25
+  background: 德鲁兹社群此前已有志愿者在军中服役（少数民族部队）。1956年，部分德鲁兹谢赫正式要求把义务兵役扩展到德鲁兹男子，政府同意，此后德鲁兹人被纳入征兵，而穆斯林与基督徒阿拉伯人仍不征召。
+  narrative: 德鲁兹社群此前已有志愿者在军中服役（少数民族部队）。1956年，部分德鲁兹谢赫正式要求把义务兵役扩展到德鲁兹男子，政府同意，此后德鲁兹人被纳入征兵，而穆斯林与基督徒阿拉伯人仍不征召。
+  summary: 德鲁兹社群此前已有志愿者在军中服役（少数民族部队）。
+  options:
+  - id: A
+    title: 实行德鲁兹义务兵役，并单独登记为
+    label: 实行德鲁兹义务兵役，并单独登记为'德鲁兹'群体
+    historical: true
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: druze_covenant_of_blood
+    - op: add_modifier
+      modifier: druze_service_equality_pledge
+      duration_days: null
+    - op: add
+      target: civic_identification
+      value: 12.0
+      key: druze
+    - op: add
+      target: readiness
+      value: 2.0
+    - op: add
+      target: civic_identification
+      value: -4.0
+      key: arab
+    - op: add
+      target: bloc_support
+      value: -2.0
+      key: arab_citizens
+    - op: add
+      target: centralization
+      value: 1.0
+  - id: B
+    title: 维持志愿服役
+    label: 维持志愿服役
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: civic_identification
+      value: -3.0
+      key: druze
+    - op: add
+      target: readiness
+      value: -1.0
+  - id: C
+    title: 义务兵役，同时承诺德鲁兹村庄与犹
+    label: 义务兵役，同时承诺德鲁兹村庄与犹太社区预算同等
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: civic_identification
+      value: 15.0
+      key: druze
+    - op: add
+      target: budget_balance
+      value: -1.0
+    - op: add
+      target: region_development
+      value: 3.0
+      key: galilee
+    - op: add
+      target: political_capital
+      value: -10.0
+    - op: add
+      target: civic_identification
+      value: -2.0
+      key: arab
+  perspectives:
+  - group: group_1
+    label: 德鲁兹谢赫
+    text: 我们的未来系于这个国家，兵役是我们换取尊重的方式。
+  - group: group_2
+    label: 一位拿撒勒的穆斯林教师
+    text: 他们在给"阿拉伯人"这个词切出不同的类别。
+  - group: group_3
+    label: 国防部
+    text: 一支可靠的少数民族部队，边境巡逻有了熟悉地形的人。
+- id: E-1956-06a
+  kind: fixed
+  type: character
+  form: choice
+  major: false
+  minor: false
+  repeatable: false
+  title: 夏里特的去留
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("sharett_alienated") and character_in_office("sharett")
+    condition: relation[sharett] < 0 and promise_progress[cat_security] < 50 and regime_hostility[egypt]
+      >= 60
+    probability:
+      period: month
+      base: 0.25
+    invalidation: relation[sharett] >= 20
+  background: 本-古里安认为夏里特的外交节制已妨碍备战，于1956年6月迫使其辞去外交部长，由梅厄接任。夏里特此后在政治上被边缘化，但在马帕伊温和派中仍有影响力。
+  narrative: 本-古里安认为夏里特的外交节制已妨碍备战，于1956年6月迫使其辞去外交部长，由梅厄接任。夏里特此后在政治上被边缘化，但在马帕伊温和派中仍有影响力。
+  summary: 本-古里安认为夏里特的外交节制已妨碍备战，于1956年6月迫使其辞去外交部长。
+  options:
+  - id: A
+    title: 迫使夏里特辞职，梅厄接任外交部
+    label: 迫使夏里特辞职，梅厄接任外交部
+    historical: true
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: moderate_faction_grievance
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: security
+      value: 2.0
+      direction: away
+    - op: add
+      target: relation
+      value: -40.0
+      key: sharett
+    - op: add
+      target: relation
+      value: 15.0
+      key: meir
+    - op: add
+      target: party_standing
+      value: 3.0
+    - op: add
+      target: centralization
+      value: 3.0
+    - op: add
+      target: intl_legitimacy
+      value: -3.0
+  - id: B
+    title: 保留夏里特，但把军火外交交给国防
+    label: 保留夏里特，但把军火外交交给国防部
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: relation
+      value: -5.0
+      key: sharett
+    - op: add
+      target: relation
+      value: 10.0
+      key: peres
+    - op: add
+      target: political_capital
+      value: -10.0
+  - id: C
+    title: 与夏里特和解，接受外交优先
+    label: 与夏里特和解，接受外交优先
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: security
+      value: 3.0
+      direction: away
+    - op: add
+      target: relation
+      value: 20.0
+      key: sharett
+    - op: add
+      target: intl_legitimacy
+      value: 4.0
+    - op: add
+      target: us_admin_relation
+      value: 3.0
+    - op: add
+      target: relation
+      value: -10.0
+      key: dayan
+    - op: add
+      target: relation
+      value: -10.0
+      key: peres
+    - op: add
+      target: promise_progress
+      value: -5.0
+      key: cat_security
+- id: E-1956-06b
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 韦尔马会议：法国军火联盟
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("world_algerian_war") and character_in_office("peres") and
+      event_done("E-1955-11a")
+    condition: power_relation[france] >= 40 and promise_progress[cat_security] < 60
+    probability:
+      period: month
+      base: 0.3
+      add:
+      - when: relation[peres] >= 30
+        value: 0.1
+    invalidation: flag("world_algerian_war_ended") and power_relation[france] < 20
+  background: 法国在阿尔及利亚作战，视纳赛尔为叛军的庇护者。1956年6月，以色列国防部代表团（达扬、佩雷斯）与法国军方在韦尔马秘密会谈，绕过法国外交部，达成大规模军售：神秘IV战机、AMX坦克和火炮。以色列方面则提供在埃及的情报。
+  narrative: 法国在阿尔及利亚作战，视纳赛尔为叛军的庇护者。1956年6月，以色列国防部代表团（达扬、佩雷斯）与法国军方在韦尔马秘密会谈，绕过法国外交部，达成大规模军售：神秘IV战机、AMX坦克和火炮。以色列方面则提供在埃及的情报。
+  summary: 法国在阿尔及利亚作战，视纳赛尔为叛军的庇护者。
+  options:
+  - id: A
+    title: 全面结盟：军火换情报，绕过双方外
+    label: 全面结盟：军火换情报，绕过双方外交部
+    historical: true
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: franco_israeli_alliance
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: foreign
+      value: 2.0
+      direction: away
+    - op: add
+      target: promise_progress
+      value: 30.0
+      key: cat_security
+    - op: add
+      target: readiness
+      value: 12.0
+    - op: add
+      target: power_relation
+      value: 20.0
+      key: france
+    - op: add
+      target: fx_reserves
+      value: -8.0
+    - op: add
+      target: relation
+      value: 15.0
+      key: peres
+    - op: add
+      target: centralization
+      value: 3.0
+    - op: add
+      target: relation
+      value: -5.0
+      key: meir
+  - id: B
+    title: 只买武器，不介入法国的阿尔及利亚
+    label: 只买武器，不介入法国的阿尔及利亚政策
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: promise_progress
+      value: 15.0
+      key: cat_security
+    - op: add
+      target: readiness
+      value: 6.0
+    - op: add
+      target: power_relation
+      value: 6.0
+      key: france
+    - op: add
+      target: fx_reserves
+      value: -5.0
+    - op: add
+      target: intl_legitimacy
+      value: 2.0
+  - id: C
+    title: 同时向英国与美国试探，避免押注一
+    label: 同时向英国与美国试探，避免押注一国
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: military_imbalance_1955
+      duration_days: null
+    - op: add
+      target: promise_progress
+      value: 5.0
+      key: cat_security
+    - op: add
+      target: power_relation
+      value: -3.0
+      key: france
+    - op: add
+      target: us_admin_relation
+      value: 2.0
+    - op: add
+      target: political_capital
+      value: -5.0
+    - op: add
+      target: public_security
+      value: -2.0
+  perspectives:
+  - group: cabinet
+    label: 内阁成员
+    text: 围绕「韦尔马会议：法国军火联盟」的争论在会议室里持续到深夜。
+  - group: street
+    label: 街头市民
+    text: 早报头条刊登了政府决定的消息，咖啡馆里议论纷纷。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+  notes: 依赖单一供应国的风险会在 E-1967-06a 前的法国禁运中兑现。
+- id: E-1956-10a
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 色佛尔密约
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("franco_israeli_alliance") and flag("world_suez_canal_nationalized")
+      and character_in_office("nasser")
+    condition: regime_hostility[egypt] >= 55 and power_relation[france] >= 50 and
+      readiness >= 50
+    probability:
+      period: month
+      base: 0.4
+    invalidation: flag("world_suez_diplomatic_settlement") and power_relation[france]
+      < 30
+  background: 1956年7月，纳赛尔宣布将苏伊士运河公司国有化。英法决定以武力夺回运河，需要一个出兵借口。10月22–24日，本-古里安、达扬、佩雷斯在巴黎近郊色佛尔与英法代表秘密商定：以色列进攻西奈，英法以"隔开交战双方"为名发出最后通牒并出兵运河区。
+  narrative: 1956年7月，纳赛尔宣布将苏伊士运河公司国有化。英法决定以武力夺回运河，需要一个出兵借口。10月22–24日，本-古里安、达扬、佩雷斯在巴黎近郊色佛尔与英法代表秘密商定：以色列进攻西奈，英法以"隔开交战双方"为名发出最后通牒并出兵运河区。
+  summary: 1956年7月，纳赛尔宣布将苏伊士运河公司国有化。
+  options:
+  - id: A
+    title: 签署密约，以色列先动手
+    label: 签署密约，以色列先动手
+    historical: true
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: sevres_secret_protocol
+    - op: set_flag
+      flag: sevres_collusion_exposed
+    - op: add_modifier
+      modifier: sevres_collusion_taint
+      duration_days: null
+    - op: add
+      target: power_relation
+      value: 15.0
+      key: france
+    - op: add
+      target: power_relation
+      value: 10.0
+      key: uk
+    - op: add
+      target: centralization
+      value: 4.0
+    - op: add
+      target: relation
+      value: 10.0
+      key: dayan
+    - op: add
+      target: us_admin_relation
+      value: -5.0
+    - op: schedule_event
+      event: E-1956-10c
+      delay_days: 30
+  - id: B
+    title: 拒绝做英法的借口，只要求其提供空
+    label: 拒绝做英法的借口，只要求其提供空中掩护后再单独行动
+    historical: false
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: add
+      target: power_relation
+      value: -8.0
+      key: uk
+    - op: add
+      target: power_relation
+      value: -5.0
+      key: france
+    - op: add
+      target: intl_legitimacy
+      value: 3.0
+    - op: add
+      target: party_standing
+      value: -3.0
+    - op: add
+      target: promise_progress
+      value: -5.0
+      key: cat_security
+  - id: C
+    title: 退出，转向联合国框架内的航行权诉
+    label: 退出，转向联合国框架内的航行权诉求
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: southern_fedayeen_infiltration
+      duration_days: null
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: security
+      value: 4.0
+      direction: away
+    - op: add
+      target: power_relation
+      value: -15.0
+      key: france
+    - op: add
+      target: intl_legitimacy
+      value: 5.0
+    - op: add
+      target: us_admin_relation
+      value: 4.0
+    - op: add
+      target: promise_progress
+      value: -10.0
+      key: cat_security
+    - op: add
+      target: promise_progress
+      value: -8.0
+      key: cat_security
+    - op: add
+      target: relation
+      value: -20.0
+      key: dayan
+  perspectives:
+  - group: group_1
+    label: 本-古里安
+    text: 一个大国同盟者，比一百份联合国决议更能保障以色列的存在。
+  - group: group_2
+    label: 英国外交部的一名官员
+    text: 我们在用一个谎言去打一场早已过时的帝国战争。
+  - group: group_3
+    label: 开罗
+    text: 殖民者和他们的前哨站又一次联手。
+- id: E-1956-10d
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 战时的开火规则
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("sevres_secret_protocol")
+    condition: war_probability[jordan] >= 20 and pal_hostility >= 40
+    probability:
+      period: week
+      base: 0.7
+    invalidation: 'false'
+  background: 西奈战役前夕，总参谋部担心约旦参战，决定对紧贴停火线的三角地带阿拉伯村庄实施宵禁，由边防警察执行；战役计划还包括占领加沙地带，需要在难民营中搜捕费达因。宵禁如何执行、对违反宵禁者和搜捕中的人员能否开火，史实中基本交给中部军区和现场指挥官自行决定。
+  narrative: 西奈战役前夕，总参谋部担心约旦参战，决定对紧贴停火线的三角地带阿拉伯村庄实施宵禁，由边防警察执行；战役计划还包括占领加沙地带，需要在难民营中搜捕费达因。宵禁如何执行、对违反宵禁者和搜捕中的人员能否开火，史实中基本交给中部军区和现场指挥官自行决定。
+  summary: 西奈战役前夕，总参谋部担心约旦参战，决定对紧贴停火线的三角地带阿拉伯村庄实施。
+  options:
+  - id: A
+    title: 授权现场指挥官全权执行宵禁与搜捕
+    label: 授权现场指挥官全权执行宵禁与搜捕，速度优先
+    historical: true
+    tags:
+    - hardline
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add
+      target: readiness
+      value: 3.0
+    - op: add
+      target: region_security
+      value: 5.0
+      key: triangle
+    - op: add
+      target: relation
+      value: 5.0
+      key: dayan
+    - op: add
+      target: centralization
+      value: 1.0
+  - id: B
+    title: 书面规则：宵禁须提前通知到每个村
+    label: 书面规则：宵禁须提前通知到每个村庄，禁止向未抵抗的平民开火，搜捕时须有军法官在场
+    historical: false
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: add
+      target: readiness
+      value: -3.0
+    - op: add
+      target: political_capital
+      value: -10.0
+    - op: add
+      target: relation
+      value: -8.0
+      key: dayan
+    - op: add
+      target: region_security
+      value: -2.0
+      key: triangle
+    - op: add
+      target: rule_of_law
+      value: 2.0
+  - id: C
+    title: 区别对待：境内阿拉伯公民从严保护
+    label: 区别对待：境内阿拉伯公民从严保护，占领区放手
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: political_capital
+      value: -5.0
+    - op: add
+      target: relation
+      value: -3.0
+      key: dayan
+    - op: add
+      target: region_security
+      value: 1.0
+      key: triangle
+  perspectives:
+  - group: group_1
+    label: 边防警察旅长
+    text: 战时我不能让一个村子成为约旦军队的后门。
+  - group: group_2
+    label: 军法总长
+    text: 没有写下来的规则，到了晚上就只剩下枪。
+  - group: group_3
+    label: 三角地带的一位村长
+    text: 我们是这个国家的公民，为什么要被当作前线？
+  notes: 按编写原则第4条，这是暴行链的事前决策点。玩家不知道结果；即使选B，暴行仍有小概率发生。
+- id: E-1956-10b
+  kind: fixed
+  type: anchor
+  form: passive
+  major: true
+  minor: false
+  repeatable: false
+  title: 卡夫尔卡西姆屠杀
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("war_in_progress") and event_done("E-1956-10d") and at_war()
+    condition: rule_of_law < 60
+    probability:
+      period: month
+      base: 0.35
+    invalidation: flag("kafr_qasim_massacre")
+  background: 战争前夕，三角地带的阿拉伯村庄被突然提前实施宵禁。在外田间劳作的村民不知道宵禁已提前，傍晚回村时，边防警察在卡夫尔卡西姆村口向他们开枪，打死48人（一说49人，含一名未出生的胎儿），其中包括妇女和儿童。下令的军官传达了"愿真主怜悯他们"式的命令。
+  narrative: 战争前夕，三角地带的阿拉伯村庄被突然提前实施宵禁。在外田间劳作的村民不知道宵禁已提前，傍晚回村时，边防警察在卡夫尔卡西姆村口向他们开枪，打死48人（一说49人，含一名未出生的胎儿），其中包括妇女和儿童。下令的军官传达了"愿真主怜悯他们"式的命令。
+  summary: 战争前夕，三角地带的阿拉伯村庄被突然提前实施宵禁。
+  passive_effects:
+  - op: set_flag
+    flag: kafr_qasim_massacre
+  - op: add
+    target: civic_identification
+    value: -20.0
+    key: arab
+  - op: add
+    target: land_grievance
+    value: 5.0
+    key: arab
+  - op: add
+    target: bloc_support
+    value: -15.0
+    key: arab_citizens
+  - op: add
+    target: region_security
+    value: -10.0
+    key: triangle
+  - op: add
+    target: rule_of_law
+    value: -8.0
+  - op: add
+    target: pal_hostility
+    value: 6.0
+  - op: schedule_event
+    event: E-1956-11a
+    delay_days: 30
+  perspectives:
+  - group: group_1
+    label: 卡夫尔卡西姆的幸存者
+    text: 我们只是从橄榄园回家。
+  - group: group_2
+    label: 一名边防警察
+    text: 命令说不要逮捕，要射击。我们以为这是战时的规矩。
+  - group: group_3
+    label: 特拉维夫的一位记者
+    text: 审查官要我们沉默，可是这种沉默本身就是共谋。
+  notes: 暴行本身不可选择。事前决策点是 E-1956-10d，事后处置是 E-1956-11a（见编写原则第4条）。
+- id: E-1956-10c
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 卡迭石行动：战役目标
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("sevres_secret_protocol")
+    condition: readiness >= 50 and regime_hostility[egypt] >= 50
+    probability:
+      period: immediate
+    invalidation: flag("unef_deployed_sinai") and flag("egypt_ceasefire_updated")
+    on_miss:
+      effects:
+      - op: set_flag
+        flag: sevres_talks_collapsed
+  background: 10月29日，伞兵在米特拉山口空降，西奈战役开始。八天之内，以色列国防军攻占加沙地带和几乎整个西奈半岛，直抵沙姆沙伊赫，打开了蒂朗海峡。
+  narrative: 10月29日，伞兵在米特拉山口空降，西奈战役开始。八天之内，以色列国防军攻占加沙地带和几乎整个西奈半岛，直抵沙姆沙伊赫，打开了蒂朗海峡。
+  summary: 10月29日，伞兵在米特拉山口空降，西奈战役开始。
+  options:
+  - id: A
+    title: 按密约推进：西奈全境与沙姆沙伊赫
+    label: 按密约推进：西奈全境与沙姆沙伊赫
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: deterrence
+      value: 15.0
+    - op: add
+      target: regime_hostility
+      value: 10.0
+      key: egypt
+    - op: add
+      target: popular_hostility
+      value: 10.0
+      key: egypt
+    - op: add
+      target: public_security
+      value: 12.0
+    - op: add
+      target: promise_progress
+      value: 20.0
+      key: cat_security
+    - op: add
+      target: intl_legitimacy
+      value: -10.0
+    - op: add
+      target: us_admin_relation
+      value: -15.0
+    - op: add
+      target: budget_balance
+      value: -3.0
+    - op: add
+      target: party_standing
+      value: 10.0
+    - op: add
+      target: relation
+      value: 15.0
+      key: dayan
+  - id: B
+    title: 只打到米特拉山口与加沙，不进逼运
+    label: 只打到米特拉山口与加沙，不进逼运河和海峡
+    historical: false
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add
+      target: deterrence
+      value: 8.0
+    - op: add
+      target: promise_progress
+      value: 12.0
+      key: cat_security
+    - op: add
+      target: intl_legitimacy
+      value: -5.0
+    - op: add
+      target: us_admin_relation
+      value: -8.0
+    - op: add
+      target: power_relation
+      value: -5.0
+      key: uk
+    - op: add
+      target: power_relation
+      value: -5.0
+      key: france
+  - id: C
+    title: 集中摧毁加沙的费达因基地，48小
+    label: 集中摧毁加沙的费达因基地，48小时后停止
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: sevres_talks_collapsed
+    - op: add
+      target: deterrence
+      value: 5.0
+    - op: add
+      target: promise_progress
+      value: 8.0
+      key: cat_security
+    - op: add
+      target: popular_hostility
+      value: 5.0
+      key: egypt
+    - op: add
+      target: pal_hostility
+      value: 6.0
+    - op: add
+      target: power_relation
+      value: -10.0
+      key: france
+  perspectives:
+  - group: group_1
+    label: 一名伞兵
+    text: 我们在沙漠里等了一整夜，没人知道英国人到底来不来。
+  - group: group_2
+    label: 加沙的难民
+    text: 八年前从雅法逃到这里，现在战争又追来了。
+  - group: group_3
+    label: 埃拉特的居民
+    text: 海峡打开了，这座小镇第一次有了前途。
+- id: E-1956-11a
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 卡夫尔卡西姆：审判还是掩盖
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("kafr_qasim_massacre")
+    condition: rule_of_law >= 30 and ally_satisfaction[mapam] < 50
+    probability:
+      period: month
+      base: 0.4
+    invalidation: 'false'
+  background: 本-古里安起初通过审查压住消息，随后成立调查委员会，并在议会发表声明表示震惊。1958年军事法庭判处主要责任人梅林基少校17年、达汉中尉15年徒刑，法官哈列维提出"明显违法的命令上飘着黑旗，必须拒绝执行"的原则。但刑期屡经减免，涉案者到1960年前后全部获释；下达宵禁命令的沙德米准将只被象征性罚款10普鲁塔。政府还组织了一场官方"和解仪式"（苏尔哈）。
+  narrative: 本-古里安起初通过审查压住消息，随后成立调查委员会，并在议会发表声明表示震惊。1958年军事法庭判处主要责任人梅林基少校17年、达汉中尉15年徒刑，法官哈列维提出"明显违法的命令上飘着黑旗，必须拒绝执行"的原则。但刑期屡经减免，涉案者到1960年前后全部获释；下达宵禁命令的沙德米准将只被象征性罚款10普鲁塔。政府还组织了一场官方"和解仪式"（苏尔哈）。
+  summary: 本-古里安起初通过审查压住消息，随后成立调查委员会，并在议会发表声明表示震惊。
+  options:
+  - id: A
+    title: 公开审判，确立'黑旗'原则，但事
+    label: 公开审判，确立'黑旗'原则，但事后减刑并组织官方和解
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: kafr_qasim_unfinished_justice
+      duration_days: null
+    - op: add
+      target: rule_of_law
+      value: 6.0
+    - op: add
+      target: civic_identification
+      value: 4.0
+      key: arab
+    - op: add
+      target: civic_identification
+      value: -6.0
+      key: arab
+    - op: add
+      target: relation
+      value: -3.0
+      key: dayan
+    - op: add
+      target: party_standing
+      value: -2.0
+  - id: B
+    title: 彻底追责：不予减刑，追究指挥链至
+    label: 彻底追责：不予减刑，追究指挥链至旅级，正式赔偿
+    historical: false
+    tags:
+    - social
+    requires: 'true'
+    effects:
+    - op: add
+      target: rule_of_law
+      value: 12.0
+    - op: add
+      target: civic_identification
+      value: 10.0
+      key: arab
+    - op: add
+      target: bloc_support
+      value: 8.0
+      key: arab_citizens
+    - op: add
+      target: intl_legitimacy
+      value: 4.0
+    - op: add
+      target: relation
+      value: -12.0
+      key: dayan
+    - op: add
+      target: readiness
+      value: -2.0
+    - op: add
+      target: party_standing
+      value: -6.0
+    - op: add
+      target: bloc_support
+      value: -2.0
+      key: labor_ashkenazi
+    - op: add
+      target: political_capital
+      value: -20.0
+  - id: C
+    title: 延长审查，以'战时安全'为由封存
+    label: 延长审查，以'战时安全'为由封存
+    historical: false
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: scandal_covered_up
+    - op: add
+      target: political_capital
+      value: 5.0
+    - op: add
+      target: centralization
+      value: 6.0
+    - op: add
+      target: rule_of_law
+      value: -12.0
+    - op: add
+      target: civic_identification
+      value: -15.0
+      key: arab
+    - op: add
+      target: intl_legitimacy
+      value: -8.0
+    - op: add
+      target: bloc_support
+      value: -6.0
+      key: liberal_middle
+  perspectives:
+  - group: group_1
+    label: 法官哈列维
+    text: 服从不是逃避良知的理由。
+  - group: group_2
+    label: 村民
+    text: 判决很重，可他们很快就自由了，而我们的人回不来。
+  - group: group_3
+    label: 一名国防官员
+    text: 如果每道命令都要士兵自行判断，军队还怎么运转？
+  notes: 选项C是典型的"极端选项"，短期省事，长期代价远超收益。
+- id: E-1956-11e
+  kind: fixed
+  type: anchor
+  form: passive
+  major: true
+  minor: false
+  repeatable: false
+  title: 汗尤尼斯与拉法的枪杀
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: event_done("E-1956-10d")
+    condition: region_security[gaza] < 40 and pal_hostility >= 40
+    probability:
+      period: month
+      base: 0.35
+    invalidation: 'false'
+  background: 1956年11月初和中旬，以色列国防军在汗尤尼斯和拉法搜捕武装人员与埃及士兵，把成年男子集中甄别，期间发生大规模枪杀。
+  narrative: 1956年11月初和中旬，以色列国防军在汗尤尼斯和拉法搜捕武装人员与埃及士兵，把成年男子集中甄别，期间发生大规模枪杀。
+  summary: 1956年11月初和中旬，以色列国防军在汗尤尼斯和拉法搜捕武装人员与埃及士兵。
+  passive_effects:
+  - op: set_flag
+    flag: gaza_shootings
+  - op: add
+    target: pal_hostility
+    value: 5.0
+  - op: add
+    target: popular_hostility
+    value: 3.0
+    key: egypt
+  - op: add
+    target: intl_legitimacy
+    value: -4.0
+  - op: add
+    target: rule_of_law
+    value: -2.0
+  - op: add
+    target: region_security
+    value: -5.0
+    key: gaza
+  - op: schedule_event
+    event: E-1956-11b
+    delay_days: 30
+  perspectives:
+  - group: group_1
+    label: 汗尤尼斯的一位妇女
+    text: 他们把男人们排成一排，我再也没见到我的兄弟。
+  - group: group_2
+    label: 一名以色列士兵
+    text: 我们被告知营地里藏着费达因，天黑之后谁也分不清谁是谁。
+  - group: group_3
+    label: 联合国近东救济工程处官员
+    text: 我们的名单上，死者里有难民营的教师和店主。
+  notes: 暴行本身不可选择。事前决策点是 E-1956-10d，事后处置是 E-1956-11b。
+- id: E-1956-11b
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 加沙枪杀：事后处置
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("gaza_shootings")
+    condition: pal_hostility >= 50 and rule_of_law < 70
+    probability:
+      period: month
+      base: 0.5
+      add:
+      - when: intl_legitimacy < 40
+        value: 0.1
+    invalidation: 'false'
+  background: 汗尤尼斯和拉法的枪杀发生后，联合国近东救济工程处的报告称数百名平民被打死。以色列方面当时称死者多为抵抗者。总理需要决定如何回应军方的报告和联合国的质询。
+  narrative: 汗尤尼斯和拉法的枪杀发生后，联合国近东救济工程处的报告称数百名平民被打死。以色列方面当时称死者多为抵抗者。总理需要决定如何回应军方的报告和联合国的质询。
+  summary: 汗尤尼斯和拉法的枪杀发生后，联合国近东救济工程处的报告称数百名平民被打死。
+  options:
+  - id: A
+    title: 接受军方说法，不作调查
+    label: 接受军方说法，不作调查
+    historical: true
+    tags:
+    - restraint
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: gaza_withdrawal_memory
+    - op: add
+      target: pal_hostility
+      value: 10.0
+    - op: add
+      target: popular_hostility
+      value: 5.0
+      key: egypt
+    - op: add
+      target: intl_legitimacy
+      value: -6.0
+    - op: add
+      target: rule_of_law
+      value: -3.0
+    - op: add
+      target: relation
+      value: 3.0
+      key: dayan
+  - id: B
+    title: 责令内部调查，惩处违纪者，配合联
+    label: 责令内部调查，惩处违纪者，配合联合国救济工程处
+    historical: false
+    tags:
+    - restraint
+    requires: 'true'
+    effects:
+    - op: add
+      target: pal_hostility
+      value: 3.0
+    - op: add
+      target: intl_legitimacy
+      value: 2.0
+    - op: add
+      target: rule_of_law
+      value: 3.0
+    - op: add
+      target: relation
+      value: -8.0
+      key: dayan
+    - op: add
+      target: party_standing
+      value: -3.0
+    - op: add
+      target: political_capital
+      value: -15.0
+  - id: C
+    title: 建立军政府与平民联络机制，同时恢
+    label: 建立军政府与平民联络机制，同时恢复救济粮供应
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: pal_living_standard
+      value: 5.0
+    - op: add
+      target: pal_hostility
+      value: 5.0
+    - op: add
+      target: budget_balance
+      value: -1.0
+    - op: add
+      target: intl_legitimacy
+      value: -2.0
+    - op: add
+      target: political_capital
+      value: -10.0
+  perspectives:
+  - group: cabinet
+    label: 内阁成员
+    text: 围绕「加沙枪杀：事后处置」的争论在会议室里持续到深夜。
+  - group: street
+    label: 街头市民
+    text: 早报头条刊登了政府决定的消息，咖啡馆里议论纷纷。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+- id: E-1956-11c
+  kind: fixed
+  type: anchor
+  form: passive
+  major: true
+  minor: false
+  repeatable: false
+  title: 两个超级大国的最后通牒
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: 'true'
+    condition: flag("sevres_secret_protocol") and us_admin_relation < 50 and power_relation[ussr]
+      < 40
+    probability:
+      period: week
+      base: 0.6
+    invalidation: 'false'
+  background: 苏联总理布尔加宁致信本-古里安，暗示以色列的"存在本身"将受到威胁；艾森豪威尔政府以停止援助、阻断海外犹太人捐款和支持联合国制裁相威胁。英镑危机迫使英国率先停火。
+  narrative: 苏联总理布尔加宁致信本-古里安，暗示以色列的"存在本身"将受到威胁；艾森豪威尔政府以停止援助、阻断海外犹太人捐款和支持联合国制裁相威胁。英镑危机迫使英国率先停火。
+  summary: 苏联总理布尔加宁致信本-古里安，暗示以色列的"存在本身"将受到威胁；艾森豪威。
+  passive_effects:
+  - op: add_modifier
+    modifier: eisenhower_withdrawal_pressure
+    duration_days: null
+  - op: add
+    target: us_admin_relation
+    value: -15.0
+  - op: add
+    target: power_relation
+    value: -20.0
+    key: ussr
+  - op: add
+    target: public_security
+    value: -10.0
+  - op: add
+    target: power_relation
+    value: -5.0
+    key: diaspora
+  - op: schedule_event
+    event: E-1956-11d
+    delay_days: 30
+  perspectives:
+  - group: group_1
+    label: 艾森豪威尔
+    text: 我们不能在谴责苏联入侵匈牙利的同时，纵容盟友入侵埃及。
+  - group: group_2
+    label: 本-古里安的日记
+    text: 布尔加宁的信读起来像希特勒的语言。
+  - group: group_3
+    label: 莫斯科
+    text: 在匈牙利坦克的烟雾之外，展示自己作为阿拉伯人保护者的形象。
+- id: E-1956-11d
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 撤出西奈与加沙
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: has_modifier("eisenhower_withdrawal_pressure")
+    condition: us_admin_relation < 40 and intl_legitimacy < 40
+    probability:
+      period: month
+      base: 0.6
+      add:
+      - when: power_relation[diaspora] < 40
+        value: 0.1
+    invalidation: 'false'
+    on_miss:
+      effects:
+      - op: add_modifier
+        modifier: eisenhower_withdrawal_pressure
+        duration_days: null
+  background: 11月7日，本-古里安在议会宣布西奈"回到以色列"，次日即在美苏压力下宣布原则上同意撤军。此后他拖延数月，争取条件。1957年3月，以色列在联合国紧急部队进驻、美国承诺保障蒂朗海峡航行自由后，撤出加沙与沙姆沙伊赫。
+  narrative: 11月7日，本-古里安在议会宣布西奈"回到以色列"，次日即在美苏压力下宣布原则上同意撤军。此后他拖延数月，争取条件。1957年3月，以色列在联合国紧急部队进驻、美国承诺保障蒂朗海峡航行自由后，撤出加沙与沙姆沙伊赫。
+  summary: 11月7日，本-古里安在议会宣布西奈"回到以色列"，次日即在美苏压力下宣布原。
+  options:
+  - id: A
+    title: 分阶段撤军，换取联合国紧急部队与
+    label: 分阶段撤军，换取联合国紧急部队与美国的航行保证
+    historical: true
+    tags:
+    - peace
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: unef_deployed_sinai
+    - op: set_flag
+      flag: us_straits_navigation_guarantee
+    - op: remove_modifier
+      modifier: eisenhower_withdrawal_pressure
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: security
+      value: -1.0
+      direction: away
+    - op: add
+      target: promise_progress
+      value: 10.0
+      key: cat_security
+    - op: add
+      target: region_development
+      value: 5.0
+      key: negev
+    - op: add
+      target: party_standing
+      value: -3.0
+  - id: B
+    title: 拒绝撤出加沙，坚持行政管辖
+    label: 拒绝撤出加沙，坚持行政管辖
+    historical: false
+    tags:
+    - restraint
+    - hardline
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: us_economic_sanctions_1957
+      duration_days: 360
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: security
+      value: 6.0
+      direction: away
+    - op: add
+      target: us_admin_relation
+      value: -15.0
+    - op: add
+      target: intl_legitimacy
+      value: -10.0
+    - op: add
+      target: power_relation
+      value: -8.0
+      key: diaspora
+    - op: add
+      target: pal_hostility
+      value: 8.0
+  - id: C
+    title: 无条件迅速撤军
+    label: 无条件迅速撤军
+    historical: false
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add
+      target: us_admin_relation
+      value: 8.0
+    - op: add
+      target: power_relation
+      value: 3.0
+      key: ussr
+    - op: add
+      target: deterrence
+      value: -8.0
+    - op: add
+      target: promise_progress
+      value: -10.0
+      key: cat_security
+    - op: add
+      target: party_standing
+      value: -8.0
+    - op: add
+      target: bloc_support
+      value: -3.0
+      key: labor_ashkenazi
+  perspectives:
+  - group: group_1
+    label: 梅厄在联合国
+    text: 我们撤军，但希望世界记住它今天的承诺。
+  - group: group_2
+    label: 埃及
+    text: 侵略者被迫退走，纳赛尔在政治上赢得了这场军事上失败的战争。
+  - group: group_3
+    label: 埃拉特的码头工人
+    text: 第一艘油轮靠港，这才是这场战争的成果。
+- id: E-1957-10a
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 迪莫纳：秘密的反应堆
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("franco_israeli_alliance") and character_in_office("peres")
+    condition: power_relation[france] >= 50 and relation[peres] >= 20
+    probability:
+      period: month
+      base: 0.1
+      add:
+      - when: flag("sevres_secret_protocol")
+        value: 0.15
+    invalidation: flag("no_nuclear_option") and power_relation[france] < 30
+  background: 作为色佛尔合作的延续，法国同意帮助以色列在内盖夫迪莫纳附近建造一座大型反应堆及配套设施，协议于1957年秋签署，1958年开工。项目由国防部和佩雷斯主导，大多数内阁部长、议会乃至财政部长都不完全知情，资金部分来自海外犹太富豪的秘密捐款。
+  narrative: 作为色佛尔合作的延续，法国同意帮助以色列在内盖夫迪莫纳附近建造一座大型反应堆及配套设施，协议于1957年秋签署，1958年开工。项目由国防部和佩雷斯主导，大多数内阁部长、议会乃至财政部长都不完全知情，资金部分来自海外犹太富豪的秘密捐款。
+  summary: 作为色佛尔合作的延续，法国同意帮助以色列在内盖夫迪莫纳附近建造一座大型反应堆。
+  options:
+  - id: A
+    title: 秘密建造，以'纺织厂/冶金研究站
+    label: 秘密建造，以'纺织厂/冶金研究站'为掩护
+    historical: true
+    tags:
+    - authoritarian
+    - economic
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: dimona_project_started
+    - op: add
+      target: vision_progress
+      value: 8.0
+    - op: add
+      target: centralization
+      value: 5.0
+    - op: add
+      target: budget_balance
+      value: -2.0
+    - op: add
+      target: power_relation
+      value: 5.0
+      key: france
+    - op: add
+      target: relation
+      value: 15.0
+      key: peres
+    - op: add
+      target: relation
+      value: -5.0
+      key: eshkol
+    - op: add
+      target: rule_of_law
+      value: -2.0
+  - id: B
+    title: 公开建设一座和平用途的研究堆，接
+    label: 公开建设一座和平用途的研究堆，接受有限的国际监督
+    historical: false
+    tags:
+    - peace
+    requires: 'true'
+    effects:
+    - op: add
+      target: vision_progress
+      value: 3.0
+    - op: add
+      target: intl_legitimacy
+      value: 3.0
+    - op: add
+      target: us_admin_relation
+      value: 3.0
+    - op: add
+      target: relation
+      value: -10.0
+      key: peres
+    - op: add
+      target: power_relation
+      value: -3.0
+      key: france
+  - id: C
+    title: 放弃，资金投入常规军备与移民安置
+    label: 放弃，资金投入常规军备与移民安置
+    historical: false
+    tags:
+    - social
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: no_nuclear_option
+    - op: add
+      target: readiness
+      value: 4.0
+    - op: add
+      target: absorption_capacity
+      value: 4.0
+    - op: add
+      target: relation
+      value: -20.0
+      key: peres
+    - op: add
+      target: vision_progress
+      value: -5.0
+    - op: add
+      target: public_security
+      value: -5.0
+  perspectives:
+  - group: group_1
+    label: 佩雷斯
+    text: 一个小国，必须拥有让敌人永远不敢想象消灭它的东西。
+  - group: group_2
+    label: 一位知情的科学家（如核能委员会的
+    text: 这会把整个中东拖进核竞赛。
+  - group: group_3
+    label: 财政部
+    text: 一个不在预算里的黑洞。
+- id: E-1957-10b
+  kind: fixed
+  type: anchor
+  form: passive
+  major: true
+  minor: false
+  repeatable: false
+  title: 议会里的手榴弹
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: 'true'
+    condition: alienation[mizrahi] >= 25 and public_security < 40
+    probability:
+      period: month
+      base: 0.02
+    invalidation: has_modifier("knesset_tight_security")
+  background: 一名精神状况不稳、对犹太事务局怀有个人怨恨的年轻人莫谢·德威克从旁听席向内阁席位投掷手榴弹。本-古里安腿部受伤，宗教部长摩西·沙皮拉重伤，梅厄与卡梅尔轻伤。
+  narrative: 一名精神状况不稳、对犹太事务局怀有个人怨恨的年轻人莫谢·德威克从旁听席向内阁席位投掷手榴弹。本-古里安腿部受伤，宗教部长摩西·沙皮拉重伤，梅厄与卡梅尔轻伤。
+  summary: 一名精神状况不稳、对犹太事务局怀有个人怨恨的年轻人莫谢·德威克从旁听席向内阁。
+  passive_effects:
+  - op: add_modifier
+    modifier: knesset_tight_security
+    duration_days: null
+  - op: add
+    target: public_security
+    value: -4.0
+  - op: add
+    target: political_capital
+    value: 10.0
+  - op: add
+    target: health
+    value: -5.0
+    key: ben_gurion
+  - op: add
+    target: ally_satisfaction
+    value: 3.0
+    key: nrp
+  - op: add
+    target: alienation
+    value: 2.0
+    key: mizrahi
+  perspectives:
+  - group: cabinet
+    label: 内阁成员
+    text: 围绕「议会里的手榴弹」的争论在会议室里持续到深夜。
+  - group: street
+    label: 街头市民
+    text: 早报头条刊登了政府决定的消息，咖啡馆里议论纷纷。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+  notes: 低概率人物事件；沙盒中如果总理不是本-古里安，伤者按当时内阁成员替换。
+- id: E-1958-07
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 谁是犹太人
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: 'true'
+    condition: ally_satisfaction[labor] >= 50
+    probability:
+      period: month
+      base: 0.08
+      add:
+      - when: immigration_inflow >= 5
+        value: 0.05
+    invalidation: 'false'
+  background: 劳工联盟籍内政部长巴尔-耶胡达发布指示：凡真诚声明自己是犹太人、且不信奉其他宗教者，即可在身份证上登记为犹太人，混合婚姻子女依父母声明登记。国家宗教党认为这违背犹太律法（以母系或正统皈依为准），退出联合政府。本-古里安致函约50位海内外犹太学者征询意见，大多数主张遵循律法定义。1960年国家宗教党回归时，指示被修改。
+  narrative: 劳工联盟籍内政部长巴尔-耶胡达发布指示：凡真诚声明自己是犹太人、且不信奉其他宗教者，即可在身份证上登记为犹太人，混合婚姻子女依父母声明登记。国家宗教党认为这违背犹太律法（以母系或正统皈依为准），退出联合政府。本-古里安致函约50位海内外犹太学者征询意见，大多数主张遵循律法定义。1960年国家宗教党回归时，指示被修改。
+  summary: 劳工联盟籍内政部长巴尔-耶胡达发布指示：凡真诚声明自己是犹太人、且不信奉其他。
+  options:
+  - id: A
+    title: 冻结指示，征询'以色列智者'，最
+    label: 冻结指示，征询'以色列智者'，最终向律法定义靠拢
+    historical: true
+    tags:
+    - restraint
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: religion
+      value: 1.0
+      direction: away
+    - op: add
+      target: religious_status_quo
+      value: 5.0
+    - op: add
+      target: ally_satisfaction
+      value: 12.0
+      key: nrp
+    - op: add
+      target: ally_satisfaction
+      value: -8.0
+      key: labor
+    - op: add
+      target: bloc_support
+      value: -3.0
+      key: liberal_middle
+    - op: add
+      target: power_relation
+      value: 2.0
+      key: diaspora
+    - op: add
+      target: political_capital
+      value: -10.0
+  - id: B
+    title: 坚持声明原则，让国家宗教党离开
+    label: 坚持声明原则，让国家宗教党离开
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: religion
+      value: 5.0
+      direction: away
+    - op: add
+      target: religious_status_quo
+      value: -8.0
+    - op: add
+      target: ally_satisfaction
+      value: -25.0
+      key: nrp
+    - op: add
+      target: ally_satisfaction
+      value: 10.0
+      key: labor
+    - op: add
+      target: ally_satisfaction
+      value: 5.0
+      key: progressives
+    - op: add
+      target: bloc_support
+      value: -10.0
+      key: religious_zionist
+    - op: add
+      target: bloc_support
+      value: 4.0
+      key: liberal_middle
+    - op: add
+      target: political_capital
+      value: -20.0
+  - id: C
+    title: 把问题交给议会立法，设立公民婚姻
+    label: 把问题交给议会立法，设立公民婚姻与民事登记
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: religion
+      value: 10.0
+      direction: away
+    - op: add
+      target: religious_status_quo
+      value: -15.0
+    - op: add
+      target: ally_satisfaction
+      value: -30.0
+      key: nrp
+    - op: add
+      target: bloc_support
+      value: -15.0
+      key: haredi
+    - op: add
+      target: bloc_support
+      value: 8.0
+      key: liberal_middle
+    - op: add
+      target: rule_of_law
+      value: 3.0
+    - op: add
+      target: party_standing
+      value: -8.0
+  perspectives:
+  - group: group_1
+    label: 国家宗教党
+    text: 如果国家可以决定谁是犹太人，犹太民族就会分裂成两个。
+  - group: group_2
+    label: 一位来自混合家庭的新移民
+    text: 我为这个国家服过兵役，现在却要证明我母亲的身份。
+  - group: group_3
+    label: 本-古里安
+    text: 犹太国家不能与散居各地的犹太人分道扬镳。
+- id: E-1958-08
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 外围联盟
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("world_uar_formed") and flag("world_iraq_revolution_1958")
+      and character_in_office("shah_pahlavi")
+    condition: regime_hostility[egypt] >= 50 and power_relation[usa] >= 10 and relation[harel]
+      >= 0
+    probability:
+      period: month
+      base: 0.15
+    invalidation: flag("egypt_peace_treaty_signed")
+  background: 1958年埃及与叙利亚合并为阿拉伯联合共和国，伊拉克王室被推翻。本-古里安推动"外围战略"：与非阿拉伯的中东国家伊朗、土耳其、埃塞俄比亚建立秘密关系。1958年8月他与土耳其总理曼德列斯秘密会晤，摩萨德与伊朗萨瓦克、土耳其情报部门建立了称作"三叉戟"的情报合作。
+  narrative: 1958年埃及与叙利亚合并为阿拉伯联合共和国，伊拉克王室被推翻。本-古里安推动"外围战略"：与非阿拉伯的中东国家伊朗、土耳其、埃塞俄比亚建立秘密关系。1958年8月他与土耳其总理曼德列斯秘密会晤，摩萨德与伊朗萨瓦克、土耳其情报部门建立了称作"三叉戟"的情报合作。
+  summary: 1958年埃及与叙利亚合并为阿拉伯联合共和国，伊拉克王室被推翻。
+  options:
+  - id: A
+    title: 秘密外围同盟：情报合作、军事顾问
+    label: 秘密外围同盟：情报合作、军事顾问、农业援助
+    historical: true
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: periphery_intelligence_network
+      duration_days: null
+    - op: add
+      target: us_admin_relation
+      value: 5.0
+    - op: add
+      target: centralization
+      value: 2.0
+    - op: add
+      target: budget_balance
+      value: -0.5
+  - id: B
+    title: 公开建交，以合法外交换取国际地位
+    label: 公开建交，以合法外交换取国际地位
+    historical: false
+    tags:
+    - hardline
+    - peace
+    requires: 'true'
+    effects:
+    - op: add
+      target: intl_legitimacy
+      value: 3.0
+    - op: add
+      target: regime_hostility
+      value: 3.0
+      key: egypt
+    - op: add
+      target: political_capital
+      value: -5.0
+  - id: C
+    title: 不搞外围，集中资源与美国建立正式
+    label: 不搞外围，集中资源与美国建立正式联盟
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: us_admin_relation
+      value: 3.0
+    - op: add
+      target: relation
+      value: -10.0
+      key: harel
+  perspectives:
+  - group: cabinet
+    label: 内阁成员
+    text: 围绕「外围联盟」的争论在会议室里持续到深夜。
+  - group: street
+    label: 街头市民
+    text: 早报头条刊登了政府决定的消息，咖啡馆里议论纷纷。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+- id: E-1959-07a
+  kind: fixed
+  type: anchor
+  form: passive
+  major: true
+  minor: false
+  repeatable: false
+  title: 瓦迪萨利布骚乱
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("wadi_salib_immigrant_housing")
+    condition: alienation[mizrahi] >= 40 and region_development[haifa] < 50
+    probability:
+      period: month
+      base: 0.1
+      add:
+      - when: inequality >= 50
+        value: 0.05
+    invalidation: alienation[mizrahi] < 25
+  background: 1959年7月9日，海法瓦迪萨利布街区，警察在酒馆开枪打伤一名醉酒的摩洛哥裔居民。传言他已死亡，愤怒的居民走上街头，冲击警察局，砸毁马帕伊和工会的办公室，骚乱蔓延到贝尔谢巴和米格达勒埃梅克等发展城镇。领导者大卫·本-哈鲁什组织了北非移民联盟。
+  narrative: 1959年7月9日，海法瓦迪萨利布街区，警察在酒馆开枪打伤一名醉酒的摩洛哥裔居民。传言他已死亡，愤怒的居民走上街头，冲击警察局，砸毁马帕伊和工会的办公室，骚乱蔓延到贝尔谢巴和米格达勒埃梅克等发展城镇。领导者大卫·本-哈鲁什组织了北非移民联盟。
+  summary: 1959年7月9日，海法瓦迪萨利布街区，警察在酒馆开枪打伤一名醉酒的摩洛哥裔。
+  passive_effects:
+  - op: set_flag
+    flag: wadi_salib_riots
+  - op: add
+    target: alienation
+    value: 8.0
+    key: mizrahi
+  - op: add
+    target: historical_grievance
+    value: 5.0
+    key: mizrahi
+  - op: add
+    target: region_security
+    value: -10.0
+    key: haifa
+  - op: add
+    target: bloc_support
+    value: -6.0
+    key: mizrahi
+  - op: add
+    target: union_strength
+    value: -3.0
+  - op: schedule_event
+    event: E-1959-07b
+    delay_days: 30
+  perspectives:
+  - group: group_1
+    label: 瓦迪萨利布的居民
+    text: 我们住在阿拉伯人逃走后留下的破房子里，而他们住在卡梅尔山上。
+  - group: group_2
+    label: 一名马帕伊干部
+    text: 这是少数煽动者和醉汉，不是一场运动。
+  - group: group_3
+    label: 一位社会学家
+    text: 这是第一次，族群的不满公开喊出了自己的名字。
+- id: E-1959-07b
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 瓦迪萨利布：回应
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("wadi_salib_riots")
+    condition: alienation[mizrahi] >= 35
+    probability:
+      period: month
+      base: 0.7
+    invalidation: alienation[mizrahi] < 30
+  background: 政府成立调查委员会，认定骚乱的根源是贫困与歧视感，但同时逮捕了本-哈鲁什等领导人。马帕伊在当年11月大选中仍获大胜，北非移民联盟未能进入议会。
+  narrative: 政府成立调查委员会，认定骚乱的根源是贫困与歧视感，但同时逮捕了本-哈鲁什等领导人。马帕伊在当年11月大选中仍获大胜，北非移民联盟未能进入议会。
+  summary: 政府成立调查委员会，认定骚乱的根源是贫困与歧视感，但同时逮捕了本-哈鲁什等领。
+  options:
+  - id: A
+    title: 调查委员会＋逮捕领导人＋扩大米兹
+    label: 调查委员会＋逮捕领导人＋扩大米兹拉希候选人名额
+    historical: true
+    tags:
+    - restraint
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add
+      target: alienation
+      value: -3.0
+      key: mizrahi
+    - op: add
+      target: historical_grievance
+      value: 2.0
+      key: mizrahi
+    - op: add
+      target: bloc_support
+      value: 3.0
+      key: mizrahi
+    - op: add
+      target: rule_of_law
+      value: -1.0
+    - op: add
+      target: centralization
+      value: 1.0
+    - op: add
+      target: party_standing
+      value: 2.0
+  - id: B
+    title: 大规模发展城镇与旧街区的住房投资
+    label: 大规模发展城镇与旧街区的住房投资计划
+    historical: false
+    tags:
+    - social
+    requires: 'true'
+    effects:
+    - op: add
+      target: alienation
+      value: -8.0
+      key: mizrahi
+    - op: add
+      target: region_development
+      value: 4.0
+      key: haifa
+    - op: add
+      target: region_development
+      value: 4.0
+      key: negev
+    - op: add
+      target: budget_balance
+      value: -2.0
+    - op: add
+      target: inflation
+      value: 1.0
+    - op: add
+      target: bloc_support
+      value: 6.0
+      key: mizrahi
+    - op: add
+      target: bloc_support
+      value: -2.0
+      key: labor_ashkenazi
+    - op: add
+      target: vision_progress
+      value: 2.0
+  - id: C
+    title: 以煽动罪名打压北非移民联盟，动用
+    label: 以煽动罪名打压北非移民联盟，动用辛贝特监控
+    historical: false
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: wadi_salib_suppressed_anger
+      duration_days: 3600
+    - op: add
+      target: region_security
+      value: 5.0
+      key: haifa
+    - op: add
+      target: alienation
+      value: 6.0
+      key: mizrahi
+    - op: add
+      target: historical_grievance
+      value: 8.0
+      key: mizrahi
+    - op: add
+      target: centralization
+      value: 5.0
+    - op: add
+      target: rule_of_law
+      value: -5.0
+    - op: add
+      target: bloc_support
+      value: -4.0
+      key: mizrahi
+  perspectives:
+  - group: cabinet
+    label: 内阁成员
+    text: 围绕「瓦迪萨利布：回应」的争论在会议室里持续到深夜。
+  - group: street
+    label: 街头市民
+    text: 早报头条刊登了政府决定的消息，咖啡馆里议论纷纷。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+- id: E-1960-02
+  kind: fixed
+  type: anchor
+  form: passive
+  major: true
+  minor: false
+  repeatable: false
+  title: 罗特姆危机
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("unef_deployed_sinai") and flag("world_uar_formed")
+    condition: regime_hostility[egypt] >= 50 and complacency >= 40
+    probability:
+      period: month
+      base: 0.2
+    invalidation: flag("world_uar_dissolved")
+  background: 1960年2月，以色列对叙利亚边境的塔瓦菲克村发动报复行动后，埃及秘密将大批装甲部队调入西奈。以色列情报部门几天后才察觉，南线一度几乎无兵防守。危机最终以双方撤回部队结束，但暴露了预警体系的漏洞。
+  narrative: 1960年2月，以色列对叙利亚边境的塔瓦菲克村发动报复行动后，埃及秘密将大批装甲部队调入西奈。以色列情报部门几天后才察觉，南线一度几乎无兵防守。危机最终以双方撤回部队结束，但暴露了预警体系的漏洞。
+  summary: 1960年2月，以色列对叙利亚边境的塔瓦菲克村发动报复行动后，埃及秘密将大批。
+  passive_effects:
+  - op: add
+    target: public_security
+    value: -3.0
+  - op: add
+    target: complacency
+    value: -10.0
+  - op: add
+    target: budget_balance
+    value: -0.5
+  - op: add
+    target: regime_hostility
+    value: 2.0
+    key: egypt
+  - op: add
+    target: relation
+    value: -3.0
+    key: harel
+  perspectives:
+  - group: cabinet
+    label: 内阁成员
+    text: 围绕「罗特姆危机」的争论在会议室里持续到深夜。
+  - group: street
+    label: 街头市民
+    text: 早报头条刊登了政府决定的消息，咖啡馆里议论纷纷。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+  notes: 此事件是1967年"等待期"的预演，纳赛尔从中得出"可以把部队开进西奈而不必打仗"的错误结论。旗标：罗特姆先例（E-1967-05a 中埃及的冒险倾向
+    +10%）。
+- id: E-1960-03
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 与阿登纳的秘密会晤
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("luxembourg_reparations_signed") and character_in_office("adenauer")
+    condition: power_relation[west_germany] >= 30 and relation[peres] >= 10
+    probability:
+      period: month
+      base: 0.12
+      add:
+      - when: promise_progress[cat_security] < 60
+        value: 0.05
+    invalidation: 'false'
+  background: 1960年3月，本-古里安与西德总理阿登纳在纽约华尔道夫酒店会面。在没有正式外交关系的情况下，西德秘密同意提供大额发展贷款，并以"不收费"的方式输送武器。以色列国内对与德国的任何接近仍极为敏感。
+  narrative: 1960年3月，本-古里安与西德总理阿登纳在纽约华尔道夫酒店会面。在没有正式外交关系的情况下，西德秘密同意提供大额发展贷款，并以"不收费"的方式输送武器。以色列国内对与德国的任何接近仍极为敏感。
+  summary: 1960年3月，本-古里安与西德总理阿登纳在纽约华尔道夫酒店会面。
+  options:
+  - id: A
+    title: 接受秘密军援与贷款，不要求建交
+    label: 接受秘密军援与贷款，不要求建交
+    historical: true
+    tags:
+    - peace
+    - authoritarian
+    - economic
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: west_germany_secret_arms_aid
+    - op: add
+      target: power_relation
+      value: 15.0
+      key: west_germany
+    - op: add
+      target: readiness
+      value: 5.0
+    - op: add
+      target: fx_reserves
+      value: 6.0
+    - op: add
+      target: promise_progress
+      value: 8.0
+      key: cat_security
+    - op: add
+      target: centralization
+      value: 2.0
+    - op: schedule_event
+      event: E-1965-03
+      delay_days: 30
+  - id: B
+    title: 公开要求建交，作为接受援助的前提
+    label: 公开要求建交，作为接受援助的前提
+    historical: false
+    tags:
+    - peace
+    requires: 'true'
+    effects:
+    - op: add
+      target: power_relation
+      value: -5.0
+      key: west_germany
+    - op: add
+      target: bloc_support
+      value: -2.0
+      key: labor_ashkenazi
+    - op: add
+      target: political_capital
+      value: -10.0
+    - op: add
+      target: intl_legitimacy
+      value: 2.0
+  - id: C
+    title: 只谈经济贷款，拒绝德国武器
+    label: 只谈经济贷款，拒绝德国武器
+    historical: false
+    tags:
+    - hardline
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: fx_reserves
+      value: 4.0
+    - op: add
+      target: power_relation
+      value: 5.0
+      key: west_germany
+    - op: add
+      target: relation
+      value: -8.0
+      key: peres
+    - op: add
+      target: bloc_support
+      value: 1.0
+      key: liberal_middle
+  perspectives:
+  - group: group_1
+    label: 一位大屠杀幸存者
+    text: 用他们的武器保卫我们，这是正义还是遗忘？
+  - group: group_2
+    label: 本-古里安
+    text: 另一个德国"是今天的现实。
+  - group: group_3
+    label: 阿登纳
+    text: 联邦德国的道德责任不能只写在纸上。
+- id: E-1960-05
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 抓捕艾希曼
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("eichmann_mossad_lead") and character_in_office("harel")
+    condition: relation[harel] >= 0 and power_relation[diaspora] >= 30
+    probability:
+      period: month
+      base: 0.2
+    invalidation: flag("eichmann_escaped")
+  background: 1960年5月11日，摩萨德行动小组在阿根廷抓获艾希曼，并于5月20日用以色列航空的专机秘密运回以色列。5月23日，本-古里安在议会宣布这一消息。阿根廷向联合国安理会控诉以色列侵犯其主权，安理会通过决议要求赔偿。
+  narrative: 1960年5月11日，摩萨德行动小组在阿根廷抓获艾希曼，并于5月20日用以色列航空的专机秘密运回以色列。5月23日，本-古里安在议会宣布这一消息。阿根廷向联合国安理会控诉以色列侵犯其主权，安理会通过决议要求赔偿。
+  summary: 1960年5月11日，摩萨德行动小组在阿根廷抓获艾希曼，并于5月20日用以色。
+  options:
+  - id: A
+    title: 秘密绑架，带回以色列审判
+    label: 秘密绑架，带回以色列审判
+    historical: true
+    tags:
+    - hardline
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: eichmann_trial_held
+    - op: add
+      target: power_relation
+      value: 10.0
+      key: diaspora
+    - op: add
+      target: political_capital
+      value: 20.0
+    - op: add
+      target: party_standing
+      value: 6.0
+    - op: add
+      target: centralization
+      value: 2.0
+    - op: add
+      target: intl_legitimacy
+      value: -3.0
+    - op: add
+      target: relation
+      value: 15.0
+      key: harel
+    - op: add
+      target: power_relation
+      value: -20.0
+      key: usa
+    - op: schedule_event
+      event: E-1961-04
+      delay_days: 30
+  - id: B
+    title: 通过外交途径要求阿根廷引渡
+    label: 通过外交途径要求阿根廷引渡
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: eichmann_escaped
+    - op: add
+      target: intl_legitimacy
+      value: 2.0
+    - op: add
+      target: power_relation
+      value: -5.0
+      key: diaspora
+    - op: add
+      target: relation
+      value: -10.0
+      key: harel
+  - id: C
+    title: 抓捕后移交国际法庭或西德审判
+    label: 抓捕后移交国际法庭或西德审判
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: intl_legitimacy
+      value: 6.0
+    - op: add
+      target: power_relation
+      value: -5.0
+      key: west_germany
+    - op: add
+      target: power_relation
+      value: -3.0
+      key: diaspora
+    - op: add
+      target: bloc_support
+      value: -4.0
+      key: labor_ashkenazi
+    - op: add
+      target: party_standing
+      value: -5.0
+  perspectives:
+  - group: cabinet
+    label: 内阁成员
+    text: 围绕「抓捕艾希曼」的争论在会议室里持续到深夜。
+  - group: street
+    label: 街头市民
+    text: 早报头条刊登了政府决定的消息，咖啡馆里议论纷纷。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+- id: E-1960-10
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 拉冯事件重燃
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("susannah_affair_exposed") and character_alive("lavon")
+    condition: relation[lavon] < 20 and rule_of_law >= 40
+    probability:
+      period: month
+      base: 0.1
+      add:
+      - when: flag("moderate_faction_grievance")
+        value: 0.1
+      - when: relation[dayan] >= 30
+        value: 0.05
+    invalidation: 'false'
+  background: 1954年在埃及的秘密破坏行动失败后，当时的国防部长拉冯被迫下台。1960年，新证据显示军事情报局长吉布利一方可能伪造了文件。拉冯（时任工总秘书长）要求本-古里安为他平反。部长"七人委员会"于12月宣布拉冯并未下达行动命令。本-古里安拒绝接受这种"由部长而非法院作出"的结论，于1961年1月辞职施压，马帕伊随后解除了拉冯的工总职务，导致提前大选。
+  narrative: 1954年在埃及的秘密破坏行动失败后，当时的国防部长拉冯被迫下台。1960年，新证据显示军事情报局长吉布利一方可能伪造了文件。拉冯（时任工总秘书长）要求本-古里安为他平反。部长"七人委员会"于12月宣布拉冯并未下达行动命令。本-古里安拒绝接受这种"由部长而非法院作出"的结论，于1961年1月辞职施压，马帕伊随后解除了拉冯的工总职务，导致提前大选。
+  summary: 1954年在埃及的秘密破坏行动失败后，当时的国防部长拉冯被迫下台。
+  options:
+  - id: A
+    title: 拒绝七人委员会的结论，以辞职逼党
+    label: 拒绝七人委员会的结论，以辞职逼党罢免拉冯
+    historical: true
+    tags:
+    - hardline
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: party_rift
+    - op: set_flag
+      flag: rafi_split
+    - op: add_modifier
+      modifier: ghost_of_lavon_affair
+      duration_days: null
+    - op: add
+      target: relation
+      value: -40.0
+      key: lavon
+    - op: add
+      target: relation
+      value: -10.0
+      key: eshkol
+    - op: add
+      target: relation
+      value: -10.0
+      key: sharett
+    - op: add
+      target: party_standing
+      value: 5.0
+    - op: add
+      target: centralization
+      value: 5.0
+    - op: add
+      target: rule_of_law
+      value: -3.0
+    - op: add
+      target: ally_satisfaction
+      value: -5.0
+      key: labor
+    - op: add
+      target: ally_satisfaction
+      value: -5.0
+      key: progressives
+    - op: schedule_event
+      event: E-1965-02
+      delay_days: 30
+  - id: B
+    title: 接受七人委员会结论，为拉冯平反并
+    label: 接受七人委员会结论，为拉冯平反并结案
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: ghost_of_lavon_affair
+      duration_days: null
+    - op: add
+      target: relation
+      value: 20.0
+      key: lavon
+    - op: add
+      target: relation
+      value: -10.0
+      key: dayan
+    - op: add
+      target: relation
+      value: -10.0
+      key: peres
+    - op: add
+      target: party_standing
+      value: -3.0
+    - op: add
+      target: vision_progress
+      value: -3.0
+  - id: C
+    title: 设立司法调查委员会，由法官定论
+    label: 设立司法调查委员会，由法官定论
+    historical: false
+    tags:
+    - restraint
+    requires: 'true'
+    effects:
+    - op: add
+      target: rule_of_law
+      value: 5.0
+    - op: add
+      target: political_capital
+      value: -15.0
+    - op: add
+      target: relation
+      value: 15.0
+      key: lavon
+    - op: add
+      target: relation
+      value: -8.0
+      key: peres
+    - op: add
+      target: ally_satisfaction
+      value: 5.0
+      key: progressives
+  perspectives:
+  - group: group_1
+    label: 拉冯
+    text: 我只要求一件事——承认我没有下达那道命令。
+  - group: group_2
+    label: 本-古里安
+    text: 真相只能由法院查明，不能由一群政客投票决定。
+  - group: group_3
+    label: 一名年轻的马帕伊党员
+    text: 一场十年前的秘密行动，正在吞噬整个党。
+  notes: 苏珊娜行动中被捕的埃及犹太人（其中两人被处决）在本时代仍是公众不知情的秘密，可作为后续暴露事件。
+- id: E-1960-12
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 迪莫纳曝光
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("dimona_project_started")
+    condition: nuclear_exposure_risk >= 30
+    probability:
+      period: month
+      base: 0.15
+      add:
+      - when: us_admin_relation < 40
+        value: 0.1
+    invalidation: flag("no_nuclear_option")
+  background: 1960年12月，美国情报部门确认迪莫纳是一座大型反应堆，消息见诸美英报端。12月21日，本-古里安在议会首次公开承认反应堆的存在，声称它仅用于和平目的的研究。同期戴高乐政府一度试图收缩合作，经佩雷斯斡旋后，法国同意在以色列自行承担更多责任的条件下完成工程。
+  narrative: 1960年12月，美国情报部门确认迪莫纳是一座大型反应堆，消息见诸美英报端。12月21日，本-古里安在议会首次公开承认反应堆的存在，声称它仅用于和平目的的研究。同期戴高乐政府一度试图收缩合作，经佩雷斯斡旋后，法国同意在以色列自行承担更多责任的条件下完成工程。
+  summary: 1960年12月，美国情报部门确认迪莫纳是一座大型反应堆，消息见诸美英报端。
+  options:
+  - id: A
+    title: 公开承认反应堆，宣称和平用途，同
+    label: 公开承认反应堆，宣称和平用途，同时拒绝国际原子能机构监督
+    historical: true
+    tags:
+    - hardline
+    - peace
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: nuclear_ambiguity
+    - op: add
+      target: intl_legitimacy
+      value: -3.0
+    - op: add
+      target: us_admin_relation
+      value: -6.0
+    - op: add
+      target: vision_progress
+      value: 3.0
+    - op: add
+      target: power_relation
+      value: -3.0
+      key: france
+    - op: schedule_event
+      event: E-1963-05
+      delay_days: 30
+  - id: B
+    title: 全面否认，继续掩护
+    label: 全面否认，继续掩护
+    historical: false
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add
+      target: us_admin_relation
+      value: -2.0
+    - op: add
+      target: us_admin_relation
+      value: -15.0
+    - op: add
+      target: intl_legitimacy
+      value: -8.0
+    - op: add
+      target: power_relation
+      value: -8.0
+      key: france
+    - op: add
+      target: centralization
+      value: 3.0
+  - id: C
+    title: 主动邀请美国科学家参观，换取外交
+    label: 主动邀请美国科学家参观，换取外交信任
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: us_admin_relation
+      value: 5.0
+    - op: add
+      target: intl_legitimacy
+      value: 3.0
+    - op: add
+      target: relation
+      value: -10.0
+      key: peres
+    - op: add
+      target: vision_progress
+      value: -2.0
+  perspectives:
+  - group: cabinet
+    label: 内阁成员
+    text: 围绕「迪莫纳曝光」的争论在会议室里持续到深夜。
+  - group: street
+    label: 街头市民
+    text: 早报头条刊登了政府决定的消息，咖啡馆里议论纷纷。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+- id: E-1961-01
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: '"埃戈兹"号沉没与亚钦行动'
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("world_morocco_emigration_ban")
+    condition: power_relation[diaspora] >= 30 and absorption_capacity >= 20
+    probability:
+      period: month
+      base: 0.08
+    invalidation: flag("world_morocco_emigration_open")
+  background: 摩洛哥独立后限制犹太人移民，摩萨德组织秘密偷渡。1961年1月，载有偷渡移民的"埃戈兹"号在地中海沉没，44人罹难。舆论压力下，以色列通过美国犹太组织的掩护与哈桑二世政府达成秘密协议，按人头付费，使约9.7万名摩洛哥犹太人在1961–64年间移民（"亚钦行动"）。
+  narrative: 摩洛哥独立后限制犹太人移民，摩萨德组织秘密偷渡。1961年1月，载有偷渡移民的"埃戈兹"号在地中海沉没，44人罹难。舆论压力下，以色列通过美国犹太组织的掩护与哈桑二世政府达成秘密协议，按人头付费，使约9.7万名摩洛哥犹太人在1961–64年间移民（"亚钦行动"）。
+  summary: 摩洛哥独立后限制犹太人移民，摩萨德组织秘密偷渡。
+  options:
+  - id: A
+    title: 与哈桑二世秘密交易，按人头付款
+    label: 与哈桑二世秘密交易，按人头付款
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: morocco_channel
+    - op: add
+      target: immigration_inflow
+      value: 9.7
+    - op: add
+      target: absorption_capacity
+      value: -10.0
+    - op: add
+      target: budget_balance
+      value: -1.5
+    - op: add
+      target: power_relation
+      value: 8.0
+      key: diaspora
+    - op: add
+      target: bloc_support
+      value: 4.0
+      key: mizrahi
+    - op: add
+      target: alienation
+      value: 3.0
+      key: mizrahi
+  - id: B
+    title: 继续地下偷渡，同时国际施压
+    label: 继续地下偷渡，同时国际施压
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: immigration_inflow
+      value: 2.0
+    - op: add
+      target: intl_legitimacy
+      value: 2.0
+    - op: add
+      target: power_relation
+      value: 3.0
+      key: diaspora
+  - id: C
+    title: 交易，但同时启动对发展城镇的安置
+    label: 交易，但同时启动对发展城镇的安置质量改革
+    historical: false
+    tags:
+    - social
+    requires: 'true'
+    effects:
+    - op: add
+      target: region_development
+      value: 3.0
+      key: negev
+    - op: add
+      target: political_capital
+      value: -10.0
+  perspectives:
+  - group: group_1
+    label: 卡萨布兰卡的犹太家庭
+    text: 我们在夜里离开，带不走祖先的墓。
+  - group: group_2
+    label: 哈桑二世的大臣
+    text: 这是一笔可以否认的交易。
+  - group: group_3
+    label: 迪莫纳一个新安置点的移民
+    text: 他们说我们来到了以色列地，可这里只有沙子。
+- id: E-1961-04
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 艾希曼审判
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("eichmann_trial_held")
+    condition: rule_of_law >= 30
+    probability:
+      period: month
+      base: 0.3
+    invalidation: 'false'
+  background: 1961年4月，审判在耶路撒冷开庭，检察长豪斯纳传唤上百名幸存者出庭作证，审判向全世界广播，使大屠杀第一次在以色列社会中被公开、系统地讲述。12月法庭判处死刑；1962年5月31日，总统驳回赦免请求，艾希曼被执行绞刑，骨灰撒入公海。
+  narrative: 1961年4月，审判在耶路撒冷开庭，检察长豪斯纳传唤上百名幸存者出庭作证，审判向全世界广播，使大屠杀第一次在以色列社会中被公开、系统地讲述。12月法庭判处死刑；1962年5月31日，总统驳回赦免请求，艾希曼被执行绞刑，骨灰撒入公海。
+  summary: 1961年4月，审判在耶路撒冷开庭，检察长豪斯纳传唤上百名幸存者出庭作证，审。
+  options:
+  - id: A
+    title: 公开审判、幸存者作证，判决后执行
+    label: 公开审判、幸存者作证，判决后执行死刑
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: holocaust_memory_centrality
+      duration_days: null
+    - op: add
+      target: power_relation
+      value: 10.0
+      key: diaspora
+    - op: add
+      target: bloc_support
+      value: 5.0
+      key: labor_ashkenazi
+    - op: add
+      target: intl_legitimacy
+      value: 3.0
+    - op: add
+      target: power_relation
+      value: -3.0
+      key: west_germany
+  - id: B
+    title: 审判后接受马丁·布伯等人的呼吁，
+    label: 审判后接受马丁·布伯等人的呼吁，改判终身监禁
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: intl_legitimacy
+      value: 4.0
+    - op: add
+      target: bloc_support
+      value: -6.0
+      key: labor_ashkenazi
+    - op: add
+      target: power_relation
+      value: -3.0
+      key: diaspora
+    - op: add
+      target: party_standing
+      value: -5.0
+    - op: add
+      target: political_capital
+      value: -15.0
+    - op: add
+      target: rule_of_law
+      value: 2.0
+  - id: C
+    title: 限制公开程度，以快速审理避免外交
+    label: 限制公开程度，以快速审理避免外交风波
+    historical: false
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: holocaust_memory_centrality
+      duration_days: null
+    - op: add
+      target: power_relation
+      value: 4.0
+      key: west_germany
+    - op: add
+      target: power_relation
+      value: -6.0
+      key: diaspora
+    - op: add
+      target: bloc_support
+      value: -4.0
+      key: labor_ashkenazi
+    - op: add
+      target: centralization
+      value: 2.0
+  perspectives:
+  - group: group_1
+    label: 一位出庭作证的幸存者
+    text: 十六年来，没人问过我那里发生了什么。
+  - group: group_2
+    label: 汉娜·阿伦特（旁听者）
+    text: 被告的平庸比他的残暴更令人不安。
+  - group: group_3
+    label: 一位米兹拉希青年
+    text: 我第一次明白，那些邻居手臂上的数字意味着什么。
+- id: E-1963-05
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 肯尼迪的核查要求
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("nuclear_ambiguity")
+    condition: us_admin_relation >= 30 and nuclear_exposure_risk >= 20
+    probability:
+      period: month
+      base: 0.12
+    invalidation: flag("no_nuclear_option")
+  background: 肯尼迪政府把防止核扩散放在首位，1963年5月起连续致信本-古里安，要求美国专家每半年对迪莫纳进行一次全面视察，否则美以关系将"受到严重危害"。本-古里安6月中旬辞职前未作正式答复；7月肯尼迪又致信刚上任的埃什科尔。埃什科尔最终同意美方定期"科学访问"，但以色列控制访问的时间与范围；以色列同时表态"不会第一个把核武器引入中东"。
+  narrative: 肯尼迪政府把防止核扩散放在首位，1963年5月起连续致信本-古里安，要求美国专家每半年对迪莫纳进行一次全面视察，否则美以关系将"受到严重危害"。本-古里安6月中旬辞职前未作正式答复；7月肯尼迪又致信刚上任的埃什科尔。埃什科尔最终同意美方定期"科学访问"，但以色列控制访问的时间与范围；以色列同时表态"不会第一个把核武器引入中东"。
+  summary: 肯尼迪政府把防止核扩散放在首位，1963年5月起连续致信本-古里安，要求美国。
+  options:
+  - id: A
+    title: 同意受控的年度访问，并承诺'不第
+    label: 同意受控的年度访问，并承诺'不第一个引入'
+    historical: false
+    tags:
+    - peace
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: nuclear_ambiguity
+    - op: add
+      target: us_admin_relation
+      value: 8.0
+    - op: add
+      target: us_congress_relation
+      value: 3.0
+    - op: add
+      target: relation
+      value: -5.0
+      key: peres
+  - id: B
+    title: 拒绝核查，以主权为由拖延
+    label: 拒绝核查，以主权为由拖延
+    historical: false
+    tags:
+    - hardline
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: us_diplomatic_coolness
+      duration_days: 720
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: foreign
+      value: 4.0
+      direction: away
+    - op: add
+      target: us_admin_relation
+      value: -15.0
+    - op: add
+      target: relation
+      value: 10.0
+      key: peres
+    - op: add
+      target: centralization
+      value: 2.0
+  - id: C
+    title: 接受每半年一次的全面视察
+    label: 接受每半年一次的全面视察
+    historical: false
+    tags:
+    - restraint
+    requires: 'true'
+    effects:
+    - op: add
+      target: us_admin_relation
+      value: 15.0
+    - op: add
+      target: intl_legitimacy
+      value: 4.0
+    - op: add
+      target: relation
+      value: -20.0
+      key: peres
+    - op: add
+      target: party_standing
+      value: -4.0
+  perspectives:
+  - group: group_1
+    label: 肯尼迪
+    text: 一个拥有核武的中东，会让美国被卷进任何一场冲突。
+  - group: group_2
+    label: 佩雷斯
+    text: 我们需要的是让人"怀疑"，而不是让人"确定"。
+  - group: group_3
+    label: 迪莫纳的工程师
+    text: 每次美国人来之前，我们都要砌一道新墙。
+- id: E-1963-06a
+  kind: fixed
+  type: anchor
+  form: passive
+  major: true
+  minor: false
+  repeatable: false
+  title: 本-古里安辞职
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: character_in_office("ben_gurion")
+    condition: has_modifier("ghost_of_lavon_affair") and party_standing < 50 and health[ben_gurion]
+      < 40 and us_admin_relation < 30 and relation[harel] < -20
+    probability:
+      period: month
+      base: 0.06
+    invalidation: 'false'
+  background: 1963年6月16日，本-古里安以"个人原因"宣布辞去总理和国防部长职务，退回斯代博克基布兹。外界普遍认为，拉冯事件造成的孤立、与党内"老卫兵"的冲突、德国科学家事件中与摩萨德首长哈雷尔的决裂，以及核问题上的美国压力，都在其中起了作用。他推荐财政部长埃什科尔接任。
+  narrative: 1963年6月16日，本-古里安以"个人原因"宣布辞去总理和国防部长职务，退回斯代博克基布兹。外界普遍认为，拉冯事件造成的孤立、与党内"老卫兵"的冲突、德国科学家事件中与摩萨德首长哈雷尔的决裂，以及核问题上的美国压力，都在其中起了作用。他推荐财政部长埃什科尔接任。
+  summary: 1963年6月16日，本-古里安以"个人原因"宣布辞去总理和国防部长职务，退。
+  passive_effects:
+  - op: set_flag
+    flag: ben_gurion_in_opposition
+  - op: add_modifier
+    modifier: post_transition_honeymoon
+    duration_days: 180
+  - op: add
+    target: political_capital
+    value: 20.0
+  perspectives:
+  - group: group_1
+    label: 斯代博克的基布兹成员
+    text: 他又回来剪羊毛了，但这次大概不会再回去。
+  - group: group_2
+    label: 埃什科尔
+    text: 我不是先知，我是一个管家。
+  - group: group_3
+    label: 一位年轻军官（达扬一代）
+    text: 老人走了，我们的位置在哪里？
+- id: E-1963-06b
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 埃什科尔组阁：继承还是改写
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1963-01-01'
+      to: '1963-12-31'
+    prerequisites: flag("ben_gurion_in_opposition")
+    condition: party_standing <= 70 and relation[ben_gurion] >= -20
+    probability:
+      period: week
+      base: 0.8
+    invalidation: 'false'
+  background: 埃什科尔接手本-古里安的整套内阁，并像前任一样兼任国防部长。他被视为温和、务实、善于妥协的人，上台后放松了一些本-古里安时代的强硬政策，包括军事管制的限制，以及对右翼修正派的排斥。
+  narrative: 埃什科尔接手本-古里安的整套内阁，并像前任一样兼任国防部长。他被视为温和、务实、善于妥协的人，上台后放松了一些本-古里安时代的强硬政策，包括军事管制的限制，以及对右翼修正派的排斥。
+  summary: 埃什科尔接手本-古里安的整套内阁，并像前任一样兼任国防部长。
+  options:
+  - id: A
+    title: 沿用原班人马，自兼国防部长，逐步
+    label: 沿用原班人马，自兼国防部长，逐步改变风格
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: relation
+      value: 5.0
+      key: ben_gurion
+    - op: add
+      target: relation
+      value: 5.0
+      key: peres
+    - op: add
+      target: party_standing
+      value: 3.0
+    - op: add
+      target: promise_progress
+      value: 5.0
+      key: cat_peace
+    - op: add
+      target: vision_progress
+      value: 2.0
+    - op: add
+      target: centralization
+      value: -3.0
+  - id: B
+    title: 清洗本-古里安的'青年派'，起用
+    label: 清洗本-古里安的'青年派'，起用老卫兵与劳工联盟
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: rafi_split
+    - op: add
+      target: relation
+      value: -20.0
+      key: ben_gurion
+    - op: add
+      target: relation
+      value: -20.0
+      key: peres
+    - op: add
+      target: relation
+      value: -15.0
+      key: dayan
+    - op: add
+      target: relation
+      value: 10.0
+      key: meir
+    - op: add
+      target: ally_satisfaction
+      value: 10.0
+      key: labor
+    - op: add
+      target: promise_progress
+      value: -10.0
+      key: cat_peace
+    - op: add
+      target: party_standing
+      value: 5.0
+  - id: C
+    title: 邀请本-古里安系的达扬出任国防部
+    label: 邀请本-古里安系的达扬出任国防部长，以安抚青年派
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: security
+      value: 1.0
+      direction: away
+    - op: add
+      target: relation
+      value: 20.0
+      key: dayan
+    - op: add
+      target: relation
+      value: 10.0
+      key: ben_gurion
+    - op: add
+      target: relation
+      value: -10.0
+      key: meir
+    - op: add
+      target: ally_satisfaction
+      value: -8.0
+      key: labor
+    - op: add
+      target: promise_progress
+      value: 8.0
+      key: cat_peace
+    - op: add
+      target: party_standing
+      value: -4.0
+  perspectives:
+  - group: cabinet
+    label: 内阁成员
+    text: 围绕「埃什科尔组阁：继承还是改写」的争论在会议室里持续到深夜。
+  - group: street
+    label: 街头市民
+    text: 早报头条刊登了政府决定的消息，咖啡馆里议论纷纷。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+- id: E-1964-01
+  kind: fixed
+  type: anchor
+  form: passive
+  major: true
+  minor: false
+  repeatable: false
+  title: 输水工程与阿拉伯的引水计划
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: 'true'
+    condition: regime_hostility[syria] >= 40
+    probability:
+      period: month
+      base: 0.4
+    invalidation: 'false'
+  background: 国家输水工程从太巴列湖抽水，经管道和运河输往中部与内盖夫，1964年6月投入运营。1964年1月，阿拉伯国家开罗首脑会议决定实施"源头引水计划"，在叙利亚和黎巴嫩境内截流约旦河上游支流，使太巴列湖水量骤减；会议还决定建立巴勒斯坦的代表机构和统一的阿拉伯军事指挥部。
+  narrative: 国家输水工程从太巴列湖抽水，经管道和运河输往中部与内盖夫，1964年6月投入运营。1964年1月，阿拉伯国家开罗首脑会议决定实施"源头引水计划"，在叙利亚和黎巴嫩境内截流约旦河上游支流，使太巴列湖水量骤减；会议还决定建立巴勒斯坦的代表机构和统一的阿拉伯军事指挥部。
+  summary: 国家输水工程从太巴列湖抽水，经管道和运河输往中部与内盖夫，1964年6月投入。
+  passive_effects:
+  - op: set_flag
+    flag: national_water_diversion_plan
+  - op: set_flag
+    flag: national_water_diversion_plan
+  - op: remove_modifier
+    modifier: headwater_diversion_threat
+  - op: add
+    target: region_development
+    value: 6.0
+    key: negev
+  - op: add
+    target: growth
+    value: 1.0
+  - op: add
+    target: vision_progress
+    value: 4.0
+  - op: add
+    target: regime_hostility
+    value: 6.0
+    key: syria
+  - op: add
+    target: regime_hostility
+    value: 3.0
+    key: egypt
+  - op: schedule_event
+    event: E-1964-11
+    delay_days: 30
+  perspectives:
+  - group: group_1
+    label: 内盖夫的莫沙夫农民
+    text: 水来了，我们终于可以种柑橘以外的东西。
+  - group: group_2
+    label: 大马士革
+    text: 犹太人在偷约旦河的水。
+  - group: group_3
+    label: 一位水利工程师
+    text: 这条管道比任何一场战役都更能决定这个国家能养活多少人。
+- id: E-1964-05
+  kind: fixed
+  type: anchor
+  form: passive
+  major: true
+  minor: false
+  repeatable: false
+  title: 巴解组织与法塔赫
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("united_arab_command_formed") and event_done("E-1964-01")
+    condition: pal_hostility >= 50 and regime_hostility[egypt] >= 40
+    probability:
+      period: month
+      base: 0.15
+      add:
+      - when: flag("national_water_diversion_plan")
+        value: 0.15
+    invalidation: flag("egypt_peace_treaty_signed")
+  background: 1964年5月，在埃及主导下，巴勒斯坦民族委员会在约旦控制下的东耶路撒冷开会，成立巴勒斯坦解放组织，舒凯里任主席。另一支独立于阿拉伯政权的地下组织法塔赫，则在1965年1月1日以"暴风"名义发动首次行动，企图破坏国家输水工程，未能成功。
+  narrative: 1964年5月，在埃及主导下，巴勒斯坦民族委员会在约旦控制下的东耶路撒冷开会，成立巴勒斯坦解放组织，舒凯里任主席。另一支独立于阿拉伯政权的地下组织法塔赫，则在1965年1月1日以"暴风"名义发动首次行动，企图破坏国家输水工程，未能成功。
+  summary: 1964年5月，在埃及主导下，巴勒斯坦民族委员会在约旦控制下的东耶路撒冷开会。
+  passive_effects:
+  - op: add_modifier
+    modifier: border_infiltration_raids
+    duration_days: null
+  - op: add
+    target: pal_hostility
+    value: 3.0
+  - op: add
+    target: public_security
+    value: -3.0
+  - op: add
+    target: regime_stability
+    value: -2.0
+    key: jordan
+  - op: add
+    target: regime_hostility
+    value: 2.0
+    key: syria
+  perspectives:
+  - group: group_1
+    label: 一名年轻的法塔赫成员
+    text: 阿拉伯国家只会开会，我们要自己回家。
+  - group: group_2
+    label: 侯赛因国王
+    text: 巴解组织在我的土地上成立，却不对我负责。
+  - group: group_3
+    label: 以色列情报官员
+    text: 这些游击队员现在很弱，但他们能把大国拖进战争。
+- id: E-1964-07
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 雅博廷斯基的遗骸
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: character_in_office("begin")
+    condition: relation[begin] >= -30 and party_standing >= 50
+    probability:
+      period: month
+      base: 0.08
+    invalidation: 'false'
+  background: 修正派犹太复国主义创始人雅博廷斯基1940年在纽约去世，遗嘱要求由犹太国家的政府下令才把遗骸迁回。本-古里安始终拒绝。埃什科尔上台后批准迁葬，1964年7月雅博廷斯基夫妇的遗骸被安葬在赫茨尔山。
+  narrative: 修正派犹太复国主义创始人雅博廷斯基1940年在纽约去世，遗嘱要求由犹太国家的政府下令才把遗骸迁回。本-古里安始终拒绝。埃什科尔上台后批准迁葬，1964年7月雅博廷斯基夫妇的遗骸被安葬在赫茨尔山。
+  summary: 修正派犹太复国主义创始人雅博廷斯基1940年在纽约去世，遗嘱要求由犹太国家的。
+  options:
+  - id: A
+    title: 批准国葬规格的迁葬
+    label: 批准国葬规格的迁葬
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: relation
+      value: 20.0
+      key: begin
+    - op: add
+      target: mobilization
+      value: -10.0
+    - op: add
+      target: vision_progress
+      value: 6.0
+    - op: add
+      target: relation
+      value: -10.0
+      key: ben_gurion
+    - op: add
+      target: party_standing
+      value: -2.0
+  - id: B
+    title: 拒绝，维持本-古里安的立场
+    label: 拒绝，维持本-古里安的立场
+    historical: false
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: add
+      target: relation
+      value: 5.0
+      key: ben_gurion
+    - op: add
+      target: relation
+      value: -10.0
+      key: begin
+    - op: add
+      target: vision_progress
+      value: -3.0
+    - op: add
+      target: bloc_support
+      value: -1.0
+      key: mizrahi
+  - id: C
+    title: 批准迁葬，但只作私人安葬，不予国
+    label: 批准迁葬，但只作私人安葬，不予国家礼仪
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: relation
+      value: 5.0
+      key: begin
+    - op: add
+      target: relation
+      value: -3.0
+      key: ben_gurion
+    - op: add
+      target: vision_progress
+      value: 2.0
+    - op: add
+      target: political_capital
+      value: -5.0
+  perspectives:
+  - group: cabinet
+    label: 内阁成员
+    text: 围绕「雅博廷斯基的遗骸」的争论在会议室里持续到深夜。
+  - group: street
+    label: 街头市民
+    text: 早报头条刊登了政府决定的消息，咖啡馆里议论纷纷。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+  notes: 此事件之后，赫鲁特与自由党组建加哈尔集团的概率上升（→ E-1965-04）。
+- id: E-1964-11
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 引水之战
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("national_water_diversion_plan") and flag("syria_water_diversion_started")
+    condition: regime_hostility[syria] >= 50 and deterrence < 80
+    probability:
+      period: month
+      base: 0.2
+    invalidation: flag("national_water_diversion_plan")
+  background: 叙利亚开始在戈兰高地修建引水渠，要把班尼亚斯河的水引离太巴列湖。以色列在1964年11月至1965年间多次以坦克远程炮击叙方工程机械，1966年7月出动空军。叙利亚最终停止了工程，但边境冲突的强度一路上升。
+  narrative: 叙利亚开始在戈兰高地修建引水渠，要把班尼亚斯河的水引离太巴列湖。以色列在1964年11月至1965年间多次以坦克远程炮击叙方工程机械，1966年7月出动空军。叙利亚最终停止了工程，但边境冲突的强度一路上升。
+  summary: 叙利亚开始在戈兰高地修建引水渠，要把班尼亚斯河的水引离太巴列湖。
+  options:
+  - id: A
+    title: 以坦克精确炮击工程机械，必要时出
+    label: 以坦克精确炮击工程机械，必要时出动空军
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: clear_flag
+      flag: national_water_diversion_plan
+    - op: add_modifier
+      modifier: northern_border_friction
+      duration_days: 720
+    - op: add
+      target: deterrence
+      value: 5.0
+    - op: add
+      target: regime_hostility
+      value: 8.0
+      key: syria
+    - op: add
+      target: popular_hostility
+      value: 5.0
+      key: syria
+    - op: add
+      target: intl_legitimacy
+      value: -3.0
+  - id: B
+    title: 诉诸联合国与美国调停，暂不动武
+    label: 诉诸联合国与美国调停，暂不动武
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: headwater_diversion_threat
+      duration_days: null
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: security
+      value: 3.0
+      direction: away
+    - op: add
+      target: us_admin_relation
+      value: 4.0
+    - op: add
+      target: intl_legitimacy
+      value: 3.0
+    - op: add
+      target: party_standing
+      value: -5.0
+    - op: add
+      target: relation
+      value: -10.0
+      key: allon
+    - op: add
+      target: relation
+      value: -8.0
+      key: rabin
+  - id: C
+    title: 大规模越境突袭，摧毁全部工程并占
+    label: 大规模越境突袭，摧毁全部工程并占领制高点
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: clear_flag
+      flag: national_water_diversion_plan
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: security
+      value: 5.0
+      direction: away
+    - op: add
+      target: deterrence
+      value: 8.0
+    - op: add
+      target: regime_hostility
+      value: 15.0
+      key: syria
+    - op: add
+      target: popular_hostility
+      value: 12.0
+      key: syria
+    - op: add
+      target: power_relation
+      value: -10.0
+      key: ussr
+    - op: add
+      target: intl_legitimacy
+      value: -8.0
+    - op: add
+      target: us_admin_relation
+      value: -8.0
+  perspectives:
+  - group: group_1
+    label: 戈兰脚下基布兹的孩子
+    text: 我们在防空洞里睡觉的夜晚越来越多。
+  - group: group_2
+    label: 叙利亚复兴党军官
+    text: 这是一场关于尊严的工程，不能被几辆坦克吓退。
+  - group: group_3
+    label: 拉宾（总参谋长）
+    text: 要么现在阻止，要么将来用一场战争阻止。
+- id: E-1965-01
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 大马士革的间谍
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("eli_cohen_network") and character_alive("eli_cohen")
+    condition: regime_hostility[syria] >= 60
+    probability:
+      period: month
+      base: 0.05
+      add:
+      - when: power_relation[ussr] < 30
+        value: 0.03
+    invalidation: 'false'
+  background: 埃及出生的以色列特工埃利·科恩化名"卡迈勒·阿明·塔贝特"打入叙利亚上层，提供了大量关于戈兰高地防御的情报。1965年1月他在发报时被捕，经军事法庭审判，5月18日在大马士革广场被公开绞死。以色列组织了国际求情运动，并通过中间人提出交换和补偿，均遭拒绝。
+  narrative: 埃及出生的以色列特工埃利·科恩化名"卡迈勒·阿明·塔贝特"打入叙利亚上层，提供了大量关于戈兰高地防御的情报。1965年1月他在发报时被捕，经军事法庭审判，5月18日在大马士革广场被公开绞死。以色列组织了国际求情运动，并通过中间人提出交换和补偿，均遭拒绝。
+  summary: 埃及出生的以色列特工埃利·科恩化名"卡迈勒·阿明·塔贝特"打入叙利亚上层，提。
+  options:
+  - id: A
+    title: 发动国际求情，通过中间人提出交换
+    label: 发动国际求情，通过中间人提出交换与补偿
+    historical: true
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: eli_cohen_network
+    - op: add
+      target: power_relation
+      value: 3.0
+      key: diaspora
+    - op: add
+      target: political_capital
+      value: -5.0
+    - op: add
+      target: public_security
+      value: -2.0
+    - op: add
+      target: regime_hostility
+      value: 3.0
+      key: syria
+    - op: add
+      target: readiness
+      value: 5.0
+  - id: B
+    title: 公开以军事报复相威胁
+    label: 公开以军事报复相威胁
+    historical: false
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: add
+      target: regime_hostility
+      value: 8.0
+      key: syria
+    - op: add
+      target: popular_hostility
+      value: 5.0
+      key: syria
+    - op: add
+      target: intl_legitimacy
+      value: -2.0
+    - op: add
+      target: party_standing
+      value: 2.0
+  - id: C
+    title: 保持沉默，否认其身份以保护其他情
+    label: 保持沉默，否认其身份以保护其他情报网
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: eli_cohen_network
+    - op: add
+      target: bloc_support
+      value: -3.0
+      key: mizrahi
+    - op: add
+      target: relation
+      value: 5.0
+      key: amit
+    - op: add
+      target: power_relation
+      value: -3.0
+      key: diaspora
+  perspectives:
+  - group: group_1
+    label: 科恩的妻子纳迪娅
+    text: 他们说他是英雄，可我只想要他回家。
+  - group: group_2
+    label: 叙利亚安全部门
+    text: 一个能接近总统身边的人居然是犹太人，这是我们的耻辱。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+- id: E-1965-02
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 拉冯事件第三幕
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("ben_gurion_in_opposition") and has_modifier("ghost_of_lavon_affair")
+    condition: relation[ben_gurion] < 30 and promise_progress[cat_peace] < 70
+    probability:
+      period: month
+      base: 0.12
+    invalidation: not has_modifier("ghost_of_lavon_affair")
+  background: 1964年10月，本-古里安向司法部提交材料，要求成立司法调查委员会重审拉冯事件。埃什科尔拒绝重开此案，并于12月以辞职重组政府的方式迫使党表态。1965年2月马帕伊大会以多数支持埃什科尔，同时批准与劳工联盟组成"联合阵线"。本-古里安随后率追随者出走。
+  narrative: 1964年10月，本-古里安向司法部提交材料，要求成立司法调查委员会重审拉冯事件。埃什科尔拒绝重开此案，并于12月以辞职重组政府的方式迫使党表态。1965年2月马帕伊大会以多数支持埃什科尔，同时批准与劳工联盟组成"联合阵线"。本-古里安随后率追随者出走。
+  summary: 1964年10月，本-古里安向司法部提交材料，要求成立司法调查委员会重审拉冯。
+  options:
+  - id: A
+    title: 拒绝重审，以辞职重组逼党站队，并
+    label: 拒绝重审，以辞职重组逼党站队，并与劳工联盟结盟
+    historical: true
+    tags:
+    - hardline
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: gahal_alignment_formed
+    - op: set_flag
+      flag: rafi_split
+    - op: add
+      target: relation
+      value: -40.0
+      key: ben_gurion
+    - op: add
+      target: party_standing
+      value: 8.0
+    - op: add
+      target: ally_satisfaction
+      value: 15.0
+      key: labor
+    - op: add
+      target: promise_progress
+      value: -10.0
+      key: cat_peace
+    - op: add
+      target: centralization
+      value: 2.0
+  - id: B
+    title: 同意设立司法调查委员会
+    label: 同意设立司法调查委员会
+    historical: false
+    tags:
+    - restraint
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: rafi_split
+    - op: add_modifier
+      modifier: ghost_of_lavon_affair
+      duration_days: null
+    - op: add
+      target: relation
+      value: 25.0
+      key: ben_gurion
+    - op: add
+      target: relation
+      value: -15.0
+      key: meir
+    - op: add
+      target: relation
+      value: -10.0
+      key: lavon
+    - op: add
+      target: rule_of_law
+      value: 3.0
+    - op: add
+      target: party_standing
+      value: -8.0
+    - op: add
+      target: promise_progress
+      value: 5.0
+      key: cat_peace
+  - id: C
+    title: 请本-古里安的门生达扬、佩雷斯入
+    label: 请本-古里安的门生达扬、佩雷斯入核心圈，换取他们留在党内
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: rafi_split
+    - op: add
+      target: relation
+      value: 15.0
+      key: dayan
+    - op: add
+      target: relation
+      value: 15.0
+      key: peres
+    - op: add
+      target: relation
+      value: -10.0
+      key: meir
+    - op: add
+      target: ally_satisfaction
+      value: -10.0
+      key: labor
+    - op: add
+      target: promise_progress
+      value: 8.0
+      key: cat_peace
+    - op: add
+      target: political_capital
+      value: -20.0
+  perspectives:
+  - group: group_1
+    label: 本-古里安
+    text: 一个不敢让法院查明真相的党，已经不配执政。
+  - group: group_2
+    label: 梅厄
+    text: 他要把我们所有人都烧掉，就为了证明他十年前是对的。
+  - group: group_3
+    label: 埃什科尔
+    text: 我宁可丢掉一个先知，也不能丢掉整个党。
+- id: E-1965-03
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 与西德建交
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("west_germany_secret_arms_aid")
+    condition: power_relation[west_germany] >= 30 and regime_hostility[egypt] >= 50
+    probability:
+      period: month
+      base: 0.25
+      add:
+      - when: flag("world_ulbricht_cairo_visit")
+        value: 0.25
+    invalidation: 'false'
+  background: 1964年秋，西德向以色列秘密转交坦克的事被披露。1965年2月乌布利希访问开罗，西德为报复埃及，同时迫于阿拉伯国家的压力，决定停止对以色列的武器交付，但提出建立正式外交关系。剩余武器改由美国直接出售。1965年5月12日两国建交，十个阿拉伯国家随即与波恩断交。赫鲁特和许多幸存者团体强烈抗议，首任西德大使到任时爆发示威。
+  narrative: 1964年秋，西德向以色列秘密转交坦克的事被披露。1965年2月乌布利希访问开罗，西德为报复埃及，同时迫于阿拉伯国家的压力，决定停止对以色列的武器交付，但提出建立正式外交关系。剩余武器改由美国直接出售。1965年5月12日两国建交，十个阿拉伯国家随即与波恩断交。赫鲁特和许多幸存者团体强烈抗议，首任西德大使到任时爆发示威。
+  summary: 1964年秋，西德向以色列秘密转交坦克的事被披露。
+  options:
+  - id: A
+    title: 接受建交，换取停止军援的补偿和经
+    label: 接受建交，换取停止军援的补偿和经济援助
+    historical: true
+    tags:
+    - peace
+    requires: 'true'
+    effects:
+    - op: add
+      target: power_relation
+      value: 20.0
+      key: west_germany
+    - op: add
+      target: fx_reserves
+      value: 4.0
+    - op: add
+      target: intl_legitimacy
+      value: 4.0
+    - op: add
+      target: promise_progress
+      value: -5.0
+      key: cat_security
+    - op: add
+      target: us_admin_relation
+      value: 5.0
+    - op: add
+      target: relation
+      value: -15.0
+      key: begin
+    - op: add
+      target: bloc_support
+      value: -2.0
+      key: labor_ashkenazi
+    - op: add
+      target: political_capital
+      value: -15.0
+    - op: add
+      target: vision_progress
+      value: 3.0
+  - id: B
+    title: 坚持军援必须完成，否则拒绝建交
+    label: 坚持军援必须完成，否则拒绝建交
+    historical: false
+    tags:
+    - hardline
+    - peace
+    requires: 'true'
+    effects:
+    - op: add
+      target: power_relation
+      value: -10.0
+      key: west_germany
+    - op: add
+      target: fx_reserves
+      value: -2.0
+    - op: add
+      target: promise_progress
+      value: 3.0
+      key: cat_security
+    - op: add
+      target: relation
+      value: 5.0
+      key: begin
+    - op: add
+      target: intl_legitimacy
+      value: -2.0
+  - id: C
+    title: 推迟建交，等待幸存者社群的情绪平
+    label: 推迟建交，等待幸存者社群的情绪平复
+    historical: false
+    tags:
+    - peace
+    requires: 'true'
+    effects:
+    - op: add
+      target: power_relation
+      value: -5.0
+      key: west_germany
+    - op: add
+      target: relation
+      value: 5.0
+      key: begin
+    - op: add
+      target: political_capital
+      value: 5.0
+    - op: add
+      target: vision_progress
+      value: -2.0
+    - op: add
+      target: fx_reserves
+      value: -1.0
+  perspectives:
+  - group: group_1
+    label: 一位集中营幸存者在大使馆外
+    text: 二十年太短了。
+  - group: group_2
+    label: 外交部
+    text: 一个西欧大国的承认，比一船坦克更持久。
+  - group: group_3
+    label: 开罗
+    text: 波恩选择了犹太人，阿拉伯人会记住。
+- id: E-1965-04
+  kind: fixed
+  type: anchor
+  form: passive
+  major: true
+  minor: false
+  repeatable: false
+  title: 加哈尔集团成立
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: character_in_office("begin")
+    condition: alienation[mizrahi] >= 30
+    probability:
+      period: month
+      base: 0.1
+    invalidation: 'false'
+  background: 1965年春，贝京的赫鲁特与自由党组成"赫鲁特—自由党集团"（加哈尔），右翼第一次形成足以挑战马帕伊的阵营。自由党中不愿与贝京合作的温和派另组独立自由党。11月大选，加哈尔获26席。
+  narrative: 1965年春，贝京的赫鲁特与自由党组成"赫鲁特—自由党集团"（加哈尔），右翼第一次形成足以挑战马帕伊的阵营。自由党中不愿与贝京合作的温和派另组独立自由党。11月大选，加哈尔获26席。
+  summary: 1965年春，贝京的赫鲁特与自由党组成"赫鲁特—自由党集团"（加哈尔），右翼。
+  passive_effects:
+  - op: add_modifier
+    modifier: herut_legitimized
+    duration_days: null
+  perspectives:
+  - group: group_1
+    label: 贝京
+    text: 我们不再是被排斥在国家大门外的人。
+  - group: group_2
+    label: 一个发展城镇的选民
+    text: 第一次，投票给马帕伊之外的人不会让我丢掉工作。
+  - group: group_3
+    label: 一位独立自由党人
+    text: 我们是中产阶级的政党，不是修正派的附庸。
+- id: E-1965-07
+  kind: fixed
+  type: anchor
+  form: passive
+  major: true
+  minor: false
+  repeatable: false
+  title: 拉菲分裂
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("rafi_split") and character_alive("ben_gurion") and event_done("E-1965-02")
+    condition: promise_progress[cat_peace] < 50 and relation[ben_gurion] < 20
+    probability:
+      period: month
+      base: 0.3
+    invalidation: flag("rafi_split")
+  background: 1965年夏，本-古里安率达扬、佩雷斯、科勒克等人离开马帕伊，另立"以色列工人名单"（拉菲）。11月大选，马帕伊与劳工联盟的联合阵线获45席，拉菲获10席。
+  narrative: 1965年夏，本-古里安率达扬、佩雷斯、科勒克等人离开马帕伊，另立"以色列工人名单"（拉菲）。11月大选，马帕伊与劳工联盟的联合阵线获45席，拉菲获10席。
+  summary: 1965年夏，本-古里安率达扬、佩雷斯、科勒克等人离开马帕伊，另立"以色列工。
+  passive_effects:
+  - op: add
+    target: party_standing
+    value: -5.0
+  - op: add
+    target: promise_progress
+    value: -15.0
+    key: cat_peace
+  - op: add
+    target: relation
+    value: -20.0
+    key: ben_gurion
+  - op: add
+    target: relation
+    value: -10.0
+    key: dayan
+  - op: add
+    target: relation
+    value: -10.0
+    key: peres
+  perspectives:
+  - group: group_1
+    label: 佩雷斯
+    text: 我们离开的是一个老人的党，不是劳工运动。
+  - group: group_2
+    label: 梅厄
+    text: 他亲手建起来的党，现在成了他的敌人。
+  - group: group_3
+    label: 一位特拉维夫的年轻选民
+    text: 拉菲代表技术、效率和新一代，可它的领袖已经快八十岁了。
+  notes: 原合并事件的效果按政党拆分到 E-1965-04 与本条，总量不变。
+- id: E-1966-01
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 衰退（Mitun）
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("reparations_inflow_declining")
+    condition: inflation >= 7 and growth >= 8
+    probability:
+      period: month
+      base: 0.12
+    invalidation: inflation < 4
+  background: 1960年代前半期以色列经济高速增长，但伴随通胀、贸易赤字和建筑业泡沫。德国赔偿款逐步到期，移民流入下降。埃什科尔与财政部长萨皮尔有意收紧，削减公共建设投资。1966–67年经济陷入衰退，失业率升至约10%，移出人数一度接近甚至超过移入人数，流传着"最后一个离开的人请关掉罗德机场的灯"的笑话。
+  narrative: 1960年代前半期以色列经济高速增长，但伴随通胀、贸易赤字和建筑业泡沫。德国赔偿款逐步到期，移民流入下降。埃什科尔与财政部长萨皮尔有意收紧，削减公共建设投资。1966–67年经济陷入衰退，失业率升至约10%，移出人数一度接近甚至超过移入人数，流传着"最后一个离开的人请关掉罗德机场的灯"的笑话。
+  summary: 1960年代前半期以色列经济高速增长，但伴随通胀、贸易赤字和建筑业泡沫。
+  options:
+  - id: A
+    title: 刻意紧缩：削减公共投资，压住工资
+    label: 刻意紧缩：削减公共投资，压住工资
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: mitun_recession
+      duration_days: 540
+    - op: add
+      target: inflation
+      value: -4.0
+    - op: add
+      target: growth
+      value: -6.0
+    - op: add
+      target: fx_reserves
+      value: 5.0
+    - op: add
+      target: promise_progress
+      value: 15.0
+      key: cat_economy
+    - op: add
+      target: union_strength
+      value: -5.0
+    - op: add
+      target: bloc_support
+      value: -6.0
+      key: mizrahi
+    - op: add
+      target: alienation
+      value: 5.0
+      key: mizrahi
+    - op: add
+      target: bloc_support
+      value: -3.0
+      key: labor_ashkenazi
+    - op: add
+      target: party_standing
+      value: -6.0
+  - id: B
+    title: 温和调整：放缓增长，同时兴建公共
+    label: 温和调整：放缓增长，同时兴建公共工程吸纳失业
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: inflation
+      value: -1.0
+    - op: add
+      target: growth
+      value: -2.0
+    - op: add
+      target: budget_balance
+      value: -2.0
+    - op: add
+      target: promise_progress
+      value: 5.0
+      key: cat_economy
+    - op: add
+      target: alienation
+      value: 1.0
+      key: mizrahi
+    - op: add
+      target: union_strength
+      value: 2.0
+    - op: add
+      target: fx_reserves
+      value: -3.0
+  - id: C
+    title: 转向市场：放松外汇管制，削弱工总
+    label: 转向市场：放松外汇管制，削弱工总企业
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: economy
+      value: 8.0
+      direction: away
+    - op: add
+      target: economic_model
+      value: 10.0
+    - op: add
+      target: union_strength
+      value: -10.0
+    - op: add
+      target: inflation
+      value: -2.0
+    - op: add
+      target: growth
+      value: -3.0
+    - op: add
+      target: inequality
+      value: 5.0
+    - op: add
+      target: ally_satisfaction
+      value: -12.0
+      key: labor
+    - op: add
+      target: relation
+      value: -10.0
+      key: sapir
+    - op: add
+      target: bloc_support
+      value: 5.0
+      key: liberal_middle
+  perspectives:
+  - group: group_1
+    label: 萨皮尔
+    text: 一个只能靠捐款和赔款过日子的经济，迟早要清醒过来。
+  - group: group_2
+    label: 迪莫纳的失业工人
+    text: 他们让我们来沙漠建国，现在说这里不需要我们了。
+  - group: group_3
+    label: 一位离开以色列去洛杉矶的工程师
+    text: 我爱这个国家，但我的孩子需要吃饭。
+- id: E-1966-11a
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 废除军事管制
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: 'true'
+    condition: promise_progress[cat_social] >= 40 and civic_identification[arab] >=
+      35 and public_security >= 50
+    probability:
+      period: month
+      base: 0.1
+    invalidation: 'false'
+  background: 建国以来，阿拉伯公民集中居住的加利利、三角地带和内盖夫一直处在军事管制之下，出行须申请通行证。1963年2月，议会废除军事管制的动议仅以57对56一票之差被否决。埃什科尔上台后逐步放宽，并于1966年11月宣布，12月1日起正式废除军事管制，但保留了部分紧急条例。
+  narrative: 建国以来，阿拉伯公民集中居住的加利利、三角地带和内盖夫一直处在军事管制之下，出行须申请通行证。1963年2月，议会废除军事管制的动议仅以57对56一票之差被否决。埃什科尔上台后逐步放宽，并于1966年11月宣布，12月1日起正式废除军事管制，但保留了部分紧急条例。
+  summary: 建国以来，阿拉伯公民集中居住的加利利、三角地带和内盖夫一直处在军事管制之下，。
+  options:
+  - id: A
+    title: 正式废除，但保留紧急条例作为'备
+    label: 正式废除，但保留紧急条例作为'备用工具'
+    historical: true
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add
+      target: promise_progress
+      value: 40.0
+      key: cat_social
+    - op: add
+      target: civic_identification
+      value: 8.0
+      key: arab
+    - op: add
+      target: civic_identification
+      value: 4.0
+      key: bedouin
+    - op: add
+      target: bloc_support
+      value: 8.0
+      key: arab_citizens
+    - op: add
+      target: rule_of_law
+      value: 6.0
+    - op: add
+      target: centralization
+      value: -4.0
+    - op: add
+      target: public_security
+      value: -2.0
+    - op: add
+      target: vision_progress
+      value: 6.0
+    - op: add
+      target: relation
+      value: -3.0
+      key: allon
+  - id: B
+    title: 彻底废除，连同《国防（紧急状态）
+    label: 彻底废除，连同《国防（紧急状态）条例》一并撤销
+    historical: false
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add
+      target: promise_progress
+      value: 50.0
+      key: cat_social
+    - op: add
+      target: civic_identification
+      value: 12.0
+      key: arab
+    - op: add
+      target: rule_of_law
+      value: 10.0
+    - op: add
+      target: centralization
+      value: -8.0
+    - op: add
+      target: public_security
+      value: -5.0
+    - op: add
+      target: intl_legitimacy
+      value: 3.0
+    - op: add
+      target: party_standing
+      value: -6.0
+    - op: add
+      target: relation
+      value: -10.0
+      key: rabin
+    - op: add
+      target: region_security
+      value: -5.0
+      key: triangle
+  - id: C
+    title: 推迟，以边境局势紧张为由维持现状
+    label: 推迟，以边境局势紧张为由维持现状
+    historical: false
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add
+      target: promise_progress
+      value: -15.0
+      key: cat_social
+    - op: add
+      target: civic_identification
+      value: -6.0
+      key: arab
+    - op: add
+      target: bloc_support
+      value: -8.0
+      key: arab_citizens
+    - op: add
+      target: centralization
+      value: 3.0
+    - op: add
+      target: rule_of_law
+      value: -3.0
+    - op: add
+      target: ally_satisfaction
+      value: -10.0
+      key: mapam
+    - op: add
+      target: relation
+      value: 5.0
+      key: rabin
+  perspectives:
+  - group: group_1
+    label: 一位拿撒勒的公民
+    text: 十八年来第一次，我去海法看医生不需要先去军官那里申请。
+  - group: group_2
+    label: 一名辛贝特官员
+    text: 我们失去了眼睛，在边境最紧张的时候。
+  - group: group_3
+    label: 马帕姆议员
+    text: 这是犹太国家能否同时是民主国家的试金石。
+- id: E-1966-11b
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 萨穆阿行动
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: 'true'
+    condition: region_security[negev] < 45 and region_security[triangle] < 45 and
+      faction_strength[fatah] >= 10
+    probability:
+      period: month
+      base: 0.2
+    invalidation: flag("occupied_territories_era")
+  background: 1966年11月11日，一枚地雷在希伯伦山区边境附近炸死三名以色列士兵。两天后，以色列出动装甲部队越境进攻约旦控制的萨穆阿村，炸毁数十所房屋，与赶来的约旦军团交火，造成十余名约旦士兵和数名平民死亡，以方一名营长阵亡。事实上，袭击者多受叙利亚支持，而侯赛因国王当时正与以色列保持秘密接触。行动在约旦河西岸引发反侯赛因的骚乱，美国强烈不满，联合国安理会通过决议谴责以色列。
+  narrative: 1966年11月11日，一枚地雷在希伯伦山区边境附近炸死三名以色列士兵。两天后，以色列出动装甲部队越境进攻约旦控制的萨穆阿村，炸毁数十所房屋，与赶来的约旦军团交火，造成十余名约旦士兵和数名平民死亡，以方一名营长阵亡。事实上，袭击者多受叙利亚支持，而侯赛因国王当时正与以色列保持秘密接触。行动在约旦河西岸引发反侯赛因的骚乱，美国强烈不满，联合国安理会通过决议谴责以色列。
+  summary: 1966年11月11日，一枚地雷在希伯伦山区边境附近炸死三名以色列士兵。
+  options:
+  - id: A
+    title: 大规模装甲突袭，炸毁房屋以示惩戒
+    label: 大规模装甲突袭，炸毁房屋以示惩戒
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: hussein_humiliation
+      duration_days: 360
+    - op: add
+      target: deterrence
+      value: 4.0
+    - op: add
+      target: regime_stability
+      value: -10.0
+      key: jordan
+    - op: add
+      target: regime_hostility
+      value: 10.0
+      key: jordan
+    - op: add
+      target: pal_hostility
+      value: 8.0
+    - op: add
+      target: us_admin_relation
+      value: -10.0
+    - op: add
+      target: intl_legitimacy
+      value: -6.0
+    - op: add
+      target: faction_strength
+      value: 2.0
+      key: fatah
+    - op: add
+      target: faction_legitimacy
+      value: 3.0
+      key: fatah
+  - id: B
+    title: 针对叙利亚：打击真正的庇护者
+    label: 针对叙利亚：打击真正的庇护者
+    historical: false
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: add
+      target: regime_hostility
+      value: 8.0
+      key: syria
+    - op: add
+      target: deterrence
+      value: 3.0
+    - op: add
+      target: power_relation
+      value: -5.0
+      key: ussr
+    - op: add
+      target: relation
+      value: 5.0
+      key: hussein
+  - id: C
+    title: 通过秘密渠道要求侯赛因清剿，暂不
+    label: 通过秘密渠道要求侯赛因清剿，暂不越境
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: security
+      value: 3.0
+      direction: away
+    - op: add
+      target: relation
+      value: 15.0
+      key: hussein
+    - op: add
+      target: regime_stability
+      value: -2.0
+      key: jordan
+    - op: add
+      target: deterrence
+      value: -3.0
+    - op: add
+      target: public_security
+      value: -3.0
+    - op: add
+      target: party_standing
+      value: -4.0
+    - op: add
+      target: relation
+      value: -5.0
+      key: rabin
+  perspectives:
+  - group: group_1
+    label: 萨穆阿的村民
+    text: 我们和那颗地雷有什么关系？
+  - group: group_2
+    label: 侯赛因国王
+    text: 我和他们秘密谈判，他们却在我的人民面前羞辱我。
+  - group: group_3
+    label: 阵亡伞兵的母亲
+    text: 政府必须让那些人付出代价。
+- id: E-1967-04
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 太巴列湖上空的米格机
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("dmz_cultivation_dispute") and has_modifier("northern_border_friction")
+    condition: regime_hostility[syria] >= 60 and deterrence >= 40
+    probability:
+      period: month
+      base: 0.2
+    invalidation: not has_modifier("northern_border_friction")
+  background: 1967年4月7日，以色列在非军事区耕作引发叙利亚炮击，冲突升级为空战。以色列空军击落六架叙利亚米格-21，战机飞越大马士革上空。此后叙利亚和苏联不断渲染"以色列即将进攻叙利亚"。
+  narrative: 1967年4月7日，以色列在非军事区耕作引发叙利亚炮击，冲突升级为空战。以色列空军击落六架叙利亚米格-21，战机飞越大马士革上空。此后叙利亚和苏联不断渲染"以色列即将进攻叙利亚"。
+  summary: 1967年4月7日，以色列在非军事区耕作引发叙利亚炮击，冲突升级为空战。
+  options:
+  - id: A
+    title: 全面空中反击，飞越大马士革
+    label: 全面空中反击，飞越大马士革
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: syria_humiliation
+    - op: add
+      target: deterrence
+      value: 6.0
+    - op: add
+      target: regime_hostility
+      value: 10.0
+      key: syria
+    - op: add
+      target: popular_hostility
+      value: 8.0
+      key: syria
+    - op: add
+      target: regime_stability
+      value: -5.0
+      key: syria
+    - op: add
+      target: power_relation
+      value: -8.0
+      key: ussr
+    - op: add
+      target: public_security
+      value: 3.0
+  - id: B
+    title: 只回击炮兵阵地，限制空军行动范围
+    label: 只回击炮兵阵地，限制空军行动范围
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: deterrence
+      value: 2.0
+    - op: add
+      target: regime_hostility
+      value: 4.0
+      key: syria
+    - op: add
+      target: power_relation
+      value: -2.0
+      key: ussr
+    - op: add
+      target: relation
+      value: -5.0
+      key: rabin
+    - op: add
+      target: relation
+      value: -8.0
+      key: weizman
+  - id: C
+    title: 暂停在非军事区的耕作，降低摩擦
+    label: 暂停在非军事区的耕作，降低摩擦
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: remove_modifier
+      modifier: northern_border_friction
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: security
+      value: 3.0
+      direction: away
+    - op: add
+      target: regime_hostility
+      value: -3.0
+      key: syria
+    - op: add
+      target: deterrence
+      value: -4.0
+    - op: add
+      target: bloc_support
+      value: -6.0
+      key: kibbutz_moshav
+    - op: add
+      target: party_standing
+      value: -4.0
+  perspectives:
+  - group: cabinet
+    label: 内阁成员
+    text: 围绕「太巴列湖上空的米格机」的争论在会议室里持续到深夜。
+  - group: street
+    label: 街头市民
+    text: 早报头条刊登了政府决定的消息，咖啡馆里议论纷纷。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+- id: E-1967-05a
+  kind: fixed
+  type: anchor
+  form: passive
+  major: true
+  minor: false
+  repeatable: false
+  title: 埃及进军西奈，联合国撤离
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("unef_deployed_sinai") and character_in_office("nasser")
+    condition: flag("syria_humiliation") and war_probability[syria] >= 30 and popular_hostility[egypt]
+      >= 60
+    probability:
+      period: month
+      base: 0.15
+      add:
+      - when: flag("operation_rotem_precedent")
+        value: 0.1
+      - when: power_relation[ussr] < 30
+        value: 0.1
+    invalidation: flag("egypt_peace_treaty_signed") and character_in_office("nasser")
+  background: 5月13日，苏联向埃及通报"以色列在叙利亚边境集结了十余个旅"，这一情报并不属实。5月14日，埃及部队大举开进西奈。5月16日，埃及要求联合国紧急部队撤出，联合国秘书长吴丹于18日同意。苏伊士战争后维持了十年的南部缓冲带消失。
+  narrative: 5月13日，苏联向埃及通报"以色列在叙利亚边境集结了十余个旅"，这一情报并不属实。5月14日，埃及部队大举开进西奈。5月16日，埃及要求联合国紧急部队撤出，联合国秘书长吴丹于18日同意。苏伊士战争后维持了十年的南部缓冲带消失。
+  summary: 5月13日，苏联向埃及通报"以色列在叙利亚边境集结了十余个旅"，这一情报并不。
+  passive_effects:
+  - op: clear_flag
+    flag: unef_deployed_sinai
+  - op: set_flag
+    flag: waiting_period_1967
+  - op: add_modifier
+    modifier: full_mobilization_1967
+    duration_days: null
+  - op: add
+    target: regime_hostility
+    value: 15.0
+    key: egypt
+  - op: add
+    target: popular_hostility
+    value: 15.0
+    key: egypt
+  - op: add
+    target: public_security
+    value: -12.0
+  - op: add
+    target: budget_balance
+    value: -3.0
+  - op: add
+    target: growth
+    value: -4.0
+  - op: add
+    target: complacency
+    value: -20.0
+  - op: schedule_event
+    event: E-1967-05b
+    delay_days: 30
+  perspectives:
+  - group: group_1
+    label: 开罗的人群
+    text: 纳赛尔终于要洗刷1956年的耻辱了。
+  - group: group_2
+    label: 预备役士兵
+    text: 我们被叫离工厂和田地，在沙丘里挖战壕，然后等待。
+  - group: group_3
+    label: 吴丹
+    text: 维和部队只能存在于东道国同意的土地上。
+- id: E-1967-05b
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 蒂朗海峡封锁
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("waiting_period_1967")
+    condition: popular_hostility[egypt] >= 65 and deterrence < 70
+    probability:
+      period: week
+      base: 0.4
+    invalidation: 'false'
+  background: 5月22日，纳赛尔宣布对以色列船只关闭蒂朗海峡。以色列早已宣布，封锁海峡就等于宣战。埃什科尔派外交部长埃班赶赴巴黎、伦敦和华盛顿：戴高乐警告"不要先开第一枪"，约翰逊总统表示"除非以色列决定单独行动，否则它不会孤单"，并提出由多国船队护航开通海峡（"赛船计划"），但响应者寥寥。
+  narrative: 5月22日，纳赛尔宣布对以色列船只关闭蒂朗海峡。以色列早已宣布，封锁海峡就等于宣战。埃什科尔派外交部长埃班赶赴巴黎、伦敦和华盛顿：戴高乐警告"不要先开第一枪"，约翰逊总统表示"除非以色列决定单独行动，否则它不会孤单"，并提出由多国船队护航开通海峡（"赛船计划"），但响应者寥寥。
+  summary: 5月22日，纳赛尔宣布对以色列船只关闭蒂朗海峡。
+  options:
+  - id: A
+    title: 再等两周，给美国的国际船队一个机
+    label: 再等两周，给美国的国际船队一个机会
+    historical: true
+    tags:
+    - restraint
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: full_mobilization_1967
+      duration_days: null
+    - op: add
+      target: us_admin_relation
+      value: 8.0
+    - op: add
+      target: intl_legitimacy
+      value: 5.0
+    - op: add
+      target: public_security
+      value: -10.0
+    - op: add
+      target: party_standing
+      value: -8.0
+    - op: add
+      target: relation
+      value: -10.0
+      key: rabin
+    - op: add
+      target: relation
+      value: -10.0
+      key: dayan
+    - op: schedule_event
+      event: E-1967-05c
+      delay_days: 30
+  - id: B
+    title: 立即先发制人
+    label: 立即先发制人
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: us_admin_relation
+      value: -10.0
+    - op: add
+      target: power_relation
+      value: -15.0
+      key: france
+    - op: add
+      target: intl_legitimacy
+      value: -8.0
+    - op: add
+      target: party_standing
+      value: 5.0
+    - op: schedule_event
+      event: E-1967-06b
+      delay_days: 30
+  - id: C
+    title: 通过秘密渠道向纳赛尔提出让步：暂
+    label: 通过秘密渠道向纳赛尔提出让步：暂停埃拉特的战略物资运输，换取解除封锁
+    historical: false
+    tags:
+    - restraint
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: remove_modifier
+      modifier: full_mobilization_1967
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: security
+      value: 10.0
+      direction: away
+    - op: add
+      target: regime_hostility
+      value: -5.0
+      key: egypt
+    - op: add
+      target: deterrence
+      value: -15.0
+    - op: add
+      target: party_standing
+      value: -15.0
+    - op: add
+      target: deterrence
+      value: -8.0
+    - op: add
+      target: intl_legitimacy
+      value: 3.0
+  perspectives:
+  - group: group_1
+    label: 埃班
+    text: 我们要让全世界都看到，我们已经用尽了一切办法。
+  - group: group_2
+    label: 一位特拉维夫的拉比
+    text: 市政府在公园里划出可能用作墓地的地块。
+  - group: group_3
+    label: 纳赛尔
+    text: 亚喀巴湾是埃及的领水，以色列的旗帜永远不会再通过。
+- id: E-1967-05c
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 口吃的演讲与将军们的反叛
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("waiting_period_1967")
+    condition: party_standing < 60 and public_security < 40
+    probability:
+      period: week
+      base: 0.5
+    invalidation: 'false'
+  background: 5月23日，总参谋长拉宾因压力和过度吸烟一度崩溃，休息了一天多。5月28日，埃什科尔通过电台发表讲话，因念错改稿而结结巴巴，全国听众的信心大受打击。当晚他与总参谋部会面，将军们几乎公开指责他优柔寡断。5月30日，侯赛因国王飞赴开罗，与埃及签订共同防御条约，约旦军队划归埃及将领指挥。舆论、拉菲、加哈尔乃至国家宗教党都要求埃什科尔交出国防部，由达扬出任。
+  narrative: 5月23日，总参谋长拉宾因压力和过度吸烟一度崩溃，休息了一天多。5月28日，埃什科尔通过电台发表讲话，因念错改稿而结结巴巴，全国听众的信心大受打击。当晚他与总参谋部会面，将军们几乎公开指责他优柔寡断。5月30日，侯赛因国王飞赴开罗，与埃及签订共同防御条约，约旦军队划归埃及将领指挥。舆论、拉菲、加哈尔乃至国家宗教党都要求埃什科尔交出国防部，由达扬出任。
+  summary: 5月23日，总参谋长拉宾因压力和过度吸烟一度崩溃，休息了一天多。
+  options:
+  - id: A
+    title: 成立民族团结政府：达扬任国防部长
+    label: 成立民族团结政府：达扬任国防部长，贝京入阁
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: national_unity_government
+    - op: add
+      target: relation
+      value: 20.0
+      key: dayan
+    - op: add
+      target: relation
+      value: 20.0
+      key: begin
+    - op: add
+      target: relation
+      value: -15.0
+      key: allon
+    - op: add
+      target: party_standing
+      value: -10.0
+    - op: add
+      target: public_security
+      value: 10.0
+    - op: add
+      target: centralization
+      value: -5.0
+    - op: add
+      target: ally_satisfaction
+      value: 8.0
+      key: nrp
+    - op: add
+      target: vision_progress
+      value: 4.0
+  - id: B
+    title: 保留国防部，改任阿隆为国防部长
+    label: 保留国防部，改任阿隆为国防部长
+    historical: false
+    tags:
+    - restraint
+    requires: 'true'
+    effects:
+    - op: add
+      target: relation
+      value: 20.0
+      key: allon
+    - op: add
+      target: relation
+      value: -15.0
+      key: dayan
+    - op: add
+      target: ally_satisfaction
+      value: -10.0
+      key: nrp
+    - op: add
+      target: public_security
+      value: 4.0
+    - op: add
+      target: party_standing
+      value: -3.0
+    - op: add
+      target: promise_progress
+      value: 5.0
+      key: cat_peace
+  - id: C
+    title: 拒绝改组，以紧急状态授权总理统一
+    label: 拒绝改组，以紧急状态授权总理统一指挥
+    historical: false
+    tags:
+    - hardline
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add
+      target: centralization
+      value: 10.0
+    - op: add
+      target: rule_of_law
+      value: -5.0
+    - op: add
+      target: party_standing
+      value: -15.0
+    - op: add
+      target: ally_satisfaction
+      value: -20.0
+      key: nrp
+    - op: add
+      target: ally_satisfaction
+      value: -10.0
+      key: labor
+    - op: add
+      target: public_security
+      value: -5.0
+  perspectives:
+  - group: group_1
+    label: 将军们
+    text: 每多等一天，阿拉伯人的包围就收紧一分。
+  - group: group_2
+    label: 埃什科尔
+    text: 我要先确认，我们打完仗之后还有朋友。
+  - group: group_3
+    label: 一位听电台的主妇
+    text: 他的声音在抖，我也开始发抖。
+  notes: 现代研究认为，等待期的外交为先发制人争取到了美国的默许，埃什科尔的谨慎有其价值。数值上A选项对党内地位的打击与对外部的增益需要并存。
+- id: E-1967-06a
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 先发制人的决定
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("waiting_period_1967") and has_modifier("full_mobilization_1967")
+    condition: readiness >= 60 and public_security < 40
+    probability:
+      period: week
+      base: 0.5
+      add:
+      - when: has_modifier("full_mobilization_1967")
+        value: 0.15
+    invalidation: 'false'
+  background: 6月1日，摩萨德首长阿米特秘密赴华盛顿，从国防部长麦克纳马拉等人那里感觉到，美国不会反对以色列采取行动（"黄灯"）。法国已宣布对中东实施武器禁运，实际上主要冲击以色列。6月4日，内阁决定次日清晨发动进攻。
+  narrative: 6月1日，摩萨德首长阿米特秘密赴华盛顿，从国防部长麦克纳马拉等人那里感觉到，美国不会反对以色列采取行动（"黄灯"）。法国已宣布对中东实施武器禁运，实际上主要冲击以色列。6月4日，内阁决定次日清晨发动进攻。
+  summary: 6月1日，摩萨德首长阿米特秘密赴华盛顿，从国防部长麦克纳马拉等人那里感觉到，。
+  options:
+  - id: A
+    title: 全面先发制人：空军首先打击埃及机
+    label: 全面先发制人：空军首先打击埃及机场
+    historical: true
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: french_embargo_pivot
+    - op: add
+      target: us_admin_relation
+      value: -2.0
+    - op: add
+      target: power_relation
+      value: -20.0
+      key: france
+    - op: add
+      target: intl_legitimacy
+      value: -4.0
+    - op: schedule_event
+      event: E-1967-06b
+      delay_days: 30
+  - id: B
+    title: 只对埃及动手，向约旦和叙利亚保证
+    label: 只对埃及动手，向约旦和叙利亚保证不进攻
+    historical: false
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: add
+      target: us_admin_relation
+      value: 3.0
+  - id: C
+    title: 继续等待，让埃及先开火
+    label: 继续等待，让埃及先开火
+    historical: false
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: add
+      target: intl_legitimacy
+      value: 8.0
+    - op: add
+      target: public_security
+      value: -15.0
+    - op: add
+      target: party_standing
+      value: -20.0
+  perspectives:
+  - group: group_1
+    label: 魏茨曼与空军
+    text: 我们可以在三个小时里赢下这场战争。
+  - group: group_2
+    label: 内阁中的马帕姆部长
+    text: 先开火的一方，要为每一个死者负责。
+  - group: group_3
+    label: 华盛顿
+    text: 我们没有亮绿灯，但我们也没有亮红灯。
+- id: E-1967-06b
+  kind: fixed
+  type: anchor
+  form: passive
+  major: true
+  minor: false
+  repeatable: false
+  title: 焦点行动
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: 'true'
+    condition: readiness >= 50
+    probability:
+      period: month
+      base: 0.15
+    invalidation: 'false'
+  background: 6月5日上午，几乎所有以色列战机低空飞过地中海，绕道从西面突袭埃及机场。数小时内，埃及空军的大部分飞机被摧毁在地面上；当天下午约旦、叙利亚的空军也遭受重创。地面部队同时攻入西奈和加沙。埃及电台却在宣布"大捷"，这一误导使约旦和叙利亚卷入战争。
+  narrative: 6月5日上午，几乎所有以色列战机低空飞过地中海，绕道从西面突袭埃及机场。数小时内，埃及空军的大部分飞机被摧毁在地面上；当天下午约旦、叙利亚的空军也遭受重创。地面部队同时攻入西奈和加沙。埃及电台却在宣布"大捷"，这一误导使约旦和叙利亚卷入战争。
+  summary: 6月5日上午，几乎所有以色列战机低空飞过地中海，绕道从西面突袭埃及机场。
+  passive_effects:
+  - op: add
+    target: regime_hostility
+    value: 10.0
+    key: egypt
+  - op: add
+    target: deterrence
+    value: 15.0
+  - op: add
+    target: public_security
+    value: 15.0
+  - op: add
+    target: complacency
+    value: 10.0
+  perspectives:
+  - group: group_1
+    label: 一名以色列飞行员
+    text: 我们飞得那么低，能看见海浪溅上机翼。
+  - group: group_2
+    label: 开罗街头
+    text: 广播里说我们的飞机打到了特拉维夫。
+  - group: group_3
+    label: 阿以战争史学家
+    text: 这一个上午决定了此后二十年的中东。
+- id: E-1967-06c
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 约旦开火：耶路撒冷老城
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("war_in_progress") and at_war()
+    condition: flag("jordan_egypt_defense_pact") and regime_stability[jordan] < 60
+    probability:
+      period: month
+      base: 0.5
+      add:
+      - when: flag("jordan_egypt_defense_pact")
+        value: 0.25
+      - when: has_modifier("hussein_humiliation")
+        value: 0.1
+    invalidation: 'false'
+  background: 6月5日上午，埃什科尔通过联合国停战监督组织转告侯赛因：如果约旦不参战，以色列不会进攻约旦。侯赛因已把军队交给埃及将领指挥，约旦炮兵炮击西耶路撒冷和以色列中部。以色列随后攻占东耶路撒冷周围的高地。6月7日，伞兵部队进入老城，指挥官古尔用无线电报告"圣殿山在我们手中"。随后国防军占领整个约旦河西岸。
+  narrative: 6月5日上午，埃什科尔通过联合国停战监督组织转告侯赛因：如果约旦不参战，以色列不会进攻约旦。侯赛因已把军队交给埃及将领指挥，约旦炮兵炮击西耶路撒冷和以色列中部。以色列随后攻占东耶路撒冷周围的高地。6月7日，伞兵部队进入老城，指挥官古尔用无线电报告"圣殿山在我们手中"。随后国防军占领整个约旦河西岸。
+  summary: 6月5日上午，埃什科尔通过联合国停战监督组织转告侯赛因：如果约旦不参战，以色。
+  options:
+  - id: A
+    title: 攻占老城与整个约旦河西岸
+    label: 攻占老城与整个约旦河西岸
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: holy_sites_controlled
+    - op: add
+      target: bloc_support
+      value: 20.0
+      key: religious_zionist
+    - op: add
+      target: settler_momentum
+      value: 15.0
+    - op: add
+      target: power_relation
+      value: 20.0
+      key: diaspora
+    - op: add
+      target: regime_hostility
+      value: 10.0
+      key: jordan
+    - op: add
+      target: pal_hostility
+      value: 15.0
+    - op: add
+      target: intl_legitimacy
+      value: -6.0
+    - op: add
+      target: pal_hostility
+      value: 10.0
+    - op: add
+      target: intl_legitimacy
+      value: -5.0
+    - op: schedule_event
+      event: E-1967-06f
+      delay_days: 30
+  - id: B
+    title: 只包围老城，不进入，以老城为谈判
+    label: 只包围老城，不进入，以老城为谈判筹码
+    historical: false
+    tags:
+    - peace
+    requires: 'true'
+    effects:
+    - op: add
+      target: bloc_support
+      value: -15.0
+      key: religious_zionist
+    - op: add
+      target: relation
+      value: -20.0
+      key: begin
+    - op: add
+      target: party_standing
+      value: -8.0
+    - op: add
+      target: intl_legitimacy
+      value: 4.0
+    - op: add
+      target: regime_hostility
+      value: 4.0
+      key: jordan
+    - op: add
+      target: settler_momentum
+      value: 3.0
+  - id: C
+    title: 击退约旦的炮击即止，不进入约旦河
+    label: 击退约旦的炮击即止，不进入约旦河西岸
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: old_city_missed_1967
+    - op: add
+      target: bloc_support
+      value: -20.0
+      key: religious_zionist
+    - op: add
+      target: relation
+      value: -25.0
+      key: begin
+    - op: add
+      target: relation
+      value: -10.0
+      key: dayan
+    - op: add
+      target: party_standing
+      value: -12.0
+    - op: add
+      target: intl_legitimacy
+      value: 6.0
+    - op: add
+      target: regime_stability
+      value: 5.0
+      key: jordan
+    - op: add
+      target: pal_hostility
+      value: 3.0
+    - op: add
+      target: ally_satisfaction
+      value: -15.0
+      key: nrp
+  perspectives:
+  - group: group_1
+    label: 拉比戈伦在哭墙前吹响羊角号
+    text: 两千年的流散在这一刻结束。
+  - group: group_2
+    label: 一个老城的巴勒斯坦家庭
+    text: 我们在家里关着门，听见外面的人用希伯来语喊叫。
+  - group: group_3
+    label: 侯赛因国王
+    text: 我失去了耶路撒冷，这是我祖父去世的城市。
+- id: E-1967-06e
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 戈兰高地
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("war_in_progress") and flag("syria_shelled_galilee") and at_war()
+    condition: region_security[galilee] < 50 and readiness >= 40
+    probability:
+      period: day
+      base: 0.4
+      add:
+      - when: relation[allon] >= 20
+        value: 0.15
+      - when: power_relation[ussr] < 20
+        value: -0.1
+    invalidation: 'false'
+  background: 北部基布兹居民代表向政府请愿，要求拿下不断炮击他们的戈兰高地。达扬起初担心苏联介入而反对，6月9日清晨却改变主意，在未与总理充分协商的情况下直接命令北部军区进攻。经过一天半的苦战，以色列占领戈兰高地，6月10日傍晚停火生效。
+  narrative: 北部基布兹居民代表向政府请愿，要求拿下不断炮击他们的戈兰高地。达扬起初担心苏联介入而反对，6月9日清晨却改变主意，在未与总理充分协商的情况下直接命令北部军区进攻。经过一天半的苦战，以色列占领戈兰高地，6月10日傍晚停火生效。
+  summary: 北部基布兹居民代表向政府请愿，要求拿下不断炮击他们的戈兰高地。
+  options:
+  - id: A
+    title: 批准进攻戈兰高地（接受达扬绕过总
+    label: 批准进攻戈兰高地（接受达扬绕过总理的既成事实）
+    historical: true
+    tags:
+    - hardline
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add
+      target: region_security
+      value: 20.0
+      key: galilee
+    - op: add
+      target: bloc_support
+      value: 12.0
+      key: kibbutz_moshav
+    - op: add
+      target: regime_hostility
+      value: 15.0
+      key: syria
+    - op: add
+      target: popular_hostility
+      value: 15.0
+      key: syria
+    - op: add
+      target: power_relation
+      value: -20.0
+      key: ussr
+    - op: add
+      target: intl_legitimacy
+      value: -4.0
+    - op: add
+      target: relation
+      value: 5.0
+      key: dayan
+    - op: add
+      target: centralization
+      value: -3.0
+    - op: add
+      target: party_standing
+      value: -3.0
+  - id: B
+    title: 只拿下前沿炮兵阵地，不推进到库奈
+    label: 只拿下前沿炮兵阵地，不推进到库奈特拉
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: northern_border_friction
+      duration_days: null
+    - op: add
+      target: region_security
+      value: 10.0
+      key: galilee
+    - op: add
+      target: regime_hostility
+      value: 8.0
+      key: syria
+    - op: add
+      target: power_relation
+      value: -8.0
+      key: ussr
+    - op: add
+      target: bloc_support
+      value: 4.0
+      key: kibbutz_moshav
+    - op: add
+      target: relation
+      value: -5.0
+      key: allon
+  - id: C
+    title: 停火，不对叙利亚发动地面进攻
+    label: 停火，不对叙利亚发动地面进攻
+    historical: false
+    tags:
+    - restraint
+    - hardline
+    requires: 'true'
+    effects:
+    - op: add
+      target: region_security
+      value: -5.0
+      key: galilee
+    - op: add
+      target: bloc_support
+      value: -15.0
+      key: kibbutz_moshav
+    - op: add
+      target: power_relation
+      value: -3.0
+      key: ussr
+    - op: add
+      target: relation
+      value: -15.0
+      key: allon
+    - op: add
+      target: party_standing
+      value: -8.0
+  perspectives:
+  - group: group_1
+    label: 加利利的基布兹成员
+    text: 十九年来，我们的孩子在叙利亚人的炮口下长大。
+  - group: group_2
+    label: 一个戈兰的叙利亚村民
+    text: 我们走的时候以为过几天就能回来。
+  - group: group_3
+    label: 莫斯科
+    text: 以色列再次越过了界线。
+- id: E-1967-06f
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 圣殿山的钥匙
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("holy_sites_controlled")
+    condition: bloc_support[religious_zionist] >= 30
+    probability:
+      period: week
+      base: 0.6
+    invalidation: 'false'
+  background: 伞兵在圆顶清真寺上插起以色列国旗，达扬立即下令取下。随军拉比戈伦主张在圣殿山上祈祷，甚至有人谈论改变现状。达扬决定把圣殿山的日常管理交还穆斯林宗教基金会（瓦克夫），以色列负责外围安全，犹太人可以参观但不能在山上祈祷；犹太人的祈祷集中在哭墙。为在哭墙前开辟广场，政府在战后几天内拆除了紧邻哭墙的摩洛哥区，居民被迫迁离。
+  narrative: 伞兵在圆顶清真寺上插起以色列国旗，达扬立即下令取下。随军拉比戈伦主张在圣殿山上祈祷，甚至有人谈论改变现状。达扬决定把圣殿山的日常管理交还穆斯林宗教基金会（瓦克夫），以色列负责外围安全，犹太人可以参观但不能在山上祈祷；犹太人的祈祷集中在哭墙。为在哭墙前开辟广场，政府在战后几天内拆除了紧邻哭墙的摩洛哥区，居民被迫迁离。
+  summary: 伞兵在圆顶清真寺上插起以色列国旗，达扬立即下令取下。
+  options:
+  - id: A
+    title: 圣殿山交还瓦克夫管理，犹太人可参
+    label: 圣殿山交还瓦克夫管理，犹太人可参观、不可祈祷；拆除摩洛哥区建广场
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: temple_mount_status_quo
+    - op: add
+      target: popular_hostility
+      value: -5.0
+      key: jordan
+    - op: add
+      target: intl_legitimacy
+      value: 3.0
+    - op: add
+      target: religious_status_quo
+      value: 3.0
+    - op: add
+      target: ally_satisfaction
+      value: -5.0
+      key: nrp
+    - op: add
+      target: bloc_support
+      value: -5.0
+      key: religious_zionist
+    - op: add
+      target: pal_hostility
+      value: 4.0
+  - id: B
+    title: 交还瓦克夫管理，保留摩洛哥区并另
+    label: 交还瓦克夫管理，保留摩洛哥区并另辟祈祷空间
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: temple_mount_status_quo
+    - op: add
+      target: intl_legitimacy
+      value: 5.0
+    - op: add
+      target: pal_hostility
+      value: -2.0
+    - op: add
+      target: bloc_support
+      value: -8.0
+      key: religious_zionist
+    - op: add
+      target: relation
+      value: -15.0
+      key: goren
+    - op: add
+      target: political_capital
+      value: -10.0
+  - id: C
+    title: 以色列接管圣殿山，允许犹太人在山
+    label: 以色列接管圣殿山，允许犹太人在山上祈祷
+    historical: false
+    tags:
+    - peace
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: al_aqsa_arson_aftermath
+      duration_days: null
+    - op: add
+      target: religious_status_quo
+      value: 10.0
+    - op: add
+      target: bloc_support
+      value: 10.0
+      key: religious_zionist
+    - op: add
+      target: settler_momentum
+      value: 8.0
+    - op: add
+      target: pal_hostility
+      value: 20.0
+    - op: add
+      target: intl_legitimacy
+      value: -15.0
+    - op: add
+      target: ally_satisfaction
+      value: -10.0
+      key: agudat
+  perspectives:
+  - group: group_1
+    label: 达扬
+    text: 我们不需要什么都拿走，拿走太多的人会失去一切。
+  - group: group_2
+    label: 拉比戈伦
+    text: 我们回到了圣殿山，却把它交了出去。
+  - group: group_3
+    label: 一位瓦克夫官员
+    text: 至少阿克萨的门还由我们开关。
+  - group: group_4
+    label: 摩洛哥区的居民
+    text: 他们给了我们几个小时收拾东西，推土机就来了。
+  notes: 极端选项C的长期代价被刻意设计为远大于收益。
+- id: E-1967-06g
+  kind: fixed
+  type: anchor
+  form: passive
+  major: true
+  minor: false
+  repeatable: false
+  title: 六天之后
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("war_in_progress") and at_war()
+    condition: political_capital >= 0
+    probability:
+      period: immediate
+    invalidation: 'false'
+  background: 六天里，以色列占领了西奈半岛、加沙、约旦河西岸（含东耶路撒冷）和戈兰高地，控制的土地是战前的三倍多。以色列约八百名士兵阵亡，阿拉伯方面的伤亡远多于此。约20万–25万巴勒斯坦人逃离或被迫离开，其中许多人是第二次沦为难民（第一次在1948年）。苏联和东欧国家（罗马尼亚除外）与以色列断交。
+  narrative: 六天里，以色列占领了西奈半岛、加沙、约旦河西岸（含东耶路撒冷）和戈兰高地，控制的土地是战前的三倍多。以色列约八百名士兵阵亡，阿拉伯方面的伤亡远多于此。约20万–25万巴勒斯坦人逃离或被迫离开，其中许多人是第二次沦为难民（第一次在1948年）。苏联和东欧国家（罗马尼亚除外）与以色列断交。
+  summary: 六天里，以色列占领了西奈半岛、加沙、约旦河西岸（含东耶路撒冷）和戈兰高地，控。
+  passive_effects:
+  - op: set_flag
+    flag: occupied_territories_era
+  - op: remove_modifier
+    modifier: full_mobilization_1967
+  - op: remove_modifier
+    modifier: mitun_recession
+  - op: add
+    target: deterrence
+    value: 25.0
+  - op: add
+    target: public_security
+    value: 20.0
+  - op: add
+    target: power_relation
+    value: 25.0
+    key: diaspora
+  - op: add
+    target: regime_stability
+    value: -10.0
+    key: egypt
+  - op: add
+    target: pal_hostility
+    value: 20.0
+  - op: add
+    target: intl_legitimacy
+    value: -8.0
+  - op: add
+    target: power_relation
+    value: -30.0
+    key: ussr
+  - op: add
+    target: complacency
+    value: 20.0
+  - op: add
+    target: growth
+    value: 6.0
+  perspectives:
+  - group: group_1
+    label: 特拉维夫的人群
+    text: 五月我们以为自己会死，六月我们站在了哭墙前。
+  - group: group_2
+    label: 约旦河东岸难民营里的一个家庭
+    text: 第二次了。
+  - group: group_3
+    label: 一位后来的以色列批评者（如莱博维
+    text: 占领会腐蚀占领者。
+  - group: group_4
+    label: 开罗
+    text: 这是"挫折"（Naksa），不是结束。
+  notes: '原 E-1967-06d 自由号事件（1967-06-08）已移入随机事件池（误击中立方）。
+
+
+    ---'
+- id: E-G02-01
+  kind: fixed
+  type: structure
+  form: choice
+  major: false
+  minor: false
+  repeatable: true
+  title: 费达因渗透与报复的循环
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: 'true'
+    condition: region_security[jerusalem] < 40
+    probability:
+      period: month
+      base: 0.25
+    invalidation: flag("occupied_territories_era")
+    cooldown_months: 6
+  background: 越境渗透者和费达因袭击边境定居点，以色列以报复行动回应。报复的力度决定威慑能否建立，也决定邻国政权是否被迫升级。
+  narrative: 越境渗透者和费达因袭击边境定居点，以色列以报复行动回应。报复的力度决定威慑能否建立，也决定邻国政权是否被迫升级。
+  summary: 越境渗透者和费达因袭击边境定居点，以色列以报复行动回应。
+  options:
+  - id: A
+    title: 对军事目标的有限报复
+    label: 对军事目标的有限报复
+    historical: false
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: add
+      target: deterrence
+      value: 3.0
+    - op: add
+      target: regime_hostility
+      value: 3.0
+      key: egypt
+    - op: add
+      target: intl_legitimacy
+      value: -2.0
+    - op: add
+      target: promise_progress
+      value: 3.0
+      key: cat_security
+    - op: add
+      target: region_security
+      value: 3.0
+      key: jerusalem
+  - id: B
+    title: 对平民村庄的惩罚性袭击
+    label: 对平民村庄的惩罚性袭击
+    historical: false
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: retaliation_spiral
+      duration_days: 360
+    - op: add
+      target: deterrence
+      value: 5.0
+    - op: add
+      target: popular_hostility
+      value: 8.0
+      key: egypt
+    - op: add
+      target: pal_hostility
+      value: 6.0
+    - op: add
+      target: intl_legitimacy
+      value: -8.0
+    - op: add
+      target: rule_of_law
+      value: -2.0
+    - op: add
+      target: regime_stability
+      value: -4.0
+      key: egypt
+  - id: C
+    title: 加强边境定居点防务，不越境
+    label: 加强边境定居点防务，不越境
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: security
+      value: 2.0
+      direction: away
+    - op: add
+      target: budget_balance
+      value: -1.0
+    - op: add
+      target: region_security
+      value: 2.0
+      key: jerusalem
+    - op: add
+      target: deterrence
+      value: -2.0
+    - op: add
+      target: party_standing
+      value: -3.0
+    - op: add
+      target: bloc_support
+      value: -2.0
+      key: kibbutz_moshav
+  notes: 力度权衡遵循 contradiction_parameters.md 8.3 的公式，B选项的长期代价随使用次数加速上升。
+- id: E-G02-02
+  kind: fixed
+  type: structure
+  form: passive
+  major: false
+  minor: false
+  repeatable: true
+  title: 最后一个离开的人请关灯
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: 'true'
+    condition: has_modifier("mitun_recession") and growth < 1
+    probability:
+      period: month
+      base: 0.1
+    invalidation: growth >= 5
+    cooldown_months: 12
+  background: 衰退时期，移出人数（"下行"，yerida）上升到与移入人数相近，大量受过教育的年轻人前往美国、加拿大。罗德机场被人写上标语，请"最后一个离开的人关灯"。
+  narrative: 衰退时期，移出人数（"下行"，yerida）上升到与移入人数相近，大量受过教育的年轻人前往美国、加拿大。罗德机场被人写上标语，请"最后一个离开的人关灯"。
+  summary: 衰退时期，移出人数（"下行"，yerida）上升到与移入人数相近，大量受过教。
+  passive_effects:
+  - op: add_modifier
+    modifier: brain_drain
+    duration_days: 360
+  - op: add
+    target: absorption_capacity
+    value: -5.0
+  - op: add
+    target: growth
+    value: -1.0
+  - op: add
+    target: power_relation
+    value: -3.0
+    key: diaspora
+  - op: add
+    target: public_security
+    value: -2.0
+  - op: add
+    target: bloc_support
+    value: -3.0
+    key: liberal_middle
+  - op: add
+    target: alienation
+    value: 2.0
+    key: mizrahi
+- id: E-G02-03
+  kind: fixed
+  type: structure
+  form: choice
+  major: false
+  minor: false
+  repeatable: true
+  title: 对非援助外交
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("world_african_independence_wave")
+    condition: intl_legitimacy < 60
+    probability:
+      period: month
+      base: 0.05
+      add:
+      - when: character_in_office("meir")
+        value: 0.05
+    invalidation: 'false'
+    cooldown_months: 24
+  background: 从1957年加纳独立开始，以色列在梅厄的推动下设立对外合作机构，向数十个新独立的非洲、亚洲国家派遣农业、医疗、青年组织方面的专家，换取在联合国的投票支持和打破阿拉伯国家的外交孤立。
+  narrative: 从1957年加纳独立开始，以色列在梅厄的推动下设立对外合作机构，向数十个新独立的非洲、亚洲国家派遣农业、医疗、青年组织方面的专家，换取在联合国的投票支持和打破阿拉伯国家的外交孤立。
+  summary: 从1957年加纳独立开始，以色列在梅厄的推动下设立对外合作机构，向数十个新独。
+  options:
+  - id: A
+    title: 大规模技术援助计划
+    label: 大规模技术援助计划
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: african_diplomatic_network
+      duration_days: null
+    - op: add
+      target: intl_legitimacy
+      value: 6.0
+    - op: add
+      target: budget_balance
+      value: -0.5
+    - op: add
+      target: relation
+      value: 10.0
+      key: meir
+    - op: add
+      target: us_admin_relation
+      value: 2.0
+  - id: B
+    title: 附带军事训练与情报合作的援助
+    label: 附带军事训练与情报合作的援助
+    historical: false
+    tags:
+    - hardline
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: african_diplomatic_network
+      duration_days: null
+    - op: add
+      target: intl_legitimacy
+      value: 3.0
+    - op: add
+      target: centralization
+      value: 1.0
+    - op: add
+      target: intl_legitimacy
+      value: -4.0
+    - op: add
+      target: budget_balance
+      value: -0.5
+  - id: C
+    title: 缩减援助，资金转入国内安置
+    label: 缩减援助，资金转入国内安置
+    historical: false
+    tags:
+    - social
+    requires: 'true'
+    effects:
+    - op: add
+      target: budget_balance
+      value: 0.5
+    - op: add
+      target: absorption_capacity
+      value: 2.0
+    - op: add
+      target: intl_legitimacy
+      value: -3.0
+    - op: add
+      target: relation
+      value: -10.0
+      key: meir
+- id: E-G02-04
+  kind: fixed
+  type: character
+  form: passive
+  major: false
+  minor: false
+  repeatable: true
+  title: 内阁中的苏联间谍
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: 'true'
+    condition: power_relation[ussr] < 30 and relation[shin_bet_chief] < 20
+    probability:
+      period: month
+      base: 0.01
+    invalidation: 'false'
+    cooldown_months: 36
+  background: 1961年，本-古里安的私人军事史顾问、国防部的常客伊斯雷尔·比尔被揭露是苏联间谍。此前马帕姆党的阿哈龙·科恩也因与苏联外交官接触被判刑。冷战中，以色列政界与安全机构多次发现苏联渗透。
+  narrative: 1961年，本-古里安的私人军事史顾问、国防部的常客伊斯雷尔·比尔被揭露是苏联间谍。此前马帕姆党的阿哈龙·科恩也因与苏联外交官接触被判刑。冷战中，以色列政界与安全机构多次发现苏联渗透。
+  summary: 1961年，本-古里安的私人军事史顾问、国防部的常客伊斯雷尔·比尔被揭露是苏。
+  passive_effects:
+  - op: add
+    target: party_standing
+    value: -3.0
+  - op: add
+    target: us_admin_relation
+    value: -3.0
+  - op: add
+    target: ally_satisfaction
+    value: -5.0
+    key: mapam
+  - op: add
+    target: centralization
+    value: 2.0
+  - op: add
+    target: rule_of_law
+    value: -1.0
+- id: E-G02-05
+  kind: fixed
+  type: structure
+  form: choice
+  major: false
+  minor: false
+  repeatable: true
+  title: 加利利的土地
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: 'true'
+    condition: region_development[galilee] < 60
+    probability:
+      period: month
+      base: 0.06
+    invalidation: 'false'
+    cooldown_months: 18
+  background: 政府长期推行"加利利犹太化"，在阿拉伯村庄的土地上建立犹太城镇，例如1957年的上拿撒勒，和1964年在征用了代尔阿萨德、比那、纳赫夫等村庄土地后建立的卡尔米埃勒。征地依据《土地征用法》和"缺席者财产"等法律。
+  narrative: 政府长期推行"加利利犹太化"，在阿拉伯村庄的土地上建立犹太城镇，例如1957年的上拿撒勒，和1964年在征用了代尔阿萨德、比那、纳赫夫等村庄土地后建立的卡尔米埃勒。征地依据《土地征用法》和"缺席者财产"等法律。
+  summary: 政府长期推行"加利利犹太化"，在阿拉伯村庄的土地上建立犹太城镇，例如1957。
+  options:
+  - id: A
+    title: 依法征用阿拉伯村庄土地建立犹太新
+    label: 依法征用阿拉伯村庄土地建立犹太新城
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: region_development
+      value: 5.0
+      key: galilee
+    - op: add
+      target: land_grievance
+      value: 10.0
+      key: arab
+    - op: add
+      target: civic_identification
+      value: -5.0
+      key: arab
+    - op: add
+      target: land_grievance
+      value: 6.0
+      key: druze
+    - op: add
+      target: rule_of_law
+      value: -2.0
+  - id: B
+    title: 在国有土地和已有犹太定居点周边扩
+    label: 在国有土地和已有犹太定居点周边扩建，避开村庄土地
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: region_development
+      value: 2.0
+      key: galilee
+    - op: add
+      target: budget_balance
+      value: -1.0
+    - op: add
+      target: land_grievance
+      value: 2.0
+      key: arab
+    - op: add
+      target: political_capital
+      value: -10.0
+    - op: add
+      target: vision_progress
+      value: 1.0
+  - id: C
+    title: 同时为阿拉伯城镇批准规划与扩建用
+    label: 同时为阿拉伯城镇批准规划与扩建用地
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: security
+      value: 2.0
+      direction: away
+    - op: add
+      target: region_development
+      value: 4.0
+      key: galilee
+    - op: add
+      target: land_grievance
+      value: -3.0
+      key: arab
+    - op: add
+      target: civic_identification
+      value: 4.0
+      key: arab
+    - op: add
+      target: budget_balance
+      value: -1.5
+    - op: add
+      target: party_standing
+      value: -4.0
+  notes: 土地怨气是债务型参数，A选项的代价会在1976年"土地日"式的阈值事件中兑现。
+- id: E-G02-06
+  kind: fixed
+  type: structure
+  form: choice
+  major: false
+  minor: false
+  repeatable: true
+  title: '"土地"运动与民主的边界'
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: flag("al_ard_movement_emerged")
+    condition: civic_identification[arab] < 35 and regime_hostility[egypt] >= 50
+    probability:
+      period: month
+      base: 0.05
+    invalidation: civic_identification[arab] >= 50
+    cooldown_months: 24
+  background: 阿拉伯民族主义团体"土地"运动（阿尔-阿尔德）支持纳赛尔式的泛阿拉伯主义，1964年被宣布为非法；1965年中央选举委员会以"否认国家存在"为由禁止其候选名单参选，最高法院维持了这一决定。
+  narrative: 阿拉伯民族主义团体"土地"运动（阿尔-阿尔德）支持纳赛尔式的泛阿拉伯主义，1964年被宣布为非法；1965年中央选举委员会以"否认国家存在"为由禁止其候选名单参选，最高法院维持了这一决定。
+  summary: 阿拉伯民族主义团体"土地"运动（阿尔-阿尔德）支持纳赛尔式的泛阿拉伯主义，1。
+  options:
+  - id: A
+    title: 取缔组织并禁止参选
+    label: 取缔组织并禁止参选
+    historical: true
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: defensive_democracy_precedent
+    - op: add
+      target: public_security
+      value: 2.0
+    - op: add
+      target: rule_of_law
+      value: -5.0
+    - op: add
+      target: civic_identification
+      value: -5.0
+      key: arab
+    - op: add
+      target: bloc_support
+      value: -4.0
+      key: arab_citizens
+    - op: add
+      target: centralization
+      value: 3.0
+  - id: B
+    title: 允许其活动与参选，加强监控
+    label: 允许其活动与参选，加强监控
+    historical: false
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add
+      target: rule_of_law
+      value: 3.0
+    - op: add
+      target: civic_identification
+      value: 3.0
+      key: arab
+    - op: add
+      target: public_security
+      value: -3.0
+    - op: add
+      target: centralization
+      value: 1.0
+    - op: add
+      target: party_standing
+      value: -3.0
+  - id: C
+    title: 允许参选，同时把马帕伊的阿拉伯附
+    label: 允许参选，同时把马帕伊的阿拉伯附属名单改为真正的阿拉伯议员晋升通道
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: civic_identification
+      value: 5.0
+      key: arab
+    - op: add
+      target: bloc_support
+      value: 6.0
+      key: arab_citizens
+    - op: add
+      target: political_capital
+      value: -15.0
+    - op: add
+      target: party_standing
+      value: -4.0
+- id: E-G02-07
+  kind: fixed
+  type: structure
+  form: choice
+  major: false
+  minor: false
+  repeatable: true
+  title: 宗教现状交易
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: 'true'
+    condition: ally_satisfaction[nrp] < 40 and coalition_seats <= 64
+    probability:
+      period: month
+      base: 0.2
+    invalidation: 'false'
+    cooldown_months: 12
+  background: 维系宗教政党的方式通常是一项具体立法或预算让步，例如1962年禁止在大部分地区养猪的法律、安息日公共交通的限制、宗教学校的拨款。
+  narrative: 维系宗教政党的方式通常是一项具体立法或预算让步，例如1962年禁止在大部分地区养猪的法律、安息日公共交通的限制、宗教学校的拨款。
+  summary: 维系宗教政党的方式通常是一项具体立法或预算让步，例如1962年禁止在大部分地。
+  options:
+  - id: A
+    title: 通过一项象征性宗教立法（如限制养
+    label: 通过一项象征性宗教立法（如限制养猪）
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: religion
+      value: 1.0
+      direction: away
+    - op: add
+      target: religious_status_quo
+      value: 4.0
+    - op: add
+      target: ally_satisfaction
+      value: 10.0
+      key: nrp
+    - op: add
+      target: bloc_support
+      value: -2.0
+      key: liberal_middle
+  - id: B
+    title: 以预算代替立法：增加宗教教育与拉
+    label: 以预算代替立法：增加宗教教育与拉比机构拨款
+    historical: false
+    tags:
+    - economic
+    - social
+    requires: 'true'
+    effects:
+    - op: add
+      target: budget_balance
+      value: -0.5
+    - op: add
+      target: ally_satisfaction
+      value: 6.0
+      key: nrp
+    - op: add
+      target: ally_satisfaction
+      value: 4.0
+      key: agudat
+    - op: add
+      target: draft_exemption
+      value: 1.0
+    - op: add
+      target: religious_status_quo
+      value: 1.0
+  - id: C
+    title: 拒绝让步，寻找世俗小党替代
+    label: 拒绝让步，寻找世俗小党替代
+    historical: false
+    tags:
+    - restraint
+    - hardline
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: religion
+      value: 3.0
+      direction: away
+    - op: add
+      target: ally_satisfaction
+      value: -15.0
+      key: nrp
+    - op: add
+      target: political_capital
+      value: -15.0
+    - op: add
+      target: religious_status_quo
+      value: -2.0
+    - op: add
+      target: ally_satisfaction
+      value: 6.0
+      key: progressives
+- id: E-G02-08
+  kind: fixed
+  type: flavor
+  form: passive
+  major: false
+  minor: false
+  repeatable: true
+  title: 阿格农的诺贝尔奖
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: 'true'
+    condition: public_security >= 40 and intl_legitimacy >= 40
+    probability:
+      period: month
+      base: 0.01
+    invalidation: 'false'
+    cooldown_months: 12
+  background: 1966年，作家阿格农成为首位获得诺贝尔文学奖的希伯来语作家（与奈莉·萨克斯共享）。同年，新的议会大厦在耶路撒冷吉瓦特拉姆落成。
+  narrative: 1966年，作家阿格农成为首位获得诺贝尔文学奖的希伯来语作家（与奈莉·萨克斯共享）。同年，新的议会大厦在耶路撒冷吉瓦特拉姆落成。
+  summary: 1966年，作家阿格农成为首位获得诺贝尔文学奖的希伯来语作家（与奈莉·萨克斯。
+  passive_effects:
+  - op: add_modifier
+    modifier: hebrew_cultural_confidence
+    duration_days: 360
+  - op: add
+    target: intl_legitimacy
+    value: 2.0
+  - op: add
+    target: power_relation
+    value: 3.0
+    key: diaspora
+  - op: add
+    target: political_capital
+    value: 5.0
+- id: E-G02-09
+  kind: fixed
+  type: character
+  form: passive
+  major: false
+  minor: false
+  repeatable: true
+  title: 总理的心脏
+  scenario_tags:
+  - ben_gurion_1955
+  - eshkol_1963
+  trigger:
+    window:
+      from: '1955-01-01'
+      to: '1967-06-10'
+    prerequisites: 'true'
+    condition: flag("waiting_period_1967") and flag("war_in_progress") and at_war()
+      and health[prime_minister] < 50
+    probability:
+      period: month
+      base: 0.04
+    invalidation: 'false'
+    cooldown_months: 12
+  background: 本时代两位总理都已年近或年过七十。埃什科尔在任内健康状况逐步恶化，1969年死于心脏病发作。
+  narrative: 本时代两位总理都已年近或年过七十。埃什科尔在任内健康状况逐步恶化，1969年死于心脏病发作。
+  summary: 本时代两位总理都已年近或年过七十。
+  passive_effects:
+  - op: add
+    target: health
+    value: -10.0
+    key: prime_minister
+  - op: add
+    target: party_standing
+    value: -3.0

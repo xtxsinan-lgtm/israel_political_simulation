@@ -1,0 +1,8027 @@
+schema_version: 1
+era_file: 04_1977_1992
+total_events: 76
+events:
+- id: E-1977-06
+  kind: fixed
+  type: character
+  form: choice
+  major: false
+  minor: false
+  repeatable: false
+  title: 达扬出任外长
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: flag("likud_in_government") and character_alive("dayan")
+    condition: intl_legitimacy <= 60 and us_admin_relation <= 60 and relation[dayan]
+      >= -20
+    probability:
+      period: month
+      base: 0.4
+    invalidation: flag("dayan_foreign_minister") and character_in_office("dayan")
+  background: 利库德首次胜选，但缺乏外交与国际声望。贝京邀请工党名单当选的摩西·达扬出任外长；达扬的条件是在和平谈判期间不对约旦河西岸宣布主权。工党将达扬开除，指其"叛变"。
+  narrative: 利库德首次胜选，但缺乏外交与国际声望。贝京邀请工党名单当选的摩西·达扬出任外长；达扬的条件是在和平谈判期间不对约旦河西岸宣布主权。工党将达扬开除，指其"叛变"。
+  summary: 利库德首次胜选，但缺乏外交与国际声望。
+  options:
+  - id: A
+    title: 邀请达扬，接受他的条件
+    label: 邀请达扬，接受他的条件
+    historical: true
+    tags:
+    - peace
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: dayan_foreign_minister
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: territory
+      value: 5.0
+      direction: away
+    - op: add
+      target: relation
+      value: 20.0
+      key: dayan
+    - op: add
+      target: intl_legitimacy
+      value: 5.0
+    - op: add
+      target: us_admin_relation
+      value: 5.0
+    - op: add
+      target: promise_progress
+      value: 5.0
+      key: peace_and_security
+    - op: add
+      target: party_standing
+      value: -5.0
+    - op: schedule_event
+      event: E-1977-11
+      delay_days: 30
+  - id: B
+    title: 把外长留给党内元老
+    label: 把外长留给党内元老
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: party_standing
+      value: 5.0
+    - op: add
+      target: relation
+      value: -20.0
+      key: dayan
+    - op: add
+      target: intl_legitimacy
+      value: -3.0
+    - op: add
+      target: us_admin_relation
+      value: -3.0
+  - id: C
+    title: 邀请达扬，但拒绝他的条件
+    label: 邀请达扬，但拒绝他的条件
+    historical: false
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: dayan_settlement_reservations
+      duration_days: 360
+    - op: add
+      target: relation
+      value: -10.0
+      key: dayan
+  perspectives:
+  - group: group_1
+    label: 利库德基层
+    text: 我们等了29年，第一个重要职位却给了"他们的人"。
+  - group: group_2
+    label: 工党
+    text: 达扬用赎罪日战争的污点换来了政治复活。
+  - group: group_3
+    label: 华盛顿
+    text: 一个独眼将军坐在外交部，至少意味着新政府有一个他们认识的人。
+  notes: 达扬坐在议会时以独立议员身份存在，劳工党对其的敌意会体现在 盟党满意度 计算之外的 选民集团支持[劳工派阿什肯纳兹] −2。
+- id: E-1977-07
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 承认古什埃穆尼姆的定居点
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: flag("likud_in_government") and region_exists("west_bank")
+    condition: settler_momentum >= 40 and promise_progress[settle_eretz_israel] <=
+      20 and ally_satisfaction[nrp] <= 70
+    probability:
+      period: month
+      base: 0.4
+    invalidation: flag("west_bank_returned")
+  background: 竞选期间贝京在卡杜姆（埃隆莫雷定居团体所在地）宣称"还会有许多个埃隆莫雷"。上台后，政府面临是否追认此前工党政府默许或拒绝的定居点：卡杜姆、奥夫拉、马阿莱阿杜米姆。
+  narrative: 竞选期间贝京在卡杜姆（埃隆莫雷定居团体所在地）宣称"还会有许多个埃隆莫雷"。上台后，政府面临是否追认此前工党政府默许或拒绝的定居点：卡杜姆、奥夫拉、马阿莱阿杜米姆。
+  summary: 竞选期间贝京在卡杜姆（埃隆莫雷定居团体所在地）宣称"还会有许多个埃隆莫雷"。
+  options:
+  - id: A
+    title: 全部追认，并宣布"解放的土地"
+    label: 全部追认，并宣布"解放的土地"
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: outpost_legalization_precedent
+    - op: add
+      target: promise_progress
+      value: 10.0
+      key: settle_eretz_israel
+    - op: add
+      target: settler_momentum
+      value: 8.0
+    - op: add
+      target: ally_satisfaction
+      value: 8.0
+      key: nrp
+    - op: add
+      target: bloc_support
+      value: 5.0
+      key: religious_zionist
+    - op: add
+      target: us_admin_relation
+      value: -8.0
+    - op: add
+      target: pal_hostility
+      value: 3.0
+    - op: add
+      target: intl_legitimacy
+      value: -3.0
+  - id: B
+    title: 追认，但暂缓新建，等待美国总统会
+    label: 追认，但暂缓新建，等待美国总统会晤
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: promise_progress
+      value: 4.0
+      key: settle_eretz_israel
+    - op: add
+      target: us_admin_relation
+      value: -2.0
+    - op: add
+      target: settler_momentum
+      value: 3.0
+    - op: add
+      target: relation
+      value: -5.0
+      key: sharon
+    - op: add
+      target: ally_satisfaction
+      value: -3.0
+      key: nrp
+  - id: C
+    title: 冻结一切新定居，优先探索和平
+    label: 冻结一切新定居，优先探索和平
+    historical: false
+    tags:
+    - restraint
+    - peace
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: territory
+      value: 10.0
+      direction: away
+    - op: add
+      target: promise_progress
+      value: -10.0
+      key: settle_eretz_israel
+    - op: add
+      target: party_standing
+      value: -10.0
+    - op: add
+      target: ally_satisfaction
+      value: -10.0
+      key: nrp
+    - op: add
+      target: us_admin_relation
+      value: 8.0
+    - op: add
+      target: relation
+      value: 5.0
+      key: dayan
+  perspectives:
+  - group: cabinet
+    label: 内阁成员
+    text: 围绕「承认古什埃穆尼姆的定居点」的争论在会议室里持续到深夜。
+  - group: street
+    label: 街头市民
+    text: 早报头条刊登了政府决定的消息，咖啡馆里议论纷纷。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+  notes: 同期贝京在白宫会晤卡特时提到"犹太与撒马利亚"而非"约旦河西岸"，为日后摩擦埋下伏笔。
+- id: E-1977-08
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 埃塞俄比亚犹太人：门格斯图的交易
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: character_in_office("mengistu")
+    condition: power_relation[diaspora] >= 30 and regime_stability[ethiopia] <= 50
+    probability:
+      period: month
+      base: 0.15
+    invalidation: flag("sudan_route")
+    on_miss:
+      effects:
+      - op: set_flag
+        flag: sudan_route
+  background: 埃塞俄比亚的贝塔以色列人（法拉沙人）长期被拉比机构质疑犹太身份，1973年塞法迪首席拉比奥瓦迪亚·约瑟夫裁定他们是犹太人。贝京把迎回他们视为犹太复国主义义务。门格斯图的马克思主义政权正与索马里交战，急需武器。
+  narrative: 埃塞俄比亚的贝塔以色列人（法拉沙人）长期被拉比机构质疑犹太身份，1973年塞法迪首席拉比奥瓦迪亚·约瑟夫裁定他们是犹太人。贝京把迎回他们视为犹太复国主义义务。门格斯图的马克思主义政权正与索马里交战，急需武器。
+  summary: 埃塞俄比亚的贝塔以色列人（法拉沙人）长期被拉比机构质疑犹太身份，1973年塞。
+  options:
+  - id: A
+    title: 以军火换移民
+    label: 以军火换移民
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: ethiopia_arms_for_aliyah_flights
+      duration_days: 180
+    - op: add_modifier
+      modifier: ethiopia_arms_for_aliyah_flights
+      duration_days: null
+    - op: add
+      target: power_relation
+      value: 5.0
+      key: diaspora
+    - op: add
+      target: us_admin_relation
+      value: -3.0
+    - op: add
+      target: fx_reserves
+      value: 2.0
+    - op: add
+      target: relation
+      value: -5.0
+      key: dayan
+  - id: B
+    title: 摩萨德经苏丹秘密转运
+    label: 摩萨德经苏丹秘密转运
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: sudan_route
+    - op: add
+      target: budget_balance
+      value: -0.5
+    - op: add
+      target: power_relation
+      value: 5.0
+      key: diaspora
+    - op: schedule_event
+      event: E-1984-11
+      delay_days: 30
+  - id: C
+    title: 暂缓，等待身份问题的宗教裁决全面
+    label: 暂缓，等待身份问题的宗教裁决全面落实
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: ally_satisfaction
+      value: 2.0
+      key: nrp
+    - op: add
+      target: power_relation
+      value: -8.0
+      key: diaspora
+    - op: add
+      target: bloc_support
+      value: -2.0
+      key: mizrahi
+    - op: add
+      target: alienation
+      value: 5.0
+      key: ethiopian
+  perspectives:
+  - group: cabinet
+    label: 内阁成员
+    text: 围绕「埃塞俄比亚犹太人：门格斯图的交易」的争论在会议室里持续到深夜。
+  - group: street
+    label: 街头市民
+    text: 早报头条刊登了政府决定的消息，咖啡馆里议论纷纷。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+  notes: 苏丹路线中大量人员死在难民营中，相关事件见 E-1984-11。
+- id: E-1977-10
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 经济"翻转"
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: flag("liberals_hold_finance") and character_in_office("finance_minister")
+    condition: economic_model <= -30 and fx_reserves <= 40 and promise_progress[economic_liberalization]
+      <= 10
+    probability:
+      period: month
+      base: 0.25
+    invalidation: has_modifier("new_shekel") and economic_model > 0
+    on_miss:
+      effects:
+      - op: add
+        target: ally_satisfaction
+        value: -10.0
+        key: liberals
+  background: 1977年10月底，财政部长西姆哈·埃利希宣布"经济翻转"：以色列镑自由浮动、取消大部分外汇管制、削减基本食品补贴、提高增值税。这是对工党时代国家主义经济的第一次正面冲击，但当时没有配套的财政紧缩与工资脱钩。
+  narrative: 1977年10月底，财政部长西姆哈·埃利希宣布"经济翻转"：以色列镑自由浮动、取消大部分外汇管制、削减基本食品补贴、提高增值税。这是对工党时代国家主义经济的第一次正面冲击，但当时没有配套的财政紧缩与工资脱钩。
+  summary: 1977年10月底，财政部长西姆哈·埃利希宣布"经济翻转"：以色列镑自由浮动。
+  options:
+  - id: A
+    title: 一夜之间全面放开
+    label: 一夜之间全面放开
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: indexation_spiral
+      duration_days: 1080
+    - op: add
+      target: economic_model
+      value: 15.0
+    - op: add
+      target: promise_progress
+      value: 15.0
+      key: economic_liberalization
+    - op: add
+      target: fx_reserves
+      value: 5.0
+    - op: add
+      target: inflation
+      value: 15.0
+    - op: add
+      target: inequality
+      value: 4.0
+    - op: add
+      target: union_strength
+      value: -3.0
+    - op: add
+      target: bloc_support
+      value: 5.0
+      key: liberal_middle
+    - op: add
+      target: bloc_support
+      value: -3.0
+      key: mizrahi
+  - id: B
+    title: 渐进放开，同时砍预算
+    label: 渐进放开，同时砍预算
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: economic_model
+      value: 8.0
+    - op: add
+      target: promise_progress
+      value: 8.0
+      key: economic_liberalization
+    - op: add
+      target: budget_balance
+      value: 2.0
+    - op: add
+      target: inflation
+      value: 5.0
+    - op: add
+      target: growth
+      value: -1.0
+    - op: add
+      target: ally_satisfaction
+      value: -5.0
+      key: liberals
+    - op: add
+      target: union_strength
+      value: -2.0
+    - op: add
+      target: bloc_support
+      value: -4.0
+      key: mizrahi
+  - id: C
+    title: 推迟改革，先保住发展城镇的就业
+    label: 推迟改革，先保住发展城镇的就业
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: economy
+      value: 10.0
+      direction: away
+    - op: add
+      target: economic_model
+      value: 2.0
+    - op: add
+      target: promise_progress
+      value: -10.0
+      key: economic_liberalization
+    - op: add
+      target: ally_satisfaction
+      value: -12.0
+      key: liberals
+    - op: add
+      target: promise_progress
+      value: 4.0
+      key: social_justice
+    - op: add
+      target: fx_reserves
+      value: -3.0
+  perspectives:
+  - group: group_1
+    label: 自由党
+    text: 三十年来第一次，以色列人可以合法地持有美元。
+  - group: group_2
+    label: 总工会
+    text: 补贴被砍的是面包和牛奶，不是进口汽车。
+  - group: group_3
+    label: 发展城镇的工人
+    text: 利库德说要替我们出头，但物价每个月都在涨。
+- id: E-1977-11
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 萨达特访问耶路撒冷
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: not flag("egypt_peace_treaty_signed") and region_exists("sinai")
+      and character_in_office("sadat")
+    condition: flag("dayan_foreign_minister") and regime_hostility[egypt] <= 60 and
+      regime_stability[egypt] >= 30 and relation[foreign_minister] >= 20
+    probability:
+      period: month
+      base: 0.15
+      add:
+      - when: flag("dayan_foreign_minister")
+        value: 0.2
+      - when: us_admin_relation >= 60
+        value: 0.05
+    invalidation: character_in_office("sadat")
+    on_miss:
+      effects:
+      - op: set_flag
+        flag: sadat_missed
+  background: 1977年11月9日，萨达特在埃及议会表示愿意"到天涯海角，甚至到以色列议会"去寻求和平。11月19日他飞抵本-古里安机场，次日在议会演讲，要求以色列撤出全部占领地并解决巴勒斯坦问题。
+  narrative: 1977年11月9日，萨达特在埃及议会表示愿意"到天涯海角，甚至到以色列议会"去寻求和平。11月19日他飞抵本-古里安机场，次日在议会演讲，要求以色列撤出全部占领地并解决巴勒斯坦问题。
+  summary: 1977年11月9日，萨达特在埃及议会表示愿意"到天涯海角，甚至到以色列议会。
+  options:
+  - id: A
+    title: 正式邀请，以国礼接待
+    label: 正式邀请，以国礼接待
+    historical: true
+    tags:
+    - hardline
+    - peace
+    requires: 'true'
+    effects:
+    - op: add
+      target: regime_hostility
+      value: -20.0
+      key: egypt
+    - op: add
+      target: intl_legitimacy
+      value: 10.0
+    - op: add
+      target: us_admin_relation
+      value: 8.0
+    - op: add
+      target: us_congress_relation
+      value: 5.0
+    - op: add
+      target: promise_progress
+      value: 10.0
+      key: peace_and_security
+    - op: add
+      target: vision_progress
+      value: 10.0
+    - op: add
+      target: public_security
+      value: 5.0
+    - op: add
+      target: popular_hostility
+      value: -5.0
+      key: egypt
+    - op: add
+      target: regime_stability
+      value: -3.0
+      key: egypt
+    - op: add
+      target: regime_hostility
+      value: 5.0
+      key: syria
+    - op: add
+      target: faction_legitimacy
+      value: 3.0
+      key: fatah
+    - op: schedule_event
+      event: E-1978-09
+      delay_days: 30
+  - id: B
+    title: 有条件邀请：先承诺不谈约旦河西岸
+    label: 有条件邀请：先承诺不谈约旦河西岸
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: territory
+      value: -3.0
+      direction: away
+    - op: add
+      target: regime_hostility
+      value: -8.0
+      key: egypt
+    - op: add
+      target: intl_legitimacy
+      value: -5.0
+    - op: add
+      target: us_admin_relation
+      value: -5.0
+    - op: add
+      target: vision_progress
+      value: -5.0
+  - id: C
+    title: 怀疑这是骗局，提高南线战备
+    label: 怀疑这是骗局，提高南线战备
+    historical: false
+    tags:
+    - peace
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: sadat_missed
+    - op: add
+      target: readiness
+      value: 5.0
+    - op: add
+      target: budget_balance
+      value: -1.0
+    - op: add
+      target: regime_hostility
+      value: 5.0
+      key: egypt
+    - op: add
+      target: us_admin_relation
+      value: -10.0
+    - op: add
+      target: intl_legitimacy
+      value: -8.0
+    - op: add
+      target: promise_progress
+      value: -10.0
+      key: peace_and_security
+    - op: add
+      target: relation
+      value: -10.0
+      key: weizman
+  perspectives:
+  - group: group_1
+    label: 以色列街头
+    text: 电视里埃及总统走下舷梯，迎接他的是梅厄夫人、沙龙和整个内阁，四年前的敌人此刻在微笑。
+  - group: group_2
+    label: 埃及
+    text: 萨达特在赌，他要把西奈要回来，也要把美国拉过来。
+  - group: group_3
+    label: 巴勒斯坦人
+    text: 大马士革、巴格达和贝鲁特都说他出卖了我们；我们的名字会出现在谈判桌上吗？
+  notes: 12月贝京在伊斯梅利亚提出"巴勒斯坦阿拉伯人自治方案"，作为 E-1978-09 的前置选项。
+- id: E-1978-03a
+  kind: fixed
+  type: anchor
+  form: passive
+  major: true
+  minor: false
+  repeatable: false
+  title: 海滨公路屠杀
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: not flag("plo_moved_to_tunis")
+    condition: faction_strength[fatah] >= 50 and region_security[tel_aviv] <= 80
+    probability:
+      period: month
+      base: 0.04
+    invalidation: flag("plo_moved_to_tunis") and faction_strength[fatah] < 30
+  background: 1978年3月11日，法塔赫武装人员从海上登陆，劫持海滨公路上的一辆公共汽车，在驶向特拉维夫途中与警方交火，38名以色列平民遇难，其中13名儿童。
+  narrative: 1978年3月11日，法塔赫武装人员从海上登陆，劫持海滨公路上的一辆公共汽车，在驶向特拉维夫途中与警方交火，38名以色列平民遇难，其中13名儿童。
+  summary: 1978年3月11日，法塔赫武装人员从海上登陆，劫持海滨公路上的一辆公共汽车。
+  passive_effects:
+  - op: add_modifier
+    modifier: demand_retaliation
+    duration_days: 90
+  - op: add
+    target: public_security
+    value: -15.0
+  - op: add
+    target: region_security
+    value: -10.0
+    key: tel_aviv
+  - op: add
+    target: faction_strength
+    value: 3.0
+    key: fatah
+  - op: add
+    target: faction_legitimacy
+    value: 3.0
+    key: fatah
+  - op: add
+    target: intl_legitimacy
+    value: 3.0
+  - op: schedule_event
+    event: E-1978-03b
+    delay_days: 30
+  perspectives:
+  - group: cabinet
+    label: 内阁成员
+    text: 围绕「海滨公路屠杀」的争论在会议室里持续到深夜。
+  - group: street
+    label: 街头市民
+    text: 早报头条刊登了政府决定的消息，咖啡馆里议论纷纷。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+- id: E-1978-03b
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 利塔尼行动
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: event_done("E-1978-03a")
+    condition: region_security[galilee] <= 50 and public_security <= 45 and readiness
+      >= 40
+    probability:
+      period: month
+      base: 0.8
+      add:
+      - when: has_modifier("demand_retaliation")
+        value: 0.2
+    invalidation: flag("south_lebanon_proxy_militia")
+    on_miss:
+      effects:
+      - op: add_modifier
+        modifier: demand_retaliation
+        duration_days: null
+      - op: add
+        target: party_standing
+        value: -3.0
+  background: 海滨公路屠杀三天后，以军进入南黎巴嫩，目标是把巴解武装赶到利塔尼河以北。联合国安理会通过第425号决议，要求以色列撤军，设立联合国驻黎巴嫩临时部队。以军6月撤出时，把边境地带交给哈达德少校的基督徒民兵。
+  narrative: 海滨公路屠杀三天后，以军进入南黎巴嫩，目标是把巴解武装赶到利塔尼河以北。联合国安理会通过第425号决议，要求以色列撤军，设立联合国驻黎巴嫩临时部队。以军6月撤出时，把边境地带交给哈达德少校的基督徒民兵。
+  summary: 海滨公路屠杀三天后，以军进入南黎巴嫩，目标是把巴解武装赶到利塔尼河以北。
+  options:
+  - id: A
+    title: 推进到利塔尼河，再移交给哈达德民
+    label: 推进到利塔尼河，再移交给哈达德民兵
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: south_lebanon_proxy_militia
+    - op: add
+      target: region_security
+      value: 10.0
+      key: galilee
+    - op: add
+      target: deterrence
+      value: 5.0
+    - op: add
+      target: public_security
+      value: 5.0
+    - op: add
+      target: faction_strength
+      value: -5.0
+      key: fatah
+    - op: add
+      target: intl_legitimacy
+      value: -6.0
+    - op: add
+      target: us_admin_relation
+      value: -5.0
+    - op: add
+      target: regime_stability
+      value: -5.0
+      key: lebanon
+    - op: add
+      target: popular_hostility
+      value: 5.0
+      key: lebanon
+    - op: schedule_event
+      event: E-1985-01
+      delay_days: 30
+  - id: B
+    title: 大规模行动，直抵贝鲁特南郊
+    label: 大规模行动，直抵贝鲁特南郊
+    historical: false
+    tags:
+    - restraint
+    - peace
+    requires: 'true'
+    effects:
+    - op: add
+      target: readiness
+      value: -10.0
+    - op: add
+      target: budget_balance
+      value: -3.0
+    - op: add
+      target: faction_strength
+      value: -10.0
+      key: fatah
+    - op: add
+      target: intl_legitimacy
+      value: -15.0
+    - op: add
+      target: us_admin_relation
+      value: -15.0
+    - op: add
+      target: regime_hostility
+      value: 10.0
+      key: syria
+    - op: add
+      target: regime_hostility
+      value: 10.0
+      key: egypt
+    - op: add
+      target: vision_progress
+      value: -10.0
+    - op: add
+      target: relation
+      value: -10.0
+      key: weizman
+  - id: C
+    title: 只进行空袭和突击队行动
+    label: 只进行空袭和突击队行动
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: security
+      value: 5.0
+      direction: away
+    - op: add
+      target: region_security
+      value: 3.0
+      key: galilee
+    - op: add
+      target: deterrence
+      value: 2.0
+    - op: add
+      target: party_standing
+      value: -5.0
+    - op: add
+      target: us_admin_relation
+      value: 2.0
+    - op: add
+      target: faction_strength
+      value: -2.0
+      key: fatah
+  perspectives:
+  - group: cabinet
+    label: 内阁成员
+    text: 围绕「利塔尼行动」的争论在会议室里持续到深夜。
+  - group: street
+    label: 街头市民
+    text: 早报头条刊登了政府决定的消息，咖啡馆里议论纷纷。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+  notes: A 选项开启以色列与黎巴嫩基督徒的代理关系，这是 1982 年事件链的起点。
+- id: E-1978-04
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 军官信与"现在就和平"
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: event_choice("E-1977-11") == "A"
+    condition: bloc_support[liberal_middle] <= 50 and promise_progress[peace_and_security]
+      <= 25 and rule_of_law >= 40
+    probability:
+      period: month
+      base: 0.25
+    invalidation: flag("sadat_missed") and event_done("E-1979-03")
+  background: 1978年3月，348名预备役军官和士兵联名致信贝京，警告：如果政府为了保住领土而错过和平，他们将难以相信自己所打的仗是正义的。这封信催生了"现在就和平"运动，此后成为以色列最大的和平运动。
+  narrative: 1978年3月，348名预备役军官和士兵联名致信贝京，警告：如果政府为了保住领土而错过和平，他们将难以相信自己所打的仗是正义的。这封信催生了"现在就和平"运动，此后成为以色列最大的和平运动。
+  summary: 1978年3月，348名预备役军官和士兵联名致信贝京，警告：如果政府为了保住。
+  options:
+  - id: A
+    title: 接见代表，承诺不放弃和平机会
+    label: 接见代表，承诺不放弃和平机会
+    historical: false
+    tags:
+    - peace
+    requires: 'true'
+    effects:
+    - op: add
+      target: promise_progress
+      value: 3.0
+      key: peace_and_security
+    - op: add
+      target: bloc_support
+      value: 3.0
+      key: liberal_middle
+    - op: add
+      target: bloc_support
+      value: 2.0
+      key: labor_ashkenazi
+    - op: add
+      target: party_standing
+      value: -3.0
+    - op: add
+      target: settler_momentum
+      value: 2.0
+  - id: B
+    title: 冷处理，指责他们被反对派利用
+    label: 冷处理，指责他们被反对派利用
+    historical: false
+    tags:
+    - peace
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: peace_now_mobilization
+      duration_days: 360
+    - op: add
+      target: party_standing
+      value: 3.0
+    - op: add
+      target: bloc_support
+      value: -4.0
+      key: liberal_middle
+  - id: C
+    title: 让辛贝特关注这些军官的政治联系
+    label: 让辛贝特关注这些军官的政治联系
+    historical: false
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add
+      target: centralization
+      value: 5.0
+    - op: add
+      target: rule_of_law
+      value: -6.0
+    - op: add
+      target: vision_progress
+      value: -2.0
+    - op: add
+      target: rule_of_law
+      value: -5.0
+    - op: add
+      target: us_congress_relation
+      value: -5.0
+    - op: add
+      target: relation
+      value: -10.0
+      key: weizman
+    - op: add
+      target: party_standing
+      value: -5.0
+  perspectives:
+  - group: group_1
+    label: 预备役军官
+    text: 我们不是左派，我们是将来要被派去打下一场仗的人。
+  - group: group_2
+    label: 古什埃穆尼姆
+    text: 犹太人不会因为一封信而放弃先祖之地。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+  notes: 史实中贝京未采取压制措施，该运动在之后的戴维营与黎巴嫩战争期间持续扩大。
+- id: E-1978-06
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 街区复兴计划
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: flag("likud_in_government")
+    condition: alienation[mizrahi] >= 30 and power_relation[diaspora] >= 30
+    probability:
+      period: month
+      base: 0.15
+    invalidation: 'false'
+    on_miss:
+      effects:
+      - op: add
+        target: promise_progress
+        value: -5.0
+        key: social_justice
+      - op: add
+        target: alienation
+        value: 2.0
+        key: mizrahi
+  background: 贝京兑现"第二以色列"承诺的旗舰项目。计划把海外犹太社群与以色列的贫困街区和发展城镇结对，由犹太代理处和政府共同出资，翻修住房、建设社区中心，并让居民参与决策。最终覆盖约90个街区。
+  narrative: 贝京兑现"第二以色列"承诺的旗舰项目。计划把海外犹太社群与以色列的贫困街区和发展城镇结对，由犹太代理处和政府共同出资，翻修住房、建设社区中心，并让居民参与决策。最终覆盖约90个街区。
+  summary: 贝京兑现"第二以色列"承诺的旗舰项目。
+  options:
+  - id: A
+    title: 海外社群结对，居民参与决策
+    label: 海外社群结对，居民参与决策
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: renewal_twinning
+      duration_days: 1800
+    - op: add
+      target: promise_progress
+      value: 10.0
+      key: social_justice
+    - op: add
+      target: alienation
+      value: -6.0
+      key: mizrahi
+    - op: add
+      target: power_relation
+      value: 8.0
+      key: diaspora
+    - op: add
+      target: budget_balance
+      value: -1.0
+    - op: add
+      target: region_development
+      value: 3.0
+      key: negev
+    - op: add
+      target: region_development
+      value: 2.0
+      key: jerusalem
+  - id: B
+    title: 国家财政全额包办，快速见效
+    label: 国家财政全额包办，快速见效
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: economy
+      value: 5.0
+      direction: away
+    - op: add
+      target: promise_progress
+      value: 12.0
+      key: social_justice
+    - op: add
+      target: alienation
+      value: -8.0
+      key: mizrahi
+    - op: add
+      target: budget_balance
+      value: -3.0
+    - op: add
+      target: inflation
+      value: 3.0
+    - op: add
+      target: ally_satisfaction
+      value: -5.0
+      key: liberals
+  - id: C
+    title: 象征性试点，集中资源于经济改革
+    label: 象征性试点，集中资源于经济改革
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: promise_progress
+      value: -5.0
+      key: social_justice
+    - op: add
+      target: promise_progress
+      value: 3.0
+      key: economic_liberalization
+    - op: add
+      target: alienation
+      value: 4.0
+      key: mizrahi
+    - op: add
+      target: historical_grievance
+      value: 2.0
+      key: mizrahi
+    - op: add
+      target: bloc_support
+      value: -5.0
+      key: mizrahi
+  perspectives:
+  - group: cabinet
+    label: 内阁成员
+    text: 围绕「街区复兴计划」的争论在会议室里持续到深夜。
+  - group: street
+    label: 街头市民
+    text: 早报头条刊登了政府决定的消息，咖啡馆里议论纷纷。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+  notes: A 选项的效果较慢，但不推高通胀；在 E-1981-06b 中提供"实绩"加成。
+- id: E-1978-09
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 戴维营
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: not has_modifier("cool_realist") and character_in_office("sadat")
+      and event_choice("E-1977-11") == "A" and us_admin_relation >= 60
+    condition: regime_hostility[egypt] <= 40 and us_admin_relation >= 40
+    probability:
+      period: month
+      base: 0.2
+      add:
+      - when: flag("dayan_foreign_minister") and relation[weizman] >= 20
+        value: 0.05
+    invalidation: flag("sadat_missed") and not character_in_office("sadat")
+    on_miss:
+      effects:
+      - op: set_flag
+        flag: sadat_missed
+  background: 1978年9月5日至17日，卡特把贝京和萨达特关在戴维营十三天。最终签署两份框架：一份是埃以和约框架（以色列归还全部西奈，拆除西奈定居点须经议会表决）；另一份是"中东和平框架"，规定约旦河西岸与加沙的巴勒斯坦人实行五年过渡自治。会后双方对"冻结定居点"的期限各执一词：贝京坚持只冻结三个月。
+  narrative: 1978年9月5日至17日，卡特把贝京和萨达特关在戴维营十三天。最终签署两份框架：一份是埃以和约框架（以色列归还全部西奈，拆除西奈定居点须经议会表决）；另一份是"中东和平框架"，规定约旦河西岸与加沙的巴勒斯坦人实行五年过渡自治。会后双方对"冻结定居点"的期限各执一词：贝京坚持只冻结三个月。
+  summary: 1978年9月5日至17日，卡特把贝京和萨达特关在戴维营十三天。
+  options:
+  - id: A
+    title: 签署两份框架，自治按贝京方案解释
+    label: 签署两份框架，自治按贝京方案解释
+    historical: true
+    tags:
+    - restraint
+    - peace
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: autonomy_framework_signed
+    - op: add_modifier
+      modifier: settlement_freeze_dispute
+      duration_days: 360
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: territory
+      value: 15.0
+      direction: away
+    - op: add
+      target: regime_hostility
+      value: -20.0
+      key: egypt
+    - op: add
+      target: vision_progress
+      value: 15.0
+    - op: add
+      target: promise_progress
+      value: 15.0
+      key: peace_and_security
+    - op: add
+      target: intl_legitimacy
+      value: 12.0
+    - op: add
+      target: us_admin_relation
+      value: 10.0
+    - op: add
+      target: us_congress_relation
+      value: 8.0
+    - op: add
+      target: party_standing
+      value: -10.0
+    - op: add
+      target: ally_satisfaction
+      value: -5.0
+      key: nrp
+    - op: add
+      target: settler_momentum
+      value: 5.0
+    - op: add
+      target: relation
+      value: -5.0
+      key: sharon
+    - op: add
+      target: intl_legitimacy
+      value: 5.0
+    - op: add
+      target: political_capital
+      value: 10.0
+    - op: schedule_event
+      event: E-1979-03
+      delay_days: 30
+  - id: B
+    title: 只签西奈框架，拒绝写入巴勒斯坦自
+    label: 只签西奈框架，拒绝写入巴勒斯坦自治
+    historical: false
+    tags:
+    - hardline
+    - peace
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: sadat_missed
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: territory
+      value: 8.0
+      direction: away
+    - op: add
+      target: regime_hostility
+      value: 10.0
+      key: egypt
+    - op: add
+      target: us_admin_relation
+      value: -15.0
+    - op: add
+      target: vision_progress
+      value: -10.0
+    - op: add
+      target: regime_stability
+      value: -8.0
+      key: egypt
+  - id: C
+    title: 拒绝拆除西奈定居点，离开戴维营
+    label: 拒绝拆除西奈定居点，离开戴维营
+    historical: false
+    tags:
+    - hardline
+    - peace
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: sadat_missed
+    - op: add
+      target: regime_hostility
+      value: 10.0
+      key: egypt
+    - op: add
+      target: us_admin_relation
+      value: -20.0
+    - op: add
+      target: us_congress_relation
+      value: -8.0
+    - op: add
+      target: intl_legitimacy
+      value: -10.0
+    - op: add
+      target: vision_progress
+      value: -20.0
+    - op: add
+      target: promise_progress
+      value: -10.0
+      key: peace_and_security
+    - op: add
+      target: party_standing
+      value: 5.0
+  perspectives:
+  - group: group_1
+    label: 西奈定居者
+    text: 贝京当年在议会骂工党的"领土换和平"，现在他亲手签下了。
+  - group: group_2
+    label: 埃及官员
+    text: 萨达特拿回了每一寸西奈，但"巴勒斯坦自治"只是一张纸。
+  - group: group_3
+    label: 巴勒斯坦人
+    text: 有人在戴维营替我们决定了未来五年，没有人问过我们。
+  notes: 自治框架在机制上是一个"空头承诺"：长期不兑现会每年小幅降低 美国政府关系；兑现则推高 立场偏离[领土]。
+- id: E-1979-02
+  kind: fixed
+  type: anchor
+  form: passive
+  major: true
+  minor: false
+  repeatable: false
+  title: 伊朗革命与外围联盟的崩塌
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: character_in_office("shah_pahlavi")
+    condition: regime_stability[iran] <= 20
+    probability:
+      period: month
+      base: 0.3
+    invalidation: 'false'
+  background: 国王出走，霍梅尼回国。以色列失去了"外围战略"中最重要的盟友和主要石油供应国。以色列驻德黑兰的代表处被交给巴解组织。
+  narrative: 国王出走，霍梅尼回国。以色列失去了"外围战略"中最重要的盟友和主要石油供应国。以色列驻德黑兰的代表处被交给巴解组织。
+  summary: 国王出走，霍梅尼回国。
+  passive_effects:
+  - op: add_modifier
+    modifier: lost_periphery_ally
+    duration_days: null
+  - op: add
+    target: fx_reserves
+    value: -3.0
+  - op: add
+    target: inflation
+    value: 5.0
+  - op: add
+    target: faction_legitimacy
+    value: 3.0
+    key: fatah
+  perspectives:
+  - group: cabinet
+    label: 内阁成员
+    text: 围绕「伊朗革命与外围联盟的崩塌」的争论在会议室里持续到深夜。
+  - group: street
+    label: 街头市民
+    text: 早报头条刊登了政府决定的消息，咖啡馆里议论纷纷。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+  notes: 两伊战争爆发后（1980-09），可解锁秘密对伊军售风味事件（见 E-G04-14）。
+- id: E-1979-03
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 埃以和约
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: flag("autonomy_framework_signed") and character_in_office("sadat")
+    condition: regime_hostility[egypt] <= 30 and us_admin_relation >= 45
+    probability:
+      period: month
+      base: 0.25
+      add:
+      - when: us_admin_relation >= 60
+        value: 0.15
+      - when: stance_deviation[territory] >= 20
+        value: -0.1
+    invalidation: flag("sadat_missed") and not character_in_office("sadat")
+    on_miss:
+      effects:
+      - op: set_flag
+        flag: sadat_missed
+      - op: add
+        target: us_admin_relation
+        value: -10.0
+  background: 谈判在戴维营之后停滞半年，卡特亲赴开罗与耶路撒冷穿梭。和约于1979年3月26日在白宫签署：以色列分阶段归还西奈，双方建交。议会以95票对18票批准，但利库德内部的格乌拉·科恩等人投了反对票，随后另组"复兴党"。
+  narrative: 谈判在戴维营之后停滞半年，卡特亲赴开罗与耶路撒冷穿梭。和约于1979年3月26日在白宫签署：以色列分阶段归还西奈，双方建交。议会以95票对18票批准，但利库德内部的格乌拉·科恩等人投了反对票，随后另组"复兴党"。
+  summary: 谈判在戴维营之后停滞半年，卡特亲赴开罗与耶路撒冷穿梭。
+  options:
+  - id: A
+    title: 接受美国的配套方案，允许党内自由
+    label: 接受美国的配套方案，允许党内自由投票
+    historical: true
+    tags:
+    - peace
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: tehiya_founded
+    - op: add_modifier
+      modifier: us_oil_guarantee
+      duration_days: 5400
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: territory
+      value: 10.0
+      direction: away
+    - op: add
+      target: regime_hostility
+      value: -25.0
+      key: egypt
+    - op: add
+      target: vision_progress
+      value: 15.0
+    - op: add
+      target: promise_progress
+      value: 10.0
+      key: peace_and_security
+    - op: add
+      target: intl_legitimacy
+      value: 8.0
+    - op: add
+      target: us_admin_relation
+      value: 10.0
+    - op: add
+      target: budget_balance
+      value: 2.0
+    - op: add
+      target: party_standing
+      value: -8.0
+  - id: B
+    title: 强制党纪投票
+    label: 强制党纪投票
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: party_discipline_scars
+      duration_days: 720
+    - op: add
+      target: party_standing
+      value: -3.0
+    - op: add
+      target: relation
+      value: -30.0
+      key: geula_cohen
+  - id: C
+    title: 以石油与亚米特换取更多时间，拖延
+    label: 以石油与亚米特换取更多时间，拖延签约
+    historical: false
+    tags:
+    - restraint
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: territory
+      value: 5.0
+      direction: away
+    - op: add
+      target: regime_hostility
+      value: 10.0
+      key: egypt
+    - op: add
+      target: us_admin_relation
+      value: -15.0
+    - op: add
+      target: vision_progress
+      value: -15.0
+    - op: add
+      target: us_admin_relation
+      value: -5.0
+  perspectives:
+  - group: group_1
+    label: 和平支持者
+    text: 三十年来，以色列第一次被一个阿拉伯国家承认。
+  - group: group_2
+    label: 复兴党
+    text: 贝京把西奈交出去，是为了在犹太与撒马利亚开先例吗？
+  - group: group_3
+    label: 阿拉伯联盟
+    text: 埃及被开除，总部迁出开罗。
+- id: E-1979-10
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 埃隆莫雷案
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: region_exists("west_bank")
+    condition: settler_momentum >= 45 and rule_of_law >= 50
+    probability:
+      period: month
+      base: 0.1
+    invalidation: flag("state_land_declaration") and rule_of_law < 40
+  background: 政府以"军事需要"征用纳布卢斯附近巴勒斯坦人的私人土地，供埃隆莫雷定居点使用。土地所有者向最高法院起诉。1979年10月，最高法院裁定征用不符合真实的安全需要，命令拆除定居点。
+  narrative: 政府以"军事需要"征用纳布卢斯附近巴勒斯坦人的私人土地，供埃隆莫雷定居点使用。土地所有者向最高法院起诉。1979年10月，最高法院裁定征用不符合真实的安全需要，命令拆除定居点。
+  summary: 政府以"军事需要"征用纳布卢斯附近巴勒斯坦人的私人土地，供埃隆莫雷定居点使用。
+  options:
+  - id: A
+    title: 服从判决，把定居点迁到附近的国有
+    label: 服从判决，把定居点迁到附近的国有土地
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: state_land_declaration
+    - op: add
+      target: rule_of_law
+      value: 6.0
+    - op: add
+      target: vision_progress
+      value: 3.0
+    - op: add
+      target: us_congress_relation
+      value: 3.0
+    - op: add
+      target: settler_momentum
+      value: -3.0
+    - op: add
+      target: promise_progress
+      value: -3.0
+      key: settle_eretz_israel
+    - op: add
+      target: ally_satisfaction
+      value: -5.0
+      key: nrp
+  - id: B
+    title: 立法推翻判决
+    label: 立法推翻判决
+    historical: false
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add
+      target: centralization
+      value: 8.0
+    - op: add
+      target: rule_of_law
+      value: -10.0
+    - op: add
+      target: promise_progress
+      value: 5.0
+      key: settle_eretz_israel
+    - op: add
+      target: settler_momentum
+      value: 5.0
+    - op: add
+      target: us_congress_relation
+      value: -8.0
+    - op: add
+      target: power_relation
+      value: -5.0
+      key: diaspora
+    - op: add
+      target: relation
+      value: -10.0
+      key: ehrlich
+    - op: add
+      target: vision_progress
+      value: -2.0
+  - id: C
+    title: 拖延执行，等待定居者自行前移
+    label: 拖延执行，等待定居者自行前移
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: court_ruling_unxecuted
+      duration_days: 180
+    - op: add
+      target: rule_of_law
+      value: -4.0
+    - op: add
+      target: settler_momentum
+      value: 3.0
+    - op: add
+      target: intl_legitimacy
+      value: -3.0
+  perspectives:
+  - group: group_1
+    label: 土地所有者
+    text: 在占领下，我们第一次在以色列的法庭上赢了。
+  - group: group_2
+    label: 定居者
+    text: 法官们宁可相信阿拉伯村民的地契，也不相信圣经。
+  - group: group_3
+    label: 法律界
+    text: 法院保住了私人土地，却默认了国有土地宣告这条更宽的路。
+- id: E-1980-05a
+  kind: fixed
+  type: character
+  form: passive
+  major: false
+  minor: false
+  repeatable: false
+  title: 魏茨曼辞职：国防部无人
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: flag("autonomy_framework_signed") and character_in_office("weizman")
+      and character_in_office("dayan")
+    condition: relation[weizman] <= 10 and relation[dayan] <= 10 and budget_balance
+      <= -3
+    probability:
+      period: month
+      base: 0.1
+      add:
+      - when: vision_progress >= 50
+        value: -0.05
+    invalidation: vision_progress >= 60
+  background: 达扬因不满自治谈判被交给国家宗教党的布尔格、政府缺乏诚意，于1979年10月辞去外长。1980年5月，国防部长魏茨曼也因国防预算被削减、和平进程停滞而辞职。两位为和平立下大功的人都离开了内阁，贝京自兼国防部长，沙米尔接任外长。
+  narrative: 达扬因不满自治谈判被交给国家宗教党的布尔格、政府缺乏诚意，于1979年10月辞去外长。1980年5月，国防部长魏茨曼也因国防预算被削减、和平进程停滞而辞职。两位为和平立下大功的人都离开了内阁，贝京自兼国防部长，沙米尔接任外长。
+  summary: 达扬因不满自治谈判被交给国家宗教党的布尔格、政府缺乏诚意，于1979年10月。
+  passive_effects:
+  - op: set_flag
+    flag: defense_minister_vacant
+  - op: add_modifier
+    modifier: acting_defense_minister
+    duration_days: null
+  - op: add
+    target: relation
+    value: -15.0
+    key: dayan
+  - op: add
+    target: relation
+    value: -20.0
+    key: weizman
+  - op: add
+    target: us_admin_relation
+    value: -5.0
+  - op: add
+    target: regime_hostility
+    value: 3.0
+    key: egypt
+  - op: add
+    target: vision_progress
+    value: -5.0
+  - op: add
+    target: party_standing
+    value: 3.0
+  - op: schedule_event
+    event: E-1981-08
+    delay_days: 30
+  notes: 达扬于1981年10月病逝，可作为人物死亡的风味文本。
+- id: E-1980-05b
+  kind: fixed
+  type: anchor
+  form: predecision
+  major: true
+  minor: false
+  repeatable: false
+  title: 哈达萨楼之后
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: region_exists("west_bank")
+    condition: settler_momentum >= 50
+    probability:
+      period: immediate
+    invalidation: 'false'
+  background: 1980年5月2日，巴勒斯坦武装人员在希伯伦的哈达萨楼外伏击从祈祷归来的定居者，6名耶希瓦学生遇难。定居者要求政府"做出犹太人的回应"。辛贝特报告：部分定居者正在私下讨论报复行动，但缺乏具体情报。
+  narrative: 1980年5月2日，巴勒斯坦武装人员在希伯伦的哈达萨楼外伏击从祈祷归来的定居者，6名耶希瓦学生遇难。定居者要求政府"做出犹太人的回应"。辛贝特报告：部分定居者正在私下讨论报复行动，但缺乏具体情报。
+  summary: 1980年5月2日，巴勒斯坦武装人员在希伯伦的哈达萨楼外伏击从祈祷归来的定居。
+  presentation:
+    insert_before:
+    - E-1980-06
+  options:
+  - id: A
+    title: 驱逐希伯伦与哈勒胡勒市长，不专门
+    label: 驱逐希伯伦与哈勒胡勒市长，不专门处理定居者情绪
+    historical: true
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: event_multiplier
+      event: E-1980-06
+      value: 1.0
+      display: hidden
+    - op: add
+      target: region_security
+      value: 3.0
+      key: west_bank
+    - op: add
+      target: pal_hostility
+      value: 5.0
+    - op: add
+      target: intl_legitimacy
+      value: -4.0
+    - op: add
+      target: settler_momentum
+      value: 3.0
+    - op: add
+      target: ally_satisfaction
+      value: 3.0
+      key: nrp
+    risk_hint: 高
+  - id: B
+    title: 驱逐市长，同时命令辛贝特渗透定居
+    label: 驱逐市长，同时命令辛贝特渗透定居者激进网络
+    historical: false
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: event_multiplier
+      event: E-1980-06
+      value: 0.4
+      display: hidden
+    - op: add
+      target: region_security
+      value: 3.0
+      key: west_bank
+    - op: add
+      target: pal_hostility
+      value: 5.0
+    - op: add
+      target: intl_legitimacy
+      value: -4.0
+    - op: add
+      target: political_capital
+      value: -10.0
+    - op: add
+      target: ally_satisfaction
+      value: -5.0
+      key: nrp
+    - op: add
+      target: bloc_support
+      value: -3.0
+      key: religious_zionist
+    - op: add
+      target: relation
+      value: 5.0
+      key: shin_bet_chief
+    risk_hint: 中
+  - id: C
+    title: 不驱逐市长，公开宣布对私刑报复零
+    label: 不驱逐市长，公开宣布对私刑报复零容忍并收缴定居者的非法武器
+    historical: false
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: event_multiplier
+      event: E-1980-06
+      value: 0.15
+      display: hidden
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: security
+      value: 8.0
+      direction: away
+    - op: add
+      target: settler_momentum
+      value: -5.0
+    - op: add
+      target: party_standing
+      value: -8.0
+    - op: add
+      target: ally_satisfaction
+      value: -10.0
+      key: nrp
+    - op: add
+      target: bloc_support
+      value: -6.0
+      key: religious_zionist
+    - op: add
+      target: public_security
+      value: -3.0
+    - op: add
+      target: intl_legitimacy
+      value: 3.0
+    risk_hint: 低
+  perspectives:
+  - group: group_1
+    label: 定居者
+    text: 我们的孩子在希伯伦的街上被枪杀，政府只会开会。
+  - group: group_2
+    label: 巴勒斯坦市长
+    text: 被驱逐的是民选市长，不是枪手。
+  - group: group_3
+    label: 辛贝特
+    text: 监控阿拉伯人是我们的日常，监控犹太人需要部长签字。
+  notes: 事前政策决策点（README 第4节第4条）。乘数作用于 E-1980-06 的触发概率。
+- id: E-1980-06
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 市长汽车炸弹
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: flag("settlers_momentum_high") and event_done("E-1980-05b") and
+      settler_momentum >= 50
+    condition: settler_momentum >= 50 and rule_of_law <= 65
+    probability:
+      period: month
+      base: 0.1
+    invalidation: 'false'
+  background: 1980年6月2日，纳布卢斯市长巴萨姆·沙克阿和拉姆安拉市长卡里姆·哈拉夫的汽车被炸，前者失去双腿，后者失去一条腿；比雷市长住所的炸弹致一名德鲁兹边境警察工兵失明。袭击者是后来被称为"犹太地下组织"的定居者网络，但调查进展缓慢，直到1984年才破案。
+  narrative: 1980年6月2日，纳布卢斯市长巴萨姆·沙克阿和拉姆安拉市长卡里姆·哈拉夫的汽车被炸，前者失去双腿，后者失去一条腿；比雷市长住所的炸弹致一名德鲁兹边境警察工兵失明。袭击者是后来被称为"犹太地下组织"的定居者网络，但调查进展缓慢，直到1984年才破案。
+  summary: 1980年6月2日，纳布卢斯市长巴萨姆·沙克阿和拉姆安拉市长卡里姆·哈拉夫的。
+  options:
+  - id: A
+    title: 调查照常进行，不施加特别压力
+    label: 调查照常进行，不施加特别压力
+    historical: true
+    tags:
+    - restraint
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: underground_unbroken
+    - op: add
+      target: rule_of_law
+      value: -3.0
+    - op: add
+      target: pal_hostility
+      value: 8.0
+    - op: add
+      target: faction_strength
+      value: -5.0
+      key: jordan_notables
+    - op: add
+      target: faction_legitimacy
+      value: 5.0
+      key: fatah
+    - op: add
+      target: intl_legitimacy
+      value: -5.0
+    - op: add
+      target: settler_momentum
+      value: 2.0
+  - id: B
+    title: 成立辛贝特专案组，优先追查犹太恐
+    label: 成立辛贝特专案组，优先追查犹太恐怖主义
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: political_capital
+      value: -15.0
+    - op: add
+      target: ally_satisfaction
+      value: -8.0
+      key: nrp
+    - op: add
+      target: settler_momentum
+      value: -5.0
+    - op: add
+      target: bloc_support
+      value: -4.0
+      key: religious_zionist
+    - op: add
+      target: rule_of_law
+      value: 5.0
+    - op: add
+      target: pal_hostility
+      value: 3.0
+    - op: add
+      target: intl_legitimacy
+      value: 2.0
+    - op: schedule_event
+      event: E-1984-04b
+      delay_days: 30
+  - id: C
+    title: 把责任推给巴勒斯坦内部派系斗争
+    label: 把责任推给巴勒斯坦内部派系斗争
+    historical: false
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: settler_impunity
+      duration_days: 1080
+    - op: add
+      target: centralization
+      value: 3.0
+    - op: add
+      target: rule_of_law
+      value: -8.0
+    - op: add
+      target: pal_hostility
+      value: 12.0
+    - op: add
+      target: faction_legitimacy
+      value: -8.0
+      key: jordan_notables
+    - op: add
+      target: intl_legitimacy
+      value: -8.0
+    - op: add
+      target: us_congress_relation
+      value: -4.0
+    - op: add
+      target: settler_momentum
+      value: 5.0
+  perspectives:
+  - group: group_1
+    label: 巴勒斯坦人
+    text: 被炸的是我们民选的市长，凶手却开着军车进出检查站。
+  - group: group_2
+    label: 定居者
+    text: 哈达萨楼的血还没干，军队保护不了我们。
+  - group: group_3
+    label: 德鲁兹社群
+    text: 失明的是我们的儿子，他在保护这个国家的路上被犹太人的炸弹炸伤。
+  notes: E-G04-09（驱逐与行政拘留）在本事件后权重上升。本事件把暴行（被动部分，弹窗时袭击已经发生）与事后处置合并在同一弹窗中，事前决策点为 E-1980-05b。
+- id: E-1981-06a
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 奥西拉克
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: character_in_office("saddam")
+    condition: regime_hostility[iraq] >= 70 and enemy_nuclear_progress[iraq] >= 80
+    probability:
+      period: month
+      base: 0.3
+      add:
+      - when: flag("sharon_defense_minister") and relation[chief_of_staff] >= 30
+        value: 0.1
+    invalidation: enemy_nuclear_progress[iraq] == 100
+    on_miss:
+      effects:
+      - op: set_flag
+        flag: iraq_nuclear_program_continues
+  background: 法国为伊拉克建造的"塔穆兹"（奥西拉克）反应堆即将装料。摩萨德与军事情报局认为它将使萨达姆获得核武器能力。佩雷斯与部分安全官员担心行动引发国际孤立。1981年6月7日，以色列空军F-16机群越过约旦和沙特领空，摧毁了反应堆，这是在大选前三周。
+  narrative: 法国为伊拉克建造的"塔穆兹"（奥西拉克）反应堆即将装料。摩萨德与军事情报局认为它将使萨达姆获得核武器能力。佩雷斯与部分安全官员担心行动引发国际孤立。1981年6月7日，以色列空军F-16机群越过约旦和沙特领空，摧毁了反应堆，这是在大选前三周。
+  summary: 法国为伊拉克建造的"塔穆兹"（奥西拉克）反应堆即将装料。
+  options:
+  - id: A
+    title: 批准空袭
+    label: 批准空袭
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: begin_doctrine
+    - op: add
+      target: deterrence
+      value: 12.0
+    - op: add
+      target: public_security
+      value: 8.0
+    - op: add
+      target: regime_hostility
+      value: 5.0
+      key: iraq
+    - op: add
+      target: intl_legitimacy
+      value: -10.0
+    - op: add
+      target: us_admin_relation
+      value: -8.0
+    - op: add
+      target: power_relation
+      value: -10.0
+      key: france
+    - op: add
+      target: party_standing
+      value: 8.0
+    - op: add
+      target: bloc_support
+      value: 3.0
+      key: mizrahi
+    - op: add
+      target: bloc_support
+      value: -2.0
+      key: liberal_middle
+  - id: B
+    title: 推迟到大选之后，由新政府决定
+    label: 推迟到大选之后，由新政府决定
+    historical: false
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: iraq_nuclear_program_continues
+    - op: add
+      target: deterrence
+      value: -8.0
+    - op: add
+      target: public_security
+      value: -5.0
+    - op: add
+      target: party_standing
+      value: -3.0
+  - id: C
+    title: 交给外交：施压法国与美国停止供料
+    label: 交给外交：施压法国与美国停止供料
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: security
+      value: 5.0
+      direction: away
+    - op: add
+      target: power_relation
+      value: -5.0
+      key: france
+    - op: add
+      target: us_admin_relation
+      value: 3.0
+    - op: add
+      target: political_capital
+      value: -10.0
+  perspectives:
+  - group: group_1
+    label: 空军
+    text: 飞行员中最年轻的一位是伊兰·拉蒙，二十多年后他成为以色列第一位宇航员。
+  - group: group_2
+    label: 反对派
+    text: 大选前三周的空袭，究竟是为了国家安全还是为了选票？
+  - group: group_3
+    label: 伊拉克人
+    text: 两伊战争中的萨达姆政权在国际上获得了少有的同情。
+  notes: A 是一个罕见的"收益大于代价"的锚点事件，但它的后续 旗标：贝京主义 会让日后对其他国家核计划的决策产生惯性压力。
+- id: E-1981-06b
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: '"齐楚齐姆"'
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: 'true'
+    condition: alienation[mizrahi] >= 35
+    probability:
+      period: week
+      base: 0.25
+      add:
+      - when: has_modifier("ethnic_voting_polarization")
+        value: 0.15
+    invalidation: 'false'
+  background: 1981年6月27日，演员杜杜·托帕兹在工党的大型集会上把利库德的支持者称为"齐楚齐姆"（含贬义的"乌合之众"，被普遍理解为针对米兹拉希）。次日贝京在同一广场集会回应："伊拉克人？摩洛哥人？他们都是犹太人，是我们的兄弟，是英雄！"竞选期间多地发生针对工党集会的暴力事件。
+  narrative: 1981年6月27日，演员杜杜·托帕兹在工党的大型集会上把利库德的支持者称为"齐楚齐姆"（含贬义的"乌合之众"，被普遍理解为针对米兹拉希）。次日贝京在同一广场集会回应："伊拉克人？摩洛哥人？他们都是犹太人，是我们的兄弟，是英雄！"竞选期间多地发生针对工党集会的暴力事件。
+  summary: 1981年6月27日，演员杜杜·托帕兹在工党的大型集会上把利库德的支持者称为。
+  options:
+  - id: A
+    title: 在同一广场回击，点燃米兹拉希的怒
+    label: 在同一广场回击，点燃米兹拉希的怒火
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: ethnic_voting_polarization
+      duration_days: 1440
+    - op: add
+      target: bloc_support
+      value: 10.0
+      key: mizrahi
+    - op: add
+      target: party_standing
+      value: 5.0
+    - op: add
+      target: alienation
+      value: -5.0
+      key: mizrahi
+    - op: add
+      target: historical_grievance
+      value: 3.0
+      key: mizrahi
+    - op: add
+      target: bloc_support
+      value: -3.0
+      key: labor_ashkenazi
+    - op: add
+      target: rule_of_law
+      value: -2.0
+  - id: B
+    title: 呼吁冷静，以全民领袖姿态发言
+    label: 呼吁冷静，以全民领袖姿态发言
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: bloc_support
+      value: 4.0
+      key: mizrahi
+    - op: add
+      target: bloc_support
+      value: 3.0
+      key: liberal_middle
+    - op: add
+      target: party_standing
+      value: -2.0
+    - op: add
+      target: rule_of_law
+      value: 2.0
+  - id: C
+    title: 以街区复兴等实绩作答，不碰族群牌
+    label: 以街区复兴等实绩作答，不碰族群牌
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: bloc_support
+      value: 7.0
+      key: mizrahi
+    - op: add
+      target: promise_progress
+      value: 3.0
+      key: social_justice
+    - op: add
+      target: bloc_support
+      value: 2.0
+      key: mizrahi
+  perspectives:
+  - group: group_1
+    label: 发展城镇的选民
+    text: 三十年来他们把我们叫做"第二以色列"，今天终于有人站在我们这边。
+  - group: group_2
+    label: 工党支持者
+    text: 我们被描绘成傲慢的老爷，可真正煽动族群仇恨的是谁？
+  - group: group_3
+    label: 社会学家
+    text: 1981年大选，族群成为以色列投票行为最强的单一预测因素。
+  notes: 大选结果通常是利库德48席、工党47席的胶着局面；组阁时宗教党派的要价见 E-G04-03。
+- id: E-1981-08
+  kind: fixed
+  type: character
+  form: choice
+  major: false
+  minor: false
+  repeatable: false
+  title: 沙龙出任国防部长
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: flag("defense_minister_vacant") and character_alive("sharon")
+    condition: character_in_office("sharon") and relation[sharon] >= -20 and party_standing
+      <= 70
+    probability:
+      period: month
+      base: 0.7
+    invalidation: flag("sharon_dismissed_from_defense")
+  background: 沙龙在第一届政府中任农业部长，主持定居点委员会，是西奈拆除与西岸扩建的执行者。他强烈要求出任国防部长。贝京曾半开玩笑地说担心沙龙"会用坦克包围总理府"，但最终任命了他。
+  narrative: 沙龙在第一届政府中任农业部长，主持定居点委员会，是西奈拆除与西岸扩建的执行者。他强烈要求出任国防部长。贝京曾半开玩笑地说担心沙龙"会用坦克包围总理府"，但最终任命了他。
+  summary: 沙龙在第一届政府中任农业部长，主持定居点委员会，是西奈拆除与西岸扩建的执行者。
+  options:
+  - id: A
+    title: 任命沙龙
+    label: 任命沙龙
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: sharon_defense_minister
+    - op: add_modifier
+      modifier: sharon_fiefdom_defense
+      duration_days: null
+    - op: add
+      target: relation
+      value: 20.0
+      key: sharon
+    - op: add
+      target: readiness
+      value: 5.0
+    - op: add
+      target: settler_momentum
+      value: 5.0
+    - op: add
+      target: us_admin_relation
+      value: -3.0
+    - op: schedule_event
+      event: E-1982-06a
+      delay_days: 30
+  - id: B
+    title: 任命阿伦斯（或其他文官）
+    label: 任命阿伦斯（或其他文官）
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: sharon_cabinet_resentment
+      duration_days: 720
+    - op: add
+      target: relation
+      value: -20.0
+      key: sharon
+    - op: add
+      target: party_standing
+      value: -5.0
+    - op: add
+      target: readiness
+      value: 2.0
+  - id: C
+    title: 继续自兼国防部长
+    label: 继续自兼国防部长
+    historical: false
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add
+      target: relation
+      value: -10.0
+      key: sharon
+    - op: add
+      target: readiness
+      value: -2.0
+    - op: add
+      target: centralization
+      value: 3.0
+  notes: A 是黎巴嫩战争事件链的关键开关。若选择 B 或 C，E-1982-06b 的越权概率大幅降低，但仍可能发生。
+- id: E-1981-10
+  kind: fixed
+  type: anchor
+  form: passive
+  major: true
+  minor: false
+  repeatable: false
+  title: 萨达特遇刺
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: character_in_office("sadat")
+    condition: regime_stability[egypt] <= 40 and popular_hostility[egypt] >= 50
+    probability:
+      period: month
+      base: 0.04
+      add:
+      - when: flag("autonomy_framework_signed")
+        value: 0.02
+    invalidation: character_in_office("sadat")
+  background: 1981年10月6日，萨达特在阅兵式上被伊斯兰主义军官刺杀。穆巴拉克继任。贝京前往开罗出席葬礼，因为安息日，他步行前往。
+  narrative: 1981年10月6日，萨达特在阅兵式上被伊斯兰主义军官刺杀。穆巴拉克继任。贝京前往开罗出席葬礼，因为安息日，他步行前往。
+  summary: 1981年10月6日，萨达特在阅兵式上被伊斯兰主义军官刺杀。
+  passive_effects:
+  - op: add_modifier
+    modifier: cold_peace_egypt
+    duration_days: null
+  - op: add
+    target: regime_stability
+    value: -15.0
+    key: egypt
+  - op: add
+    target: regime_hostility
+    value: 5.0
+    key: egypt
+  - op: add
+    target: vision_progress
+    value: -3.0
+  - op: add
+    target: public_security
+    value: -3.0
+  - op: add
+    target: settler_momentum
+    value: 3.0
+  perspectives:
+  - group: cabinet
+    label: 内阁成员
+    text: 围绕「萨达特遇刺」的争论在会议室里持续到深夜。
+  - group: street
+    label: 街头市民
+    text: 早报头条刊登了政府决定的消息，咖啡馆里议论纷纷。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+  notes: 若此前 旗标：错失萨达特，则改为文本差异：埃及失去了一位从未与以色列和解的领导人，效果减半。
+- id: E-1981-11
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 民政当局与村庄联盟
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: flag("autonomy_framework_signed") and region_exists("west_bank")
+    condition: faction_strength[fatah] >= 50 and faction_legitimacy[jordan_notables]
+      <= 40
+    probability:
+      period: month
+      base: 0.1
+    invalidation: flag("west_bank_annexed")
+  background: 1981年11月，政府设立"民政当局"，由东方学家梅纳赫姆·米尔森主持，试图绕开亲巴解的民选市长，扶持农村地方显要组成的"村庄联盟"，作为自治谈判的巴勒斯坦伙伴。1982年3月，政府取缔"全国指导委员会"，罢免多位市长。村庄联盟被普遍视为合作者，1984年前后基本瓦解。
+  narrative: 1981年11月，政府设立"民政当局"，由东方学家梅纳赫姆·米尔森主持，试图绕开亲巴解的民选市长，扶持农村地方显要组成的"村庄联盟"，作为自治谈判的巴勒斯坦伙伴。1982年3月，政府取缔"全国指导委员会"，罢免多位市长。村庄联盟被普遍视为合作者，1984年前后基本瓦解。
+  summary: 1981年11月，政府设立"民政当局"，由东方学家梅纳赫姆·米尔森主持，试图。
+  options:
+  - id: A
+    title: 扶持村庄联盟，并为其提供武装
+    label: 扶持村庄联盟，并为其提供武装
+    historical: true
+    tags:
+    - peace
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: village_leagues_program
+      duration_days: 1080
+    - op: add
+      target: faction_strength
+      value: 10.0
+      key: jordan_notables
+    - op: add
+      target: faction_legitimacy
+      value: -15.0
+      key: jordan_notables
+    - op: add
+      target: faction_legitimacy
+      value: 8.0
+      key: fatah
+    - op: add
+      target: pal_hostility
+      value: 8.0
+    - op: add
+      target: centralization
+      value: 3.0
+    - op: add
+      target: rule_of_law
+      value: -3.0
+    - op: add
+      target: promise_progress
+      value: 2.0
+      key: peace_and_security
+  - id: B
+    title: 与民选市长展开非正式接触
+    label: 与民选市长展开非正式接触
+    historical: false
+    tags:
+    - peace
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: territory
+      value: 8.0
+      direction: away
+    - op: add
+      target: party_standing
+      value: -8.0
+    - op: add
+      target: ally_satisfaction
+      value: -15.0
+      key: tehiya
+    - op: add
+      target: faction_legitimacy
+      value: 3.0
+      key: fatah
+    - op: add
+      target: pal_hostility
+      value: -5.0
+    - op: add
+      target: us_admin_relation
+      value: 5.0
+    - op: add
+      target: vision_progress
+      value: -3.0
+  - id: C
+    title: 放弃中间人，恢复直接军事管理
+    label: 放弃中间人，恢复直接军事管理
+    historical: false
+    tags:
+    - peace
+    requires: 'true'
+    effects:
+    - op: add
+      target: pal_hostility
+      value: 5.0
+    - op: add
+      target: pal_living_standard
+      value: -3.0
+    - op: add
+      target: us_admin_relation
+      value: -5.0
+    - op: add
+      target: promise_progress
+      value: -3.0
+      key: peace_and_security
+    - op: add
+      target: readiness
+      value: -2.0
+  perspectives:
+  - group: group_1
+    label: 村庄联盟的成员
+    text: 城里的知识分子瞧不起我们，但能修路、能发许可证的是我们。
+  - group: group_2
+    label: 民选市长
+    text: 以色列在选巴勒斯坦人的代表，就像殖民者挑选酋长。
+  - group: group_3
+    label: 米尔森
+    text: 如果不打破巴解组织对城市的垄断，自治就只会是巴解建国的跳板。
+- id: E-1981-12
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 戈兰高地法
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: region_exists("golan")
+    condition: party_standing <= 60 and stance_deviation[territory] >= 15 and settler_momentum
+      >= 45
+    probability:
+      period: month
+      base: 0.08
+    invalidation: flag("golan_annexed")
+  background: 1981年12月14日，贝京拖着病体（他刚摔断髋骨）在一天之内让议会三读通过《戈兰高地法》，将以色列的法律、司法与行政管辖适用于戈兰高地。美国暂停了刚签订的战略合作备忘录。贝京召见美国大使，质问："我们是香蕉共和国吗？"
+  narrative: 1981年12月14日，贝京拖着病体（他刚摔断髋骨）在一天之内让议会三读通过《戈兰高地法》，将以色列的法律、司法与行政管辖适用于戈兰高地。美国暂停了刚签订的战略合作备忘录。贝京召见美国大使，质问："我们是香蕉共和国吗？"
+  summary: 1981年12月14日，贝京拖着病体（他刚摔断髋骨）在一天之内让议会三读通过。
+  options:
+  - id: A
+    title: 一天之内完成立法
+    label: 一天之内完成立法
+    historical: true
+    tags:
+    - restraint
+    - hardline
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: golan_annexed
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: territory
+      value: -8.0
+      direction: away
+    - op: add
+      target: party_standing
+      value: 8.0
+    - op: add
+      target: settler_momentum
+      value: 3.0
+    - op: add
+      target: us_admin_relation
+      value: -12.0
+    - op: add
+      target: us_congress_relation
+      value: -3.0
+    - op: add
+      target: intl_legitimacy
+      value: -8.0
+    - op: add
+      target: regime_hostility
+      value: 10.0
+      key: syria
+    - op: add
+      target: civic_identification
+      value: -8.0
+      key: druze
+    - op: add
+      target: region_security
+      value: -8.0
+      key: golan
+    - op: add
+      target: land_grievance
+      value: 5.0
+      key: druze
+    - op: add
+      target: rule_of_law
+      value: -4.0
+  - id: B
+    title: 推迟，等待与叙利亚的潜在谈判
+    label: 推迟，等待与叙利亚的潜在谈判
+    historical: false
+    tags:
+    - peace
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: territory
+      value: 3.0
+      direction: away
+    - op: add
+      target: party_standing
+      value: -5.0
+    - op: add
+      target: ally_satisfaction
+      value: -10.0
+      key: tehiya
+    - op: add
+      target: us_admin_relation
+      value: 3.0
+  - id: C
+    title: 趁势把主权扩展到约旦河西岸
+    label: 趁势把主权扩展到约旦河西岸
+    historical: false
+    tags:
+    - restraint
+    - hardline
+    - peace
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: west_bank_annexed
+    - op: add
+      target: promise_progress
+      value: 15.0
+      key: settle_eretz_israel
+    - op: add
+      target: settler_momentum
+      value: 10.0
+    - op: add
+      target: party_standing
+      value: 10.0
+    - op: add
+      target: us_admin_relation
+      value: -30.0
+    - op: add
+      target: us_congress_relation
+      value: -15.0
+    - op: add
+      target: intl_legitimacy
+      value: -25.0
+    - op: add
+      target: regime_hostility
+      value: 20.0
+      key: egypt
+    - op: add
+      target: regime_hostility
+      value: 15.0
+      key: jordan
+    - op: add
+      target: pal_hostility
+      value: 20.0
+    - op: add
+      target: vision_progress
+      value: -20.0
+  perspectives:
+  - group: cabinet
+    label: 内阁成员
+    text: 围绕「戈兰高地法」的争论在会议室里持续到深夜。
+  - group: street
+    label: 街头市民
+    text: 早报头条刊登了政府决定的消息，咖啡馆里议论纷纷。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+  notes: C 是"大以色列"反事实路线的入口，长期代价远大于短期党内收益。
+- id: E-1982-04
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 亚米特撤离
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: flag("egypt_peace_treaty_signed") and region_exists("sinai")
+    condition: regime_hostility[egypt] <= 40
+    probability:
+      period: immediate
+    invalidation: 'false'
+  background: 根据和约，以色列须在1982年4月前撤出西奈最后部分，包括沿海城镇亚米特及周边定居点。"阻止西奈撤离运动"的数千名支持者涌入亚米特抵抗，部分卡赫纳的追随者把自己关在掩体里威胁自杀。军队强行撤离后，国防部长沙龙下令将亚米特夷为平地。
+  narrative: 根据和约，以色列须在1982年4月前撤出西奈最后部分，包括沿海城镇亚米特及周边定居点。"阻止西奈撤离运动"的数千名支持者涌入亚米特抵抗，部分卡赫纳的追随者把自己关在掩体里威胁自杀。军队强行撤离后，国防部长沙龙下令将亚米特夷为平地。
+  summary: 根据和约，以色列须在1982年4月前撤出西奈最后部分，包括沿海城镇亚米特及周。
+  options:
+  - id: A
+    title: 强制撤离并拆除城镇
+    label: 强制撤离并拆除城镇
+    historical: true
+    tags:
+    - restraint
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: sinai_returned
+    - op: add_modifier
+      modifier: yamit_trauma
+      duration_days: null
+    - op: add
+      target: regime_hostility
+      value: -5.0
+      key: egypt
+    - op: add
+      target: us_admin_relation
+      value: 5.0
+    - op: add
+      target: intl_legitimacy
+      value: 5.0
+    - op: add
+      target: vision_progress
+      value: 5.0
+    - op: add
+      target: settler_momentum
+      value: 5.0
+    - op: add
+      target: bloc_support
+      value: -5.0
+      key: religious_zionist
+  - id: B
+    title: 强制撤离，但保留建筑移交埃及
+    label: 强制撤离，但保留建筑移交埃及
+    historical: false
+    tags:
+    - restraint
+    - hardline
+    requires: 'true'
+    effects:
+    - op: add
+      target: regime_hostility
+      value: -8.0
+      key: egypt
+    - op: add
+      target: settler_momentum
+      value: 3.0
+    - op: add
+      target: relation
+      value: -10.0
+      key: sharon
+    - op: add
+      target: political_capital
+      value: -5.0
+  - id: C
+    title: 以安全理由推迟撤离
+    label: 以安全理由推迟撤离
+    historical: false
+    tags:
+    - restraint
+    - peace
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: peace_treaty_crisis
+      duration_days: null
+    - op: add
+      target: regime_hostility
+      value: 25.0
+      key: egypt
+    - op: add
+      target: us_admin_relation
+      value: -25.0
+    - op: add
+      target: us_congress_relation
+      value: -10.0
+    - op: add
+      target: intl_legitimacy
+      value: -15.0
+    - op: add
+      target: vision_progress
+      value: -25.0
+    - op: add
+      target: promise_progress
+      value: -15.0
+      key: peace_and_security
+    - op: add
+      target: settler_momentum
+      value: 8.0
+    - op: add
+      target: party_standing
+      value: 5.0
+    - op: add
+      target: budget_balance
+      value: -2.0
+  perspectives:
+  - group: group_1
+    label: 亚米特居民
+    text: 政府当年请我们来沙漠建城，现在用推土机把我们的家抹平。
+  - group: group_2
+    label: 士兵
+    text: 我们被训练来保卫这个国家，却要把犹太人从屋顶上拖下来。
+  - group: group_3
+    label: 埃及
+    text: 西奈回来了，但在沙漠里只剩下一片废墟。
+- id: E-1982-06a
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 加利利和平行动
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: 'true'
+    condition: region_security[galilee] <= 50 and public_security <= 45 and readiness
+      >= 50
+    probability:
+      period: month
+      base: 0.05
+      add:
+      - when: flag("sharon_defense_minister")
+        value: 0.1
+    invalidation: flag("plo_moved_to_tunis") and faction_strength[fatah] < 30
+  background: 1981年7月起，美国斡旋的黎以边境停火大体维持，但巴解组织在南黎巴嫩积聚了大量火炮。阿尔戈夫遇刺后，内阁批准"加利利和平行动"，公开目标是把巴解火炮推出边境40公里。沙龙与总参谋长埃坦另有更大的计划：摧毁巴解组织在贝鲁特的总部，扶植巴希尔·杰马耶勒建立亲以政府，并赶走叙利亚军队。
+  narrative: 1981年7月起，美国斡旋的黎以边境停火大体维持，但巴解组织在南黎巴嫩积聚了大量火炮。阿尔戈夫遇刺后，内阁批准"加利利和平行动"，公开目标是把巴解火炮推出边境40公里。沙龙与总参谋长埃坦另有更大的计划：摧毁巴解组织在贝鲁特的总部，扶植巴希尔·杰马耶勒建立亲以政府，并赶走叙利亚军队。
+  summary: 1981年7月起，美国斡旋的黎以边境停火大体维持，但巴解组织在南黎巴嫩积聚了。
+  options:
+  - id: A
+    title: 批准40公里的有限行动
+    label: 批准40公里的有限行动
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: sharon_defense_minister
+    - op: add
+      target: region_security
+      value: 15.0
+      key: galilee
+    - op: add
+      target: deterrence
+      value: 8.0
+    - op: add
+      target: faction_strength
+      value: -10.0
+      key: fatah
+    - op: add
+      target: public_security
+      value: 8.0
+    - op: add
+      target: intl_legitimacy
+      value: -8.0
+    - op: add
+      target: us_admin_relation
+      value: -5.0
+    - op: add
+      target: readiness
+      value: -8.0
+    - op: add
+      target: budget_balance
+      value: -3.0
+    - op: add
+      target: party_standing
+      value: 5.0
+    - op: schedule_event
+      event: E-1982-06b
+      delay_days: 30
+  - id: B
+    title: 批准沙龙的大计划：直抵贝鲁特
+    label: 批准沙龙的大计划：直抵贝鲁特
+    historical: false
+    tags:
+    - restraint
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: lebanon_quagmire
+      duration_days: null
+    - op: add
+      target: faction_strength
+      value: -20.0
+      key: fatah
+    - op: add
+      target: regime_stability
+      value: -15.0
+      key: lebanon
+    - op: add
+      target: faction_strength
+      value: 10.0
+      key: phalange
+    - op: add
+      target: regime_hostility
+      value: 15.0
+      key: syria
+    - op: add
+      target: intl_legitimacy
+      value: -15.0
+    - op: add
+      target: us_admin_relation
+      value: -12.0
+    - op: add
+      target: readiness
+      value: -15.0
+    - op: add
+      target: budget_balance
+      value: -5.0
+    - op: add
+      target: party_standing
+      value: 8.0
+    - op: schedule_event
+      event: E-1982-08
+      delay_days: 30
+  - id: C
+    title: 只做空中报复，避免地面战争
+    label: 只做空中报复，避免地面战争
+    historical: false
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: security
+      value: 8.0
+      direction: away
+    - op: add
+      target: region_security
+      value: 3.0
+      key: galilee
+    - op: add
+      target: deterrence
+      value: 3.0
+    - op: add
+      target: party_standing
+      value: -8.0
+    - op: add
+      target: relation
+      value: -15.0
+      key: sharon
+    - op: add
+      target: us_admin_relation
+      value: 3.0
+    - op: add
+      target: faction_strength
+      value: -3.0
+      key: fatah
+  perspectives:
+  - group: group_1
+    label: 加利利边境城镇居民
+    text: 十年来我们的孩子一半时间睡在防空洞里。
+  - group: group_2
+    label: 黎巴嫩南部的什叶派村民
+    text: 一开始有人向以军撒米，因为巴解武装在村里横行；几个月后，他们开始组织抵抗。
+  - group: group_3
+    label: 巴勒斯坦难民营
+    text: 贝鲁特是我们最后的根据地，如果它失守，我们还能去哪里？
+- id: E-1982-06b
+  kind: fixed
+  type: character
+  form: choice
+  major: false
+  minor: false
+  repeatable: false
+  title: 沙龙越权
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: event_choice("E-1982-06a") == "A"
+    condition: readiness >= 40 and relation[defense_minister] <= 40
+    probability:
+      period: month
+      base: 0.8
+    invalidation: 'false'
+  background: 以军迅速越过40公里线，在贝卡谷地与叙利亚军队交火，摧毁叙利亚的防空导弹阵地，并推进到贝鲁特-大马士革公路和贝鲁特郊区。部长们后来抱怨，他们每一步都是事后才被告知，或在"既成事实"面前被要求批准。
+  narrative: 以军迅速越过40公里线，在贝卡谷地与叙利亚军队交火，摧毁叙利亚的防空导弹阵地，并推进到贝鲁特-大马士革公路和贝鲁特郊区。部长们后来抱怨，他们每一步都是事后才被告知，或在"既成事实"面前被要求批准。
+  summary: 以军迅速越过40公里线，在贝卡谷地与叙利亚军队交火，摧毁叙利亚的防空导弹阵地。
+  options:
+  - id: A
+    title: 事后追认每一步推进
+    label: 事后追认每一步推进
+    historical: true
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: overreach_unpunished
+    - op: add_modifier
+      modifier: lebanon_quagmire
+      duration_days: null
+    - op: add
+      target: faction_strength
+      value: -15.0
+      key: fatah
+    - op: add
+      target: regime_hostility
+      value: 10.0
+      key: syria
+    - op: add
+      target: deterrence
+      value: 5.0
+    - op: add
+      target: relation
+      value: 10.0
+      key: sharon
+    - op: add
+      target: rule_of_law
+      value: -5.0
+    - op: add
+      target: centralization
+      value: 3.0
+    - op: add
+      target: intl_legitimacy
+      value: -10.0
+    - op: schedule_event
+      event: E-1983-02a
+      delay_days: 30
+  - id: B
+    title: 召开内阁会议，强制停在现有阵线
+    label: 召开内阁会议，强制停在现有阵线
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: political_capital
+      value: -20.0
+    - op: add
+      target: relation
+      value: -20.0
+      key: sharon
+    - op: add
+      target: faction_strength
+      value: -5.0
+      key: fatah
+    - op: add
+      target: intl_legitimacy
+      value: -3.0
+    - op: add
+      target: us_admin_relation
+      value: 5.0
+    - op: add
+      target: party_standing
+      value: -5.0
+    - op: add
+      target: rule_of_law
+      value: 3.0
+  - id: C
+    title: 撤销沙龙的作战指挥权
+    label: 撤销沙龙的作战指挥权
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: sharon_dismissed_from_defense
+    - op: add
+      target: political_capital
+      value: -30.0
+    - op: add
+      target: relation
+      value: -40.0
+      key: sharon
+    - op: add
+      target: party_standing
+      value: -10.0
+    - op: add
+      target: rule_of_law
+      value: 5.0
+    - op: add
+      target: readiness
+      value: -3.0
+  notes: 这是设计文档 2.2 节"部长越权"机制的标准案例。
+- id: E-1982-08
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 贝鲁特围城
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: 'true'
+    condition: has_modifier("lebanon_quagmire") and faction_strength[fatah] >= 30
+    probability:
+      period: month
+      base: 0.9
+    invalidation: 'false'
+  background: 以军包围西贝鲁特长达两个月，切断水电，持续炮击与轰炸。8月12日的大规模轰炸后，里根打电话给贝京，用了"大屠杀"一词，要求停火。同日，内阁剥夺了沙龙不经批准动用空军的权力。美国特使哈比卜斡旋巴解组织撤出贝鲁特，约一万一千名巴解武装人员在多国部队监督下由海路撤往突尼斯等地。
+  narrative: 以军包围西贝鲁特长达两个月，切断水电，持续炮击与轰炸。8月12日的大规模轰炸后，里根打电话给贝京，用了"大屠杀"一词，要求停火。同日，内阁剥夺了沙龙不经批准动用空军的权力。美国特使哈比卜斡旋巴解组织撤出贝鲁特，约一万一千名巴解武装人员在多国部队监督下由海路撤往突尼斯等地。
+  summary: 以军包围西贝鲁特长达两个月，切断水电，持续炮击与轰炸。
+  options:
+  - id: A
+    title: 接受哈比卜方案，让巴解体面撤离
+    label: 接受哈比卜方案，让巴解体面撤离
+    historical: true
+    tags:
+    - restraint
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: plo_moved_to_tunis
+    - op: add
+      target: faction_strength
+      value: -20.0
+      key: fatah
+    - op: add
+      target: faction_legitimacy
+      value: 5.0
+      key: fatah
+    - op: add
+      target: intl_legitimacy
+      value: -5.0
+    - op: add
+      target: us_admin_relation
+      value: 5.0
+    - op: add
+      target: deterrence
+      value: 5.0
+    - op: add
+      target: relation
+      value: -5.0
+      key: sharon
+    - op: schedule_event
+      event: E-1982-09a
+      delay_days: 30
+  - id: B
+    title: 强攻西贝鲁特
+    label: 强攻西贝鲁特
+    historical: false
+    tags:
+    - hardline
+    - peace
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: beirut_siege_scar
+      duration_days: null
+    - op: add
+      target: faction_strength
+      value: -25.0
+      key: fatah
+    - op: add
+      target: public_security
+      value: -15.0
+    - op: add
+      target: bloc_support
+      value: -10.0
+      key: liberal_middle
+    - op: add
+      target: popular_hostility
+      value: 25.0
+      key: lebanon
+    - op: add
+      target: intl_legitimacy
+      value: -30.0
+    - op: add
+      target: us_admin_relation
+      value: -30.0
+    - op: add
+      target: us_congress_relation
+      value: -15.0
+    - op: add
+      target: power_relation
+      value: -15.0
+      key: diaspora
+  - id: C
+    title: 持续围困与轰炸，迫使阿拉法特无条
+    label: 持续围困与轰炸，迫使阿拉法特无条件投降
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: intl_legitimacy
+      value: -5.0
+    - op: add
+      target: us_admin_relation
+      value: -5.0
+    - op: add
+      target: popular_hostility
+      value: 5.0
+      key: lebanon
+    - op: add
+      target: readiness
+      value: -3.0
+    - op: add
+      target: party_standing
+      value: -2.0
+  perspectives:
+  - group: group_1
+    label: 西贝鲁特居民
+    text: 没有水，没有电，每晚都有新的楼被炸塌。
+  - group: group_2
+    label: 以色列预备役军人
+    text: 我们在城外看着电视上的画面，第一次在打仗时质问自己"为什么在这里"。
+  - group: group_3
+    label: 华盛顿
+    text: 里根说他看到一个失去双臂的婴儿的照片。
+  notes: 同年9月1日，美国提出"里根计划"（约旦-巴勒斯坦联合方案），贝京政府断然拒绝；可作为风味选项附于本事件后续。
+- id: E-1982-09a
+  kind: fixed
+  type: anchor
+  form: passive
+  major: true
+  minor: false
+  repeatable: false
+  title: 巴希尔·杰马耶勒遇刺
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: flag("plo_moved_to_tunis") and character_in_office("bashir_gemayel")
+    condition: faction_strength[phalange] >= 50 and regime_hostility[syria] >= 60
+    probability:
+      period: month
+      base: 0.25
+    invalidation: not character_in_office("bashir_gemayel")
+  background: 1982年8月23日，长枪党领袖巴希尔·杰马耶勒在以军控制下当选黎巴嫩总统。9月1日他与贝京在纳哈里亚秘密会晤，拒绝立即与以色列缔结和约，会晤不欢而散。9月14日，他在东贝鲁特的长枪党总部被炸身亡，凶手为亲叙利亚的叙利亚社会民族党成员。次日以军进入西贝鲁特。
+  narrative: 1982年8月23日，长枪党领袖巴希尔·杰马耶勒在以军控制下当选黎巴嫩总统。9月1日他与贝京在纳哈里亚秘密会晤，拒绝立即与以色列缔结和约，会晤不欢而散。9月14日，他在东贝鲁特的长枪党总部被炸身亡，凶手为亲叙利亚的叙利亚社会民族党成员。次日以军进入西贝鲁特。
+  summary: 1982年8月23日，长枪党领袖巴希尔·杰马耶勒在以军控制下当选黎巴嫩总统。
+  passive_effects:
+  - op: add_modifier
+    modifier: vengeful_phalange
+    duration_days: 30
+  - op: add
+    target: faction_strength
+    value: -10.0
+    key: phalange
+  - op: add
+    target: regime_stability
+    value: -20.0
+    key: lebanon
+  - op: add
+    target: regime_hostility
+    value: 5.0
+    key: syria
+  - op: add
+    target: vision_progress
+    value: -5.0
+  - op: add
+    target: faction_legitimacy
+    value: -5.0
+    key: phalange
+  - op: schedule_event
+    event: E-1982-09c
+    delay_days: 30
+  perspectives:
+  - group: cabinet
+    label: 内阁成员
+    text: 围绕「巴希尔·杰马耶勒遇刺」的争论在会议室里持续到深夜。
+  - group: street
+    label: 街头市民
+    text: 早报头条刊登了政府决定的消息，咖啡馆里议论纷纷。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+  notes: 这是设计文档 9.2 节"扶植对象被刺杀"反噬事件的标准案例。
+- id: E-1982-09b
+  kind: fixed
+  type: anchor
+  form: predecision
+  major: true
+  minor: false
+  repeatable: false
+  title: 长枪党与难民营
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: event_done("E-1982-09a")
+    condition: faction_strength[phalange] >= 40 and faction_strength[fatah] >= 10
+    probability:
+      period: immediate
+    invalidation: 'false'
+  background: 巴希尔遇刺后，以军进入西贝鲁特。总参谋部和国防部长提出，由长枪党民兵进入萨布拉和夏蒂拉难民营"清剿残余武装"，以免以军在巷战中伤亡。情报部门提醒：长枪党刚失去领袖，复仇情绪高涨，过去在黎巴嫩内战中有过屠杀平民的记录。
+  narrative: 巴希尔遇刺后，以军进入西贝鲁特。总参谋部和国防部长提出，由长枪党民兵进入萨布拉和夏蒂拉难民营"清剿残余武装"，以免以军在巷战中伤亡。情报部门提醒：长枪党刚失去领袖，复仇情绪高涨，过去在黎巴嫩内战中有过屠杀平民的记录。
+  summary: 巴希尔遇刺后，以军进入西贝鲁特。
+  presentation:
+    insert_before:
+    - E-1982-09a
+  options:
+  - id: A
+    title: 允许长枪党进入难民营清剿
+    label: 允许长枪党进入难民营清剿
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: event_multiplier
+      event: E-1982-09a
+      value: 1.0
+      display: hidden
+    - op: set_flag
+      flag: phalange_entered_camps
+    - op: add
+      target: public_security
+      value: 2.0
+    - op: add
+      target: relation
+      value: 5.0
+      key: sharon
+    - op: add
+      target: relation
+      value: 5.0
+      key: chief_of_staff
+    - op: add
+      target: faction_strength
+      value: 3.0
+      key: phalange
+    risk_hint: 高
+  - id: B
+    title: 只许在以军直接监督下进入，派联络
+    label: 只许在以军直接监督下进入，派联络官随队，入夜即撤出
+    historical: false
+    tags:
+    - restraint
+    requires: 'true'
+    effects:
+    - op: event_multiplier
+      event: E-1982-09a
+      value: 0.4
+      display: hidden
+    - op: set_flag
+      flag: phalange_entered_camps_supervised
+    - op: add
+      target: readiness
+      value: -2.0
+    - op: add
+      target: public_security
+      value: -2.0
+    - op: add
+      target: political_capital
+      value: -5.0
+    - op: add
+      target: relation
+      value: -5.0
+      key: chief_of_staff
+    risk_hint: 中
+  - id: C
+    title: 拒绝长枪党入营，由以军或黎巴嫩军
+    label: 拒绝长枪党入营，由以军或黎巴嫩军队自行搜查
+    historical: false
+    tags:
+    - restraint
+    - hardline
+    requires: 'true'
+    effects:
+    - op: event_multiplier
+      event: E-1982-09a
+      value: 0.05
+      display: hidden
+    - op: add
+      target: public_security
+      value: -5.0
+    - op: add
+      target: bloc_support
+      value: -2.0
+      key: liberal_middle
+    - op: add
+      target: relation
+      value: -10.0
+      key: sharon
+    - op: add
+      target: relation
+      value: -15.0
+      key: bashir_gemayel
+    - op: add
+      target: faction_strength
+      value: -3.0
+      key: phalange
+    - op: add
+      target: readiness
+      value: -3.0
+    - op: add
+      target: faction_strength
+      value: 2.0
+      key: fatah
+    risk_hint: 低
+  perspectives:
+  - group: group_1
+    label: 总参谋部
+    text: 让黎巴嫩人去打黎巴嫩的仗，这是我们进入黎巴嫩时就说好的。
+  - group: group_2
+    label: 情报官员
+    text: 我们知道他们是谁，也知道他们刚刚失去了什么。
+  - group: group_3
+    label: 难民营居民
+    text: 武装人员已经撤走了，留下的是老人、妇女和孩子。
+  notes: 这是 README 第4节第4条"暴行事件的事前政策决策点"的标准案例。乘数只决定概率，玩家无法确知后果；即使选择 C，暴行也不会降到零。
+- id: E-1982-09c
+  kind: fixed
+  type: anchor
+  form: passive
+  major: true
+  minor: false
+  repeatable: false
+  title: 萨布拉与夏蒂拉
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: event_done("E-1982-09b")
+    condition: faction_strength[phalange] >= 40 and popular_hostility[lebanon] >=
+      40
+    probability:
+      period: month
+      base: 0.8
+      add:
+      - when: flag("overreach_unpunished")
+        value: 0.1
+    invalidation: 'false'
+  background: 1982年9月16日至18日，以色列国防军允许长枪党民兵进入萨布拉和夏蒂拉难民营"清剿残余武装"。民兵在营地内屠杀了大量巴勒斯坦和黎巴嫩什叶派平民，遇难人数从数百到超过两千，众说纷纭。以军在营地外围发射照明弹，部分军官早在第一晚就收到了屠杀的报告。贝京最初回应："异教徒杀了异教徒，他们却怪罪犹太人。"
+  narrative: 1982年9月16日至18日，以色列国防军允许长枪党民兵进入萨布拉和夏蒂拉难民营"清剿残余武装"。民兵在营地内屠杀了大量巴勒斯坦和黎巴嫩什叶派平民，遇难人数从数百到超过两千，众说纷纭。以军在营地外围发射照明弹，部分军官早在第一晚就收到了屠杀的报告。贝京最初回应："异教徒杀了异教徒，他们却怪罪犹太人。"
+  summary: 1982年9月16日至18日，以色列国防军允许长枪党民兵进入萨布拉和夏蒂拉难。
+  passive_effects:
+  - op: set_flag
+    flag: massacre_occurred
+  - op: add_modifier
+    modifier: sabra_shatila_stigma
+    duration_days: null
+  - op: add
+    target: intl_legitimacy
+    value: -25.0
+  - op: add
+    target: us_admin_relation
+    value: -15.0
+  - op: add
+    target: us_congress_relation
+    value: -10.0
+  - op: add
+    target: power_relation
+    value: -15.0
+    key: diaspora
+  - op: add
+    target: pal_hostility
+    value: 20.0
+  - op: add
+    target: popular_hostility
+    value: 15.0
+    key: lebanon
+  - op: add
+    target: popular_hostility
+    value: 10.0
+    key: egypt
+  - op: add
+    target: regime_hostility
+    value: 10.0
+    key: egypt
+  - op: add
+    target: faction_legitimacy
+    value: -15.0
+    key: phalange
+  - op: add
+    target: faction_legitimacy
+    value: 10.0
+    key: fatah
+  - op: add
+    target: bloc_support
+    value: -10.0
+    key: liberal_middle
+  - op: schedule_event
+    event: E-1982-09d
+    delay_days: 30
+  perspectives:
+  - group: group_1
+    label: 幸存者
+    text: 他们挨家挨户地敲门，男人被带走，女人和孩子死在巷子里。
+  - group: group_2
+    label: 以色列士兵
+    text: 我们看到推土机在营地里工作，有人报告了，但上面说那是长枪党的事。
+  - group: group_3
+    label: 以色列公众
+    text: 犹太人不必为异教徒的罪行负责，但我们要问：谁让他们进去的？
+  notes: 暴行本身是被动事件。事前的决策点是 E-1982-09b，事后处置是 E-1982-09d 与 E-1983-02a。
+- id: E-1982-09d
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 是否设立国家调查委员会
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: flag("massacre_occurred")
+    condition: rule_of_law >= 30 and bloc_support[liberal_middle] <= 50
+    probability:
+      period: immediate
+    invalidation: 'false'
+  background: 政府起初拒绝设立国家调查委员会。9月25日，"现在就和平"在特拉维夫举行抗议集会，号称有40万人参加，是以色列史上最大规模的示威之一。总统纳冯公开要求调查，国家宗教党威胁退出联合政府，部长伯曼辞职。9月28日，政府决定设立由最高法院院长卡汉主持的国家调查委员会。
+  narrative: 政府起初拒绝设立国家调查委员会。9月25日，"现在就和平"在特拉维夫举行抗议集会，号称有40万人参加，是以色列史上最大规模的示威之一。总统纳冯公开要求调查，国家宗教党威胁退出联合政府，部长伯曼辞职。9月28日，政府决定设立由最高法院院长卡汉主持的国家调查委员会。
+  summary: 政府起初拒绝设立国家调查委员会。
+  options:
+  - id: A
+    title: 在压力下设立国家调查委员会
+    label: 在压力下设立国家调查委员会
+    historical: true
+    tags:
+    - restraint
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: kahan_commission_active
+    - op: add
+      target: rule_of_law
+      value: 8.0
+    - op: add
+      target: intl_legitimacy
+      value: 8.0
+    - op: add
+      target: us_congress_relation
+      value: 5.0
+    - op: add
+      target: power_relation
+      value: 5.0
+      key: diaspora
+    - op: add
+      target: bloc_support
+      value: 3.0
+      key: liberal_middle
+    - op: add
+      target: political_capital
+      value: -15.0
+    - op: add
+      target: party_standing
+      value: -5.0
+    - op: add
+      target: relation
+      value: -15.0
+      key: sharon
+    - op: schedule_event
+      event: E-1983-02a
+      delay_days: 30
+  - id: B
+    title: 只进行军方内部调查
+    label: 只进行军方内部调查
+    historical: false
+    tags:
+    - restraint
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: four_hundred_thousand_protest
+      duration_days: 180
+    - op: add
+      target: rule_of_law
+      value: -5.0
+    - op: add
+      target: intl_legitimacy
+      value: -8.0
+    - op: add
+      target: ally_satisfaction
+      value: -15.0
+      key: nrp
+    - op: add
+      target: relation
+      value: 5.0
+      key: sharon
+    - op: add
+      target: party_standing
+      value: -3.0
+  - id: C
+    title: 拒绝调查，以紧急条例限制示威与报
+    label: 拒绝调查，以紧急条例限制示威与报道
+    historical: false
+    tags:
+    - restraint
+    - hardline
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: martial_law_shadow
+      duration_days: null
+    - op: add
+      target: centralization
+      value: 15.0
+    - op: add
+      target: rule_of_law
+      value: -20.0
+    - op: add
+      target: intl_legitimacy
+      value: -15.0
+    - op: add
+      target: us_congress_relation
+      value: -20.0
+    - op: add
+      target: power_relation
+      value: -20.0
+      key: diaspora
+    - op: add
+      target: vision_progress
+      value: -10.0
+    - op: add
+      target: ally_satisfaction
+      value: -25.0
+      key: nrp
+  perspectives:
+  - group: group_1
+    label: 示威者
+    text: 我们不是来反对国家的，我们是来要求国家对得起自己的。
+  - group: group_2
+    label: 利库德支持者
+    text: 全世界都在把一场基督徒对穆斯林的屠杀算到犹太人头上，左派还在火上浇油。
+  - group: group_3
+    label: 巴勒斯坦难民
+    text: 一个调查委员会，能让死去的人回来吗？
+  notes: C 是本时期最典型的独裁路线入口，短期压制住了示威，但几乎必然导致联合政府瓦解与国际孤立。
+- id: E-1982-11
+  kind: fixed
+  type: character
+  form: passive
+  major: false
+  minor: false
+  repeatable: false
+  title: 阿丽扎之死
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: character_alive("aliza_begin")
+    condition: has_modifier("lebanon_quagmire") and health[aliza_begin] <= 20
+    probability:
+      period: month
+      base: 0.1
+    invalidation: 'false'
+  background: 1982年11月，贝京的妻子阿丽扎在他访美期间去世。贝京提前回国，此后日益消沉。黎巴嫩伤亡人数每天在总理府外的抗议牌上更新。
+  narrative: 1982年11月，贝京的妻子阿丽扎在他访美期间去世。贝京提前回国，此后日益消沉。黎巴嫩伤亡人数每天在总理府外的抗议牌上更新。
+  summary: 1982年11月，贝京的妻子阿丽扎在他访美期间去世。
+  passive_effects:
+  - op: add_modifier
+    modifier: silent_pm
+    duration_days: null
+  - op: add
+    target: party_standing
+    value: -3.0
+  - op: add
+    target: relation
+    value: 5.0
+    key: shamir
+  - op: add
+    target: relation
+    value: 5.0
+    key: arens
+  notes: 若玩家以继承人模式提前换人，本事件转为风味文本。
+- id: E-1983-02a
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 卡汉报告
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: flag("kahan_commission_active")
+    condition: flag("overreach_unpunished") and rule_of_law >= 40
+    probability:
+      period: month
+      base: 0.35
+    invalidation: centralization >= 50
+    on_miss:
+      effects:
+      - op: add
+        target: rule_of_law
+        value: -3.0
+  background: 1983年2月8日，卡汉委员会公布报告：以色列对屠杀负有"间接责任"，国防部长沙龙负有"个人责任"，应辞职或被总理撤职；总参谋长埃坦、军事情报局长萨吉等人也受到批评。内阁以16比1接受报告，唯一反对票是沙龙本人。沙龙辞去国防部长，但以不管部长身份留在内阁。
+  narrative: 1983年2月8日，卡汉委员会公布报告：以色列对屠杀负有"间接责任"，国防部长沙龙负有"个人责任"，应辞职或被总理撤职；总参谋长埃坦、军事情报局长萨吉等人也受到批评。内阁以16比1接受报告，唯一反对票是沙龙本人。沙龙辞去国防部长，但以不管部长身份留在内阁。
+  summary: 1983年2月8日，卡汉委员会公布报告：以色列对屠杀负有"间接责任"，国防部。
+  options:
+  - id: A
+    title: 接受报告：沙龙离开国防部，但保留
+    label: 接受报告：沙龙离开国防部，但保留内阁席位
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: sharon_dismissed_from_defense
+    - op: add_modifier
+      modifier: sharon_remains_in_cabinet
+      duration_days: 1080
+    - op: add
+      target: rule_of_law
+      value: 5.0
+    - op: add
+      target: intl_legitimacy
+      value: 8.0
+    - op: add
+      target: us_admin_relation
+      value: 5.0
+    - op: add
+      target: power_relation
+      value: 5.0
+      key: diaspora
+    - op: add
+      target: relation
+      value: -15.0
+      key: sharon
+    - op: add
+      target: party_standing
+      value: -3.0
+    - op: add
+      target: political_capital
+      value: -10.0
+  - id: B
+    title: 完全接受报告，把沙龙逐出内阁
+    label: 完全接受报告，把沙龙逐出内阁
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: rule_of_law
+      value: 8.0
+    - op: add
+      target: intl_legitimacy
+      value: 10.0
+    - op: add
+      target: us_congress_relation
+      value: 5.0
+    - op: add
+      target: relation
+      value: -40.0
+      key: sharon
+    - op: add
+      target: party_standing
+      value: -10.0
+    - op: add
+      target: bloc_support
+      value: 4.0
+      key: liberal_middle
+  - id: C
+    title: 拒绝报告的人事建议
+    label: 拒绝报告的人事建议
+    historical: false
+    tags:
+    - restraint
+    - hardline
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: contempt_for_inquiry_commission
+      duration_days: null
+    - op: add
+      target: centralization
+      value: 10.0
+    - op: add
+      target: rule_of_law
+      value: -15.0
+    - op: add
+      target: intl_legitimacy
+      value: -15.0
+    - op: add
+      target: us_congress_relation
+      value: -15.0
+    - op: add
+      target: power_relation
+      value: -15.0
+      key: diaspora
+    - op: add
+      target: ally_satisfaction
+      value: -20.0
+      key: nrp
+    - op: add
+      target: relation
+      value: 10.0
+      key: sharon
+    - op: add
+      target: vision_progress
+      value: -10.0
+  perspectives:
+  - group: group_1
+    label: 沙龙的支持者
+    text: 一位国家英雄被当成替罪羊，凶手是长枪党。
+  - group: group_2
+    label: 和平阵营
+    text: 只是从国防部挪到另一个办公室，这算什么问责？
+  - group: group_3
+    label: 国际观察者
+    text: 很少有国家会在战争中公开调查自己的国防部长。
+  notes: 任一选项之后两天内 → E-1983-02b。
+- id: E-1983-02b
+  kind: fixed
+  type: anchor
+  form: passive
+  major: true
+  minor: false
+  repeatable: false
+  title: 格伦茨威格遇害
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: event_done("E-1983-02a")
+    condition: has_modifier("ethnic_voting_polarization") and rule_of_law <= 70
+    probability:
+      period: month
+      base: 0.3
+    invalidation: 'false'
+  background: 1983年2月10日，"现在就和平"在总理府外举行游行，要求落实卡汉报告。一名右翼反对者向人群投掷手榴弹，炸死了预备役军人、和平活动人士埃米尔·格伦茨威格，炸伤多人。凶手约纳·阿夫鲁什米后来被判终身监禁。
+  narrative: 1983年2月10日，"现在就和平"在总理府外举行游行，要求落实卡汉报告。一名右翼反对者向人群投掷手榴弹，炸死了预备役军人、和平活动人士埃米尔·格伦茨威格，炸伤多人。凶手约纳·阿夫鲁什米后来被判终身监禁。
+  summary: 1983年2月10日，"现在就和平"在总理府外举行游行，要求落实卡汉报告。
+  passive_effects:
+  - op: add_modifier
+    modifier: political_violence_precedent
+    duration_days: null
+  - op: add
+    target: rule_of_law
+    value: -5.0
+  - op: add
+    target: public_security
+    value: -4.0
+  - op: add
+    target: bloc_support
+    value: -3.0
+    key: liberal_middle
+  - op: add
+    target: rule_of_law
+    value: -5.0
+  - op: add
+    target: intl_legitimacy
+    value: -5.0
+  perspectives:
+  - group: group_1
+    label: 和平运动
+    text: 一个犹太人为抗议而死，死在另一个犹太人的手榴弹下。
+  - group: group_2
+    label: 右翼领袖
+    text: 我们谴责暴力，但左派长年来的煽动也有责任。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+  notes: 这是以色列政治暴力史上的一个关键节点，为1995年事件链埋下伏笔。
+- id: E-1983-08
+  kind: fixed
+  type: character
+  form: choice
+  major: false
+  minor: false
+  repeatable: false
+  title: '"我不能再继续了"'
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: 'true'
+    condition: has_modifier("silent_pm") and has_modifier("lebanon_quagmire") and
+      health[prime_minister] <= 30 and party_standing <= 30
+    probability:
+      period: month
+      base: 0.15
+    invalidation: 'false'
+  background: 1983年8月28日，贝京对内阁说："我不能再继续了。"他闭门隐居，直到1992年去世。赫鲁特党选举沙米尔接任，击败戴维·利维。
+  narrative: 1983年8月28日，贝京对内阁说："我不能再继续了。"他闭门隐居，直到1992年去世。赫鲁特党选举沙米尔接任，击败戴维·利维。
+  summary: 1983年8月28日，贝京对内阁说："我不能再继续了。
+  options:
+  - id: A
+    title: 辞职
+    label: 辞职
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: political_capital
+      value: -2.0
+  - id: B
+    title: 留任，把日常政务交给副手
+    label: 留任，把日常政务交给副手
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: invisible_pm_depression
+      duration_days: null
+  - id: C
+    title: 留任，并推动从黎巴嫩撤军以求解脱
+    label: 留任，并推动从黎巴嫩撤军以求解脱
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: lebanon_quagmire
+      duration_days: null
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: security
+      value: 10.0
+      direction: away
+    - op: add
+      target: political_capital
+      value: -25.0
+    - op: add
+      target: relation
+      value: -10.0
+      key: sharon
+    - op: add
+      target: party_standing
+      value: -5.0
+    - op: add
+      target: public_security
+      value: -3.0
+  perspectives:
+  - group: group_1
+    label: 贝京的支持者
+    text: 他从不辩解，只是关上了门。
+  - group: group_2
+    label: 历史学家
+    text: 和平缔造者与黎巴嫩战争的发动者是同一个人。
+- id: E-1983-10
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 银行股危机
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: flag("bank_shares_manipulation")
+    condition: has_modifier("indexation_spiral") and inflation >= 130 and fx_reserves
+      <= 30
+    probability:
+      period: month
+      base: 0.1
+      add:
+      - when: flag("pre_election_spending_binge")
+        value: 0.15
+    invalidation: flag("bank_nationalization") and has_modifier("new_shekel")
+  background: 多年来，以色列各大银行利用存款人资金秘密托市，推高自己的股票，把它们包装成"比美元更安全"的储蓄工具。1983年10月，市场传言本币将大幅贬值，公众疯狂抛售银行股换美元。证交所停牌约两周。与此同时，财长阿里多尔"美元化"计划泄露，他被迫辞职。
+  narrative: 多年来，以色列各大银行利用存款人资金秘密托市，推高自己的股票，把它们包装成"比美元更安全"的储蓄工具。1983年10月，市场传言本币将大幅贬值，公众疯狂抛售银行股换美元。证交所停牌约两周。与此同时，财长阿里多尔"美元化"计划泄露，他被迫辞职。
+  summary: 多年来，以色列各大银行利用存款人资金秘密托市，推高自己的股票，把它们包装成"。
+  options:
+  - id: A
+    title: 国家全额兜底，收购银行股
+    label: 国家全额兜底，收购银行股
+    historical: true
+    tags:
+    - restraint
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: bank_nationalization
+    - op: add_modifier
+      modifier: bank_shares_bailout_burden
+      duration_days: 2160
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: economy
+      value: 10.0
+      direction: away
+    - op: add
+      target: budget_balance
+      value: -8.0
+    - op: add
+      target: fx_reserves
+      value: -5.0
+    - op: add
+      target: inflation
+      value: 10.0
+    - op: add
+      target: economic_model
+      value: -10.0
+    - op: add
+      target: promise_progress
+      value: -8.0
+      key: economic_liberalization
+    - op: add
+      target: bloc_support
+      value: 3.0
+      key: liberal_middle
+  - id: B
+    title: 让市场出清，只保护小额储户
+    label: 让市场出清，只保护小额储户
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: economic_model
+      value: 5.0
+    - op: add
+      target: promise_progress
+      value: 5.0
+      key: economic_liberalization
+    - op: add
+      target: bloc_support
+      value: -10.0
+      key: liberal_middle
+    - op: add
+      target: growth
+      value: -3.0
+    - op: add
+      target: alienation
+      value: 3.0
+      key: mizrahi
+    - op: add
+      target: fx_reserves
+      value: -8.0
+    - op: add
+      target: public_security
+      value: -5.0
+    - op: add
+      target: party_standing
+      value: -8.0
+  - id: C
+    title: 实行美元化，以美元取代本币
+    label: 实行美元化，以美元取代本币
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: economy
+      value: -3.0
+      direction: away
+    - op: add
+      target: inflation
+      value: -20.0
+    - op: add
+      target: rule_of_law
+      value: -2.0
+    - op: add
+      target: party_standing
+      value: -10.0
+    - op: add
+      target: bloc_support
+      value: -5.0
+      key: mizrahi
+    - op: add
+      target: union_strength
+      value: -5.0
+    - op: add
+      target: us_admin_relation
+      value: 3.0
+    - op: add
+      target: fx_reserves
+      value: -10.0
+  perspectives:
+  - group: group_1
+    label: 普通储户
+    text: 银行职员告诉我们这是最安全的投资，就像存美元一样。
+  - group: group_2
+    label: 银行家
+    text: 这是全行业的惯例，财政部和央行都知道。
+  - group: group_3
+    label: 经济学家
+    text: 危机暴露了一个靠印钞和指数化维持的经济已经走到尽头。
+- id: E-1984-04a
+  kind: fixed
+  type: anchor
+  form: passive
+  major: true
+  minor: false
+  repeatable: false
+  title: 300路公交车
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: region_exists("gaza")
+    condition: faction_strength[fatah] >= 30 and region_security[gaza] <= 50
+    probability:
+      period: month
+      base: 0.03
+      add:
+      - when: relation[shin_bet_chief] >= 30 and rule_of_law <= 60
+        value: 0.2
+    invalidation: flag("shin_bet_reformed")
+  background: 1984年4月12日，四名巴勒斯坦青年劫持了从特拉维夫开往阿什克伦的300路公共汽车，驶入加沙地带。特种部队突击时击毙两人，另两人被活捉。摄影记者拍下了其中一人被押走时还活着的照片。随后，辛贝特特工在局长沙洛姆的命令下将两人打死。官方最初宣布四名劫持者都在突击中死亡；《新闻报》刊登照片后被军事审查官勒令停刊数日。
+  narrative: 1984年4月12日，四名巴勒斯坦青年劫持了从特拉维夫开往阿什克伦的300路公共汽车，驶入加沙地带。特种部队突击时击毙两人，另两人被活捉。摄影记者拍下了其中一人被押走时还活着的照片。随后，辛贝特特工在局长沙洛姆的命令下将两人打死。官方最初宣布四名劫持者都在突击中死亡；《新闻报》刊登照片后被军事审查官勒令停刊数日。
+  summary: 1984年4月12日，四名巴勒斯坦青年劫持了从特拉维夫开往阿什克伦的300路。
+  passive_effects:
+  - op: add_modifier
+    modifier: bus_300_secret
+    duration_days: null
+  - op: add
+    target: public_security
+    value: -5.0
+  - op: add
+    target: rule_of_law
+    value: -2.0
+  - op: schedule_event
+    event: E-1986-05
+    delay_days: 30
+  perspectives:
+  - group: cabinet
+    label: 内阁成员
+    text: 围绕「300路公交车」的争论在会议室里持续到深夜。
+  - group: street
+    label: 街头市民
+    text: 早报头条刊登了政府决定的消息，咖啡馆里议论纷纷。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+  notes: 事前决策点为 E-G04-19（辛贝特的不成文规则）。玩家此时不知道真相。情报首长若属性"忠诚"高、"诚实"低，报告会说"两人在突击中受伤后死亡"。
+- id: E-1984-04b
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 犹太地下组织
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: flag("underground_unbroken") and event_choice("E-1980-06") == "B"
+    condition: rule_of_law >= 40 and relation[shin_bet_chief] >= 0
+    probability:
+      period: month
+      base: 0.05
+    invalidation: rule_of_law < 30
+  background: 1984年4月27日，辛贝特在耶路撒冷逮捕了正在五辆阿拉伯公交车上安放炸弹的定居者。随后查明，这个网络还策划了1980年的市长汽车炸弹、1983年7月希伯伦伊斯兰学院枪击案（3名学生遇难），并曾策划炸毁圆顶清真寺。1985年，三人被判终身监禁，其余人刑期较轻。此后在右翼政治人物的持续呼吁下，赫尔佐格总统多次减刑，到1990年所有人都已出狱。
+  narrative: 1984年4月27日，辛贝特在耶路撒冷逮捕了正在五辆阿拉伯公交车上安放炸弹的定居者。随后查明，这个网络还策划了1980年的市长汽车炸弹、1983年7月希伯伦伊斯兰学院枪击案（3名学生遇难），并曾策划炸毁圆顶清真寺。1985年，三人被判终身监禁，其余人刑期较轻。此后在右翼政治人物的持续呼吁下，赫尔佐格总统多次减刑，到1990年所有人都已出狱。
+  summary: 1984年4月27日，辛贝特在耶路撒冷逮捕了正在五辆阿拉伯公交车上安放炸弹的。
+  options:
+  - id: A
+    title: 全面起诉，之后在右翼压力下逐步减
+    label: 全面起诉，之后在右翼压力下逐步减刑
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: limited_accountability
+      duration_days: null
+    - op: add
+      target: rule_of_law
+      value: 5.0
+    - op: add
+      target: settler_momentum
+      value: -5.0
+    - op: add
+      target: ally_satisfaction
+      value: -5.0
+      key: tehiya
+    - op: add
+      target: pal_hostility
+      value: 3.0
+    - op: add
+      target: intl_legitimacy
+      value: 3.0
+    - op: add
+      target: bloc_support
+      value: -3.0
+      key: religious_zionist
+  - id: B
+    title: 全面起诉，拒绝任何减刑请愿
+    label: 全面起诉，拒绝任何减刑请愿
+    historical: false
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: add
+      target: rule_of_law
+      value: 10.0
+    - op: add
+      target: settler_momentum
+      value: -10.0
+    - op: add
+      target: ally_satisfaction
+      value: -15.0
+      key: tehiya
+    - op: add
+      target: ally_satisfaction
+      value: -8.0
+      key: nrp
+    - op: add
+      target: bloc_support
+      value: -8.0
+      key: religious_zionist
+    - op: add
+      target: party_standing
+      value: -5.0
+    - op: add
+      target: intl_legitimacy
+      value: 5.0
+    - op: add
+      target: pal_hostility
+      value: -3.0
+    - op: add
+      target: relation
+      value: -5.0
+      key: sharon
+  - id: C
+    title: 推动特赦法案，'他们是好孩子，只
+    label: 推动特赦法案，'他们是好孩子，只是走错了路'
+    historical: false
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: temple_mount_plot_echoes
+      duration_days: null
+    - op: add
+      target: centralization
+      value: 5.0
+    - op: add
+      target: rule_of_law
+      value: -15.0
+    - op: add
+      target: settler_momentum
+      value: 10.0
+    - op: add
+      target: bloc_support
+      value: 8.0
+      key: religious_zionist
+    - op: add
+      target: party_standing
+      value: 3.0
+    - op: add
+      target: intl_legitimacy
+      value: -12.0
+    - op: add
+      target: us_congress_relation
+      value: -10.0
+    - op: add
+      target: power_relation
+      value: -10.0
+      key: diaspora
+    - op: add
+      target: pal_hostility
+      value: 12.0
+  perspectives:
+  - group: group_1
+    label: 希伯伦伊斯兰学院的学生家属
+    text: 枪手穿着以色列的衣服，从以色列的定居点开车过来。
+  - group: group_2
+    label: 定居者社群
+    text: 他们是在军队失职时保护我们的人；但炸圆顶清真寺？那会引来一场世界大战。
+  - group: group_3
+    label: 安全机构
+    text: 如果圆顶清真寺被炸，整个伊斯兰世界都会燃烧。
+- id: E-1984-07
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 1984年大选与团结政府
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: 'true'
+    condition: flag("kach_in_knesset") and rule_of_law <= 60 and alienation[mizrahi]
+      >= 35
+    probability:
+      period: month
+      base: 0.15
+    invalidation: 'false'
+  background: 1984年7月大选，工党联盟44席，利库德41席，双方都无法单独组阁。种族主义者梅厄·卡赫纳的卡赫党首次获得一席。经过数周谈判，双方组成"民族团结政府"：佩雷斯先任总理两年，沙米尔任副总理兼外长，之后两人互换。
+  narrative: 1984年7月大选，工党联盟44席，利库德41席，双方都无法单独组阁。种族主义者梅厄·卡赫纳的卡赫党首次获得一席。经过数周谈判，双方组成"民族团结政府"：佩雷斯先任总理两年，沙米尔任副总理兼外长，之后两人互换。
+  summary: 1984年7月大选，工党联盟44席，利库德41席，双方都无法单独组阁。
+  options:
+  - id: A
+    title: 轮值团结政府：佩雷斯先任两年
+    label: 轮值团结政府：佩雷斯先任两年
+    historical: true
+    tags:
+    - peace
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: national_unity_government
+    - op: add_modifier
+      modifier: two_headed_unity_government
+      duration_days: null
+    - op: add
+      target: ally_satisfaction
+      value: 20.0
+      key: labor
+    - op: add
+      target: political_capital
+      value: -10.0
+    - op: add
+      target: party_standing
+      value: -5.0
+  - id: B
+    title: 拉拢宗教党与复兴党，组建窄幅右翼
+    label: 拉拢宗教党与复兴党，组建窄幅右翼政府
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: narrow_61_seat_coalition
+      duration_days: null
+    - op: add
+      target: political_capital
+      value: -30.0
+    - op: add
+      target: religious_status_quo
+      value: 8.0
+    - op: add
+      target: draft_exemption
+      value: 3.0
+    - op: add
+      target: ally_satisfaction
+      value: 10.0
+      key: tehiya
+    - op: add
+      target: us_admin_relation
+      value: -5.0
+  - id: C
+    title: 拒绝妥协，推动提前重选
+    label: 拒绝妥协，推动提前重选
+    historical: false
+    tags:
+    - restraint
+    - hardline
+    requires: 'true'
+    effects:
+    - op: add
+      target: political_capital
+      value: -20.0
+    - op: add
+      target: party_standing
+      value: 3.0
+    - op: add
+      target: inflation
+      value: 20.0
+    - op: add
+      target: fx_reserves
+      value: -5.0
+    - op: add
+      target: bloc_support
+      value: -5.0
+      key: liberal_middle
+  perspectives:
+  - group: group_1
+    label: 工党
+    text: 我们赢了，但只赢了三席。
+  - group: group_2
+    label: 利库德
+    text: 贝京之后，我们仍然没有输。
+  - group: group_3
+    label: 卡赫纳的支持者
+    text: 终于有人敢在议会里说真话。
+  notes: 卡赫纳当选触发 E-1985-08 的前置旗标：卡赫进入议会。
+- id: E-1984-11
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 摩西行动
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: flag("sudan_route") and character_in_office("numayri") and regime_hostility[sudan]
+      <= 60
+    condition: power_relation[diaspora] >= 30
+    probability:
+      period: month
+      base: 0.2
+      add:
+      - when: us_admin_relation >= 60
+        value: 0.1
+    invalidation: regime_hostility[sudan] > 60
+    on_miss:
+      effects:
+      - op: add
+        target: historical_grievance
+        value: 5.0
+        key: ethiopian
+  background: 埃塞俄比亚大饥荒期间，数千名贝塔以色列人徒步穿越到苏丹难民营，途中和营地里死亡人数以千计。1984年11月至1985年1月，以色列在苏丹尼迈里政府的默许和美国的协助下，秘密空运约八千人。消息被犹太代理处官员向媒体泄露，政府随后公开证实，阿拉伯国家施压之下苏丹叫停行动，滞留者直到美国组织的"约书亚行动"才部分被接走。
+  narrative: 埃塞俄比亚大饥荒期间，数千名贝塔以色列人徒步穿越到苏丹难民营，途中和营地里死亡人数以千计。1984年11月至1985年1月，以色列在苏丹尼迈里政府的默许和美国的协助下，秘密空运约八千人。消息被犹太代理处官员向媒体泄露，政府随后公开证实，阿拉伯国家施压之下苏丹叫停行动，滞留者直到美国组织的"约书亚行动"才部分被接走。
+  summary: 埃塞俄比亚大饥荒期间，数千名贝塔以色列人徒步穿越到苏丹难民营，途中和营地里死。
+  options:
+  - id: A
+    title: 秘密空运，接受泄露风险
+    label: 秘密空运，接受泄露风险
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: historical_grievance
+      value: 3.0
+      key: ethiopian
+    - op: add
+      target: power_relation
+      value: 10.0
+      key: diaspora
+    - op: add
+      target: absorption_capacity
+      value: -5.0
+    - op: add
+      target: budget_balance
+      value: -0.5
+    - op: add
+      target: regime_hostility
+      value: 10.0
+      key: sudan
+    - op: add
+      target: power_relation
+      value: -3.0
+      key: diaspora
+  - id: B
+    title: 严格保密，延长行动但放慢节奏
+    label: 严格保密，延长行动但放慢节奏
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: power_relation
+      value: -3.0
+      key: diaspora
+    - op: add
+      target: historical_grievance
+      value: 5.0
+      key: ethiopian
+  - id: C
+    title: 交给美国与国际组织处理
+    label: 交给美国与国际组织处理
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: power_relation
+      value: -8.0
+      key: diaspora
+    - op: add
+      target: us_admin_relation
+      value: 3.0
+    - op: add
+      target: alienation
+      value: 5.0
+      key: ethiopian
+    - op: add
+      target: promise_progress
+      value: -5.0
+      key: absorb_immigration
+  perspectives:
+  - group: group_1
+    label: 埃塞俄比亚犹太人
+    text: 我们走了几百公里，埋葬了父母和孩子，因为我们相信耶路撒冷。
+  - group: group_2
+    label: 吸收中心的工作人员
+    text: 他们到达后，拉比机构要求"象征性皈依"，这让许多人感到被羞辱。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+  notes: 抵达后引发的"象征性皈依"争议和献血丑闻（1996）属于下一时代，但 疏离度[埃塞俄比亚裔] 从此开始累积。
+- id: E-1985-01
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 撤至南黎巴嫩安全区
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: has_modifier("lebanon_quagmire")
+    condition: has_modifier("lebanon_quagmire") and public_security <= 40 and bloc_support[liberal_middle]
+      <= 35
+    probability:
+      period: month
+      base: 0.15
+    invalidation: 'false'
+  background: 以军在黎巴嫩伤亡持续增加，什叶派武装（阿迈勒、新兴的真主党）取代巴解成为主要对手，自杀式卡车炸弹袭击了提尔的以军总部。1985年1月，团结政府决定分阶段撤军，6月完成，在边境北侧保留一条由以军和南黎巴嫩军（拉赫德领导）控制的"安全区"。
+  narrative: 以军在黎巴嫩伤亡持续增加，什叶派武装（阿迈勒、新兴的真主党）取代巴解成为主要对手，自杀式卡车炸弹袭击了提尔的以军总部。1985年1月，团结政府决定分阶段撤军，6月完成，在边境北侧保留一条由以军和南黎巴嫩军（拉赫德领导）控制的"安全区"。
+  summary: 以军在黎巴嫩伤亡持续增加，什叶派武装（阿迈勒、新兴的真主党）取代巴解成为主要。
+  options:
+  - id: A
+    title: 分阶段撤至安全区，依靠南黎巴嫩军
+    label: 分阶段撤至安全区，依靠南黎巴嫩军
+    historical: true
+    tags:
+    - restraint
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: lebanon_quagmire
+      duration_days: null
+    - op: add_modifier
+      modifier: security_zone
+      duration_days: null
+    - op: add
+      target: bloc_support
+      value: 5.0
+      key: liberal_middle
+    - op: add
+      target: public_security
+      value: 5.0
+    - op: add
+      target: budget_balance
+      value: 1.0
+    - op: add
+      target: region_security
+      value: -3.0
+      key: galilee
+    - op: add
+      target: faction_strength
+      value: 10.0
+      key: sla
+    - op: add
+      target: faction_legitimacy
+      value: -10.0
+      key: sla
+  - id: B
+    title: 全面撤回国际边界
+    label: 全面撤回国际边界
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: lebanon_quagmire
+      duration_days: null
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: security
+      value: 10.0
+      direction: away
+    - op: add
+      target: public_security
+      value: 3.0
+    - op: add
+      target: region_security
+      value: -10.0
+      key: galilee
+    - op: add
+      target: party_standing
+      value: -8.0
+    - op: add
+      target: faction_strength
+      value: 3.0
+      key: hezbollah
+    - op: add
+      target: faction_strength
+      value: -20.0
+      key: sla
+    - op: add
+      target: intl_legitimacy
+      value: 8.0
+  - id: C
+    title: 坚守现有阵线，等待政治解决
+    label: 坚守现有阵线，等待政治解决
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: lebanon_quagmire
+      duration_days: null
+    - op: add
+      target: public_security
+      value: -0.5
+    - op: add
+      target: budget_balance
+      value: -2.0
+    - op: add
+      target: bloc_support
+      value: -8.0
+      key: liberal_middle
+    - op: add
+      target: public_security
+      value: -8.0
+  perspectives:
+  - group: cabinet
+    label: 内阁成员
+    text: 围绕「撤至南黎巴嫩安全区」的争论在会议室里持续到深夜。
+  - group: street
+    label: 街头市民
+    text: 早报头条刊登了政府决定的消息，咖啡馆里议论纷纷。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+  notes: 安全区一直持续到2000年，是下一时代事件的起点。
+- id: E-1985-07
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 经济稳定计划
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: has_modifier("indexation_spiral")
+    condition: inflation >= 300 and fx_reserves <= 20
+    probability:
+      period: month
+      base: 0.2
+      add:
+      - when: flag("national_unity_government")
+        value: 0.15
+      - when: us_admin_relation >= 60
+        value: 0.1
+    invalidation: has_modifier("new_shekel")
+    on_miss:
+      effects:
+      - op: add
+        target: fx_reserves
+        value: -2.0
+  background: 1985年7月1日，团结政府在通宵内阁会议后以紧急方式推出经济稳定计划：大幅削减预算与补贴、一次性贬值后固定汇率、冻结工资与物价，并与总工会和雇主签订"一揽子协议"，暂停工资指数化。美国提供了15亿美元紧急援助，并派出经济学家参与设计。通胀在一年内降至约20%。
+  narrative: 1985年7月1日，团结政府在通宵内阁会议后以紧急方式推出经济稳定计划：大幅削减预算与补贴、一次性贬值后固定汇率、冻结工资与物价，并与总工会和雇主签订"一揽子协议"，暂停工资指数化。美国提供了15亿美元紧急援助，并派出经济学家参与设计。通胀在一年内降至约20%。
+  summary: 1985年7月1日，团结政府在通宵内阁会议后以紧急方式推出经济稳定计划：大幅。
+  options:
+  - id: A
+    title: 休克疗法与一揽子协议
+    label: 休克疗法与一揽子协议
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: remove_modifier
+      modifier: indexation_spiral
+    - op: add_modifier
+      modifier: new_shekel
+      duration_days: null
+    - op: add
+      target: inflation
+      value: -300.0
+    - op: add
+      target: fx_reserves
+      value: 10.0
+    - op: add
+      target: budget_balance
+      value: 5.0
+    - op: add
+      target: growth
+      value: -2.0
+    - op: add
+      target: bloc_support
+      value: -4.0
+      key: mizrahi
+    - op: add
+      target: alienation
+      value: 3.0
+      key: mizrahi
+    - op: add
+      target: union_strength
+      value: -8.0
+    - op: add
+      target: economic_model
+      value: 10.0
+    - op: add
+      target: promise_progress
+      value: 10.0
+      key: economic_liberalization
+    - op: add
+      target: us_admin_relation
+      value: 8.0
+  - id: B
+    title: 渐进紧缩，保留工资指数化
+    label: 渐进紧缩，保留工资指数化
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: indexation_spiral
+      duration_days: null
+    - op: add
+      target: inflation
+      value: -80.0
+    - op: add
+      target: growth
+      value: -1.0
+    - op: add
+      target: us_admin_relation
+      value: -3.0
+    - op: add
+      target: fx_reserves
+      value: -10.0
+  - id: C
+    title: 以紧急条例冻结工资，绕开总工会
+    label: 以紧急条例冻结工资，绕开总工会
+    historical: false
+    tags:
+    - restraint
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add
+      target: inflation
+      value: -250.0
+    - op: add
+      target: centralization
+      value: 8.0
+    - op: add
+      target: rule_of_law
+      value: -6.0
+    - op: add
+      target: union_strength
+      value: -15.0
+    - op: add
+      target: growth
+      value: -3.0
+    - op: add
+      target: political_capital
+      value: -20.0
+    - op: add
+      target: ally_satisfaction
+      value: -25.0
+      key: labor
+    - op: add
+      target: promise_progress
+      value: 8.0
+      key: economic_liberalization
+  perspectives:
+  - group: group_1
+    label: 经济学家
+    text: 这是以色列经济史的分水岭，从此再也回不到旧模式。
+  - group: group_2
+    label: 总工会
+    text: 我们在协议上签了字，但工人们的实际工资下降了。
+  - group: group_3
+    label: 发展城镇
+    text: 国营工厂关闭的速度，比任何一位总理的承诺都快。
+- id: E-1985-08
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 卡赫禁令
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: flag("kach_in_knesset")
+    condition: rule_of_law >= 40 and civic_identification[arab] <= 50
+    probability:
+      period: month
+      base: 0.08
+      add:
+      - when: power_relation[diaspora] <= 50
+        value: 0.05
+    invalidation: 'false'
+  background: 卡赫纳在议会提出剥夺阿拉伯人公民权、禁止犹太人与非犹太人通婚等议案，大多数议员在他演讲时集体离场。1985年7月，议会修改《基本法：议会》，增加第7A条：否认以色列是犹太人的国家、否认其民主性质或煽动种族主义的名单不得参选。1988年，中央选举委员会据此取消卡赫的参选资格，最高法院予以维持。
+  narrative: 卡赫纳在议会提出剥夺阿拉伯人公民权、禁止犹太人与非犹太人通婚等议案，大多数议员在他演讲时集体离场。1985年7月，议会修改《基本法：议会》，增加第7A条：否认以色列是犹太人的国家、否认其民主性质或煽动种族主义的名单不得参选。1988年，中央选举委员会据此取消卡赫的参选资格，最高法院予以维持。
+  summary: 卡赫纳在议会提出剥夺阿拉伯人公民权、禁止犹太人与非犹太人通婚等议案，大多数议。
+  options:
+  - id: A
+    title: 修改基本法，依法取消种族主义名单
+    label: 修改基本法，依法取消种族主义名单
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: basic_law_section_7a
+      duration_days: null
+    - op: add
+      target: rule_of_law
+      value: 5.0
+    - op: add
+      target: civic_identification
+      value: 5.0
+      key: arab
+    - op: add
+      target: intl_legitimacy
+      value: 5.0
+    - op: add
+      target: power_relation
+      value: 5.0
+      key: diaspora
+    - op: add
+      target: settler_momentum
+      value: -2.0
+    - op: add
+      target: bloc_support
+      value: -2.0
+      key: religious_zionist
+  - id: B
+    title: 容忍：让选民自己惩罚卡赫纳
+    label: 容忍：让选民自己惩罚卡赫纳
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: kahanism_spread
+      duration_days: 1440
+    - op: add
+      target: rule_of_law
+      value: -3.0
+    - op: add
+      target: civic_identification
+      value: -5.0
+      key: arab
+    - op: add
+      target: intl_legitimacy
+      value: -5.0
+    - op: add
+      target: power_relation
+      value: -5.0
+      key: diaspora
+  - id: C
+    title: 以紧急条例取缔卡赫并拘押其骨干
+    label: 以紧急条例取缔卡赫并拘押其骨干
+    historical: false
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: kahane_martyr_cult
+      duration_days: 1080
+    - op: add
+      target: centralization
+      value: 8.0
+    - op: add
+      target: rule_of_law
+      value: -5.0
+    - op: add
+      target: civic_identification
+      value: 3.0
+      key: arab
+    - op: add
+      target: bloc_support
+      value: -5.0
+      key: religious_zionist
+  perspectives:
+  - group: group_1
+    label: 阿拉伯议员
+    text: 一个要把我们赶走的人，和我们坐在同一个议会里。
+  - group: group_2
+    label: 卡赫纳的支持者
+    text: 他们禁的不是种族主义，是犹太人的自卫。
+  - group: group_3
+    label: 法学家
+    text: 民主能否用不民主的方式保卫自己？
+- id: E-1985-11
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 波拉德间谍案
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: flag("lakam_us_operation")
+    condition: us_admin_relation >= 40 and us_congress_relation >= 40
+    probability:
+      period: month
+      base: 0.03
+    invalidation: 'false'
+  background: 1985年11月，美国海军情报分析员乔纳森·波拉德在以色列驻华盛顿大使馆门口被捕，他长期向以色列提供大量机密文件。以色列称这是"未经授权的流氓行动"，交还文件并解散拉卡姆，但负责人拉菲·埃坦和空军军官阿维厄姆·塞拉未受实质惩处，塞拉随后获得晋升，引发美方震怒。1987年波拉德被判终身监禁。
+  narrative: 1985年11月，美国海军情报分析员乔纳森·波拉德在以色列驻华盛顿大使馆门口被捕，他长期向以色列提供大量机密文件。以色列称这是"未经授权的流氓行动"，交还文件并解散拉卡姆，但负责人拉菲·埃坦和空军军官阿维厄姆·塞拉未受实质惩处，塞拉随后获得晋升，引发美方震怒。1987年波拉德被判终身监禁。
+  summary: 1985年11月，美国海军情报分析员乔纳森·波拉德在以色列驻华盛顿大使馆门口。
+  options:
+  - id: A
+    title: 称其为流氓行动，交还文件，内部低
+    label: 称其为流氓行动，交还文件，内部低调处理
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: pollard_shadow
+      duration_days: 3600
+    - op: add
+      target: us_admin_relation
+      value: -10.0
+    - op: add
+      target: us_congress_relation
+      value: -8.0
+    - op: add
+      target: power_relation
+      value: -8.0
+      key: diaspora
+    - op: add
+      target: intl_legitimacy
+      value: -3.0
+  - id: B
+    title: 全面配合调查，交出相关官员
+    label: 全面配合调查，交出相关官员
+    historical: false
+    tags:
+    - restraint
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: pollard_betrayed
+    - op: add
+      target: us_admin_relation
+      value: -3.0
+    - op: add
+      target: us_congress_relation
+      value: -3.0
+    - op: add
+      target: power_relation
+      value: -3.0
+      key: diaspora
+    - op: add
+      target: party_standing
+      value: -8.0
+    - op: add
+      target: relation
+      value: -15.0
+      key: mossad_chief
+  - id: C
+    title: 否认一切，指控美方栽赃
+    label: 否认一切，指控美方栽赃
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: us_admin_relation
+      value: -25.0
+    - op: add
+      target: us_congress_relation
+      value: -20.0
+    - op: add
+      target: power_relation
+      value: -15.0
+      key: diaspora
+    - op: add
+      target: intl_legitimacy
+      value: -5.0
+    - op: add
+      target: party_standing
+      value: 3.0
+    - op: add
+      target: readiness
+      value: -5.0
+  perspectives:
+  - group: group_1
+    label: 美国犹太社群
+    text: 我们花了几十年证明自己是忠诚的美国人，一个人就毁了这一切。
+  - group: group_2
+    label: 以色列右翼
+    text: 他是为犹太人民而坐牢的。
+  - group: group_3
+    label: 美国情报界
+    text: 最亲密的盟友也在偷我们的东西。
+- id: E-1986-05
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 辛贝特丑闻与特赦
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: has_modifier("bus_300_secret") and event_done("E-1984-04a")
+    condition: has_modifier("bus_300_secret") and rule_of_law >= 40
+    probability:
+      period: month
+      base: 0.08
+    invalidation: rule_of_law < 30
+    on_miss:
+      effects:
+      - op: add_modifier
+        modifier: bus_300_secret
+        duration_days: null
+  background: 1985–1986年，三名辛贝特高层向总理佩雷斯举报：局长沙洛姆下令打死被俘的劫持者，并在随后的调查中教唆作伪证、栽赃一名准将。总检察长扎米尔坚持立案调查，被内阁撤换。1986年6月，赫尔佐格总统在起诉之前就特赦了沙洛姆和另外十名辛贝特人员。
+  narrative: 1985–1986年，三名辛贝特高层向总理佩雷斯举报：局长沙洛姆下令打死被俘的劫持者，并在随后的调查中教唆作伪证、栽赃一名准将。总检察长扎米尔坚持立案调查，被内阁撤换。1986年6月，赫尔佐格总统在起诉之前就特赦了沙洛姆和另外十名辛贝特人员。
+  summary: 1985–1986年，三名辛贝特高层向总理佩雷斯举报：局长沙洛姆下令打死被俘。
+  options:
+  - id: A
+    title: 撤换总检察长，安排审前特赦
+    label: 撤换总检察长，安排审前特赦
+    historical: true
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: shin_bet_pardon_precedent
+      duration_days: null
+    - op: add
+      target: rule_of_law
+      value: -10.0
+    - op: add
+      target: centralization
+      value: 5.0
+    - op: add
+      target: relation
+      value: 10.0
+      key: shin_bet_chief
+    - op: add
+      target: us_congress_relation
+      value: -5.0
+    - op: add
+      target: intl_legitimacy
+      value: -5.0
+    - op: add
+      target: party_standing
+      value: 2.0
+  - id: B
+    title: 支持总检察长，让案件进入法庭
+    label: 支持总检察长，让案件进入法庭
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: rule_of_law
+      value: 10.0
+    - op: add
+      target: relation
+      value: -30.0
+      key: shin_bet_chief
+    - op: add
+      target: political_capital
+      value: -20.0
+    - op: add
+      target: party_standing
+      value: -8.0
+    - op: add
+      target: bloc_support
+      value: -3.0
+      key: liberal_middle
+    - op: add
+      target: intl_legitimacy
+      value: 5.0
+    - op: add
+      target: public_security
+      value: -3.0
+  - id: C
+    title: 设立国家调查委员会，全面清查19
+    label: 设立国家调查委员会，全面清查1984年以来的审讯与作证文化
+    historical: false
+    tags:
+    - restraint
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: shin_bet_reformed
+    - op: add_modifier
+      modifier: landau_interrogation_reform
+      duration_days: 1080
+    - op: add
+      target: rule_of_law
+      value: 12.0
+    - op: add
+      target: political_capital
+      value: -25.0
+    - op: add
+      target: relation
+      value: -40.0
+      key: shin_bet_chief
+  perspectives:
+  - group: group_1
+    label: 举报的辛贝特官员
+    text: 我们被当成叛徒赶出了机构，而下令杀人的人得到了特赦。
+  - group: group_2
+    label: 安全体系
+    text: 如果每次反恐都要上法庭，谁还愿意干这份工作？
+  - group: group_3
+    label: 法学界
+    text: 总统特赦一个还未被起诉的人，法治的底线在哪里？
+  notes: 民主法治指数的变化在独裁路线里尤为关键：A 选项累积的"安全机构凌驾于法律之上"文化，会在第一次起义期间放大"打断骨头"的负面效果。
+- id: E-1986-10
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 瓦努努泄密
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: 'true'
+    condition: nuclear_exposure_risk >= 60
+    probability:
+      period: month
+      base: 0.05
+    invalidation: 'false'
+  background: 迪莫纳核设施前技术员莫迪凯·瓦努努带着偷拍的照片前往伦敦，向《星期日泰晤士报》披露以色列拥有数量可观的核弹头。报道刊出前，摩萨德派女特工将他诱骗至罗马，绑架回以色列。报道于1986年10月5日刊出。瓦努努以叛国和间谍罪被秘密审判，判处18年徒刑，其中大部分时间单独监禁。
+  narrative: 迪莫纳核设施前技术员莫迪凯·瓦努努带着偷拍的照片前往伦敦，向《星期日泰晤士报》披露以色列拥有数量可观的核弹头。报道刊出前，摩萨德派女特工将他诱骗至罗马，绑架回以色列。报道于1986年10月5日刊出。瓦努努以叛国和间谍罪被秘密审判，判处18年徒刑，其中大部分时间单独监禁。
+  summary: 迪莫纳核设施前技术员莫迪凯·瓦努努带着偷拍的照片前往伦敦，向《星期日泰晤士报。
+  options:
+  - id: A
+    title: 诱捕回国受审，维持'模糊政策'
+    label: 诱捕回国受审，维持'模糊政策'
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: nuclear_ambiguity_mod
+      duration_days: null
+    - op: add
+      target: deterrence
+      value: 5.0
+    - op: add
+      target: intl_legitimacy
+      value: -5.0
+    - op: add
+      target: power_relation
+      value: -5.0
+      key: uk
+    - op: add
+      target: rule_of_law
+      value: -3.0
+    - op: add
+      target: relation
+      value: 5.0
+      key: mossad_chief
+  - id: B
+    title: 不采取行动，'不予置评'
+    label: 不采取行动，'不予置评'
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: deterrence
+      value: 5.0
+    - op: add
+      target: nuclear_exposure_risk
+      value: 20.0
+    - op: add
+      target: us_congress_relation
+      value: -5.0
+    - op: add
+      target: party_standing
+      value: -5.0
+  - id: C
+    title: 在英国境内强行抓捕
+    label: 在英国境内强行抓捕
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: power_relation
+      value: -25.0
+      key: uk
+    - op: add
+      target: intl_legitimacy
+      value: -10.0
+    - op: add
+      target: us_admin_relation
+      value: -5.0
+    - op: add
+      target: deterrence
+      value: 5.0
+  perspectives:
+  - group: group_1
+    label: 瓦努努
+    text: 他在囚车上把手掌贴在车窗上，上面写着他被绑架的地点和时间。
+  - group: group_2
+    label: 以色列公众
+    text: 大多数人认为他是叛徒；少数人认为他是良心犯。
+  - group: group_3
+    label: 阿拉伯国家
+    text: 一个公开的秘密，现在有了照片。
+- id: E-1987-04
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 伦敦协议
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: flag("national_unity_government") and not flag("jordan_option_ended")
+      and character_in_office("hussein")
+    condition: regime_hostility[jordan] <= 40 and relation[foreign_minister] <= 30
+    probability:
+      period: month
+      base: 0.08
+      add:
+      - when: us_admin_relation >= 60
+        value: 0.05
+    invalidation: flag("jordan_option_ended")
+  background: 1987年4月11日，外长佩雷斯与约旦国王侯赛因在伦敦秘密达成协议：在联合国主持下召开国际和平会议，随即转入以色列与约旦-巴勒斯坦联合代表团的直接谈判，巴解组织不直接参与。佩雷斯事先未告知总理沙米尔。沙米尔拒绝了协议，并派人向美国国务卿舒尔茨表示反对。
+  narrative: 1987年4月11日，外长佩雷斯与约旦国王侯赛因在伦敦秘密达成协议：在联合国主持下召开国际和平会议，随即转入以色列与约旦-巴勒斯坦联合代表团的直接谈判，巴解组织不直接参与。佩雷斯事先未告知总理沙米尔。沙米尔拒绝了协议，并派人向美国国务卿舒尔茨表示反对。
+  summary: 1987年4月11日，外长佩雷斯与约旦国王侯赛因在伦敦秘密达成协议：在联合国。
+  options:
+  - id: A
+    title: 否决协议，拒绝国际会议
+    label: 否决协议，拒绝国际会议
+    historical: true
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: missed_jordan_option
+      duration_days: null
+    - op: add
+      target: promise_progress
+      value: 8.0
+      key: not_one_inch
+    - op: add
+      target: party_standing
+      value: 5.0
+    - op: add
+      target: ally_satisfaction
+      value: -15.0
+      key: labor
+    - op: add
+      target: regime_hostility
+      value: 8.0
+      key: jordan
+    - op: add
+      target: regime_stability
+      value: -3.0
+      key: jordan
+    - op: add
+      target: us_admin_relation
+      value: -5.0
+    - op: add
+      target: faction_legitimacy
+      value: 5.0
+      key: fatah
+    - op: add
+      target: pal_hostility
+      value: 3.0
+  - id: B
+    title: 接受协议，进入约旦-巴勒斯坦联合
+    label: 接受协议，进入约旦-巴勒斯坦联合谈判
+    historical: false
+    tags:
+    - peace
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: territory
+      value: 15.0
+      direction: away
+    - op: add
+      target: party_standing
+      value: -15.0
+    - op: add
+      target: ally_satisfaction
+      value: -20.0
+      key: tehiya
+    - op: add
+      target: settler_momentum
+      value: -3.0
+    - op: add
+      target: regime_hostility
+      value: -15.0
+      key: jordan
+    - op: add
+      target: faction_legitimacy
+      value: 8.0
+      key: jordan_notables
+    - op: add
+      target: us_admin_relation
+      value: 10.0
+    - op: add
+      target: intl_legitimacy
+      value: 8.0
+    - op: add
+      target: vision_progress
+      value: -10.0
+  - id: C
+    title: 表面接受，但在程序上无限拖延
+    label: 表面接受，但在程序上无限拖延
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: ally_satisfaction
+      value: -5.0
+      key: labor
+    - op: add
+      target: regime_hostility
+      value: 3.0
+      key: jordan
+    - op: add
+      target: us_admin_relation
+      value: -3.0
+    - op: add
+      target: political_capital
+      value: -10.0
+  perspectives:
+  - group: group_1
+    label: 佩雷斯
+    text: 这是二十年来最好的机会，而它被锁在总理的抽屉里。
+  - group: group_2
+    label: 沙米尔
+    text: 一个外长背着总理与外国元首签约，这在哪个国家都不可接受。
+  - group: group_3
+    label: 约旦
+    text: 侯赛因冒着被暗杀的风险来到伦敦，回去时两手空空。
+- id: E-1987-12a
+  kind: fixed
+  type: anchor
+  form: passive
+  major: true
+  minor: false
+  repeatable: false
+  title: 第一次起义
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: region_exists("west_bank")
+    condition: pal_hostility >= 70 and pal_living_standard <= 40
+    probability:
+      period: month
+      base: 0.1
+      add:
+      - when: has_modifier("missed_jordan_option")
+        value: 0.05
+      - when: has_modifier("jibril_released_prisoners")
+        value: 0.05
+    invalidation: 'false'
+  background: 1987年12月8日，一辆以军卡车在加沙贾巴利耶难民营附近与巴勒斯坦人的汽车相撞，四人死亡。谣言称这是蓄意报复。次日起，抗议迅速蔓延到整个加沙和约旦河西岸：投石、罢市、拒绝纳税、挂巴勒斯坦旗帜。起义由地下的"统一民族领导层"协调，突尼斯的巴解领导层起初也感到意外。
+  narrative: 1987年12月8日，一辆以军卡车在加沙贾巴利耶难民营附近与巴勒斯坦人的汽车相撞，四人死亡。谣言称这是蓄意报复。次日起，抗议迅速蔓延到整个加沙和约旦河西岸：投石、罢市、拒绝纳税、挂巴勒斯坦旗帜。起义由地下的"统一民族领导层"协调，突尼斯的巴解领导层起初也感到意外。
+  summary: 1987年12月8日，一辆以军卡车在加沙贾巴利耶难民营附近与巴勒斯坦人的汽车。
+  passive_effects:
+  - op: add_modifier
+    modifier: first_intifada
+    duration_days: null
+  - op: add
+    target: region_security
+    value: -20.0
+    key: gaza
+  - op: add
+    target: region_security
+    value: -15.0
+    key: west_bank
+  - op: add
+    target: public_security
+    value: -10.0
+  - op: add
+    target: readiness
+    value: -5.0
+  - op: add
+    target: pal_living_standard
+    value: -10.0
+  - op: add
+    target: intl_legitimacy
+    value: -10.0
+  - op: add
+    target: faction_legitimacy
+    value: 10.0
+    key: fatah
+  - op: add
+    target: faction_strength
+    value: 5.0
+    key: fatah
+  - op: add
+    target: faction_legitimacy
+    value: -15.0
+    key: jordan_notables
+  - op: add
+    target: us_congress_relation
+    value: -5.0
+  - op: schedule_event
+    event: E-1987-12b
+    delay_days: 30
+  perspectives:
+  - group: group_1
+    label: 巴勒斯坦青年
+    text: 二十年来我们只能看着父辈低头，今天我们拿起了石头。
+  - group: group_2
+    label: 以色列预备役军人
+    text: 我们被训练来打坦克战，现在要在小巷里追孩子。
+  - group: group_3
+    label: 定居者
+    text: 每天开车回家都要穿过石头雨，军队却束手束脚。
+  notes: 若此前在 E-G04-11 中达成过吉布里勒式大规模换俘（史实：1985年5月以1150名囚犯换回3名士兵），起义的组织度 +10%（许多获释者成为地方骨干）。
+- id: E-1987-12b
+  kind: fixed
+  type: anchor
+  form: passive
+  major: true
+  minor: false
+  repeatable: false
+  title: 哈马斯成立
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: event_done("E-1987-12a")
+    condition: islamic_assoc_strength >= 10
+    probability:
+      period: month
+      base: 0.3
+    invalidation: islamic_assoc_strength < 10
+    on_miss:
+      effects:
+      - op: add
+        target: faction_legitimacy
+        value: 5.0
+        key: fatah
+  background: 起义爆发后几天，亚辛谢赫领导的穆兄会加沙分支成立"伊斯兰抵抗运动"（哈马斯），1988年8月发布宪章，拒绝承认以色列。此前十年，以色列当局曾把"伊斯兰协会"视为抗衡巴解组织的社会宗教团体而加以容忍，允许其登记并发展清真寺、学校和慈善网络。
+  narrative: 起义爆发后几天，亚辛谢赫领导的穆兄会加沙分支成立"伊斯兰抵抗运动"（哈马斯），1988年8月发布宪章，拒绝承认以色列。此前十年，以色列当局曾把"伊斯兰协会"视为抗衡巴解组织的社会宗教团体而加以容忍，允许其登记并发展清真寺、学校和慈善网络。
+  summary: 起义爆发后几天，亚辛谢赫领导的穆兄会加沙分支成立"伊斯兰抵抗运动"（哈马斯）。
+  passive_effects:
+  - op: add_modifier
+    modifier: religious_conflict_frame
+    duration_days: null
+  - op: add
+    target: faction_legitimacy
+    value: -3.0
+    key: fatah
+  - op: add
+    target: pal_hostility
+    value: 3.0
+  perspectives:
+  - group: cabinet
+    label: 内阁成员
+    text: 围绕「哈马斯成立」的争论在会议室里持续到深夜。
+  - group: street
+    label: 街头市民
+    text: 早报头条刊登了政府决定的消息，咖啡馆里议论纷纷。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+  notes: 若此前在 E-G04-09 中选择"打压伊斯兰协会"，初始实力降至10，但 合法性[哈马斯] +5（殉道者效应）。这是 9.2 节"被压制的派系借机崛起"的标准案例。
+- id: E-1988-01
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: '"以武力、权力和殴打"'
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: has_modifier("first_intifada")
+    condition: region_security[west_bank] <= 50 and region_security[gaza] <= 40
+    probability:
+      period: month
+      base: 0.5
+    invalidation: has_modifier("first_intifada")
+  background: 国防部长拉宾宣布以"武力、权力和殴打"对付起义，以减少实弹造成的死亡。这一政策被广泛概括为"打断他们的骨头"，此说法的出处至今有争议。电视上士兵用石头砸断被捕者手臂的画面传遍世界。政府同时大量使用行政拘留、驱逐、宵禁、关闭学校和拆除房屋。
+  narrative: 国防部长拉宾宣布以"武力、权力和殴打"对付起义，以减少实弹造成的死亡。这一政策被广泛概括为"打断他们的骨头"，此说法的出处至今有争议。电视上士兵用石头砸断被捕者手臂的画面传遍世界。政府同时大量使用行政拘留、驱逐、宵禁、关闭学校和拆除房屋。
+  summary: 国防部长拉宾宣布以"武力、权力和殴打"对付起义，以减少实弹造成的死亡。
+  options:
+  - id: A
+    title: 殴打代替实弹，辅以大规模行政拘留
+    label: 殴打代替实弹，辅以大规模行政拘留
+    historical: true
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: iron_fist_beating
+      duration_days: 360
+    - op: add
+      target: region_security
+      value: 5.0
+      key: west_bank
+    - op: add
+      target: region_security
+      value: 5.0
+      key: gaza
+    - op: add
+      target: pal_hostility
+      value: 10.0
+    - op: add
+      target: intl_legitimacy
+      value: -12.0
+    - op: add
+      target: us_congress_relation
+      value: -8.0
+    - op: add
+      target: power_relation
+      value: -8.0
+      key: diaspora
+    - op: add
+      target: rule_of_law
+      value: -8.0
+    - op: add
+      target: centralization
+      value: 5.0
+    - op: add
+      target: party_standing
+      value: 3.0
+  - id: B
+    title: 放宽实弹交火规则，迅速镇压
+    label: 放宽实弹交火规则，迅速镇压
+    historical: false
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: martyrdom_wave
+      duration_days: 720
+    - op: add
+      target: region_security
+      value: 8.0
+      key: west_bank
+    - op: add
+      target: region_security
+      value: 8.0
+      key: gaza
+    - op: add
+      target: pal_hostility
+      value: 20.0
+    - op: add
+      target: intl_legitimacy
+      value: -25.0
+    - op: add
+      target: us_admin_relation
+      value: -15.0
+    - op: add
+      target: regime_hostility
+      value: 10.0
+      key: jordan
+    - op: add
+      target: regime_hostility
+      value: 10.0
+      key: egypt
+    - op: add
+      target: rule_of_law
+      value: -10.0
+    - op: add
+      target: faction_strength
+      value: 8.0
+      key: hamas
+  - id: C
+    title: 克制执法，同时开放经济许可并提出
+    label: 克制执法，同时开放经济许可并提出政治倡议
+    historical: false
+    tags:
+    - restraint
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: security
+      value: 12.0
+      direction: away
+    - op: add
+      target: region_security
+      value: -5.0
+      key: west_bank
+    - op: add
+      target: region_security
+      value: -5.0
+      key: gaza
+    - op: add
+      target: pal_hostility
+      value: -5.0
+    - op: add
+      target: pal_living_standard
+      value: 5.0
+    - op: add
+      target: intl_legitimacy
+      value: 5.0
+    - op: add
+      target: us_admin_relation
+      value: 8.0
+    - op: add
+      target: party_standing
+      value: -10.0
+    - op: add
+      target: settler_momentum
+      value: 5.0
+    - op: add
+      target: public_security
+      value: -5.0
+  perspectives:
+  - group: group_1
+    label: 巴勒斯坦家庭
+    text: 儿子被带走时没有罪名，六个月后又延长了六个月。
+  - group: group_2
+    label: 以色列士兵
+    text: 命令是打手臂和腿，不是头。可在黑暗里谁分得清？
+  - group: group_3
+    label: 美国犹太社群
+    text: 我们在电视上看到的以色列，和我们从小捐款支持的以色列不一样了。
+  notes: 任何选项都无法"结束"起义，只能改变其强度与代价。真正的出路在政治层（E-1989-10 前后的沙米尔倡议、E-1991-10）。
+- id: E-1988-07
+  kind: fixed
+  type: anchor
+  form: passive
+  major: true
+  minor: false
+  repeatable: false
+  title: 约旦脱离西岸
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: has_modifier("first_intifada") and character_in_office("hussein")
+    condition: has_modifier("missed_jordan_option") and regime_stability[jordan] <=
+      50 and faction_legitimacy[fatah] >= 50
+    probability:
+      period: month
+      base: 0.08
+    invalidation: event_choice("E-1987-04") == "B"
+  background: 1988年7月31日，侯赛因国王宣布断绝约旦与约旦河西岸的法律和行政联系，承认巴解组织是巴勒斯坦人唯一合法代表。11月，巴勒斯坦全国委员会在阿尔及尔宣布建立巴勒斯坦国，并间接接受联合国第242号决议；12月，美国开始与巴解组织对话。
+  narrative: 1988年7月31日，侯赛因国王宣布断绝约旦与约旦河西岸的法律和行政联系，承认巴解组织是巴勒斯坦人唯一合法代表。11月，巴勒斯坦全国委员会在阿尔及尔宣布建立巴勒斯坦国，并间接接受联合国第242号决议；12月，美国开始与巴解组织对话。
+  summary: 1988年7月31日，侯赛因国王宣布断绝约旦与约旦河西岸的法律和行政联系，承。
+  passive_effects:
+  - op: set_flag
+    flag: jordan_option_ended
+  - op: add
+    target: faction_legitimacy
+    value: 10.0
+    key: fatah
+  - op: add
+    target: faction_legitimacy
+    value: -20.0
+    key: jordan_notables
+  - op: add
+    target: regime_hostility
+    value: -3.0
+    key: jordan
+  - op: add
+    target: intl_legitimacy
+    value: -5.0
+  - op: add
+    target: us_admin_relation
+    value: -3.0
+  perspectives:
+  - group: group_1
+    label: 约旦
+    text: 西岸已经不是我们能管的了。
+  - group: group_2
+    label: 巴解组织
+    text: 二十年来第一次，没有人能替我们说话。
+  - group: group_3
+    label: 工党
+    text: 我们的整套和平方案在一夜之间失去了对象。
+- id: E-1989-10
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 苏联移民潮
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: power_relation[diaspora] >= 60 and us_congress_relation >= 60
+    condition: flag("world_us_refugee_quota_tightened") and power_relation[ussr] >=
+      20 and regime_stability[egypt] <= 40
+    probability:
+      period: month
+      base: 0.2
+    invalidation: 'false'
+  background: 苏联解体前后，犹太人得以大规模移民。1989年10月美国限制以难民身份接收苏联犹太人后，移民潮几乎全部转向以色列：1990年约18.5万人，1991年约15万人，十年间约一百万人。住房、就业和文凭认证全面告急；许多工程师和医生去扫街。1990年起任住房部长的沙龙大规模采购活动房屋并在发展城镇和西岸周边快速建房。
+  narrative: 苏联解体前后，犹太人得以大规模移民。1989年10月美国限制以难民身份接收苏联犹太人后，移民潮几乎全部转向以色列：1990年约18.5万人，1991年约15万人，十年间约一百万人。住房、就业和文凭认证全面告急；许多工程师和医生去扫街。1990年起任住房部长的沙龙大规模采购活动房屋并在发展城镇和西岸周边快速建房。
+  summary: 苏联解体前后，犹太人得以大规模移民。
+  options:
+  - id: A
+    title: 国家主导建房：活动房营地与发展城
+    label: 国家主导建房：活动房营地与发展城镇
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: caravan_absorption_camps
+      duration_days: 1080
+    - op: add
+      target: absorption_capacity
+      value: 10.0
+    - op: add
+      target: budget_balance
+      value: -5.0
+    - op: add
+      target: inflation
+      value: 5.0
+    - op: add
+      target: alienation
+      value: -3.0
+      key: russian
+    - op: add
+      target: region_development
+      value: 5.0
+      key: negev
+    - op: add
+      target: region_development
+      value: 3.0
+      key: galilee
+    - op: add
+      target: promise_progress
+      value: 15.0
+      key: absorb_immigration
+    - op: add
+      target: relation
+      value: 10.0
+      key: sharon
+  - id: B
+    title: '''直接吸收''：发放现金篮子，让移'
+    label: '''直接吸收''：发放现金篮子，让移民自行在市场租房'
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: economic_model
+      value: 5.0
+    - op: add
+      target: promise_progress
+      value: 10.0
+      key: absorb_immigration
+    - op: add
+      target: inequality
+      value: 5.0
+    - op: add
+      target: bloc_support
+      value: -5.0
+      key: mizrahi
+    - op: add
+      target: bloc_support
+      value: -3.0
+      key: liberal_middle
+    - op: add
+      target: budget_balance
+      value: -3.0
+  - id: C
+    title: 引导移民定居约旦河西岸
+    label: 引导移民定居约旦河西岸
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: promise_progress
+      value: 10.0
+      key: not_one_inch
+    - op: add
+      target: settler_momentum
+      value: 5.0
+    - op: add
+      target: us_admin_relation
+      value: -20.0
+    - op: add
+      target: power_relation
+      value: -15.0
+      key: ussr
+    - op: add
+      target: intl_legitimacy
+      value: -10.0
+    - op: add
+      target: alienation
+      value: 3.0
+      key: russian
+    - op: schedule_event
+      event: E-1991-09
+      delay_days: 30
+  perspectives:
+  - group: group_1
+    label: 俄裔移民
+    text: 在莫斯科我们是"犹太人"，在这里我们是"俄国人"。
+  - group: group_2
+    label: 发展城镇的老居民
+    text: 政府给新移民的，比给我们三十年的还多。
+  - group: group_3
+    label: 经济学家
+    text: 这是以色列有史以来最大的一次人力资本注入，将来会改变整个经济。
+  notes: 俄裔集团作为选民集团在本事件后开启（选民集团支持[俄裔] 初始 40）；若 疏离度[俄裔] ≥ 50，触发俄裔自建政党事件（史实在1996年）。
+- id: E-1990-03
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: '"肮脏伎俩"'
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: flag("national_unity_government")
+    condition: ally_satisfaction[labor] <= 40 and relation[foreign_minister] <= 0
+      and ally_satisfaction[shas] <= 60
+    probability:
+      period: month
+      base: 0.1
+      add:
+      - when: us_admin_relation <= 40
+        value: 0.05
+    invalidation: 'false'
+  background: 1990年3月，沙米尔因佩雷斯坚持接受美方方案而将其解职，工党部长集体辞职。3月15日，佩雷斯联合沙斯等党发起不信任投票，以60比55推翻政府——这是以色列历史上唯一一次不信任投票成功。但佩雷斯随后组阁失败：两名阿古达议员关键时刻缺席。拉宾称之为"肮脏的伎俩"。6月，沙米尔组成了包括极右小党在内的窄幅右翼政府。
+  narrative: 1990年3月，沙米尔因佩雷斯坚持接受美方方案而将其解职，工党部长集体辞职。3月15日，佩雷斯联合沙斯等党发起不信任投票，以60比55推翻政府——这是以色列历史上唯一一次不信任投票成功。但佩雷斯随后组阁失败：两名阿古达议员关键时刻缺席。拉宾称之为"肮脏的伎俩"。6月，沙米尔组成了包括极右小党在内的窄幅右翼政府。
+  summary: 1990年3月，沙米尔因佩雷斯坚持接受美方方案而将其解职，工党部长集体辞职。
+  options:
+  - id: A
+    title: 解除佩雷斯职务，宁可失去团结政府
+    label: 解除佩雷斯职务，宁可失去团结政府
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: electoral_reform_movement
+    - op: add
+      target: ally_satisfaction
+      value: -40.0
+      key: labor
+    - op: add
+      target: promise_progress
+      value: 5.0
+      key: not_one_inch
+    - op: add
+      target: us_admin_relation
+      value: -8.0
+    - op: add
+      target: ally_satisfaction
+      value: 10.0
+      key: tehiya
+    - op: add
+      target: religious_status_quo
+      value: 5.0
+    - op: add
+      target: bloc_support
+      value: -8.0
+      key: liberal_middle
+    - op: schedule_event
+      event: E-1992-03
+      delay_days: 30
+  - id: B
+    title: 接受贝克方案的措辞，保住团结政府
+    label: 接受贝克方案的措辞，保住团结政府
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: territory
+      value: 10.0
+      direction: away
+    - op: add
+      target: party_standing
+      value: -12.0
+    - op: add
+      target: relation
+      value: -20.0
+      key: sharon
+    - op: add
+      target: us_admin_relation
+      value: 10.0
+    - op: add
+      target: pal_hostility
+      value: -3.0
+    - op: add
+      target: vision_progress
+      value: -5.0
+  - id: C
+    title: 抢先提出提前大选
+    label: 抢先提出提前大选
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: political_capital
+      value: -15.0
+    - op: add
+      target: party_standing
+      value: 3.0
+    - op: add
+      target: ally_satisfaction
+      value: -5.0
+      key: shas
+    - op: add
+      target: us_admin_relation
+      value: -3.0
+    - op: add
+      target: inflation
+      value: 3.0
+  perspectives:
+  - group: group_1
+    label: 公众
+    text: 一场在部长办公室和拉比书房里决定的政府更替，让上万人走上街头要求改革选举制度。
+  - group: group_2
+    label: 哈雷迪政党
+    text: 我们的拉比说话了，而拉比之间并不总是意见一致。
+  - group: group_3
+    label: 美国国务卿贝克
+    text: （在国会作证时公开报出白宫总机号码）"你们认真想要和平的时候，打这个电话。
+- id: E-1991-01
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 飞毛腿
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: flag("world_gulf_war")
+    condition: regime_hostility[iraq] >= 80
+    probability:
+      period: month
+      base: 0.7
+    invalidation: 'false'
+  background: 1991年1月17日起，伊拉克向以色列发射了约39枚飞毛腿导弹，以图把以色列拖入战争，瓦解有阿拉伯国家参加的反伊联盟。全国民众戴着防毒面具躲进密封房间。美国紧急部署"爱国者"导弹，并恳请以色列不要报复。国防部长阿伦斯主张出击，沙米尔选择了克制。
+  narrative: 1991年1月17日起，伊拉克向以色列发射了约39枚飞毛腿导弹，以图把以色列拖入战争，瓦解有阿拉伯国家参加的反伊联盟。全国民众戴着防毒面具躲进密封房间。美国紧急部署"爱国者"导弹，并恳请以色列不要报复。国防部长阿伦斯主张出击，沙米尔选择了克制。
+  summary: 1991年1月17日起，伊拉克向以色列发射了约39枚飞毛腿导弹，以图把以色列。
+  options:
+  - id: A
+    title: 克制，接受美国的保护与补偿
+    label: 克制，接受美国的保护与补偿
+    historical: true
+    tags:
+    - restraint
+    - peace
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: gulf_war_restraint
+    - op: add
+      target: us_admin_relation
+      value: 15.0
+    - op: add
+      target: us_congress_relation
+      value: 10.0
+    - op: add
+      target: intl_legitimacy
+      value: 10.0
+    - op: add
+      target: deterrence
+      value: -8.0
+    - op: add
+      target: public_security
+      value: -10.0
+    - op: add
+      target: party_standing
+      value: -3.0
+    - op: add
+      target: relation
+      value: -10.0
+      key: arens
+    - op: add
+      target: budget_balance
+      value: 1.0
+    - op: schedule_event
+      event: E-1991-10
+      delay_days: 30
+  - id: B
+    title: 派空军和特种部队打击伊拉克西部发
+    label: 派空军和特种部队打击伊拉克西部发射场
+    historical: false
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: add
+      target: deterrence
+      value: 5.0
+    - op: add
+      target: public_security
+      value: 5.0
+    - op: add
+      target: us_admin_relation
+      value: -20.0
+    - op: add
+      target: regime_hostility
+      value: 10.0
+      key: syria
+    - op: add
+      target: regime_hostility
+      value: 10.0
+      key: egypt
+    - op: add
+      target: regime_hostility
+      value: 10.0
+      key: saudi
+    - op: add
+      target: intl_legitimacy
+      value: -8.0
+    - op: add
+      target: readiness
+      value: -5.0
+    - op: add
+      target: party_standing
+      value: 5.0
+  - id: C
+    title: 秘密授权有限的特种作战，不公开
+    label: 秘密授权有限的特种作战，不公开
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: deterrence
+      value: 2.0
+    - op: add
+      target: us_admin_relation
+      value: -5.0
+    - op: add
+      target: relation
+      value: 5.0
+      key: arens
+  perspectives:
+  - group: group_1
+    label: 特拉维夫居民
+    text: 警报一响，我们给孩子戴上面具，用胶带封住门缝。
+  - group: group_2
+    label: 巴勒斯坦人
+    text: 有人站在屋顶上为飞过的导弹欢呼，这一幕被以色列电视台反复播放。
+  - group: group_3
+    label: 阿伦斯
+    text: 以色列不能把自己的安全交给别人。
+- id: E-1991-05
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 所罗门行动
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: character_in_office("mengistu")
+    condition: regime_stability[ethiopia] <= 15
+    probability:
+      period: month
+      base: 0.4
+      add:
+      - when: us_admin_relation >= 60
+        value: 0.1
+    invalidation: 'false'
+  background: 埃塞俄比亚反政府武装逼近首都。以色列与即将崩溃的政权达成交易，据报道支付了约3500万美元，美国总统布什亲自出面斡旋。1991年5月24日至25日，三十余架飞机在大约36小时内运走了约1.4万人，其中一架以色列航空波音747载客超过1000人，创下世界纪录。
+  narrative: 埃塞俄比亚反政府武装逼近首都。以色列与即将崩溃的政权达成交易，据报道支付了约3500万美元，美国总统布什亲自出面斡旋。1991年5月24日至25日，三十余架飞机在大约36小时内运走了约1.4万人，其中一架以色列航空波音747载客超过1000人，创下世界纪录。
+  summary: 埃塞俄比亚反政府武装逼近首都。
+  options:
+  - id: A
+    title: 付款，36小时全力空运
+    label: 付款，36小时全力空运
+    historical: true
+    tags:
+    - social
+    requires: 'true'
+    effects:
+    - op: add
+      target: promise_progress
+      value: 10.0
+      key: absorb_immigration
+    - op: add
+      target: power_relation
+      value: 10.0
+      key: diaspora
+    - op: add
+      target: us_admin_relation
+      value: 3.0
+    - op: add
+      target: budget_balance
+      value: -0.5
+    - op: add
+      target: absorption_capacity
+      value: -5.0
+    - op: add
+      target: alienation
+      value: 3.0
+      key: ethiopian
+    - op: add
+      target: public_security
+      value: 3.0
+  - id: B
+    title: 拒绝付款，等待新政府上台后再谈
+    label: 拒绝付款，等待新政府上台后再谈
+    historical: false
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: add
+      target: power_relation
+      value: -15.0
+      key: diaspora
+    - op: add
+      target: historical_grievance
+      value: 8.0
+      key: ethiopian
+  - id: C
+    title: 只接走已确认犹太身份者，暂缓'法
+    label: 只接走已确认犹太身份者，暂缓'法拉什穆拉'
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: power_relation
+      value: 5.0
+      key: diaspora
+    - op: add
+      target: ally_satisfaction
+      value: 3.0
+      key: shas
+    - op: add
+      target: alienation
+      value: 8.0
+      key: ethiopian
+    - op: add
+      target: historical_grievance
+      value: 5.0
+      key: ethiopian
+  perspectives:
+  - group: group_1
+    label: 机组人员
+    text: 起飞时机上有约1080人，降落时多了几名在飞行途中出生的婴儿。
+  - group: group_2
+    label: 埃塞俄比亚犹太人
+    text: 我们终于到了，但很多家人还留在贡德尔。
+  - group: opposition
+    label: 反对派议员
+    text: 议会走廊里，反对派已经在起草质询案。
+- id: E-1991-09
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 贷款担保冻结
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: event_done("E-1989-10")
+    condition: absorption_capacity <= 40 and settler_momentum >= 40 and us_admin_relation
+      <= 60
+    probability:
+      period: month
+      base: 0.15
+      add:
+      - when: has_modifier("cool_realist")
+        value: 0.1
+    invalidation: 'false'
+    on_miss:
+      effects:
+      - op: add
+        target: budget_balance
+        value: 3.0
+  background: 以色列请求美国为吸收苏联移民提供100亿美元贷款担保。老布什政府要求推迟120天审议，并在1992年初明确把担保与冻结定居点挂钩。布什在记者会上称自己是"一个孤独的小人物"在对抗上千名游说者，引发美国犹太社群强烈不满。沙米尔拒绝冻结定居点，担保直到1992年拉宾上台后才获批。
+  narrative: 以色列请求美国为吸收苏联移民提供100亿美元贷款担保。老布什政府要求推迟120天审议，并在1992年初明确把担保与冻结定居点挂钩。布什在记者会上称自己是"一个孤独的小人物"在对抗上千名游说者，引发美国犹太社群强烈不满。沙米尔拒绝冻结定居点，担保直到1992年拉宾上台后才获批。
+  summary: 以色列请求美国为吸收苏联移民提供100亿美元贷款担保。
+  options:
+  - id: A
+    title: 拒绝冻结，动员国会对抗白宫
+    label: 拒绝冻结，动员国会对抗白宫
+    historical: true
+    tags:
+    - restraint
+    - hardline
+    - social
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: bush_baker_coolness
+      duration_days: null
+    - op: add
+      target: us_admin_relation
+      value: -20.0
+    - op: add
+      target: us_congress_relation
+      value: -5.0
+    - op: add
+      target: power_relation
+      value: -3.0
+      key: diaspora
+    - op: add
+      target: promise_progress
+      value: 8.0
+      key: not_one_inch
+    - op: add
+      target: settler_momentum
+      value: 3.0
+    - op: add
+      target: budget_balance
+      value: -3.0
+    - op: add
+      target: absorption_capacity
+      value: -5.0
+    - op: add
+      target: bloc_support
+      value: -5.0
+      key: russian
+  - id: B
+    title: 接受冻结，换取担保
+    label: 接受冻结，换取担保
+    historical: false
+    tags:
+    - restraint
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: territory
+      value: 15.0
+      direction: away
+    - op: add
+      target: us_admin_relation
+      value: 15.0
+    - op: add
+      target: budget_balance
+      value: 4.0
+    - op: add
+      target: absorption_capacity
+      value: 10.0
+    - op: add
+      target: bloc_support
+      value: 5.0
+      key: russian
+    - op: add
+      target: party_standing
+      value: -15.0
+    - op: add
+      target: ally_satisfaction
+      value: -30.0
+      key: tehiya
+    - op: add
+      target: settler_momentum
+      value: -5.0
+  - id: C
+    title: 秘密妥协：冻结新定居点，但继续'
+    label: 秘密妥协：冻结新定居点，但继续'自然增长'与耶路撒冷周边建设
+    historical: false
+    tags:
+    - restraint
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: territory
+      value: 5.0
+      direction: away
+    - op: add
+      target: us_admin_relation
+      value: 3.0
+    - op: add
+      target: us_admin_relation
+      value: -10.0
+    - op: add
+      target: ally_satisfaction
+      value: -10.0
+      key: tehiya
+    - op: add
+      target: budget_balance
+      value: 2.0
+  perspectives:
+  - group: group_1
+    label: 布什政府
+    text: 美国的钱不能用来建设美国认为非法的定居点。
+  - group: group_2
+    label: 沙米尔
+    text: 这是对以色列主权的勒索。
+  - group: group_3
+    label: 俄裔移民
+    text: 我们只想要一套公寓，谁在乎这公寓建在哪个政治立场上？
+- id: E-1991-10
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 马德里和会
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: regime_stability[egypt] <= 30
+    condition: flag("gulf_war_restraint") and us_admin_relation >= 40 and regime_hostility[syria]
+      <= 80
+    probability:
+      period: month
+      base: 0.15
+      add:
+      - when: flag("gulf_war_restraint")
+        value: 0.15
+    invalidation: 'false'
+    on_miss:
+      effects:
+      - op: add
+        target: us_admin_relation
+        value: -5.0
+  background: 1991年10月30日，美苏共同主持的马德里和会开幕。这是以色列第一次与叙利亚、黎巴嫩、约旦以及巴勒斯坦人同时坐在谈判桌前。沙米尔坚持：巴解组织不得参加，巴勒斯坦代表须为约旦代表团的一部分且不能来自东耶路撒冷。他亲自率团出席。1992年落选后他在一次采访中说，自己本打算把自治谈判拖上十年。
+  narrative: 1991年10月30日，美苏共同主持的马德里和会开幕。这是以色列第一次与叙利亚、黎巴嫩、约旦以及巴勒斯坦人同时坐在谈判桌前。沙米尔坚持：巴解组织不得参加，巴勒斯坦代表须为约旦代表团的一部分且不能来自东耶路撒冷。他亲自率团出席。1992年落选后他在一次采访中说，自己本打算把自治谈判拖上十年。
+  summary: 1991年10月30日，美苏共同主持的马德里和会开幕。
+  options:
+  - id: A
+    title: 出席，但严守'不见巴解、不谈耶路
+    label: 出席，但严守'不见巴解、不谈耶路撒冷'的条件
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: territory
+      value: 5.0
+      direction: away
+    - op: add
+      target: us_admin_relation
+      value: 10.0
+    - op: add
+      target: intl_legitimacy
+      value: 10.0
+    - op: add
+      target: regime_hostility
+      value: -5.0
+      key: syria
+    - op: add
+      target: regime_hostility
+      value: -5.0
+      key: jordan
+    - op: add
+      target: faction_legitimacy
+      value: 3.0
+      key: fatah
+    - op: add
+      target: pal_hostility
+      value: -3.0
+    - op: add
+      target: ally_satisfaction
+      value: -15.0
+      key: tehiya
+  - id: B
+    title: 拒绝出席
+    label: 拒绝出席
+    historical: false
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: add
+      target: us_admin_relation
+      value: -25.0
+    - op: add
+      target: intl_legitimacy
+      value: -15.0
+    - op: add
+      target: party_standing
+      value: 3.0
+    - op: add
+      target: ally_satisfaction
+      value: 5.0
+      key: tehiya
+    - op: add
+      target: power_relation
+      value: -5.0
+      key: ussr
+  - id: C
+    title: 出席并提出实质性的自治与领土方案
+    label: 出席并提出实质性的自治与领土方案
+    historical: false
+    tags:
+    - peace
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: territory
+      value: 20.0
+      direction: away
+    - op: add
+      target: us_admin_relation
+      value: 15.0
+    - op: add
+      target: intl_legitimacy
+      value: 15.0
+    - op: add
+      target: regime_hostility
+      value: -10.0
+      key: jordan
+    - op: add
+      target: pal_hostility
+      value: -8.0
+    - op: add
+      target: party_standing
+      value: -20.0
+    - op: add
+      target: vision_progress
+      value: -15.0
+    - op: add
+      target: settler_momentum
+      value: 5.0
+  perspectives:
+  - group: group_1
+    label: 巴勒斯坦代表团
+    text: 我们挂着约旦的名义来到马德里，但阿卜杜勒-沙菲医生的演讲让全世界听到了巴勒斯坦人的声音。
+  - group: group_2
+    label: 叙利亚
+    text: 阿萨德的外长举着沙米尔年轻时的英国通缉令照片，称他是恐怖分子。
+  - group: group_3
+    label: 以色列右翼
+    text: 今天坐在马德里，明天就会坐在耶路撒冷的谈判桌上。
+- id: E-1992-03
+  kind: fixed
+  type: anchor
+  form: choice
+  major: true
+  minor: false
+  repeatable: false
+  title: 选举改革与"宪法革命"
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: flag("electoral_reform_movement")
+    condition: bloc_support[liberal_middle] <= 40 and rule_of_law >= 40
+    probability:
+      period: month
+      base: 0.1
+      add:
+      - when: has_modifier("economic_reform_stalled")
+        value: 0.1
+    invalidation: 'false'
+  background: 1990年"肮脏伎俩"后，要求改革选举制度的群众运动兴起。1992年3月，议会通过了总理直选法（自1996年起实行），利库德领导层反对，但部分利库德议员（包括内塔尼亚胡）投了赞成票。同月，议会通过了《基本法：人的尊严与自由》和《基本法：职业自由》，最高法院后来据此开启"宪法革命"。1992年1月右翼小党因马德里和会退出政府，大选定于6月23日。
+  narrative: 1990年"肮脏伎俩"后，要求改革选举制度的群众运动兴起。1992年3月，议会通过了总理直选法（自1996年起实行），利库德领导层反对，但部分利库德议员（包括内塔尼亚胡）投了赞成票。同月，议会通过了《基本法：人的尊严与自由》和《基本法：职业自由》，最高法院后来据此开启"宪法革命"。1992年1月右翼小党因马德里和会退出政府，大选定于6月23日。
+  summary: 1990年"肮脏伎俩"后，要求改革选举制度的群众运动兴起。
+  options:
+  - id: A
+    title: 反对直选法，但无法阻止其通过
+    label: 反对直选法，但无法阻止其通过
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: direct_election_era
+      duration_days: 718560
+    - op: add
+      target: party_standing
+      value: -5.0
+    - op: add
+      target: relation
+      value: -10.0
+      key: netanyahu
+    - op: add
+      target: rule_of_law
+      value: 5.0
+    - op: add
+      target: bloc_support
+      value: 2.0
+      key: liberal_middle
+  - id: B
+    title: 主动拥抱改革，把直选变成个人品牌
+    label: 主动拥抱改革，把直选变成个人品牌
+    historical: false
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: direct_election_era
+      duration_days: null
+    - op: add
+      target: party_standing
+      value: -10.0
+    - op: add
+      target: bloc_support
+      value: 8.0
+      key: liberal_middle
+    - op: add
+      target: bloc_support
+      value: 5.0
+      key: russian
+    - op: add
+      target: political_capital
+      value: 10.0
+    - op: add
+      target: centralization
+      value: 3.0
+  - id: C
+    title: 以程序手段搁置法案，推动推迟大选
+    label: 以程序手段搁置法案，推动推迟大选
+    historical: false
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: economic_reform_stalled
+      duration_days: 360
+    - op: add
+      target: centralization
+      value: 10.0
+    - op: add
+      target: rule_of_law
+      value: -10.0
+    - op: add
+      target: bloc_support
+      value: -15.0
+      key: liberal_middle
+    - op: add
+      target: party_standing
+      value: 3.0
+    - op: add
+      target: us_congress_relation
+      value: -5.0
+    - op: add
+      target: party_standing
+      value: -10.0
+  perspectives:
+  - group: group_1
+    label: 改革运动
+    text: 我们受够了被几个拉比和小党决定谁当总理。
+  - group: group_2
+    label: 宪法学者
+    text: 一部没有宪法的国家，在一个月里获得了两块宪法的基石。
+  - group: group_3
+    label: 小党领袖
+    text: 直选会让我们的选票变得更有价值，而不是更少。
+  notes: '1992年6月大选的结果在本时期结束时结算，衔接 05_1992_2006.md 的拉宾剧本。
+
+
+    ---'
+- id: E-G04-01
+  kind: fixed
+  type: structure
+  form: passive
+  major: false
+  minor: false
+  repeatable: true
+  title: 通胀螺旋
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: has_modifier("indexation_spiral")
+    condition: inflation >= 100
+    probability:
+      period: month
+      base: 0.15
+    invalidation: has_modifier("new_shekel")
+    cooldown_months: 12
+  background: 工资、房租、储蓄全部与生活费用指数挂钩，物价每月上涨两位数，商店每天换价签，人们一领工资就去换美元或买耐用品。（史实参照：1979年通胀突破100%，1980年约130%，1984年约445%。）
+  narrative: 工资、房租、储蓄全部与生活费用指数挂钩，物价每月上涨两位数，商店每天换价签，人们一领工资就去换美元或买耐用品。（史实参照：1979年通胀突破100%，1980年约130%，1984年约445%。）
+  summary: 工资、房租、储蓄全部与生活费用指数挂钩，物价每月上涨两位数，商店每天换价签，。
+  passive_effects:
+  - op: add_modifier
+    modifier: de_facto_dollarization
+    duration_days: 360
+  - op: add
+    target: inflation
+    value: 20.0
+  - op: add
+    target: fx_reserves
+    value: -3.0
+  - op: add
+    target: inequality
+    value: 3.0
+  - op: add
+    target: union_strength
+    value: 2.0
+  - op: add
+    target: alienation
+    value: 2.0
+    key: mizrahi
+  - op: schedule_event
+    event: E-1983-10
+    delay_days: 30
+  perspectives:
+  - group: group_1
+    label: 家庭主妇
+    text: 月初买的米比月底便宜一半，所以我们一领钱就把柜子塞满。
+  - group: group_2
+    label: 银行职员
+    text: 每个客户都想知道，银行股是不是比美元更保值。
+- id: E-G04-02
+  kind: fixed
+  type: structure
+  form: choice
+  major: false
+  minor: false
+  repeatable: true
+  title: 工资指数化与总工会
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: has_modifier("indexation_spiral")
+    condition: union_strength >= 50 and inflation >= 50
+    probability:
+      period: month
+      base: 0.08
+    invalidation: has_modifier("new_shekel")
+    cooldown_months: 18
+  background: 财政部提出暂停或削弱生活费用补贴（工资随物价自动上调的机制），总工会以总罢工相威胁。总工会既是全国最大的雇主之一（通过其控股公司），也是工党的选举机器。（史实参照：赫维茨"我没有"紧缩、1984年的"一揽子协议"前身。）
+  narrative: 财政部提出暂停或削弱生活费用补贴（工资随物价自动上调的机制），总工会以总罢工相威胁。总工会既是全国最大的雇主之一（通过其控股公司），也是工党的选举机器。（史实参照：赫维茨"我没有"紧缩、1984年的"一揽子协议"前身。）
+  summary: 财政部提出暂停或削弱生活费用补贴（工资随物价自动上调的机制），总工会以总罢工。
+  options:
+  - id: A
+    title: 与总工会签订一揽子协议
+    label: 与总工会签订一揽子协议
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: inflation
+      value: -15.0
+    - op: add
+      target: union_strength
+      value: 3.0
+    - op: add
+      target: economic_model
+      value: -3.0
+    - op: add
+      target: political_capital
+      value: -10.0
+    - op: add
+      target: ally_satisfaction
+      value: 5.0
+      key: labor
+    - op: add
+      target: promise_progress
+      value: -3.0
+      key: economic_liberalization
+  - id: B
+    title: 单方面削减指数化，硬扛总罢工
+    label: 单方面削减指数化，硬扛总罢工
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: inflation
+      value: -25.0
+    - op: add
+      target: union_strength
+      value: -8.0
+    - op: add
+      target: growth
+      value: -2.0
+    - op: add
+      target: bloc_support
+      value: -5.0
+      key: labor_ashkenazi
+    - op: add
+      target: bloc_support
+      value: -3.0
+      key: mizrahi
+    - op: add
+      target: promise_progress
+      value: 5.0
+      key: economic_liberalization
+    - op: add
+      target: party_standing
+      value: 3.0
+  - id: C
+    title: 维持现状，把问题留给下一年
+    label: 维持现状，把问题留给下一年
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: economy
+      value: 3.0
+      direction: away
+    - op: add
+      target: inflation
+      value: 10.0
+    - op: add
+      target: political_capital
+      value: 5.0
+    - op: add
+      target: promise_progress
+      value: -5.0
+      key: economic_liberalization
+- id: E-G04-03
+  kind: fixed
+  type: structure
+  form: choice
+  major: false
+  minor: false
+  repeatable: true
+  title: 宗教党的账单
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: 'true'
+    condition: coalition_seats <= 64
+    probability:
+      period: month
+      base: 0.2
+    invalidation: coalition_seats >= 61
+    cooldown_months: 12
+  background: 利库德首次执政依赖宗教党派，阿古达以色列党在1977年后作为联合政府成员（但不出任部长）提出大量诉求：耶希瓦预算、扩大兵役豁免、禁止以色列航空安息日飞行、收紧堕胎与验尸规定。（史实参照：贝京政府取消了耶希瓦学生豁免的人数上限；1982年以色列航空停止安息日航班，导致与工会冲突。）
+  narrative: 利库德首次执政依赖宗教党派，阿古达以色列党在1977年后作为联合政府成员（但不出任部长）提出大量诉求：耶希瓦预算、扩大兵役豁免、禁止以色列航空安息日飞行、收紧堕胎与验尸规定。（史实参照：贝京政府取消了耶希瓦学生豁免的人数上限；1982年以色列航空停止安息日航班，导致与工会冲突。）
+  summary: 利库德首次执政依赖宗教党派，阿古达以色列党在1977年后作为联合政府成员（但。
+  options:
+  - id: A
+    title: 满足核心诉求：安息日航班与豁免上
+    label: 满足核心诉求：安息日航班与豁免上限
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: uncapped_exemption
+      duration_days: null
+    - op: add
+      target: religious_status_quo
+      value: 8.0
+    - op: add
+      target: draft_exemption
+      value: 3.0
+    - op: add
+      target: ally_satisfaction
+      value: 15.0
+      key: agudat
+    - op: add
+      target: bloc_support
+      value: 5.0
+      key: haredi
+    - op: add
+      target: bloc_support
+      value: -5.0
+      key: liberal_middle
+    - op: add
+      target: growth
+      value: -0.5
+  - id: B
+    title: 只给预算，不碰现状条款
+    label: 只给预算，不碰现状条款
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: budget_balance
+      value: -1.0
+    - op: add
+      target: religious_status_quo
+      value: 2.0
+    - op: add
+      target: ally_satisfaction
+      value: 5.0
+      key: agudat
+  - id: C
+    title: 拒绝，转而寻求世俗政党支持
+    label: 拒绝，转而寻求世俗政党支持
+    historical: false
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: add
+      target: ally_satisfaction
+      value: -20.0
+      key: agudat
+    - op: add
+      target: bloc_support
+      value: 4.0
+      key: liberal_middle
+    - op: add
+      target: religious_status_quo
+      value: -2.0
+    - op: add
+      target: political_capital
+      value: -15.0
+  notes: 兵役豁免规模是典型的"历史债务"，A 选项的长期代价在下一时代才会完全显现。
+- id: E-G04-04
+  kind: fixed
+  type: structure
+  form: choice
+  major: false
+  minor: false
+  repeatable: true
+  title: 前哨自建
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: region_exists("west_bank")
+    condition: flag("outpost_legalization_precedent") and settler_momentum >= 70
+    probability:
+      period: month
+      base: 0.1
+    invalidation: flag("west_bank_returned")
+    cooldown_months: 6
+  background: 古什埃穆尼姆的活动人士趁夜在山头搭起几座活动房和一面旗帜，宣布建立新定居点，然后向政府施压追认。（史实参照：塞巴斯蒂亚模式；1978年世界犹太复国主义组织定居司的德罗布莱斯计划和沙龙的定居点规划都把散点式山头定居系统化。）
+  narrative: 古什埃穆尼姆的活动人士趁夜在山头搭起几座活动房和一面旗帜，宣布建立新定居点，然后向政府施压追认。（史实参照：塞巴斯蒂亚模式；1978年世界犹太复国主义组织定居司的德罗布莱斯计划和沙龙的定居点规划都把散点式山头定居系统化。）
+  summary: 古什埃穆尼姆的活动人士趁夜在山头搭起几座活动房和一面旗帜，宣布建立新定居点，。
+  options:
+  - id: A
+    title: 追认并接通水电
+    label: 追认并接通水电
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: promise_progress
+      value: 3.0
+      key: settle_eretz_israel
+    - op: add
+      target: settler_momentum
+      value: 3.0
+    - op: add
+      target: pal_hostility
+      value: 3.0
+    - op: add
+      target: pal_hostility
+      value: 2.0
+    - op: add
+      target: us_admin_relation
+      value: -3.0
+    - op: add
+      target: rule_of_law
+      value: -2.0
+  - id: B
+    title: 拆除，但承诺在附近合法建点
+    label: 拆除，但承诺在附近合法建点
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: settler_momentum
+      value: -2.0
+    - op: add
+      target: ally_satisfaction
+      value: -3.0
+      key: nrp
+    - op: add
+      target: us_admin_relation
+      value: 1.0
+    - op: add
+      target: promise_progress
+      value: 1.0
+      key: settle_eretz_israel
+    - op: add
+      target: political_capital
+      value: -5.0
+  - id: C
+    title: 强制拆除并起诉组织者
+    label: 强制拆除并起诉组织者
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: territory
+      value: 5.0
+      direction: away
+    - op: add
+      target: settler_momentum
+      value: -5.0
+    - op: add
+      target: rule_of_law
+      value: 3.0
+    - op: add
+      target: bloc_support
+      value: -5.0
+      key: religious_zionist
+    - op: add
+      target: party_standing
+      value: -5.0
+    - op: add
+      target: us_admin_relation
+      value: 3.0
+  notes: 若 修正器「亚米特创伤」生效，C 选项的 定居者运动动量 效果减半，但 党内地位 惩罚翻倍。
+- id: E-G04-05
+  kind: fixed
+  type: regional
+  form: passive
+  major: false
+  minor: false
+  repeatable: true
+  title: 北部喀秋莎
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: 'true'
+    condition: faction_strength[fatah] >= 40 and region_security[galilee] <= 60
+    probability:
+      period: month
+      base: 0.1
+    invalidation: flag("plo_moved_to_tunis")
+    cooldown_months: 3
+  background: 巴解组织的火炮与喀秋莎火箭从南黎巴嫩射向基里亚特什莫纳、纳哈里亚等边境城镇，居民在防空洞里度过数日乃至数周。（史实参照：1981年7月的"喀秋莎战争"，此后美国斡旋停火。）
+  narrative: 巴解组织的火炮与喀秋莎火箭从南黎巴嫩射向基里亚特什莫纳、纳哈里亚等边境城镇，居民在防空洞里度过数日乃至数周。（史实参照：1981年7月的"喀秋莎战争"，此后美国斡旋停火。）
+  summary: 巴解组织的火炮与喀秋莎火箭从南黎巴嫩射向基里亚特什莫纳、纳哈里亚等边境城镇，。
+  passive_effects:
+  - op: add_modifier
+    modifier: border_towns_anger
+    duration_days: 90
+  - op: add
+    target: region_security
+    value: -8.0
+    key: galilee
+  - op: add
+    target: public_security
+    value: -5.0
+  - op: add
+    target: region_development
+    value: -2.0
+    key: galilee
+  - op: schedule_event
+    event: E-1982-06a
+    delay_days: 30
+- id: E-G04-06
+  kind: fixed
+  type: structure
+  form: choice
+  major: false
+  minor: false
+  repeatable: true
+  title: 发展城镇的工厂倒闭
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: 'true'
+    condition: economic_model >= 10
+    probability:
+      period: month
+      base: 0.05
+    invalidation: 'false'
+    cooldown_months: 12
+  background: 一座雇用了全镇三分之一劳动力的纺织厂（多由总工会或国家持股）宣布破产。镇长带着工人封锁了公路。（史实参照：1980年代迪莫纳、基里亚特什莫纳、奥法基姆等地的纺织业衰退。）
+  narrative: 一座雇用了全镇三分之一劳动力的纺织厂（多由总工会或国家持股）宣布破产。镇长带着工人封锁了公路。（史实参照：1980年代迪莫纳、基里亚特什莫纳、奥法基姆等地的纺织业衰退。）
+  summary: 一座雇用了全镇三分之一劳动力的纺织厂（多由总工会或国家持股）宣布破产。
+  options:
+  - id: A
+    title: 政府注资救厂
+    label: 政府注资救厂
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: economy
+      value: 5.0
+      direction: away
+    - op: add
+      target: budget_balance
+      value: -1.0
+    - op: add
+      target: promise_progress
+      value: 3.0
+      key: social_justice
+    - op: add
+      target: alienation
+      value: -3.0
+      key: mizrahi
+    - op: add
+      target: promise_progress
+      value: -3.0
+      key: economic_liberalization
+  - id: B
+    title: 让工厂倒闭，提供转业培训与搬迁补
+    label: 让工厂倒闭，提供转业培训与搬迁补贴
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: promise_progress
+      value: 3.0
+      key: economic_liberalization
+    - op: add
+      target: alienation
+      value: 4.0
+      key: mizrahi
+    - op: add
+      target: historical_grievance
+      value: 1.0
+      key: mizrahi
+    - op: add
+      target: region_development
+      value: -2.0
+      key: negev
+    - op: add
+      target: budget_balance
+      value: -0.3
+  - id: C
+    title: 以税收优惠吸引私人投资者接手
+    label: 以税收优惠吸引私人投资者接手
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: budget_balance
+      value: -0.5
+    - op: add
+      target: economic_model
+      value: 2.0
+    - op: add
+      target: alienation
+      value: -2.0
+      key: mizrahi
+    - op: add
+      target: political_capital
+      value: -5.0
+- id: E-G04-07
+  kind: fixed
+  type: structure
+  form: choice
+  major: false
+  minor: false
+  repeatable: true
+  title: 选前经济学
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: 'true'
+    condition: fx_reserves >= 15
+    probability:
+      period: month
+      base: 0.2
+    invalidation: 'false'
+    cooldown_months: 12
+  background: 财政部长提出在大选前降低进口耐用品税、补贴基本商品，让彩色电视机和汽车一下子便宜下来。（史实参照：1981年阿里多尔的"好经济学"，利库德在民调大幅落后的情况下追平；代价是外汇储备流失和1983年的危机。）
+  narrative: 财政部长提出在大选前降低进口耐用品税、补贴基本商品，让彩色电视机和汽车一下子便宜下来。（史实参照：1981年阿里多尔的"好经济学"，利库德在民调大幅落后的情况下追平；代价是外汇储备流失和1983年的危机。）
+  summary: 财政部长提出在大选前降低进口耐用品税、补贴基本商品，让彩色电视机和汽车一下子。
+  options:
+  - id: A
+    title: 全面减税与补贴
+    label: 全面减税与补贴
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: pre_election_spending_binge
+    - op: add
+      target: fx_reserves
+      value: -8.0
+    - op: add
+      target: inflation
+      value: 15.0
+    - op: add
+      target: budget_balance
+      value: -3.0
+  - id: B
+    title: 只给定向补贴（发展城镇、新移民）
+    label: 只给定向补贴（发展城镇、新移民）
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: bloc_support
+      value: 3.0
+      key: mizrahi
+    - op: add
+      target: bloc_support
+      value: 2.0
+      key: russian
+    - op: add
+      target: budget_balance
+      value: -1.0
+    - op: add
+      target: inflation
+      value: 3.0
+  - id: C
+    title: 拒绝透支，以紧缩形象参选
+    label: 拒绝透支，以紧缩形象参选
+    historical: false
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: add
+      target: fx_reserves
+      value: 3.0
+    - op: add
+      target: party_standing
+      value: -5.0
+    - op: add
+      target: promise_progress
+      value: 3.0
+      key: economic_liberalization
+- id: E-G04-08
+  kind: fixed
+  type: structure
+  form: passive
+  major: false
+  minor: false
+  repeatable: true
+  title: 新移民住房危机
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: event_done("E-1989-10")
+    condition: absorption_capacity <= 30
+    probability:
+      period: month
+      base: 0.2
+    invalidation: absorption_capacity >= 50
+    cooldown_months: 6
+  background: 房租在一年内上涨数成，年轻夫妇在特拉维夫街头搭起帐篷抗议，活动房营地里的冬天漏水又寒冷。（史实参照：1990年夏天的"帐篷城"抗议。）
+  narrative: 房租在一年内上涨数成，年轻夫妇在特拉维夫街头搭起帐篷抗议，活动房营地里的冬天漏水又寒冷。（史实参照：1990年夏天的"帐篷城"抗议。）
+  summary: 房租在一年内上涨数成，年轻夫妇在特拉维夫街头搭起帐篷抗议，活动房营地里的冬天。
+  passive_effects:
+  - op: add_modifier
+    modifier: tent_city_protests
+    duration_days: 180
+  - op: add
+    target: inequality
+    value: 4.0
+  - op: add
+    target: alienation
+    value: 4.0
+    key: russian
+  - op: add
+    target: alienation
+    value: 3.0
+    key: mizrahi
+  - op: add
+    target: bloc_support
+    value: -3.0
+    key: liberal_middle
+- id: E-G04-09
+  kind: fixed
+  type: structure
+  form: choice
+  major: false
+  minor: false
+  repeatable: true
+  title: 驱逐与行政拘留
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: region_exists("west_bank")
+    condition: region_security[west_bank] <= 50 and region_security[gaza] <= 50
+    probability:
+      period: month
+      base: 0.1
+      add:
+      - when: has_modifier("first_intifada")
+        value: 0.15
+    invalidation: 'false'
+    cooldown_months: 6
+  background: 辛贝特提交一份名单：数十名被认为是煽动者的巴勒斯坦人，包括学生领袖、工会成员和市长，建议依据委任统治时期的紧急条例予以行政拘留或驱逐出境。（史实参照：1980年驱逐希伯伦市长；1988年大规模行政拘留；1992年12月驱逐415名哈马斯成员属于下一时代。）
+  narrative: 辛贝特提交一份名单：数十名被认为是煽动者的巴勒斯坦人，包括学生领袖、工会成员和市长，建议依据委任统治时期的紧急条例予以行政拘留或驱逐出境。（史实参照：1980年驱逐希伯伦市长；1988年大规模行政拘留；1992年12月驱逐415名哈马斯成员属于下一时代。）
+  summary: 辛贝特提交一份名单：数十名被认为是煽动者的巴勒斯坦人，包括学生领袖、工会成员。
+  options:
+  - id: A
+    title: 批准大规模行政拘留
+    label: 批准大规模行政拘留
+    historical: false
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: prison_schools
+      duration_days: 720
+    - op: add
+      target: region_security
+      value: 5.0
+      key: west_bank
+    - op: add
+      target: pal_hostility
+      value: 6.0
+    - op: add
+      target: rule_of_law
+      value: -4.0
+    - op: add
+      target: intl_legitimacy
+      value: -4.0
+    - op: add
+      target: centralization
+      value: 2.0
+  - id: B
+    title: 只驱逐少数领袖
+    label: 只驱逐少数领袖
+    historical: false
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: add
+      target: region_security
+      value: 3.0
+      key: west_bank
+    - op: add
+      target: pal_hostility
+      value: 4.0
+    - op: add
+      target: intl_legitimacy
+      value: -6.0
+    - op: add
+      target: us_admin_relation
+      value: -3.0
+    - op: add
+      target: faction_legitimacy
+      value: 2.0
+      key: fatah
+  - id: C
+    title: 拒绝名单，要求走正常司法程序
+    label: 拒绝名单，要求走正常司法程序
+    historical: false
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: custom
+      handler: stance_shift_by_corridor
+      key: security
+      value: 5.0
+      direction: away
+    - op: add
+      target: region_security
+      value: -3.0
+      key: west_bank
+    - op: add
+      target: rule_of_law
+      value: 3.0
+    - op: add
+      target: relation
+      value: -10.0
+      key: shin_bet_chief
+  notes: 极端情形下的"大规模驱逐整村"不作为选项提供（见设计文档第14节）。
+- id: E-G04-10
+  kind: fixed
+  type: structure
+  form: choice
+  major: false
+  minor: false
+  repeatable: true
+  title: 伊斯兰协会的登记申请
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: region_exists("gaza") and not event_done("E-1987-12b")
+    condition: faction_strength[fatah] >= 50 and islamic_assoc_strength >= 5
+    probability:
+      period: month
+      base: 0.05
+    invalidation: event_done("E-1987-12b")
+    cooldown_months: 12
+  background: 加沙的亚辛谢赫申请把他的"伊斯兰协会"登记为合法团体，经营清真寺、幼儿园、诊所和伊斯兰大学。军政府的一些官员认为，这个专注于社会与宗教事务的团体可以分流巴解组织的民族主义影响。（史实参照：协会在1979年获准登记，1980年代协会成员与巴解支持者在加沙伊斯兰大学多次冲突。）
+  narrative: 加沙的亚辛谢赫申请把他的"伊斯兰协会"登记为合法团体，经营清真寺、幼儿园、诊所和伊斯兰大学。军政府的一些官员认为，这个专注于社会与宗教事务的团体可以分流巴解组织的民族主义影响。（史实参照：协会在1979年获准登记，1980年代协会成员与巴解支持者在加沙伊斯兰大学多次冲突。）
+  summary: 加沙的亚辛谢赫申请把他的"伊斯兰协会"登记为合法团体，经营清真寺、幼儿园、诊。
+  options:
+  - id: A
+    title: 批准登记，视为制衡巴解的力量
+    label: 批准登记，视为制衡巴解的力量
+    historical: true
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: set_flag
+      flag: tolerate_islamists
+    - op: add
+      target: faction_strength
+      value: -3.0
+      key: fatah
+    - op: add
+      target: islamic_assoc_strength
+      value: 10.0
+    - op: add
+      target: pal_living_standard
+      value: 2.0
+  - id: B
+    title: 批准，但严密监控其资金来源
+    label: 批准，但严密监控其资金来源
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: islamic_assoc_strength
+      value: 5.0
+    - op: add
+      target: political_capital
+      value: -5.0
+    - op: add
+      target: relation
+      value: 5.0
+      key: shin_bet_chief
+    - op: add
+      target: islamic_assoc_strength
+      value: -3.0
+  - id: C
+    title: 拒绝登记并打压
+    label: 拒绝登记并打压
+    historical: false
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: add
+      target: islamic_assoc_strength
+      value: -5.0
+    - op: add
+      target: pal_hostility
+      value: 2.0
+    - op: add
+      target: faction_strength
+      value: 3.0
+      key: fatah
+- id: E-G04-11
+  kind: fixed
+  type: structure
+  form: choice
+  major: false
+  minor: false
+  repeatable: true
+  title: 换俘交易
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: 'true'
+    condition: faction_strength[fatah] >= 30 and public_security <= 80
+    probability:
+      period: month
+      base: 0.3
+    invalidation: 'false'
+    cooldown_months: 12
+  background: 一个敌对组织提出以大批在押巴勒斯坦人交换被俘的以色列士兵。家属在总理府外静坐。（史实参照：1985年5月"吉布里勒交易"，以1150名囚犯换回3名士兵，许多获释者后来成为第一次起义的地方骨干。）
+  narrative: 一个敌对组织提出以大批在押巴勒斯坦人交换被俘的以色列士兵。家属在总理府外静坐。（史实参照：1985年5月"吉布里勒交易"，以1150名囚犯换回3名士兵，许多获释者后来成为第一次起义的地方骨干。）
+  summary: 一个敌对组织提出以大批在押巴勒斯坦人交换被俘的以色列士兵。
+  options:
+  - id: A
+    title: 接受大规模换俘
+    label: 接受大规模换俘
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: jibril_released_prisoners
+      duration_days: 1080
+    - op: add
+      target: public_security
+      value: 3.0
+    - op: add
+      target: faction_strength
+      value: 5.0
+      key: fatah
+    - op: add
+      target: faction_legitimacy
+      value: 8.0
+      key: fatah
+    - op: add
+      target: deterrence
+      value: -5.0
+    - op: add
+      target: party_standing
+      value: -3.0
+  - id: B
+    title: 讨价还价，压低人数并排除重刑犯
+    label: 讨价还价，压低人数并排除重刑犯
+    historical: false
+    tags:
+    - peace
+    requires: 'true'
+    effects:
+    - op: add
+      target: political_capital
+      value: -3.0
+  - id: C
+    title: 拒绝交易，尝试营救行动
+    label: 拒绝交易，尝试营救行动
+    historical: false
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: add
+      target: deterrence
+      value: 5.0
+    - op: add
+      target: public_security
+      value: 8.0
+    - op: add
+      target: political_capital
+      value: 15.0
+    - op: add
+      target: public_security
+      value: -8.0
+    - op: add
+      target: party_standing
+      value: -8.0
+    - op: add
+      target: political_capital
+      value: -20.0
+- id: E-G04-12
+  kind: fixed
+  type: structure
+  form: choice
+  major: false
+  minor: false
+  repeatable: true
+  title: 军事审查官
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: has_modifier("lebanon_quagmire")
+    condition: rule_of_law <= 80
+    probability:
+      period: month
+      base: 0.3
+    invalidation: 'false'
+    cooldown_months: 6
+  background: 一家报纸准备刊登会让政府难堪的照片或报道。军事审查官可以依据委任统治时期的法令禁止发表，甚至勒令停刊。外国记者和"借外媒转载"的手法使审查越来越难以奏效。（史实参照：1984年《新闻报》因刊登300路照片被停刊数日。）
+  narrative: 一家报纸准备刊登会让政府难堪的照片或报道。军事审查官可以依据委任统治时期的法令禁止发表，甚至勒令停刊。外国记者和"借外媒转载"的手法使审查越来越难以奏效。（史实参照：1984年《新闻报》因刊登300路照片被停刊数日。）
+  summary: 一家报纸准备刊登会让政府难堪的照片或报道。
+  options:
+  - id: A
+    title: 依法放行，只删去作战机密
+    label: 依法放行，只删去作战机密
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: rule_of_law
+      value: 2.0
+    - op: add
+      target: political_capital
+      value: -10.0
+    - op: add
+      target: bloc_support
+      value: 2.0
+      key: liberal_middle
+  - id: B
+    title: 禁止发表
+    label: 禁止发表
+    historical: false
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add
+      target: centralization
+      value: 3.0
+    - op: add
+      target: rule_of_law
+      value: -3.0
+    - op: add
+      target: intl_legitimacy
+      value: -3.0
+    - op: add
+      target: political_capital
+      value: -10.0
+  - id: C
+    title: 勒令停刊并起诉编辑
+    label: 勒令停刊并起诉编辑
+    historical: false
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: add_modifier
+      modifier: chilling_effect
+      duration_days: 360
+    - op: add
+      target: centralization
+      value: 6.0
+    - op: add
+      target: rule_of_law
+      value: -8.0
+    - op: add
+      target: us_congress_relation
+      value: -3.0
+    - op: add
+      target: bloc_support
+      value: -5.0
+      key: liberal_middle
+  notes: 独裁路线的核心杠杆之一。"寒蝉"修正器把短期平静换成延迟的、更大的冲击。
+- id: E-G04-13
+  kind: fixed
+  type: structure
+  form: choice
+  major: false
+  minor: false
+  repeatable: true
+  title: '"谁是犹太人"'
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: coalition_seats <= 60
+    condition: religious_status_quo >= 10
+    probability:
+      period: month
+      base: 0.3
+    invalidation: 'false'
+    cooldown_months: 12
+  background: 哈雷迪政党要求修改《回归法》，规定只有经"正统派律法"皈依者才被承认为犹太人，这实际上否定了美国改革派和保守派拉比主持的皈依。美国犹太社群的领袖们连夜飞到耶路撒冷游说。（史实参照：1988年大选后组阁期间的危机，沙米尔最终放弃了这一修正。）
+  narrative: 哈雷迪政党要求修改《回归法》，规定只有经"正统派律法"皈依者才被承认为犹太人，这实际上否定了美国改革派和保守派拉比主持的皈依。美国犹太社群的领袖们连夜飞到耶路撒冷游说。（史实参照：1988年大选后组阁期间的危机，沙米尔最终放弃了这一修正。）
+  summary: 哈雷迪政党要求修改《回归法》，规定只有经"正统派律法"皈依者才被承认为犹太人。
+  options:
+  - id: A
+    title: 同意修改《回归法》
+    label: 同意修改《回归法》
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: religious_status_quo
+      value: 10.0
+    - op: add
+      target: ally_satisfaction
+      value: 20.0
+      key: agudat
+    - op: add
+      target: ally_satisfaction
+      value: 15.0
+      key: shas
+    - op: add
+      target: power_relation
+      value: -25.0
+      key: diaspora
+    - op: add
+      target: us_congress_relation
+      value: -5.0
+    - op: add
+      target: bloc_support
+      value: -8.0
+      key: liberal_middle
+    - op: add
+      target: alienation
+      value: 8.0
+      key: russian
+  - id: B
+    title: 拒绝，转而与工党组建团结政府
+    label: 拒绝，转而与工党组建团结政府
+    historical: false
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: add
+      target: power_relation
+      value: 5.0
+      key: diaspora
+    - op: add
+      target: ally_satisfaction
+      value: -15.0
+      key: agudat
+    - op: add
+      target: ally_satisfaction
+      value: 10.0
+      key: labor
+    - op: add
+      target: political_capital
+      value: -15.0
+  - id: C
+    title: 设立委员会研究，无限期搁置
+    label: 设立委员会研究，无限期搁置
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: ally_satisfaction
+      value: -5.0
+      key: agudat
+    - op: add
+      target: power_relation
+      value: -3.0
+      key: diaspora
+    - op: add
+      target: political_capital
+      value: -5.0
+- id: E-G04-14
+  kind: fixed
+  type: flavor
+  form: choice
+  major: false
+  minor: false
+  repeatable: true
+  title: 对伊朗的秘密军售
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: flag("world_iran_iraq_war") and event_done("E-1979-02")
+    condition: regime_hostility[iraq] >= 60
+    probability:
+      period: month
+      base: 0.03
+    invalidation: 'false'
+    cooldown_months: 24
+  background: 尽管霍梅尼政权视以色列为"小撒旦"，以色列的一些战略家认为伊拉克才是更大的威胁，并希望借军售维持与伊朗军方的联系、保护伊朗犹太人。中间人还提出了一个把美国也牵扯进来的计划。（史实参照：1980年代初以色列向伊朗出售武器零件；1985–1986年以色列在"伊朗门"中作为中间方。）
+  narrative: 尽管霍梅尼政权视以色列为"小撒旦"，以色列的一些战略家认为伊拉克才是更大的威胁，并希望借军售维持与伊朗军方的联系、保护伊朗犹太人。中间人还提出了一个把美国也牵扯进来的计划。（史实参照：1980年代初以色列向伊朗出售武器零件；1985–1986年以色列在"伊朗门"中作为中间方。）
+  summary: 尽管霍梅尼政权视以色列为"小撒旦"，以色列的一些战略家认为伊拉克才是更大的威。
+  options:
+  - id: A
+    title: 秘密出售零部件
+    label: 秘密出售零部件
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: fx_reserves
+      value: 2.0
+    - op: add
+      target: regime_hostility
+      value: 3.0
+      key: iraq
+    - op: add
+      target: regime_hostility
+      value: -3.0
+      key: iran
+    - op: add
+      target: us_admin_relation
+      value: -8.0
+    - op: add
+      target: intl_legitimacy
+      value: -3.0
+  - id: B
+    title: 参与美方的人质-军售计划
+    label: 参与美方的人质-军售计划
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: add
+      target: us_admin_relation
+      value: 5.0
+    - op: add
+      target: us_congress_relation
+      value: -10.0
+    - op: add
+      target: us_admin_relation
+      value: -8.0
+    - op: add
+      target: intl_legitimacy
+      value: -5.0
+  - id: C
+    title: 拒绝一切接触
+    label: 拒绝一切接触
+    historical: false
+    tags:
+    - hardline
+    requires: 'true'
+    effects:
+    - op: add
+      target: power_relation
+      value: -2.0
+      key: diaspora
+    - op: add
+      target: regime_hostility
+      value: -2.0
+      key: iraq
+    - op: add
+      target: us_admin_relation
+      value: 2.0
+- id: E-G04-15
+  kind: fixed
+  type: character
+  form: passive
+  major: false
+  minor: false
+  repeatable: true
+  title: 领导人健康危机
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: 'true'
+    condition: health[defense_minister] <= 40
+    probability:
+      period: month
+      base: 0.03
+    invalidation: 'false'
+    cooldown_months: 6
+  background: 总理在家中摔倒（或心脏病发作）被送进哈达萨医院，病情被严格保密。（史实参照：贝京1979年起多次心脏病发作，1981年11月摔断髋骨。）
+  narrative: 总理在家中摔倒（或心脏病发作）被送进哈达萨医院，病情被严格保密。（史实参照：贝京1979年起多次心脏病发作，1981年11月摔断髋骨。）
+  summary: 总理在家中摔倒（或心脏病发作）被送进哈达萨医院，病情被严格保密。
+  passive_effects:
+  - op: add_modifier
+    modifier: incapacitated_pm
+    duration_days: 120
+  - op: add
+    target: party_standing
+    value: -3.0
+  notes: 多次触发会累积到 E-1983-08 式的退场抉择。
+- id: E-G04-16
+  kind: fixed
+  type: flavor
+  form: passive
+  major: false
+  minor: false
+  repeatable: true
+  title: 美国政府更替
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: 'true'
+    condition: political_capital >= 0
+    probability:
+      period: immediate
+    invalidation: 'false'
+    cooldown_months: 48
+  background: 新总统入主白宫，带来新的国务卿和中东政策。（史实参照：卡特（1977–1981）重视巴勒斯坦问题；里根（1981–1989）签署战略合作备忘录，但也出售预警机给沙特并提出"里根计划"；老布什与贝克（1989–1993）对定居点最为强硬。）
+  narrative: 新总统入主白宫，带来新的国务卿和中东政策。（史实参照：卡特（1977–1981）重视巴勒斯坦问题；里根（1981–1989）签署战略合作备忘录，但也出售预警机给沙特并提出"里根计划"；老布什与贝克（1989–1993）对定居点最为强硬。）
+  summary: 新总统入主白宫，带来新的国务卿和中东政策。
+  passive_effects:
+  - op: add
+    target: political_capital
+    value: -2.0
+  notes: 玩家无法影响美国大选结果，但美国国会关系高时可缓冲不利的总统更替。
+- id: E-G04-17
+  kind: fixed
+  type: regional
+  form: passive
+  major: false
+  minor: false
+  repeatable: true
+  title: 城市恐怖袭击
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: 'true'
+    condition: public_security <= 85
+    probability:
+      period: month
+      base: 0.06
+    invalidation: 'false'
+    cooldown_months: 4
+  background: 市场里的一枚炸弹、或一辆被劫持冲下山谷的公共汽车。（史实参照：1989年7月，一名伊斯兰圣战成员在特拉维夫至耶路撒冷的405路公交车上抢夺方向盘，致车辆坠入山谷，16人遇难。）
+  narrative: 市场里的一枚炸弹、或一辆被劫持冲下山谷的公共汽车。（史实参照：1989年7月，一名伊斯兰圣战成员在特拉维夫至耶路撒冷的405路公交车上抢夺方向盘，致车辆坠入山谷，16人遇难。）
+  summary: 市场里的一枚炸弹、或一辆被劫持冲下山谷的公共汽车。
+  passive_effects:
+  - op: add_modifier
+    modifier: demand_retaliation
+    duration_days: 60
+  - op: add
+    target: public_security
+    value: -6.0
+  - op: add
+    target: region_security
+    value: -5.0
+    key: jerusalem
+- id: E-G04-18
+  kind: fixed
+  type: regional
+  form: passive
+  major: false
+  minor: false
+  repeatable: true
+  title: 安全区里的伏击
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: has_modifier("security_zone")
+    condition: faction_strength[hezbollah] >= 30
+    probability:
+      period: month
+      base: 0.15
+    invalidation: 'false'
+    cooldown_months: 3
+  background: 一支以军巡逻队在安全区内遭路边炸弹伏击，数名士兵阵亡。真主党拍下了袭击视频。南黎巴嫩军的一个哨所被攻破。
+  narrative: 一支以军巡逻队在安全区内遭路边炸弹伏击，数名士兵阵亡。真主党拍下了袭击视频。南黎巴嫩军的一个哨所被攻破。
+  summary: 一支以军巡逻队在安全区内遭路边炸弹伏击，数名士兵阵亡。
+  passive_effects:
+  - op: add_modifier
+    modifier: four_mothers_precursor
+    duration_days: 718920
+  - op: add
+    target: public_security
+    value: -3.0
+  - op: add
+    target: bloc_support
+    value: -2.0
+    key: liberal_middle
+  - op: add
+    target: faction_strength
+    value: 2.0
+    key: hezbollah
+  - op: add
+    target: faction_legitimacy
+    value: -3.0
+    key: sla
+  - op: add
+    target: region_security
+    value: -2.0
+    key: galilee
+- id: E-G04-19
+  kind: fixed
+  type: structure
+  form: predecision
+  major: false
+  minor: false
+  repeatable: true
+  title: 辛贝特的不成文规则
+  scenario_tags:
+  - begin_1977
+  trigger:
+    window:
+      from: '1977-06-20'
+      to: '1992-07-12'
+    prerequisites: 'true'
+    condition: region_security[gaza] <= 60 and region_security[west_bank] <= 60
+    probability:
+      period: month
+      base: 0.1
+    invalidation: flag("shin_bet_reformed")
+    cooldown_months: 12
+  background: 新任辛贝特首长来见总理，汇报处理被俘武装人员和审讯的"惯例"。这些做法从未写成文件，也从未经过总检察长审查。（史实参照：1984年300路事件与1987年朗道委员会揭示的审讯惯例。）
+  narrative: 新任辛贝特首长来见总理，汇报处理被俘武装人员和审讯的"惯例"。这些做法从未写成文件，也从未经过总检察长审查。（史实参照：1984年300路事件与1987年朗道委员会揭示的审讯惯例。）
+  summary: 新任辛贝特首长来见总理，汇报处理被俘武装人员和审讯的"惯例"。
+  presentation:
+    insert_before:
+    - E-1984-04a
+  options:
+  - id: A
+    title: 维持惯例，由前线自行判断，不留书
+    label: 维持惯例，由前线自行判断，不留书面记录
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: event_multiplier
+      event: E-1984-04a
+      value: 1.0
+      display: hidden
+    - op: add
+      target: relation
+      value: 5.0
+      key: shin_bet_chief
+    - op: add
+      target: region_security
+      value: 2.0
+      key: gaza
+    - op: add
+      target: rule_of_law
+      value: -2.0
+    risk_hint: 高
+  - id: B
+    title: 被俘嫌犯一律移交警方，审讯须有法
+    label: 被俘嫌犯一律移交警方，审讯须有法律顾问监督
+    historical: false
+    tags:
+    - economic
+    requires: 'true'
+    effects:
+    - op: event_multiplier
+      event: E-1984-04a
+      value: 0.3
+      display: hidden
+    - op: add
+      target: relation
+      value: -10.0
+      key: shin_bet_chief
+    - op: add
+      target: region_security
+      value: -2.0
+      key: gaza
+    - op: add
+      target: region_security
+      value: -2.0
+      key: west_bank
+    - op: add
+      target: rule_of_law
+      value: 3.0
+    - op: add
+      target: political_capital
+      value: -5.0
+    risk_hint: 中
+  - id: C
+    title: 口头授权'不留活口'
+    label: 口头授权'不留活口'
+    historical: false
+    tags:
+    - authoritarian
+    requires: 'true'
+    effects:
+    - op: event_multiplier
+      event: E-1984-04a
+      value: 2.0
+      display: hidden
+    - op: add_modifier
+      modifier: shin_bet_oral_authorization
+      duration_days: null
+    - op: add
+      target: centralization
+      value: 5.0
+    - op: add
+      target: region_security
+      value: 3.0
+      key: gaza
+    - op: add
+      target: public_security
+      value: 2.0
+    risk_hint: 高
+  notes: 'C 是极端选项，短期安全收益很小，曝光代价远大于收益。
+
+
+    ---'

@@ -1,293 +1,566 @@
-# 自动生成：tools/extract_flags.py。不要手工编辑；英文ID在结构化转换时分配。
+schema_version: 1
 flags:
-- name: 101公里会谈
+- id: km_101_talks
+  name_zh: 101公里会谈
+  name: 101公里会谈
   set_by:
   - E-1973-09
-  read_by: []
-- name: 194号决议
-  set_by: []
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: world_un_resolution_194
+  name_zh: 194号决议
+  name: 194号决议
+  set_by:
+  - M07_world_track
   read_by:
   - E-1949-07
-- name: 242框架
+  status: paired
+  has_1977_1992: false
+- id: un_resolution_242_framework
+  name_zh: 242框架
+  name: 242框架
   set_by:
   - E-1967-08
   read_by:
   - E-1970-04
-- name: 3379决议
+  status: paired
+  has_1977_1992: false
+- id: un_resolution_3379
+  name_zh: 3379决议
+  name: 3379决议
   set_by:
   - E-1975-02
-  read_by: []
-- name: '{政党}退出威胁'
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: party_exit_threat
+  name_zh: '{政党}退出威胁'
+  name: '{政党}退出威胁'
   set_by:
   - R-28
-  read_by: []
-- name: '{领域}产业'
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: sector_industry_established
+  name_zh: '{领域}产业'
+  name: '{领域}产业'
   set_by:
   - R-52
-  read_by: []
-- name: 东方阵营路线
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: eastern_bloc_alignment
+  name_zh: 东方阵营路线
+  name: 东方阵营路线
   set_by:
   - E-1950-06
   read_by:
   - E-1950-06
   - E-1952-01
   - E-1953-01
-- name: 两伊战争
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: world_iran_iraq_war
+  name_zh: 两伊战争
+  name: 两伊战争
+  set_by:
+  - M07_world_track
   read_by:
   - E-G04-14
-- name: 乌布利希访问开罗
-  set_by: []
+  status: paired
+  has_1977_1992: true
+- id: world_ulbricht_cairo_visit
+  name_zh: 乌布利希访问开罗
+  name: 乌布利希访问开罗
+  set_by:
+  - M07_world_track
   read_by:
   - E-1965-03
-- name: 也门儿童之谜
+  status: paired
+  has_1977_1992: false
+- id: yemenite_children_affair
+  name_zh: 也门儿童之谜
+  name: 也门儿童之谜
   set_by:
   - E-1950-08
-  read_by: []
-- name: 也门移民
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: yemenite_aliyah
+  name_zh: 也门移民
+  name: 也门移民
   set_by:
   - E-1949-08
-  read_by: []
-- name: 人权基本法
-  set_by: []
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: human_rights_basic_law
+  name_zh: 人权基本法
+  name: 人权基本法
+  set_by:
+  - E-1992-03
   read_by:
   - E-G05-11
-- name: 伊克利特之诺
+  status: paired
+  has_1977_1992: true
+- id: iqrit_promise
+  name_zh: 伊克利特之诺
+  name: 伊克利特之诺
   set_by:
   - E-1951-04
-  read_by: []
-- name: 伊拉克核计划延续
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: iraq_nuclear_program_continues
+  name_zh: 伊拉克核计划延续
+  name: 伊拉克核计划延续
   set_by:
   - E-1981-06a
   read_by:
   - E-1981-06a
-- name: 伊拉克革命
-  set_by: []
+  status: paired
+  has_1977_1992: true
+- id: world_iraq_revolution_1958
+  name_zh: 伊拉克革命
+  name: 伊拉克革命
+  set_by:
+  - M07_world_track
   read_by:
   - E-1958-08
-- name: 伊斯兰会议成立
+  status: paired
+  has_1977_1992: false
+- id: islamic_conference_founded
+  name_zh: 伊斯兰会议成立
+  name: 伊斯兰会议成立
   set_by:
   - R-57
-  read_by: []
-- name: 伊朗供油
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: iranian_oil_supply
+  name_zh: 伊朗供油
+  name: 伊朗供油
   set_by:
+  - E-1958-08
+  read_by:
   - R-09
-  read_by: []
-- name: 信仰集团
+  status: paired
+  has_1977_1992: false
+- id: gush_emunim_bloc
+  name_zh: 信仰集团
+  name: 信仰集团
   set_by:
   - E-1974-01
   read_by:
   - E-1974-01
   - E-1975-03
-- name: 党内反对派成形
+  status: paired
+  has_1977_1992: false
+- id: party_opposition_formed
+  name_zh: 党内反对派成形
+  name: 党内反对派成形
   set_by:
   - R-33
-  read_by: []
-- name: 党内裂痕
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: party_rift
+  name_zh: 党内裂痕
+  name: 党内裂痕
   set_by:
   - E-1960-10
-  read_by: []
-- name: 全球科技泡沫
-  set_by: []
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: world_dotcom_bubble
+  name_zh: 全球科技泡沫
+  name: 全球科技泡沫
+  set_by:
+  - M07_world_track
   read_by:
   - E-G05-04
-- name: 六一九决议
+  status: paired
+  has_1977_1992: false
+- id: june_19_cabinet_resolution
+  name_zh: 六一九决议
+  name: 六一九决议
   set_by:
   - E-1967-03
   - E-1967-06
   read_by:
   - E-1967-06
-- name: 六日战争结束
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: six_day_war_ended
+  name_zh: 六日战争结束
+  name: 六日战争结束
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1967-03
   - E-1967-06
   - E-1967-08
-- name: 凌驾条款
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: flag_m13_override_clause_enacted
+  name_zh: 凌驾条款
+  name: 凌驾条款
+  set_by:
+  - E-1992-03
+  - M13
   read_by:
   - E-G05-11
-- name: 凶手逍遥
+  status: paired
+  has_1977_1992: true
+- id: assassins_unpunished
+  name_zh: 凶手逍遥
+  name: 凶手逍遥
   set_by:
   - E-1948-07
-  read_by: []
-- name: 利勒哈默尔误杀
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: lillehammer_affair
+  name_zh: 利勒哈默尔误杀
+  name: 利勒哈默尔误杀
   set_by:
   - E-1973-02a
   read_by:
   - E-1973-02b
-- name: 利库德分裂萌芽
+  status: paired
+  has_1977_1992: false
+- id: likud_split_seeds
+  name_zh: 利库德分裂萌芽
+  name: 利库德分裂萌芽
   set_by:
   - E-2004-02
   read_by:
   - E-2005-03
-- name: 利库德执政
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: likud_in_government
+  name_zh: 利库德执政
+  name: 利库德执政
+  set_by:
+  - E-1977-02
+  - M14_begin_1977
+  - M03
   read_by:
   - E-1977-06
   - E-1977-07
   - E-1978-06
-- name: 利库德接受奥斯陆
+  status: paired
+  has_1977_1992: true
+- id: likud_accepts_oslo
+  name_zh: 利库德接受奥斯陆
+  name: 利库德接受奥斯陆
   set_by:
   - E-1997-01
   read_by:
   - E-1998-01
-- name: 利比亚客机击落
+  status: paired
+  has_1977_1992: false
+- id: libyan_airliner_shot_down
+  name_zh: 利比亚客机击落
+  name: 利比亚客机击落
   set_by:
   - E-1973-01b
   read_by:
   - E-1973-01c
-- name: 前进党
+  status: paired
+  has_1977_1992: false
+- id: kadima_founded
+  name_zh: 前进党
+  name: 前进党
   set_by:
   - E-2005-03
   - E-2006-01
-  read_by: []
-- name: 加利利征地
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: galilee_land_expropriation
+  name_zh: 加利利征地
+  name: 加利利征地
   set_by:
   - E-1976-01a
   read_by:
   - E-1976-01a
   - E-1976-01b
-- name: 加沙定居点撤离
+  status: paired
+  has_1977_1992: false
+- id: gaza_settlements_evacuated
+  name_zh: 加沙定居点撤离
+  name: 加沙定居点撤离
   set_by:
   - E-1994-04
-  read_by: []
-- name: 加沙枪杀
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: gaza_shootings
+  name_zh: 加沙枪杀
+  name: 加沙枪杀
   set_by:
   - E-1956-11e
   read_by:
   - E-1956-11b
-- name: 加沙突袭
+  status: paired
+  has_1977_1992: false
+- id: gaza_raid_1955
+  name_zh: 加沙突袭
+  name: 加沙突袭
   set_by:
   - E-1955-03
   read_by:
   - E-1955-06
   - E-1955-11a
-- name: 加沙记忆
+  status: paired
+  has_1977_1992: false
+- id: gaza_withdrawal_memory
+  name_zh: 加沙记忆
+  name: 加沙记忆
   set_by:
   - E-1956-11b
-  read_by: []
-- name: 劳工党腐败
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: labor_corruption_exposed
+  name_zh: 劳工党腐败
+  name: 劳工党腐败
   set_by:
   - E-1976-03
   read_by:
   - E-1977-02
-- name: 劳工党长期执政
-  set_by: []
+  status: paired
+  has_1977_1992: true
+- id: labor_long_rule
+  name_zh: 劳工党长期执政
+  name: 劳工党长期执政
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1976-03
-- name: 十万人方案
+  status: paired
+  has_1977_1992: false
+- id: hundred_thousand_plan
+  name_zh: 十万人方案
+  name: 十万人方案
   set_by:
   - E-1949-07
-  read_by: []
-- name: 十月事件
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: october_2000_events
+  name_zh: 十月事件
+  name: 十月事件
   set_by:
   - E-2000-04a
   read_by:
   - E-2000-05
-- name: 南黎巴嫩代理民兵
+  status: paired
+  has_1977_1992: false
+- id: south_lebanon_proxy_militia
+  name_zh: 南黎巴嫩代理民兵
+  name: 南黎巴嫩代理民兵
   set_by:
   - E-1978-03b
   read_by:
   - E-1978-03b
-- name: 占领东耶路撒冷
-  set_by: []
+  status: paired
+  has_1977_1992: true
+- id: east_jerusalem_occupied
+  name_zh: 占领东耶路撒冷
+  name: 占领东耶路撒冷
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1967-01a
   - E-1967-01b
   - E-1967-02
-  - E-1967-04
-- name: 占领地时代
+  - E-1967-04b
+  status: paired
+  has_1977_1992: false
+- id: occupied_territories_era
+  name_zh: 占领地时代
+  name: 占领地时代
   set_by:
   - E-1967-06g
   read_by:
   - E-1966-11b
   - E-G02-01
-- name: 占领西岸
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: west_bank_occupied
+  name_zh: 占领西岸
+  name: 占领西岸
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1967-05
   - E-1967-07
   - E-1968-01
   - E-1968-02
-- name: 卡夫尔卡西姆
+  status: paired
+  has_1977_1992: false
+- id: kafr_qasim_massacre
+  name_zh: 卡夫尔卡西姆
+  name: 卡夫尔卡西姆
   set_by:
   - E-1956-10b
   read_by:
   - E-1956-10b
   - E-1956-11a
-- name: 卡汉委员会
+  status: paired
+  has_1977_1992: false
+- id: kahan_commission_active
+  name_zh: 卡汉委员会
+  name: 卡汉委员会
   set_by:
   - E-1982-09d
   read_by:
   - E-1983-02a
-- name: 卡赫已取缔
+  status: paired
+  has_1977_1992: true
+- id: kach_banned
+  name_zh: 卡赫已取缔
+  name: 卡赫已取缔
   set_by:
   - E-1993-05
   read_by:
   - E-1993-05
   - E-1994-01
-- name: 卡赫进入议会
+  status: paired
+  has_1977_1992: false
+- id: kach_in_knesset
+  name_zh: 卡赫进入议会
+  name: 卡赫进入议会
   set_by:
   - E-1984-07
   read_by:
   - E-1984-07
   - E-1985-08
-- name: 叙以停战
+  status: paired
+  has_1977_1992: true
+- id: syria_armistice_signed
+  name_zh: 叙以停战
+  name: 叙以停战
   set_by:
   - E-1949-05
   read_by:
   - E-1949-05
-- name: 叙利亚之耻
+  status: paired
+  has_1977_1992: false
+- id: syria_humiliation
+  name_zh: 叙利亚之耻
+  name: 叙利亚之耻
   set_by:
   - E-1967-04
   read_by:
   - E-1967-05a
-- name: 叙利亚引水工程开工
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: syria_water_diversion_started
+  name_zh: 叙利亚引水工程开工
+  name: 叙利亚引水工程开工
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1964-11
-- name: 叙利亚炮击加利利
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: syria_shelled_galilee
+  name_zh: 叙利亚炮击加利利
+  name: 叙利亚炮击加利利
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1967-06e
-- name: 古什埃齐翁定居
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: gush_etzion_resettled
+  name_zh: 古什埃齐翁定居
+  name: 古什埃齐翁定居
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1967-07
-- name: 司法审查
+  status: paired
+  has_1977_1992: false
+- id: judicial_review_established
+  name_zh: 司法审查
+  name: 司法审查
   set_by:
   - E-G05-11
   read_by:
   - E-1999-02
-- name: 吕大驱逐
+  status: paired
+  has_1977_1992: false
+- id: lydda_ramle_expulsion
+  name_zh: 吕大驱逐
+  name: 吕大驱逐
   set_by:
   - E-1948-04
   read_by:
   - E-1948-05
-- name: 和约已签署
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: peace_treaty_signed_alias
+  name_zh: 和约已签署
+  name: 和约已签署
+  set_by:
+  - E-1979-03
   read_by:
   - E-1982-04
-- name: 哈马斯学会自杀式爆炸
+  status: paired
+  has_1977_1992: true
+- id: hamas_suicide_bombing_tactic
+  name_zh: 哈马斯学会自杀式爆炸
+  name: 哈马斯学会自杀式爆炸
   set_by:
   - E-1992-03
   read_by:
   - E-1994-03
-- name: 哭墙广场
+  status: paired
+  has_1977_1992: true
+- id: western_wall_plaza_cleared
+  name_zh: 哭墙广场
+  name: 哭墙广场
   set_by:
   - E-1967-01b
   read_by:
   - E-1967-01b
   - E-1967-01c
-- name: 喀土穆三不
+  status: paired
+  has_1977_1992: false
+- id: khartoum_three_noes
+  name_zh: 喀土穆三不
+  name: 喀土穆三不
   set_by:
   - E-1967-06
   read_by:
   - E-1967-03
   - E-1967-05
   - E-1969-03
-- name: 团结政府
+  status: paired
+  has_1977_1992: false
+- id: national_unity_government
+  name_zh: 团结政府
+  name: 团结政府
   set_by:
   - E-1967-05c
   - E-1984-07
@@ -295,48 +568,93 @@ flags:
   - E-1985-07
   - E-1987-04
   - E-1990-03
-- name: 国家输水工程完工
+  status: paired
+  has_1977_1992: true
+- id: national_water_carrier_completed
+  name_zh: 国家输水工程完工
+  name: 国家输水工程完工
   set_by:
+  - E-1964-05
+  read_by:
   - R-01
-  read_by: []
-- name: 国有土地宣告
+  status: paired
+  has_1977_1992: false
+- id: state_land_declaration
+  name_zh: 国有土地宣告
+  name: 国有土地宣告
   set_by:
   - E-1979-10
   read_by:
   - E-1979-10
-- name: 国防工业自主
+  status: paired
+  has_1977_1992: true
+- id: defense_industry_autonomy
+  name_zh: 国防工业自主
+  name: 国防工业自主
   set_by:
   - R-48
-  read_by: []
-- name: 国防部长空缺
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: defense_minister_vacant
+  name_zh: 国防部长空缺
+  name: 国防部长空缺
   set_by:
   - E-1980-05a
   read_by:
   - E-1981-08
-- name: 圣地受损
+  status: paired
+  has_1977_1992: true
+- id: holy_site_damaged
+  name_zh: 圣地受损
+  name: 圣地受损
   set_by:
   - R-04
-  read_by: []
-- name: 圣殿山现状
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: temple_mount_status_quo
+  name_zh: 圣殿山现状
+  name: 圣殿山现状
   set_by:
   - E-1967-02
   - E-1967-06f
   read_by:
   - E-1967-02
-- name: 在场的缺席者
+  status: paired
+  has_1977_1992: false
+- id: present_absentees
+  name_zh: 在场的缺席者
+  name: 在场的缺席者
   set_by:
   - E-1950-02
-  read_by: []
-- name: 地下组织未破
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: underground_unbroken
+  name_zh: 地下组织未破
+  name: 地下组织未破
   set_by:
   - E-1980-06
   read_by:
   - E-1984-04b
-- name: 埃什科尔去世
+  status: paired
+  has_1977_1992: true
+- id: eshkol_died
+  name_zh: 埃什科尔去世
+  name: 埃什科尔去世
   set_by:
   - E-1969-01
-  read_by: []
-- name: 埃以停战
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: egypt_armistice_signed
+  name_zh: 埃以停战
+  name: 埃以停战
   set_by:
   - E-1949-02
   read_by:
@@ -344,88 +662,184 @@ flags:
   - E-1948-10
   - E-1948-12
   - E-1949-04
-- name: 埃以停战谈判
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: egypt_armistice_talks
+  name_zh: 埃以停战谈判
+  name: 埃以停战谈判
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1967-06
   - E-1969-03
-- name: 埃以停火安排更新
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: egypt_ceasefire_updated
+  name_zh: 埃以停火安排更新
+  name: 埃以停火安排更新
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1956-10c
-- name: 埃以全面战争重启
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: egypt_full_war_resumed
+  name_zh: 埃以全面战争重启
+  name: 埃以全面战争重启
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1949-02
-- name: 埃以和约
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: egypt_peace_treaty
+  name_zh: 埃以和约
+  name: 埃以和约
+  set_by:
+  - E-1979-03
+  - E-1955-11a
   read_by:
   - E-1958-08
   - E-1964-05
   - E-1967-05a
-- name: 埃以和约已签署
-  set_by: []
+  status: paired
+  has_1977_1992: true
+- id: egypt_peace_treaty_signed
+  name_zh: 埃以和约已签署
+  name: 埃以和约已签署
+  set_by:
+  - E-1979-03
   read_by:
   - E-1977-11
-- name: 埃以秘密和谈成功
-  set_by: []
+  status: paired
+  has_1977_1992: true
+- id: egypt_secret_peace_talks_succeeded
+  name_zh: 埃以秘密和谈成功
+  name: 埃以秘密和谈成功
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1955-11a
-- name: 埃及愿意谈判
+  status: paired
+  has_1977_1992: false
+- id: egypt_willing_to_negotiate
+  name_zh: 埃及愿意谈判
+  name: 埃及愿意谈判
   set_by:
   - E-1948-12
   read_by:
   - E-1948-12
   - E-1949-02
-- name: 埃塞俄比亚移民早期化
+  status: paired
+  has_1977_1992: false
+- id: early_ethiopian_aliyah
+  name_zh: 埃塞俄比亚移民早期化
+  name: 埃塞俄比亚移民早期化
   set_by:
   - E-G03-06
-  read_by: []
-- name: 基比亚
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: qibya_raid
+  name_zh: 基比亚
+  name: 基比亚
   set_by:
   - E-1953-04
   read_by:
   - E-1953-05
-- name: 基比亚否认
+  status: paired
+  has_1977_1992: false
+- id: qibya_denial
+  name_zh: 基比亚否认
+  name: 基比亚否认
   set_by:
   - E-1953-05
-  read_by: []
-- name: 复兴党成立
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: tehiya_founded
+  name_zh: 复兴党成立
+  name: 复兴党成立
   set_by:
   - E-1979-03
-  read_by: []
-- name: 夏里特离心
+  read_by:
+  - E-1981-06b
+  - M03
+  - M04
+  - M07
+  status: paired
+  has_1977_1992: true
+- id: sharett_alienated
+  name_zh: 夏里特离心
+  name: 夏里特离心
   set_by:
   - E-1955-12
   read_by:
   - E-1956-06a
-- name: 大赦先例
+  status: paired
+  has_1977_1992: false
+- id: amnesty_precedent
+  name_zh: 大赦先例
+  name: 大赦先例
   set_by:
   - E-1948-11
-  read_by: []
-- name: 大选年
-  set_by: []
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: election_year
+  name_zh: 大选年
+  name: 大选年
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1973-03
-- name: 奥斯陆二期
+  status: paired
+  has_1977_1992: false
+- id: oslo_ii_signed
+  name_zh: 奥斯陆二期
+  name: 奥斯陆二期
   set_by:
   - E-1995-02
   read_by:
   - E-1995-03
   - E-1997-01
-- name: 奥斯陆二期、旗标：希伯伦撤离先例、旗标：脱离计划
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: oslo_ii_hebron_disengagement_compound
+  name_zh: 奥斯陆二期、旗标：希伯伦撤离先例、旗标：脱离计划
+  name: 奥斯陆二期、旗标：希伯伦撤离先例、旗标：脱离计划
+  set_by:
+  - E-1995-02
+  - E-1994-02
+  - E-2003-04
   read_by:
   - E-1995-04
-- name: 奥斯陆失败
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: oslo_talks_failed
+  name_zh: 奥斯陆失败
+  name: 奥斯陆失败
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1993-03
-- name: 奥斯陆秘密渠道
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: oslo_secret_channel
+  name_zh: 奥斯陆秘密渠道
+  name: 奥斯陆秘密渠道
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1993-03
-- name: 奥斯陆进程
+  status: paired
+  has_1977_1992: false
+- id: oslo_process_active
+  name_zh: 奥斯陆进程
+  name: 奥斯陆进程
   set_by:
   - E-1993-03
   read_by:
@@ -438,60 +852,123 @@ flags:
   - E-1997-01
   - E-1998-01
   - E-2000-02
-- name: 学生领袖
+  status: paired
+  has_1977_1992: false
+- id: student_leader_emerged
+  name_zh: 学生领袖
+  name: 学生领袖
   set_by:
   - R-18
-  read_by: []
-- name: 宗教党退出威胁
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: religious_party_exit_threat
+  name_zh: 宗教党退出威胁
+  name: 宗教党退出威胁
   set_by:
   - R-21
-  read_by: []
-- name: 定居点合法化先例
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: outpost_legalization_precedent
+  name_zh: 定居点合法化先例
+  name: 定居点合法化先例
   set_by:
   - E-1977-07
   read_by:
   - E-G04-04
-- name: 定居者运动动量
-  set_by: []
+  status: paired
+  has_1977_1992: true
+- id: settlers_momentum_high
+  name_zh: 定居者运动动量
+  name: 定居者运动动量
+  set_by:
+  - M02_threshold
+  - M11
   read_by:
   - E-1980-06
-- name: 宽容伊斯兰派
+  status: paired
+  has_1977_1992: true
+- id: tolerate_islamists
+  name_zh: 宽容伊斯兰派
+  name: 宽容伊斯兰派
   set_by:
   - E-G04-10
-  read_by: []
-- name: 密约曝光
+  read_by:
+  - E-1987-12b
+  - M08
+  status: paired
+  has_1977_1992: true
+- id: sevres_collusion_exposed
+  name_zh: 密约曝光
+  name: 密约曝光
   set_by:
   - E-1956-10a
-  read_by: []
-- name: 少数民族部队
-  set_by: []
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: minority_units_established
+  name_zh: 少数民族部队
+  name: 少数民族部队
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1956-05
-- name: 屠杀发生
+  status: paired
+  has_1977_1992: false
+- id: massacre_occurred
+  name_zh: 屠杀发生
+  name: 屠杀发生
   set_by:
   - E-1982-09c
   read_by:
   - E-1981-10
   - E-1982-09d
-- name: 巴列夫防线
-  set_by: []
+  status: paired
+  has_1977_1992: true
+- id: bar_lev_line
+  name_zh: 巴列夫防线
+  name: 巴列夫防线
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1968-03
-- name: 巴方总理
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: pa_prime_minister_appointed
+  name_zh: 巴方总理
+  name: 巴方总理
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-2003-02
-- name: 巴方选举
+  status: paired
+  has_1977_1992: false
+- id: pa_legislative_election
+  name_zh: 巴方选举
+  name: 巴方选举
   set_by:
   - E-2004-04
   - E-2006-01
-  read_by: []
-- name: 巴解唯一合法代表
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: plo_sole_legitimate_representative
+  name_zh: 巴解唯一合法代表
+  name: 巴解唯一合法代表
   set_by:
   - E-1974-05
   read_by:
   - E-1975-02
-- name: 巴解撤往突尼斯
+  status: paired
+  has_1977_1992: false
+- id: plo_moved_to_tunis
+  name_zh: 巴解撤往突尼斯
+  name: 巴解撤往突尼斯
   set_by:
   - E-1982-08
   read_by:
@@ -499,7 +976,11 @@ flags:
   - E-1982-06a
   - E-1982-09a
   - E-G04-05
-- name: 巴解迁往黎巴嫩
+  status: paired
+  has_1977_1992: true
+- id: plo_relocated_to_lebanon
+  name_zh: 巴解迁往黎巴嫩
+  name: 巴解迁往黎巴嫩
   set_by:
   - E-1970-05
   read_by:
@@ -507,47 +988,96 @@ flags:
   - E-1970-05
   - E-1972-03
   - E-1974-04
-- name: 希伯伦屠杀
+  status: paired
+  has_1977_1992: false
+- id: hebron_massacre_1994
+  name_zh: 希伯伦屠杀
+  name: 希伯伦屠杀
   set_by:
   - E-1994-01
   read_by:
   - E-1994-02
   - E-1994-03
   - E-1994-04
-- name: 希伯伦撤离先例
+  status: paired
+  has_1977_1992: false
+- id: hebron_withdrawal_precedent
+  name_zh: 希伯伦撤离先例
+  name: 希伯伦撤离先例
   set_by:
   - E-1994-02
-  read_by: []
-- name: 希伯伦撤离先例、旗标：脱离计划
-  set_by: []
   read_by:
   - E-1995-03
-- name: 希伯伦犹太存在
+  - E-1995-04
+  status: paired
+  has_1977_1992: false
+- id: hebron_disengagement_compound
+  name_zh: 希伯伦撤离先例、旗标：脱离计划
+  name: 希伯伦撤离先例、旗标：脱离计划
+  set_by:
+  - E-1994-02
+  - E-2003-04
+  read_by:
+  - E-1995-03
+  status: paired
+  has_1977_1992: false
+- id: hebron_jewish_presence
+  name_zh: 希伯伦犹太存在
+  name: 希伯伦犹太存在
   set_by:
   - E-1968-02
   read_by:
   - E-1968-02
-- name: 平民政策空白
+  status: paired
+  has_1977_1992: false
+- id: civilian_policy_vacuum
+  name_zh: 平民政策空白
+  name: 平民政策空白
   set_by:
   - E-1948-03a
-  read_by: []
-- name: 幻影交付
-  set_by: []
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: mirage_jets_delivered
+  name_zh: 幻影交付
+  name: 幻影交付
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1970-01
-- name: 废除接触巴解禁令
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: plo_contact_ban_repealed
+  name_zh: 废除接触巴解禁令
+  name: 废除接触巴解禁令
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1993-01
-- name: 建筑抗震规范
+  status: paired
+  has_1977_1992: false
+- id: seismic_building_code
+  name_zh: 建筑抗震规范
+  name: 建筑抗震规范
   set_by:
+  - M05_building_code
+  read_by:
   - R-04
-  read_by: []
-- name: 开罗处决
+  status: paired
+  has_1977_1992: false
+- id: cairo_trial_executions
+  name_zh: 开罗处决
+  name: 开罗处决
   set_by:
   - E-1955-01
-  read_by: []
-- name: 引水计划
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: national_water_diversion_plan
+  name_zh: 引水计划
+  name: 引水计划
   set_by:
   - E-1964-01
   - E-1964-11
@@ -555,36 +1085,67 @@ flags:
   - E-1964-01
   - E-1964-05
   - E-1964-11
-- name: 德以秘密军援
+  status: paired
+  has_1977_1992: false
+- id: west_germany_secret_arms_aid
+  name_zh: 德以秘密军援
+  name: 德以秘密军援
   set_by:
   - E-1960-03
   read_by:
   - E-1965-03
-- name: 德鲁兹兵役
+  status: paired
+  has_1977_1992: false
+- id: druze_conscription
+  name_zh: 德鲁兹兵役
+  name: 德鲁兹兵役
   set_by:
   - E-G01-05
-  read_by: []
-- name: 德鲁兹血盟
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: druze_covenant_of_blood
+  name_zh: 德鲁兹血盟
+  name: 德鲁兹血盟
   set_by:
   - E-1956-05
-  read_by: []
-- name: 总理直选
-  set_by: []
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: direct_pm_election
+  name_zh: 总理直选
+  name: 总理直选
+  set_by:
+  - E-1992-03
   read_by:
   - E-1992-01
   - E-1996-04
   - E-2001-01
-- name: 慕尼黑
+  status: paired
+  has_1977_1992: true
+- id: munich_massacre_occurred
+  name_zh: 慕尼黑
+  name: 慕尼黑
   set_by:
   - E-1972-03
   read_by:
   - E-1972-04
-- name: 戈兰吞并
+  status: paired
+  has_1977_1992: false
+- id: golan_annexed
+  name_zh: 戈兰吞并
+  name: 戈兰吞并
   set_by:
   - E-1981-12
   read_by:
   - E-1981-12
-- name: 战争进行中
+  status: paired
+  has_1977_1992: true
+- id: war_in_progress
+  name_zh: 战争进行中
+  name: 战争进行中
   set_by:
   - E-1948-01
   read_by:
@@ -602,105 +1163,207 @@ flags:
   - E-1967-06c
   - E-1967-06e
   - E-1967-06g
-- name: 战时暴行报告
+  status: paired
+  has_1977_1992: false
+- id: wartime_atrocity_reports
+  name_zh: 战时暴行报告
+  name: 战时暴行报告
   set_by:
   - E-1948-10
   read_by:
   - E-1948-11
-- name: 所罗门行动
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: operation_solomon_done
+  name_zh: 所罗门行动
+  name: 所罗门行动
+  set_by:
+  - E-1991-05
   read_by:
   - E-G05-10
-- name: 托莱达诺遇害
-  set_by: []
+  status: paired
+  has_1977_1992: true
+- id: toledano_killed
+  name_zh: 托莱达诺遇害
+  name: 托莱达诺遇害
+  set_by:
+  - M08
+  - R-06
   read_by:
-  - E-1992-03
-- name: 报复只打军事目标
+  - E-1992-03b
+  status: paired
+  has_1977_1992: true
+- id: retaliation_military_targets_only
+  name_zh: 报复只打军事目标
+  name: 报复只打军事目标
   set_by:
   - E-1953-05
   read_by:
   - E-1948-04
   - E-1953-02a
   - E-1953-04
-- name: 拉冯事件埋雷
+  status: paired
+  has_1977_1992: false
+- id: lavon_affair_planted
+  name_zh: 拉冯事件埋雷
+  name: 拉冯事件埋雷
   set_by:
   - E-1955-02
   read_by:
   - E-1955-02
-- name: 拉卡姆在美行动
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: lakam_us_operation
+  name_zh: 拉卡姆在美行动
+  name: 拉卡姆在美行动
+  set_by:
+  - M09_lakam
   read_by:
   - E-1985-11
-- name: 拉宾承诺
+  status: paired
+  has_1977_1992: true
+- id: rabin_settlement_promise
+  name_zh: 拉宾承诺
+  name: 拉宾承诺
   set_by:
   - E-1994-06
   read_by:
   - E-1994-06
-- name: 拉宾遇刺
+  status: paired
+  has_1977_1992: false
+- id: rabin_assassinated
+  name_zh: 拉宾遇刺
+  name: 拉宾遇刺
   set_by:
   - E-1995-04
   read_by:
   - E-1995-05
-- name: 拉宾驻美经历
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: rabin_us_ambassador
+  name_zh: 拉宾驻美经历
+  name: 拉宾驻美经历
+  set_by:
+  - E-1968-02
+  - M14_history
   read_by:
   - E-1977-01
-- name: 拉菲分裂
+  status: paired
+  has_1977_1992: true
+- id: rafi_split
+  name_zh: 拉菲分裂
+  name: 拉菲分裂
   set_by:
   - E-1960-10
   - E-1963-06b
   - E-1965-02
   read_by:
   - E-1965-07
-- name: 拒绝回归
+  status: paired
+  has_1977_1992: false
+- id: refugee_return_rejected
+  name_zh: 拒绝回归
+  name: 拒绝回归
   set_by:
   - E-1948-03
-  read_by: []
-- name: 捷克军火
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: czech_arms_deal
+  name_zh: 捷克军火
+  name: 捷克军火
   set_by:
   - E-1955-06
   read_by:
   - E-1955-07
-- name: 控制圣地
+  status: paired
+  has_1977_1992: false
+- id: holy_sites_controlled
+  name_zh: 控制圣地
+  name: 控制圣地
   set_by:
   - E-1967-06c
   read_by:
   - E-1967-06f
-- name: 推迟选举
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: elections_postponed_1948
+  name_zh: 推迟选举
+  name: 推迟选举
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1949-01
-- name: 掩盖丑闻
+  status: paired
+  has_1977_1992: false
+- id: scandal_covered_up
+  name_zh: 掩盖丑闻
+  name: 掩盖丑闻
   set_by:
   - E-1956-11a
-  read_by: []
-- name: 提前大选
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: early_election_called
+  name_zh: 提前大选
+  name: 提前大选
   set_by:
   - E-1976-04
-  read_by: []
-- name: 提前推行国家教育
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: state_education_early_adoption
+  name_zh: 提前推行国家教育
+  name: 提前推行国家教育
   set_by:
   - E-1951-01
   read_by:
   - E-1951-01
   - E-1953-02
-- name: 摩洛哥开放移民
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: world_morocco_emigration_open
+  name_zh: 摩洛哥开放移民
+  name: 摩洛哥开放移民
+  set_by:
+  - M07_world_track
   read_by:
   - E-1961-01
-- name: 摩洛哥禁止犹太人移民
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: world_morocco_emigration_ban
+  name_zh: 摩洛哥禁止犹太人移民
+  name: 摩洛哥禁止犹太人移民
+  set_by:
+  - M07_world_track
   read_by:
   - E-1961-01
-- name: 摩洛哥秘密渠道
+  status: paired
+  has_1977_1992: false
+- id: morocco_channel
+  name_zh: 摩洛哥秘密渠道
+  name: 摩洛哥秘密渠道
   set_by:
   - E-1961-01
-  read_by: []
-- name: 摩西行动
-  set_by: []
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: operation_moses_done
+  name_zh: 摩西行动
+  name: 摩西行动
+  set_by:
+  - E-1984-11
   read_by:
   - E-G05-10
-- name: 撤出黎巴嫩
+  status: paired
+  has_1977_1992: true
+- id: lebanon_withdrawal_done
+  name_zh: 撤出黎巴嫩
+  name: 撤出黎巴嫩
   set_by:
   - E-2000-01
   read_by:
@@ -708,87 +1371,171 @@ flags:
   - E-1996-03
   - E-1997-02
   - E-2000-01
-- name: 撤离加沙
+  status: paired
+  has_1977_1992: false
+- id: gaza_disengagement_done
+  name_zh: 撤离加沙
+  name: 撤离加沙
   set_by:
   - E-2005-02
   read_by:
   - E-2003-02
-- name: 政治大翻盘
+  status: paired
+  has_1977_1992: false
+- id: mahapach_1977
+  name_zh: 政治大翻盘
+  name: 政治大翻盘
   set_by:
   - E-1977-02
-  read_by: []
-- name: 族群政党崛起
+  read_by:
+  - E-1977-06
+  - M14_begin_1977
+  status: paired
+  has_1977_1992: true
+- id: ethnic_party_rise
+  name_zh: 族群政党崛起
+  name: 族群政党崛起
   set_by:
   - R-19
-  read_by: []
-- name: 无成文宪法
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: unwritten_constitution_harari
+  name_zh: 无成文宪法
+  name: 无成文宪法
   set_by:
   - E-1950-04
   read_by:
   - E-1950-04
-- name: 无核选项
+  status: paired
+  has_1977_1992: false
+- id: no_nuclear_option
+  name_zh: 无核选项
+  name: 无核选项
   set_by:
   - E-1957-10a
   read_by:
   - E-1957-10a
   - E-1960-12
   - E-1963-05
-- name: 最终地位协议
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: final_status_agreement_signed
+  name_zh: 最终地位协议
+  name: 最终地位协议
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-2000-04
   - E-2003-04
-- name: 本-古里安在野
+  status: paired
+  has_1977_1992: false
+- id: ben_gurion_in_opposition
+  name_zh: 本-古里安在野
+  name: 本-古里安在野
   set_by:
   - E-1963-06a
   read_by:
   - E-1963-06b
   - E-1965-02
-- name: 核模糊
+  status: paired
+  has_1977_1992: false
+- id: nuclear_ambiguity
+  name_zh: 核模糊
+  name: 核模糊
   set_by:
   - E-1960-12
   read_by:
   - E-1963-05
-- name: 核模糊政策
+  status: paired
+  has_1977_1992: false
+- id: nuclear_ambiguity_policy
+  name_zh: 核模糊政策
+  name: 核模糊政策
   set_by:
   - E-1963-05
-  read_by: []
-- name: 核能力公开
-  set_by: []
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: nuclear_ambiguity_broken
+  name_zh: 核能力公开
+  name: 核能力公开
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-G03-04
-- name: 核设施
+  status: paired
+  has_1977_1992: false
+- id: dimona_nuclear_facility
+  name_zh: 核设施
+  name: 核设施
   set_by:
   - R-06
-  read_by: []
-- name: 梅厄辞职
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: meir_resigned
+  name_zh: 梅厄辞职
+  name: 梅厄辞职
   set_by:
   - E-1974-03
-  read_by: []
-- name: 欠下人情[{政党}]
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: favor_owed_party
+  name_zh: 欠下人情[{政党}]
+  name: 欠下人情[{政党}]
   set_by:
   - R-28
-  read_by: []
-- name: 欠下人情[{议员}]
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: favor_owed_mk
+  name_zh: 欠下人情[{议员}]
+  name: 欠下人情[{议员}]
   set_by:
   - R-29
-  read_by: []
-- name: 沙斯巅峰
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: shas_peak_1999
+  name_zh: 沙斯巅峰
+  name: 沙斯巅峰
   set_by:
   - E-1999-01
-  read_by: []
-- name: 沙斯领袖受调查
-  set_by: []
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: shas_leader_under_investigation
+  name_zh: 沙斯领袖受调查
+  name: 沙斯领袖受调查
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1993-04
   - E-1999-01
-- name: 沙龙去职
+  status: paired
+  has_1977_1992: false
+- id: sharon_dismissed_from_defense
+  name_zh: 沙龙去职
+  name: 沙龙去职
   set_by:
   - E-1982-06b
   - E-1983-02a
   read_by:
   - E-1981-08
-- name: 沙龙国防
+  status: paired
+  has_1977_1992: true
+- id: sharon_defense_minister
+  name_zh: 沙龙国防
+  name: 沙龙国防
   set_by:
   - E-1981-08
   - E-1982-06a
@@ -796,120 +1543,246 @@ flags:
   - E-1981-06a
   - E-1982-06a
   - E-1982-06b
-- name: 没有伙伴叙事
+  status: paired
+  has_1977_1992: true
+- id: no_partner_narrative
+  name_zh: 没有伙伴叙事
+  name: 没有伙伴叙事
   set_by:
   - E-2000-02
   - E-2000-07
   read_by:
   - E-2000-03
-- name: 法以军事同盟
+  status: paired
+  has_1977_1992: false
+- id: franco_israeli_alliance
+  name_zh: 法以军事同盟
+  name: 法以军事同盟
   set_by:
   - E-1956-06b
   read_by:
   - E-1956-10a
   - E-1957-10a
-- name: 法国渠道
+  status: paired
+  has_1977_1992: false
+- id: french_arms_channel
+  name_zh: 法国渠道
+  name: 法国渠道
   set_by:
   - E-1955-07
-  read_by: []
-- name: 法国转向
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: french_embargo_pivot
+  name_zh: 法国转向
+  name: 法国转向
   set_by:
   - E-1967-06a
-  read_by: []
-- name: 波拉德被出卖
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: pollard_betrayed
+  name_zh: 波拉德被出卖
+  name: 波拉德被出卖
   set_by:
   - E-1985-11
-  read_by: []
-- name: 海外社群要求发言权
+  read_by:
+  - M09
+  - M14
+  status: paired
+  has_1977_1992: true
+- id: diaspora_demands_voice
+  name_zh: 海外社群要求发言权
+  name: 海外社群要求发言权
   set_by:
   - R-45
-  read_by: []
-- name: 海水淡化计划
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: desalination_program
+  name_zh: 海水淡化计划
+  name: 海水淡化计划
   set_by:
+  - M05_water_policy
+  read_by:
   - R-01
-  read_by: []
-- name: 海法旧阿拉伯街区安置移民
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: wadi_salib_immigrant_housing
+  name_zh: 海法旧阿拉伯街区安置移民
+  name: 海法旧阿拉伯街区安置移民
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1959-07a
-- name: 海湾克制
+  status: paired
+  has_1977_1992: false
+- id: gulf_war_restraint
+  name_zh: 海湾克制
+  name: 海湾克制
   set_by:
   - E-1991-01
   read_by:
   - E-1991-10
-- name: 海湾战争
-  set_by: []
+  status: paired
+  has_1977_1992: true
+- id: world_gulf_war
+  name_zh: 海湾战争
+  name: 海湾战争
+  set_by:
+  - M07_world_track
+  - E-1990-08
   read_by:
   - E-1991-01
-- name: 消耗战
+  status: paired
+  has_1977_1992: true
+- id: war_of_attrition
+  name_zh: 消耗战
+  name: 消耗战
   set_by:
   - E-1969-03
-  read_by: []
-- name: 清除派系领袖
-  set_by: []
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: faction_leader_assassinated
+  name_zh: 清除派系领袖
+  name: 清除派系领袖
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-2001-03
-- name: 渡过运河
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: suez_canal_crossed
+  name_zh: 渡过运河
+  name: 渡过运河
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1973-09
-- name: 温和派积怨
+  status: paired
+  has_1977_1992: false
+- id: moderate_faction_grievance
+  name_zh: 温和派积怨
+  name: 温和派积怨
   set_by:
   - E-1956-06a
   read_by:
   - E-1960-10
-- name: 特别选举
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: special_pm_election_2001
+  name_zh: 特别选举
+  name: 特别选举
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-2000-07
   - E-2001-01
-- name: 犹太人定义
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: who_is_a_jew_defined
+  name_zh: 犹太人定义
+  name: 犹太人定义
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1970-02
-- name: 犹太地下组织
+  status: paired
+  has_1977_1992: false
+- id: jewish_underground_active
+  name_zh: 犹太地下组织
+  name: 犹太地下组织
   set_by:
+  - E-1980-06
+  read_by:
   - R-57
-  read_by: []
-- name: 瓦迪萨利布
+  status: paired
+  has_1977_1992: true
+- id: wadi_salib_riots
+  name_zh: 瓦迪萨利布
+  name: 瓦迪萨利布
   set_by:
   - E-1959-07a
   read_by:
   - E-1959-07b
-- name: 祖孙条款
+  status: paired
+  has_1977_1992: false
+- id: grandchild_clause_enacted
+  name_zh: 祖孙条款
+  name: 祖孙条款
   set_by:
   - E-1970-02
-  read_by: []
-- name: 科恩情报
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: eli_cohen_intel
+  name_zh: 科恩情报
+  name: 科恩情报
   set_by:
   - E-1965-01
   read_by:
   - E-1965-01
-- name: 科恩情报网
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: eli_cohen_network
+  name_zh: 科恩情报网
+  name: 科恩情报网
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1965-01
-- name: 移民无限制
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: unrestricted_aliyah
+  name_zh: 移民无限制
+  name: 移民无限制
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1949-06
   - E-1949-08
   - E-1950-05
   - E-G01-02
-- name: 突袭
+  status: paired
+  has_1977_1992: false
+- id: yom_kippur_surprise_attack
+  name_zh: 突袭
+  name: 突袭
   set_by:
   - E-1973-04
-  read_by: []
-- name: 第一次停火生效
-  set_by: []
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: first_truce_1948
+  name_zh: 第一次停火生效
+  name: 第一次停火生效
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1948-02
   - E-1948-03a
-- name: 第一次起义
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: first_intifada_active
+  name_zh: 第一次起义
+  name: 第一次起义
+  set_by:
+  - E-1987-12a
+  - M08
   read_by:
-  - E-1992-03
-- name: 第二次起义
+  - E-1992-03b
+  status: paired
+  has_1977_1992: true
+- id: second_intifada_active
+  name_zh: 第二次起义
+  name: 第二次起义
   set_by:
   - E-2000-04
   read_by:
@@ -923,80 +1796,160 @@ flags:
   - E-2002-03
   - E-2002-04
   - E-2003-02
-- name: 等待期
+  status: paired
+  has_1977_1992: false
+- id: waiting_period_1967
+  name_zh: 等待期
+  name: 等待期
   set_by:
   - E-1967-05a
   read_by:
   - E-1967-05b
   - E-1967-05c
   - E-1967-06a
-- name: 等待期、旗标：战争进行中
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: waiting_period_war_compound
+  name_zh: 等待期、旗标：战争进行中
+  name: 等待期、旗标：战争进行中
+  set_by:
+  - E-1967-05a
+  - E-1948-01
   read_by:
   - E-G02-09
-- name: 签署不扩散条约
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: npt_signed
+  name_zh: 签署不扩散条约
+  name: 签署不扩散条约
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-G03-04
-- name: 约以停战
+  status: paired
+  has_1977_1992: false
+- id: jordan_armistice_signed
+  name_zh: 约以停战
+  name: 约以停战
   set_by:
   - E-1949-04
   read_by:
   - E-1948-08
-- name: 约以和约
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: jordan_peace_treaty_signed
+  name_zh: 约以和约
+  name: 约以和约
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1967-05
   - E-1968-01
   - E-1974-05
-- name: 约埃共同防御条约
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: jordan_egypt_defense_pact
+  name_zh: 约埃共同防御条约
+  name: 约埃共同防御条约
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1967-06c
-- name: 约旦吞并西岸
+  status: paired
+  has_1977_1992: false
+- id: jordan_annexed_west_bank
+  name_zh: 约旦吞并西岸
+  name: 约旦吞并西岸
   set_by:
   - E-1950-01
-  read_by: []
-- name: 约旦方案终结
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: jordan_option_ended
+  name_zh: 约旦方案终结
+  name: 约旦方案终结
   set_by:
   - E-1988-07
   read_by:
   - E-1987-04
-- name: 约翰斯顿斡旋
+  status: paired
+  has_1977_1992: true
+- id: johnston_water_plan
+  name_zh: 约翰斯顿斡旋
+  name: 约翰斯顿斡旋
   set_by:
   - E-1953-03
-  read_by: []
-- name: 罗特姆先例
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: operation_rotem_precedent
+  name_zh: 罗特姆先例
+  name: 罗特姆先例
   set_by:
   - E-1960-02
   read_by:
   - E-1967-05a
-- name: 美国不与巴解接触承诺
+  status: paired
+  has_1977_1992: false
+- id: us_no_plo_contact_pledge
+  name_zh: 美国不与巴解接触承诺
+  name: 美国不与巴解接触承诺
   set_by:
   - E-1975-01
-  read_by: []
-- name: 美国新型战机交付
-  set_by: []
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: us_f15_delivered
+  name_zh: 美国新型战机交付
+  name: 美国新型战机交付
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1976-04
-- name: 美国航行保证
+  status: paired
+  has_1977_1992: false
+- id: us_straits_navigation_guarantee
+  name_zh: 美国航行保证
+  name: 美国航行保证
   set_by:
   - E-1956-11d
-  read_by: []
-- name: 美国配额收紧
-  set_by: []
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: world_us_refugee_quota_tightened
+  name_zh: 美国配额收紧
+  name: 美国配额收紧
+  set_by:
+  - M07_world_track
   read_by:
   - E-1989-10
-- name: 美苏代理人战争爆发
-  set_by: []
+  status: paired
+  has_1977_1992: true
+- id: world_korean_war_proxy
+  name_zh: 美苏代理人战争爆发
+  name: 美苏代理人战争爆发
+  set_by:
+  - M07_world_track
   read_by:
   - E-1950-06
-- name: 耶路撒冷吞并
+  status: paired
+  has_1977_1992: false
+- id: jerusalem_basic_law
+  name_zh: 耶路撒冷吞并
+  name: 耶路撒冷吞并
   set_by:
-  - E-1967-04
+  - E-1967-04b
   read_by:
-  - E-1967-04
-- name: 联合国紧急部队进驻
+  - E-1967-04b
+  status: paired
+  has_1977_1992: false
+- id: unef_deployed_sinai
+  name_zh: 联合国紧急部队进驻
+  name: 联合国紧急部队进驻
   set_by:
   - E-1956-11d
   - E-1967-05a
@@ -1004,15 +1957,29 @@ flags:
   - E-1956-10c
   - E-1960-02
   - E-1967-05a
-- name: 联合宗教阵线解体
+  status: paired
+  has_1977_1992: false
+- id: united_religious_front_dissolved
+  name_zh: 联合宗教阵线解体
+  name: 联合宗教阵线解体
   set_by:
   - E-1951-03
-  read_by: []
-- name: 联合阵线
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: gahal_alignment_formed
+  name_zh: 联合阵线
+  name: 联合阵线
   set_by:
   - E-1965-02
-  read_by: []
-- name: 脱离计划
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: disengagement_plan_approved
+  name_zh: 脱离计划
+  name: 脱离计划
   set_by:
   - E-2003-04
   read_by:
@@ -1021,7 +1988,11 @@ flags:
   - E-2004-05
   - E-2005-01
   - E-2005-02
-- name: 自治框架
+  status: paired
+  has_1977_1992: false
+- id: autonomy_framework_signed
+  name_zh: 自治框架
+  name: 自治框架
   set_by:
   - E-1978-09
   read_by:
@@ -1029,15 +2000,31 @@ flags:
   - E-1980-05a
   - E-1981-10
   - E-1981-11
-- name: 自由党持有财政部
-  set_by: []
+  status: paired
+  has_1977_1992: true
+- id: liberals_hold_finance
+  name_zh: 自由党持有财政部
+  name: 自由党持有财政部
+  set_by:
+  - E-1977-06
+  - M14_begin_1977
+  - M06
   read_by:
   - E-1977-10
-- name: 舍巴农场争议
+  status: paired
+  has_1977_1992: true
+- id: shebaa_farms_dispute
+  name_zh: 舍巴农场争议
+  name: 舍巴农场争议
   set_by:
   - E-2000-01
-  read_by: []
-- name: 色佛尔密约
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: sevres_secret_protocol
+  name_zh: 色佛尔密约
+  name: 色佛尔密约
   set_by:
   - E-1956-10a
   read_by:
@@ -1045,145 +2032,281 @@ flags:
   - E-1956-10d
   - E-1956-11c
   - E-1957-10a
-- name: 色佛尔破局
+  status: paired
+  has_1977_1992: false
+- id: sevres_talks_collapsed
+  name_zh: 色佛尔破局
+  name: 色佛尔破局
   set_by:
   - E-1956-10c
   read_by:
   - E-1956-10c
-- name: 艾希曼审判
+  status: paired
+  has_1977_1992: false
+- id: eichmann_trial_held
+  name_zh: 艾希曼审判
+  name: 艾希曼审判
   set_by:
   - E-1960-05
   read_by:
   - E-1961-04
-- name: 艾希曼线索
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: eichmann_mossad_lead
+  name_zh: 艾希曼线索
+  name: 艾希曼线索
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1960-05
-- name: 艾希曼逃逸
+  status: paired
+  has_1977_1992: false
+- id: eichmann_escaped
+  name_zh: 艾希曼逃逸
+  name: 艾希曼逃逸
   set_by:
   - E-1960-05
   read_by:
   - E-1960-05
-- name: 苏丹通道
+  status: paired
+  has_1977_1992: false
+- id: sudan_route
+  name_zh: 苏丹通道
+  name: 苏丹通道
   set_by:
   - E-1977-08
   read_by:
   - E-1977-08
   - E-1984-11
-- name: 苏军进驻埃及
+  status: paired
+  has_1977_1992: true
+- id: soviet_forces_in_egypt
+  name_zh: 苏军进驻埃及
+  name: 苏军进驻埃及
   set_by:
   - E-1970-01
   read_by:
   - E-1970-03
   - E-1970-04
   - E-1972-02
-- name: 苏珊娜行动失败
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: susannah_operation_failed
+  name_zh: 苏珊娜行动失败
+  name: 苏珊娜行动失败
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1960-10
-- name: 苏珊娜行动败露
+  status: paired
+  has_1977_1992: false
+- id: susannah_affair_exposed
+  name_zh: 苏珊娜行动败露
+  name: 苏珊娜行动败露
   set_by:
   - E-1954-01
   read_by:
   - E-1955-01
   - E-1955-02
-- name: 苏联开放移民
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: soviet_emigration_allowed_1970s
+  name_zh: 苏联开放移民
+  name: 苏联开放移民
+  set_by:
+  - M07_world_track
   read_by:
   - E-1970-07
-- name: 苏联移民潮
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: world_soviet_emigration_open
+  name_zh: 苏联移民潮
+  name: 苏联移民潮
+  set_by:
+  - E-1989-10
+  - M07_world_track
   read_by:
   - E-1992-02
   - E-G05-01
   - E-G05-02
   - E-G05-03
-- name: 萨达特上台
+  status: paired
+  has_1977_1992: true
+- id: sadat_in_power
+  name_zh: 萨达特上台
+  name: 萨达特上台
   set_by:
   - E-1970-06
   read_by:
   - E-1971-01
   - E-1972-02
-- name: 萨达特外交转向
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: world_sadat_diplomatic_pivot
+  name_zh: 萨达特外交转向
+  name: 萨达特外交转向
+  set_by:
+  - M07_world_track
   read_by:
   - E-1973-06
-- name: 萨达特被拒
+  status: paired
+  has_1977_1992: false
+- id: sadat_initiative_rejected_1971
+  name_zh: 萨达特被拒
+  name: 萨达特被拒
   set_by:
   - E-1971-01
   read_by:
   - E-1972-02
   - E-1973-06
-- name: 西奈一号协议
+  status: paired
+  has_1977_1992: false
+- id: sinai_i_disengagement
+  name_zh: 西奈一号协议
+  name: 西奈一号协议
   set_by:
   - E-1973-09
   read_by:
   - E-1975-01
-- name: 西奈交战规则
+  status: paired
+  has_1977_1992: false
+- id: sinai_rules_of_engagement
+  name_zh: 西奈交战规则
+  name: 西奈交战规则
   set_by:
   - E-1973-01a
   read_by:
   - E-1973-01a
   - E-1973-01b
-- name: 西奈归还
+  status: paired
+  has_1977_1992: false
+- id: sinai_returned
+  name_zh: 西奈归还
+  name: 西奈归还
   set_by:
   - E-1982-04
-  read_by: []
-- name: 西岸吞并
+  read_by:
+  - M07
+  - M11
+  - M14
+  status: paired
+  has_1977_1992: true
+- id: west_bank_annexed
+  name_zh: 西岸吞并
+  name: 西岸吞并
   set_by:
   - E-1981-12
   read_by:
   - E-1981-10
   - E-1981-11
-- name: 西岸归还
-  set_by: []
+  status: paired
+  has_1977_1992: true
+- id: west_bank_returned
+  name_zh: 西岸归还
+  name: 西岸归还
+  set_by:
+  - E-1967-03
+  - M07_peace_treaty
   read_by:
   - E-1977-07
   - E-G04-04
-- name: 西方对埃及军售
-  set_by: []
+  status: paired
+  has_1977_1992: true
+- id: world_west_arms_to_egypt
+  name_zh: 西方对埃及军售
+  name: 西方对埃及军售
+  set_by:
+  - M07_world_track
   read_by:
   - E-1955-11a
-- name: 西方拒售埃及武器
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: world_west_refuses_arms_to_egypt
+  name_zh: 西方拒售埃及武器
+  name: 西方拒售埃及武器
+  set_by:
+  - M07_world_track
   read_by:
   - E-1955-11a
-- name: 谁是犹太人未定义
+  status: paired
+  has_1977_1992: false
+- id: who_is_a_jew_undefined
+  name_zh: 谁是犹太人未定义
+  name: 谁是犹太人未定义
   set_by:
   - E-1950-05
-  read_by: []
-- name: 调查委员会设立
-  set_by: []
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: agranat_commission_established
+  name_zh: 调查委员会设立
+  name: 调查委员会设立
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1974-02
-- name: 贝京主义
+  status: paired
+  has_1977_1992: false
+- id: begin_doctrine
+  name_zh: 贝京主义
+  name: 贝京主义
   set_by:
   - E-1981-06a
-  read_by: []
-- name: 贝京入狱
+  read_by:
+  - M07
+  - M09
+  - M14
+  status: paired
+  has_1977_1992: true
+- id: begin_imprisoned
+  name_zh: 贝京入狱
+  name: 贝京入狱
   set_by:
   - E-1948-02
   read_by:
   - E-1948-02
-- name: 贝塔以色列适用回归法
+  status: paired
+  has_1977_1992: false
+- id: beta_israel_law_of_return
+  name_zh: 贝塔以色列适用回归法
+  name: 贝塔以色列适用回归法
   set_by:
   - E-G03-06
   read_by:
   - E-G03-06
-- name: 贝纳多特遇刺
+  status: paired
+  has_1977_1992: false
+- id: bernadotte_assassinated
+  name_zh: 贝纳多特遇刺
+  name: 贝纳多特遇刺
   set_by:
   - E-1948-06
   read_by:
   - E-1948-07
-- name: 财产补偿筹码
+  status: paired
+  has_1977_1992: false
+- id: refugee_property_compensation_chip
+  name_zh: 财产补偿筹码
+  name: 财产补偿筹码
   set_by:
   - E-1950-02
-  read_by: []
-- name: 贷款担保冻结
-  set_by: []
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: loan_guarantees_frozen
+  name_zh: 贷款担保冻结
+  name: 贷款担保冻结
+  set_by:
+  - E-1991-09
   read_by:
   - E-1992-02
-- name: 赎罪日战争
+  status: paired
+  has_1977_1992: true
+- id: yom_kippur_war_started
+  name_zh: 赎罪日战争
+  name: 赎罪日战争
   set_by:
   - E-1973-06
   read_by:
@@ -1194,112 +2317,219 @@ flags:
   - E-1974-02
   - E-G03-07
   - E-G03-08
-- name: 赔偿协议
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: luxembourg_reparations_signed
+  name_zh: 赔偿协议
+  name: 赔偿协议
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1960-03
-- name: 赔偿款流入减少
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: reparations_inflow_declining
+  name_zh: 赔偿款流入减少
+  name: 赔偿款流入减少
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1966-01
-- name: 起义余波
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: intifada_aftermath
+  name_zh: 起义余波
+  name: 起义余波
+  set_by:
+  - E-1987-12a
+  - M08
   read_by:
-  - E-1992-03
-- name: 越权未追究
+  - E-1992-03b
+  status: paired
+  has_1977_1992: true
+- id: overreach_unpunished
+  name_zh: 越权未追究
+  name: 越权未追究
   set_by:
   - E-1982-06b
   read_by:
   - E-1982-09c
-- name: 越权未追究、人物关系[沙龙]
-  set_by: []
+  status: paired
+  has_1977_1992: true
+- id: overreach_unpunished_sharon_compound
+  name_zh: 越权未追究、人物关系[沙龙]
+  name: 越权未追究、人物关系[沙龙]
+  set_by:
+  - E-1982-06b
   read_by:
   - E-1983-02a
-- name: 路线图停滞
-  set_by: []
+  status: paired
+  has_1977_1992: true
+- id: roadmap_stalled
+  name_zh: 路线图停滞
+  name: 路线图停滞
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-2003-03
   - E-2003-04
-- name: 轻度中风
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: sharon_mild_stroke
+  name_zh: 轻度中风
+  name: 轻度中风
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-2006-01
-- name: 辛贝特改革
+  status: paired
+  has_1977_1992: false
+- id: shin_bet_reformed
+  name_zh: 辛贝特改革
+  name: 辛贝特改革
   set_by:
   - E-1986-05
   read_by:
   - E-1984-04a
   - E-G04-19
-- name: 达扬外长
+  status: paired
+  has_1977_1992: true
+- id: dayan_foreign_minister
+  name_zh: 达扬外长
+  name: 达扬外长
   set_by:
   - E-1977-06
   read_by:
   - E-1977-06
   - E-1977-11
   - E-1978-09
-- name: 运河临时协议
+  status: paired
+  has_1977_1992: true
+- id: suez_interim_agreement
+  name_zh: 运河临时协议
+  name: 运河临时协议
   set_by:
   - E-1971-01
   read_by:
   - E-1968-03
   - E-1969-03
   - E-1973-06
-- name: 运河前线
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: suez_canal_front_active
+  name_zh: 运河前线
+  name: 运河前线
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1968-03
   - E-1969-03
-- name: 运河危机外交解决
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: world_suez_diplomatic_settlement
+  name_zh: 运河危机外交解决
+  name: 运河危机外交解决
+  set_by:
+  - M07_world_track
   read_by:
   - E-1956-10a
-- name: 运河国有化
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: world_suez_canal_nationalized
+  name_zh: 运河国有化
+  name: 运河国有化
+  set_by:
+  - M07_world_track
   read_by:
   - E-1956-10a
-- name: 迪莫纳工程
+  status: paired
+  has_1977_1992: false
+- id: dimona_project_started
+  name_zh: 迪莫纳工程
+  name: 迪莫纳工程
   set_by:
   - E-1957-10a
   read_by:
   - E-1960-12
-- name: 选举改革运动
+  status: paired
+  has_1977_1992: false
+- id: electoral_reform_movement
+  name_zh: 选举改革运动
+  name: 选举改革运动
   set_by:
   - E-1990-03
   read_by:
   - E-1992-03
-- name: 选前透支
+  status: paired
+  has_1977_1992: true
+- id: pre_election_spending_binge
+  name_zh: 选前透支
+  name: 选前透支
   set_by:
   - E-G04-07
   read_by:
   - E-1983-10
-- name: 通用锡安主义者入阁的条件成熟
+  status: paired
+  has_1977_1992: true
+- id: general_zionists_coalition_ready
+  name_zh: 通用锡安主义者入阁的条件成熟
+  name: 通用锡安主义者入阁的条件成熟
   set_by:
   - E-G01-09
-  read_by: []
-- name: 重返A区
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: idf_reentered_area_a
+  name_zh: 重返A区
+  name: 重返A区
   set_by:
   - E-2002-02
   read_by:
   - E-2002-01
   - E-2002-02
-- name: 银行国有化
+  status: paired
+  has_1977_1992: false
+- id: bank_nationalization
+  name_zh: 银行国有化
+  name: 银行国有化
   set_by:
   - E-1983-10
   read_by:
   - E-1983-10
-- name: 银行股危机已发生
+  status: paired
+  has_1977_1992: true
+- id: bank_shares_crisis_occurred
+  name_zh: 银行股危机已发生
+  name: 银行股危机已发生
   set_by:
+  - E-1983-10
+  read_by:
   - R-12
-  read_by: []
-- name: 银行股托市
-  set_by: []
+  status: paired
+  has_1977_1992: true
+- id: bank_shares_manipulation
+  name_zh: 银行股托市
+  name: 银行股托市
+  set_by:
+  - M10_bank_bubble
+  - M14_begin_1977
   read_by:
   - E-1983-10
-- name: 错失老城
+  status: paired
+  has_1977_1992: true
+- id: old_city_missed_1967
+  name_zh: 错失老城
+  name: 错失老城
   set_by:
   - E-1967-06c
-  read_by: []
-- name: 错失萨达特
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: sadat_missed
+  name_zh: 错失萨达特
+  name: 错失萨达特
   set_by:
   - E-1977-11
   - E-1978-09
@@ -1309,111 +2539,787 @@ flags:
   - E-1978-04
   - E-1978-09
   - E-1979-03
-- name: 长枪党入营
+  status: paired
+  has_1977_1992: true
+- id: phalange_entered_camps
+  name_zh: 长枪党入营
+  name: 长枪党入营
   set_by:
   - E-1982-09b
-  read_by: []
-- name: 防御性民主先例
+  read_by:
+  - E-1982-09c
+  - E-1983-02a
+  - M09
+  status: paired
+  has_1977_1992: true
+- id: defensive_democracy_precedent
+  name_zh: 防御性民主先例
+  name: 防御性民主先例
   set_by:
   - E-G02-06
-  read_by: []
-- name: 阿卜杜拉遇刺
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: king_abdullah_assassinated
+  name_zh: 阿卜杜拉遇刺
+  name: 阿卜杜拉遇刺
   set_by:
   - E-1951-02
-  read_by: []
-- name: 阿尔及利亚战争
-  set_by: []
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: world_algerian_war
+  name_zh: 阿尔及利亚战争
+  name: 阿尔及利亚战争
+  set_by:
+  - M07_world_track
   read_by:
   - E-1956-06b
-- name: 阿尔及利亚战争结束
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: world_algerian_war_ended
+  name_zh: 阿尔及利亚战争结束
+  name: 阿尔及利亚战争结束
+  set_by:
+  - M07_world_track
   read_by:
   - E-1956-06b
-- name: 阿尔塔莱纳之痛
+  status: paired
+  has_1977_1992: false
+- id: altalena_trauma
+  name_zh: 阿尔塔莱纳之痛
+  name: 阿尔塔莱纳之痛
   set_by:
   - E-1948-02
-  read_by: []
-- name: 阿拉伯和平倡议
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: arab_peace_initiative_2002
+  name_zh: 阿拉伯和平倡议
+  name: 阿拉伯和平倡议
   set_by:
   - E-2002-01
-  read_by: []
-- name: 阿拉伯政党入阁
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: arab_party_in_coalition
+  name_zh: 阿拉伯政党入阁
+  name: 阿拉伯政党入阁
   set_by:
   - E-G05-07
-  read_by: []
-- name: 阿拉伯民族主义组织出现
-  set_by: []
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: al_ard_movement_emerged
+  name_zh: 阿拉伯民族主义组织出现
+  name: 阿拉伯民族主义组织出现
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-G02-06
-- name: 阿拉伯统一指挥部
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: united_arab_command_formed
+  name_zh: 阿拉伯统一指挥部
+  name: 阿拉伯统一指挥部
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1964-05
-- name: 阿格拉纳特免责
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: agranat_exonerated_cabinet
+  name_zh: 阿格拉纳特免责
+  name: 阿格拉纳特免责
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1974-03
-- name: 阿联成立
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: world_uar_formed
+  name_zh: 阿联成立
+  name: 阿联成立
+  set_by:
+  - M07_world_track
   read_by:
   - E-1958-08
   - E-1960-02
-- name: 阿联解体
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: world_uar_dissolved
+  name_zh: 阿联解体
+  name: 阿联解体
+  set_by:
+  - M07_world_track
   read_by:
   - E-1960-02
-- name: 隔离构想
+  status: paired
+  has_1977_1992: false
+- id: separation_barrier_concept
+  name_zh: 隔离构想
+  name: 隔离构想
   set_by:
   - E-1995-01
   read_by:
   - E-2002-03
-- name: 隧道出口已开放
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: western_wall_tunnel_opened
+  name_zh: 隧道出口已开放
+  name: 隧道出口已开放
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1996-05
-- name: 难民已大规模回归
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: refugees_mass_returned
+  name_zh: 难民已大规模回归
+  name: 难民已大规模回归
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1948-03
   - E-1949-07
   - E-1950-02
-- name: 非军事区耕作争端
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: dmz_cultivation_dispute
+  name_zh: 非军事区耕作争端
+  name: 非军事区耕作争端
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1967-04
-- name: 非洲独立潮
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: world_african_independence_wave
+  name_zh: 非洲独立潮
+  name: 非洲独立潮
+  set_by:
+  - M07_world_track
   read_by:
   - E-G02-03
-- name: 领土筹码未定
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: territorial_bargaining_chip_undecided
+  name_zh: 领土筹码未定
+  name: 领土筹码未定
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1967-03
-- name: 领土让步谈判
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: territorial_concession_talks
+  name_zh: 领土让步谈判
+  name: 领土让步谈判
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1974-01
-- name: 首席拉比裁定
-  set_by: []
+  status: paired
+  has_1977_1992: false
+- id: chief_rabbinate_beta_israel_ruling
+  name_zh: 首席拉比裁定
+  name: 首席拉比裁定
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-G03-06
-- name: 马帕姆分裂
+  status: paired
+  has_1977_1992: false
+- id: mapam_split_1953
+  name_zh: 马帕姆分裂
+  name: 马帕姆分裂
   set_by:
   - E-1953-01
-  read_by: []
-- name: 马德里框架
-  set_by: []
+  read_by:
+  - M14_epilogue_and_achievements
+  status: paired
+  has_1977_1992: false
+- id: madrid_conference_framework
+  name_zh: 马德里框架
+  name: 马德里框架
+  set_by:
+  - M14_scenario_or_policy
   read_by:
   - E-1993-01
-- name: 驱逐档案封存
+  status: paired
+  has_1977_1992: false
+- id: expulsion_archives_sealed
+  name_zh: 驱逐档案封存
+  name: 驱逐档案封存
   set_by:
   - E-1948-05
   - E-1948-11
   read_by:
   - E-1948-11
-- name: 高科技
+  status: paired
+  has_1977_1992: false
+- id: high_tech_boom_started
+  name_zh: 高科技
+  name: 高科技
   set_by:
   - E-G05-03
   read_by:
   - E-G05-03
   - E-G05-04
+  status: paired
+  has_1977_1992: false
+- id: sadat_visit_happened
+  name_zh: 萨达特已访问
+  name: 萨达特已访问
+  set_by:
+  - E-1977-11
+  read_by:
+  - E-1978-09
+  - M07
+  status: paired
+  has_1977_1992: true
+- id: sadat_visit_cancelled
+  name_zh: 萨达特取消访问
+  name: 萨达特取消访问
+  set_by:
+  - E-1977-11
+  read_by:
+  - M07
+  - M12
+  status: paired
+  has_1977_1992: true
+- id: sudan_route_active
+  name_zh: 苏丹通道已建立
+  name: 苏丹通道已建立
+  set_by:
+  - E-1977-08
+  - M09
+  read_by:
+  - E-1984-11
+  - M07
+  status: paired
+  has_1977_1992: true
+- id: idf_in_south_lebanon
+  name_zh: 以军驻留南黎巴嫩
+  name: 以军驻留南黎巴嫩
+  set_by:
+  - E-1978-03b
+  - E-1982-06a
+  read_by:
+  - E-1978-03b
+  - E-1985-01
+  - M09
+  status: paired
+  has_1977_1992: true
+- id: phalange_entered_camps_supervised
+  name_zh: 长枪党入营（监督）
+  name: 长枪党入营（监督）
+  set_by:
+  - E-1982-09b
+  read_by:
+  - E-1983-02a
+  - M09
+  status: paired
+  has_1977_1992: true
+- id: autonomy_stagnant
+  name_zh: 巴勒斯坦自治谈判停滞
+  name: 巴勒斯坦自治谈判停滞
+  set_by:
+  - M08
+  read_by:
+  - M08
+  - E-1987-12a
+  status: paired
+  has_1977_1992: true
+- id: pal_autonomy_established
+  name_zh: 巴勒斯坦自治已建立
+  name: 巴勒斯坦自治已建立
+  set_by:
+  - M08
+  - E-1979-10
+  read_by:
+  - E-1987-12a
+  - E-G04-09
+  - M08
+  status: paired
+  has_1977_1992: true
+- id: plo_expelled_from_beirut
+  name_zh: 巴解总部被逐出贝鲁特
+  name: 巴解总部被逐出贝鲁特
+  set_by:
+  - E-1982-08
+  - M09
+  read_by:
+  - M08
+  - M09
+  status: paired
+  has_1977_1992: true
+- id: hamas_founded
+  name_zh: 哈马斯已成立
+  name: 哈马斯已成立
+  set_by:
+  - E-1987-12b
+  - M08
+  read_by:
+  - M08
+  - M09
+  - E-1992-03b
+  status: paired
+  has_1977_1992: true
+- id: gulf_charity_cut
+  name_zh: 海湾伊斯兰慈善资金被截断
+  name: 海湾伊斯兰慈善资金被截断
+  set_by:
+  - E-G04-10
+  - M08
+  read_by:
+  - M08
+  status: paired
+  has_1977_1992: true
+- id: osirak_destroyed
+  name_zh: 成功摧毁伊拉克奥西拉克核反应堆
+  name: 成功摧毁伊拉克奥西拉克核反应堆
+  set_by:
+  - E-1981-06a
+  - M09
+  read_by:
+  - M07
+  - M09
+  - M14
+  status: paired
+  has_1977_1992: true
+- id: lebanon_war_1982
+  name_zh: 1982黎巴嫩战争爆发
+  name: 1982黎巴嫩战争爆发
+  set_by:
+  - E-1982-06a
+  - M09
+  read_by:
+  - E-1982-06b
+  - E-1985-01
+  - M09
+  status: paired
+  has_1977_1992: true
+- id: sabra_shatila_massacre
+  name_zh: 萨布拉-夏蒂拉屠杀发生
+  name: 萨布拉-夏蒂拉屠杀发生
+  set_by:
+  - E-1982-09c
+  - M09
+  read_by:
+  - E-1982-09d
+  - E-1983-02a
+  - M06
+  - M09
+  status: paired
+  has_1977_1992: true
+- id: four_mothers_movement_active
+  name_zh: 四母亲运动激活
+  name: 四母亲运动激活
+  set_by:
+  - E-G04-18
+  - M09
+  read_by:
+  - M03
+  - M08
+  - M12
+  status: paired
+  has_1977_1992: true
+- id: elon_moreh_ruling
+  name_zh: 埃隆莫雷赫裁决生效
+  name: 埃隆莫雷赫裁决生效
+  set_by:
+  - E-1979-10
+  read_by:
+  - M05
+  - M11
+  - M12
+  status: paired
+  has_1977_1992: true
+- id: elon_moreh_ruling_obeyed
+  name_zh: 服从高院埃隆莫雷赫案裁决
+  name: 服从高院埃隆莫雷赫案裁决
+  set_by:
+  - E-1979-10
+  read_by:
+  - M11
+  - M14
+  status: paired
+  has_1977_1992: true
+- id: elon_moreh_defied
+  name_zh: 拒绝执行埃隆莫雷赫最高法院裁决
+  name: 拒绝执行埃隆莫雷赫最高法院裁决
+  set_by:
+  - E-1979-10
+  read_by:
+  - M02
+  - M11
+  - M12
+  - M13
+  status: paired
+  has_1977_1992: true
+- id: immigrants_routed_to_settlements
+  name_zh: 向定居点分流新移民
+  name: 向定居点分流新移民
+  set_by:
+  - M11
+  - E-1989-10
+  read_by:
+  - E-1991-09
+  - M07
+  - M12
+  status: paired
+  has_1977_1992: true
+- id: allon_corridor_consolidated
+  name_zh: 阿隆走廊建设完成
+  name: 阿隆走廊建设完成
+  set_by:
+  - E-1967-05
+  - M11
+  read_by:
+  - M09
+  - M11
+  status: paired
+  has_1977_1992: true
+- id: capital_fallen
+  name_zh: 核心首都陷落
+  name: 核心首都陷落
+  set_by:
+  - M09
+  read_by:
+  - M01
+  - M14
+  status: paired
+  has_1977_1992: true
+- id: nuclear_strike_suffered
+  name_zh: 遭受核打击
+  name: 遭受核打击
+  set_by:
+  - M07
+  - M09
+  read_by:
+  - M01
+  - M14
+  status: paired
+  has_1977_1992: true
+- id: player_founded_new_party
+  name_zh: 玩家任内退党创立新党
+  name: 玩家任内退党创立新党
+  set_by:
+  - M04
+  read_by:
+  - M03
+  - M14
+  status: paired
+  has_1977_1992: true
+- id: yamit_evacuated
+  name_zh: 已完成西奈亚米特定居点拆除撤离
+  name: 已完成西奈亚米特定居点拆除撤离
+  set_by:
+  - E-1982-04
+  - M05
+  read_by:
+  - M11
+  - M14
+  status: paired
+  has_1977_1992: true
+- id: lebanon_war_expanded
+  name_zh: 黎巴嫩战争扩大至第2/3阶段
+  name: 黎巴嫩战争扩大至第2/3阶段
+  set_by:
+  - E-1982-06a
+  - E-1982-06b
+  - M09
+  read_by:
+  - M09
+  - M14
+  status: paired
+  has_1977_1992: true
+- id: first_intifada_ever_started
+  name_zh: 本局曾爆发过第一次巴勒斯坦大起义
+  name: 本局曾爆发过第一次巴勒斯坦大起义
+  set_by:
+  - E-1987-12a
+  - M08
+  read_by:
+  - M14
+  status: paired
+  has_1977_1992: true
+- id: unity_rotation_executed
+  name_zh: 团结政府按期执行总理轮值交接
+  name: 团结政府按期执行总理轮值交接
+  set_by:
+  - E-1984-09
+  - M03
+  read_by:
+  - M03
+  - M14
+  status: paired
+  has_1977_1992: true
+- id: lavi_fighter_completed
+  name_zh: 完成狮式战斗机研发投产
+  name: 完成狮式战斗机研发投产
+  set_by:
+  - E-1987-08
+  read_by:
+  - M09
+  - M14
+  status: paired
+  has_1977_1992: true
+- id: flag_m13_survival_mode_active
+  name_zh: 已进入C5威权生存模式
+  name: 已进入C5威权生存模式
+  set_by:
+  - M13
+  read_by:
+  - M01
+  - M03
+  - M13
+  - M14
+  status: paired
+  has_1977_1992: true
+- id: flag_m13_security_chiefs_purged
+  name_zh: 已对安全首长执行政治清洗
+  name: 已对安全首长执行政治清洗
+  set_by:
+  - M13
+  read_by:
+  - M06
+  - M09
+  - M13
+  status: paired
+  has_1977_1992: true
+- id: flag_m13_ag_dismissed_recently
+  name_zh: 过去6个月内曾强行解雇总检察长
+  name: 过去6个月内曾强行解雇总检察长
+  set_by:
+  - M13
+  - E-1986-05
+  read_by:
+  - M13
+  status: paired
+  has_1977_1992: true
+- id: flag_m13_vip_security_tightened
+  name_zh: 辛贝特730局强化贴身安保生效中
+  name: 辛贝特730局强化贴身安保生效中
+  set_by:
+  - M13
+  - E-1995-03
+  read_by:
+  - M13
+  - E-1995-04
+  status: paired
+  has_1977_1992: true
+- id: reshuffle_window_open
+  name_zh: 内阁改组窗口激活
+  name: 内阁改组窗口激活
+  set_by:
+  - M06
+  read_by:
+  - M06
+  - M14
+  status: paired
+  has_1977_1992: true
+- id: dayan_resigned
+  name_zh: 达扬已辞去外交部长
+  name: 达扬已辞去外交部长
+  set_by:
+  - E-1979-10
+  - M06
+  read_by:
+  - M06
+  - M12
+  status: paired
+  has_1977_1992: true
+- id: weizman_resigned
+  name_zh: 魏茨曼已辞去国防部长
+  name: 魏茨曼已辞去国防部长
+  set_by:
+  - E-1980-05a
+  - M06
+  read_by:
+  - M04
+  - M06
+  - M12
+  status: paired
+  has_1977_1992: true
+- id: party_criticism_active
+  name_zh: 党内公开批评激活
+  name: 党内公开批评激活
+  set_by:
+  - M04
+  read_by:
+  - M04
+  - M12
+  status: paired
+  has_1977_1992: true
+- id: party_challenger_active
+  name_zh: 党内挑战者激活
+  name: 党内挑战者激活
+  set_by:
+  - M04
+  read_by:
+  - M04
+  - M12
+  status: paired
+  has_1977_1992: true
+- id: party_faction_exit_recent
+  name_zh: 近期发生派系出走
+  name: 近期发生派系出走
+  set_by:
+  - M04
+  read_by:
+  - M03
+  - M04
+  status: paired
+  has_1977_1992: true
+- id: party_split_done
+  name_zh: 政党分裂已发生
+  name: 政党分裂已发生
+  set_by:
+  - M04
+  read_by:
+  - M03
+  - M04
+  status: paired
+  has_1977_1992: true
+- id: vision_achieved
+  name_zh: 国家愿景已达成
+  name: 国家愿景已达成
+  set_by:
+  - M04
+  read_by:
+  - M04
+  - M14
+  status: paired
+  has_1977_1992: true
+- id: vision_failed
+  name_zh: 国家愿景已失败
+  name: 国家愿景已失败
+  set_by:
+  - M04
+  read_by:
+  - M04
+  - M14
+  status: paired
+  has_1977_1992: true
+- id: fx_crisis
+  name_zh: 外汇储备见底紧急状态
+  name: 外汇储备见底紧急状态
+  set_by:
+  - M10
+  read_by:
+  - E-G04-06
+  - M10
+  - M12
+  status: paired
+  has_1977_1992: true
+- id: inflation_crisis
+  name_zh: 高通胀危机状态
+  name: 高通胀危机状态
+  set_by:
+  - M10
+  read_by:
+  - E-1985-07
+  - M10
+  - M12
+  status: paired
+  has_1977_1992: true
+- id: hyperinflation
+  name_zh: 恶性通胀螺旋状态
+  name: 恶性通胀螺旋状态
+  set_by:
+  - M10
+  read_by:
+  - E-G04-01
+  - M10
+  - M12
+  status: paired
+  has_1977_1992: true
+- id: strike_warning
+  name_zh: 全国罢工预警
+  name: 全国罢工预警
+  set_by:
+  - M10
+  read_by:
+  - M10
+  - M12
+  status: paired
+  has_1977_1992: true
+- id: general_strike_active
+  name_zh: 劳工总联合会总罢工进行中
+  name: 劳工总联合会总罢工进行中
+  set_by:
+  - M10
+  read_by:
+  - E-G04-02
+  - M10
+  - M13
+  status: paired
+  has_1977_1992: true
+- id: budget_due
+  name_zh: 年度预算案待表决
+  name: 年度预算案待表决
+  set_by:
+  - M10
+  read_by:
+  - M03
+  - M10
+  - M15
+  status: paired
+  has_1977_1992: true
+- id: budget_deadline_60
+  name_zh: 预算案表决倒计时60天
+  name: 预算案表决倒计时60天
+  set_by:
+  - M10
+  read_by:
+  - M10
+  - M15
+  status: paired
+  has_1977_1992: true
+flag_aliases:
+  埃以和约: egypt_peace_treaty_signed
+  埃以和约已签署: egypt_peace_treaty_signed
+  和约已签署: egypt_peace_treaty_signed
+  埃以和约签署: egypt_peace_treaty_signed
+  peace_treaty_signed_alias: egypt_peace_treaty_signed
+  egypt_peace_treaty: egypt_peace_treaty_signed
+  camp_david_signed: autonomy_framework_signed
+  autonomy_framework: autonomy_framework_signed
+  银行股危机已发生: bank_nationalization
+  bank_shares_crisis_occurred: bank_nationalization
+  苏珊娜行动失败: susannah_affair_exposed
+  susannah_operation_failed: susannah_affair_exposed
+  核模糊政策: nuclear_ambiguity
+  nuclear_ambiguity_policy: nuclear_ambiguity
+  科恩情报: eli_cohen_network
+  eli_cohen_intel: eli_cohen_network
+  苏联开放移民: world_soviet_emigration_open
+  soviet_gates_opened: world_soviet_emigration_open
+  soviet_aliyah_wave: world_soviet_emigration_open
+  奥斯陆二期、旗标：希伯伦撤离先例、旗标：脱离计划: oslo_ii_signed
+  希伯伦撤离先例、旗标：脱离计划: hebron_withdrawal_precedent
+  等待期、旗标：战争进行中: waiting_period_1967
+  越权未追究、人物关系[沙龙]: overreach_unpunished
+  长枪党入营（无监督）: phalange_entered_camps
+  长枪党入营（监督）: phalange_entered_camps_supervised
+  plo_evacuated_tunis: plo_moved_to_tunis
+  south_lebanon_proxy: south_lebanon_proxy_militia
+  player_party_founded: player_founded_new_party
+summary:
+  total: 334
+  original_event_flags: 287
+  paired: 334
+  set_only: 0
+  read_only: 0
+  '1977_1992':
+    total: 108
+    paired: 108
+    set_only: 0
+    read_only: 0

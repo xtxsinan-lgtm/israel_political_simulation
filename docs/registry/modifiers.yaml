@@ -1,138 +1,935 @@
-# 自动生成：tools/extract_flags.py。不要手工编辑；英文ID在结构化转换时分配。
+schema_version: 1
 modifiers:
-- name: 101部队
+- id: unit_101
+  name_zh: 101部队
+  name: 101部队
+  zh: 101部队
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 101部队
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 报复行动成功率 +20%；报复行动成功率 +10%
   set_by:
   - E-1953-02a
-  read_by: []
-- name: 300路的秘密
+  read_by:
+  - M02_and_M12_engine
+- id: bus_300_secret
+  name_zh: 300路的秘密
+  name: 300路的秘密
+  zh: 300路的秘密
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: rule_of_law
+    shape: flag
+    coef: -3.0
+    label_zh: 300路的秘密
+  factors: []
+  monthly_effects:
+  - op: add
+    target: rule_of_law
+    value: -3.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 隐藏，持续至 E-1986-05：每月2%概率提前曝光，曝光时直接触发 E-1986-05 且其所有选项的 民主法治指数 效果额外 −3
   set_by:
   - E-1984-04a
   read_by:
   - E-1986-05
-- name: 61席
+- id: narrow_61_seat_coalition
+  name_zh: 61席
+  name: 61席
+  zh: 61席
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 直至下次大选：每月10%概率一个小党以退出相要挟
   set_by:
   - E-1984-07
-  read_by: []
-- name: '{行业}罢工'
+  read_by:
+  - M02_and_M12_engine
+- id: sector_strike
+  name_zh: '{行业}罢工'
+  name: '{行业}罢工'
+  zh: '{行业}罢工'
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 3
+  duration_days: 90
+  duration:
+    unit: months
+    n: 3
+  edges:
+  - target: growth
+    shape: flag
+    coef: 0.5
+    label_zh: '{行业}罢工'
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 1–3个月，月数 = 1 + 工会实力/40 取整：按上面的行业效果按月结算
   set_by:
   - R-17
-  read_by: []
-- name: 七月谅解
+  read_by:
+  - M02_and_M12_engine
+- id: july_1993_understanding
+  name_zh: 七月谅解
+  name: 七月谅解
+  zh: 七月谅解
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 双方不攻击对方平民；违反时触发 → E-1996-03
   set_by:
   - E-1993-02
   read_by:
   - E-1996-03
-- name: 上帝之怒
+- id: wrath_of_god_campaign
+  name_zh: 上帝之怒
+  name: 上帝之怒
+  zh: 上帝之怒
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 6
+  duration_days: 180
+  duration:
+    unit: months
+    n: 6
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: -6.0
+    label_zh: 上帝之怒
+  factors: []
+  monthly_effects:
+  - op: add
+    target: intl_legitimacy
+    value: -6.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 持续至撤销：每6个月判定一次暴露，暴露时国际合法性 −6，所在欧洲国家关系 −8；可能触发 E-1973-02a
   set_by:
   - E-1972-04
   - E-1973-02b
   read_by:
   - E-1973-02a
-- name: 不与恐怖分子谈判
+- id: no_negotiation_with_terrorists
+  name_zh: 不与恐怖分子谈判
+  name: 不与恐怖分子谈判
+  zh: 不与恐怖分子谈判
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges: []
+  factors: []
+  monthly_effects:
+  - op: add
+    target: political_capital
+    value: 20.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：此后人质事件中谈判选项的政治资本成本 +20
   set_by:
   - E-1974-04
-  read_by: []
-- name: 不可战胜
+  read_by:
+  - M02_and_M12_engine
+- id: invincibility_euphoria
+  name_zh: 不可战胜
+  name: 不可战胜
+  zh: 不可战胜
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges: []
+  factors: []
+  monthly_effects:
+  - op: add
+    target: political_capital
+    value: 10.0
+  option_tag_effects:
+  - tag: restraint
+    effects:
+    - op: add
+      target: political_capital
+      value: -10.0
+  event_prob_add: []
+  desc_zh: 12个月：鸽派选项的政治资本成本 +10%
   set_by:
   - E-G03-07
-  read_by: []
-- name: 世俗—宗教裂痕
+  read_by:
+  - M02_and_M12_engine
+- id: secular_religious_rift
+  name_zh: 世俗—宗教裂痕
+  name: 世俗—宗教裂痕
+  zh: 世俗—宗教裂痕
+  category: religious
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 24
+  duration_days: 720
+  duration:
+    unit: months
+    n: 24
+  edges:
+  - target: ally_satisfaction
+    shape: flag
+    coef: -5.0
+    label_zh: 世俗—宗教裂痕
+    target_key: nrp
+  factors: []
+  monthly_effects:
+  - op: add
+    target: political_capital
+    value: 5.0
+  - op: add
+    target: ally_satisfaction
+    value: -5.0
+    key: nrp
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 24个月：宗教现状指数 不变，但涉及宗教的法案政治资本成本 +5，盟党满意度[国家宗教党] −5
   set_by:
   - E-1995-04
-  read_by: []
-- name: 东欧移民通道收窄
+  read_by:
+  - M02_and_M12_engine
+- id: eastern_bloc_aliyah_narrowed
+  name_zh: 东欧移民通道收窄
+  name: 东欧移民通道收窄
+  zh: 东欧移民通道收窄
+  category: social
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 24
+  duration_days: 720
+  duration:
+    unit: months
+    n: 24
+  edges:
+  - target: alienation
+    target_key: mizrahi
+    shape: flag
+    coef: 1.5
+    label_zh: 东欧移民通道收窄
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 24个月：来自罗马尼亚等国的移民 −30%
   set_by:
   - E-1950-06
-  read_by: []
-- name: 也门移民营地
+  read_by:
+  - M02_and_M12_engine
+- id: yemenite_transit_camps
+  name_zh: 也门移民营地
+  name: 也门移民营地
+  zh: 也门移民营地
+  category: social
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: alienation
+    shape: flag
+    coef: 0.5
+    label_zh: 也门移民营地
+    target_key: mizrahi
+  factors: []
+  monthly_effects:
+  - op: add
+    target: alienation
+    value: 0.5
+    key: mizrahi
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 12个月：疏离度[米兹拉希] 每月 +0.5
   set_by:
   - E-1949-08
-  read_by: []
-- name: 亚米特创伤
+  read_by:
+  - M02_and_M12_engine
+- id: yamit_trauma
+  name_zh: 亚米特创伤
+  name: 亚米特创伤
+  zh: 亚米特创伤
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 亚米特创伤
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：任何未来撤离的 撤离成本 +20%，但该成本同时使"不再撤离"成为定居者运动的核心口号
   set_by:
   - E-1982-04
   - E-G04-04
-  read_by: []
-- name: 交换先例
+  read_by:
+  - M02_and_M12_engine
+- id: prisoner_exchange_precedent
+  name_zh: 交换先例
+  name: 交换先例
+  zh: 交换先例
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 12个月：劫持人质事件概率 +50%
   set_by:
   - E-1974-04
-  read_by: []
-- name: 人口时钟
+  read_by:
+  - M02_and_M12_engine
+- id: demographic_clock
+  name_zh: 人口时钟
+  name: 人口时钟
+  zh: 人口时钟
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 三难三角向领土控制顶点漂移，民主合法性顶点每年 −2
   set_by:
   - E-2003-04
-  read_by: []
-- name: 人才外流
+  read_by:
+  - M02_and_M12_engine
+- id: brain_drain
+  name_zh: 人才外流
+  name: 人才外流
+  zh: 人才外流
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: growth
+    shape: flag
+    coef: -0.5
+    label_zh: 人才外流
+  factors: []
+  monthly_effects:
+  - op: add
+    target: growth
+    value: -0.5
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 12个月：经济增长 −0.5
   set_by:
   - E-G02-02
-  read_by: []
-- name: 仇恨的种子
+  read_by:
+  - M02_and_M12_engine
+- id: seeds_of_hatred_gaza
+  name_zh: 仇恨的种子
+  name: 仇恨的种子
+  zh: 仇恨的种子
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: faction_legitimacy
+    shape: flag
+    coef: 3.0
+    label_zh: 仇恨的种子
+    target_key: fatah
+  factors: []
+  monthly_effects:
+  - op: add
+    target: faction_legitimacy
+    value: 3.0
+    key: fatah
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：加沙起义风险 +10；合法性[法塔赫] 每年 +3
   set_by:
   - E-G03-03
-  read_by: []
-- name: 伊克利特的承诺
+  read_by:
+  - M02_and_M12_engine
+- id: iqrit_unfulfilled_promise
+  name_zh: 伊克利特的承诺
+  name: 伊克利特的承诺
+  zh: 伊克利特的承诺
+  category: debt
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: civic_identification
+    shape: flag
+    coef: -1.0
+    label_zh: 伊克利特的承诺
+    target_key: arab
+  factors: []
+  monthly_effects:
+  - op: add
+    target: civic_identification
+    value: -1.0
+    key: arab
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 历史债务型：此后历届政府都会收到"让村民回去"的请愿，每次拒绝 国家认同度[阿拉伯人] −1
   set_by:
   - E-1951-04
-  read_by: []
-- name: 伊尔贡耶路撒冷独立部队
+  read_by:
+  - M02_and_M12_engine
+- id: irgun_jerusalem_unit
+  name_zh: 伊尔贡耶路撒冷独立部队
+  name: 伊尔贡耶路撒冷独立部队
+  zh: 伊尔贡耶路撒冷独立部队
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: -3.0
+    label_zh: 伊尔贡耶路撒冷独立部队
+  factors: []
+  monthly_effects:
+  - op: add
+    target: intl_legitimacy
+    value: -3.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 直到耶路撒冷停火：每月有5%概率违反停火，国际合法性 −3
   set_by:
   - E-1948-02
-  read_by: []
-- name: 伊拉克移民的落差
+  read_by:
+  - M02_and_M12_engine
+- id: iraqi_aliyah_downward_mobility
+  name_zh: 伊拉克移民的落差
+  name: 伊拉克移民的落差
+  zh: 伊拉克移民的落差
+  category: social
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 24
+  duration_days: 720
+  duration:
+    unit: months
+    n: 24
+  edges:
+  - target: alienation
+    shape: flag
+    coef: 0.5
+    label_zh: 伊拉克移民的落差
+    target_key: mizrahi
+  factors: []
+  monthly_effects:
+  - op: add
+    target: alienation
+    value: 0.5
+    key: mizrahi
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 24个月：疏离度[米兹拉希] 每月 +0.5；许多巴格达中产直接住进过渡营地
   set_by:
   - E-1950-03
-  read_by: []
-- name: 侯赛因的屈辱
+  read_by:
+  - M02_and_M12_engine
+- id: hussein_humiliation
+  name_zh: 侯赛因的屈辱
+  name: 侯赛因的屈辱
+  zh: 侯赛因的屈辱
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: -2.0
+    label_zh: 侯赛因的屈辱
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 12个月：约旦被迫加入阿拉伯联合阵营的概率 +25%
   set_by:
   - E-1966-11b
   read_by:
   - E-1967-06c
-- name: 信仰集团
+- id: gush_emunim_bloc_mod
+  name_zh: 信仰集团
+  name: 信仰集团
+  zh: 信仰集团
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：定居者运动动量 ≥ 50 时，每季度触发一次 E-G03-01 擅自建点
   set_by:
   - E-1974-01
   read_by:
   - E-G03-01
-- name: 党纪伤痕
+- id: party_discipline_scars
+  name_zh: 党纪伤痕
+  name: 党纪伤痕
+  zh: 党纪伤痕
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 24
+  duration_days: 720
+  duration:
+    unit: months
+    n: 24
+  edges:
+  - target: party_standing
+    shape: flag
+    coef: -1.0
+    label_zh: 党纪伤痕
+  factors: []
+  monthly_effects:
+  - op: add
+    target: party_standing
+    value: -1.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 24个月：党内地位 每季度 −1
   set_by:
   - E-1979-03
-  read_by: []
-- name: 全面动员
+  read_by:
+  - M02_and_M12_engine
+- id: full_mobilization_1967
+  name_zh: 全面动员
+  name: 全面动员
+  zh: 全面动员
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: growth
+    shape: flag
+    coef: -4.0
+    label_zh: 全面动员
+  - target: budget_balance
+    shape: flag
+    coef: -3.0
+    label_zh: 全面动员
+  factors: []
+  monthly_effects:
+  - op: add
+    target: growth
+    value: -4.0
+  - op: add
+    target: budget_balance
+    value: -3.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 持续至复员：每月财政 −3%，经济增长 −4
   set_by:
   - E-1967-05a
   - E-1967-05b
   - E-1967-06g
   read_by:
   - E-1967-06a
-- name: 全面封锁
+- id: total_closure_policy
+  name_zh: 全面封锁
+  name: 全面封锁
+  zh: 全面封锁
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 见 E-G05-05
   set_by:
   - E-1995-01
-  read_by: []
-- name: 全面战争
+  read_by:
+  - M02_and_M12_engine
+- id: full_scale_war_drain
+  name_zh: 全面战争
+  name: 全面战争
+  zh: 全面战争
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -2.0
+    label_zh: 全面战争
+  - target: budget_balance
+    shape: flag
+    coef: -2.0
+    label_zh: 全面战争
+  - target: fx_reserves
+    shape: flag
+    coef: -3.0
+    label_zh: 全面战争
+  factors: []
+  monthly_effects:
+  - op: add
+    target: public_security
+    value: -2.0
+  - op: add
+    target: budget_balance
+    value: -2.0
+  - op: add
+    target: fx_reserves
+    value: -3.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 持续至停火：财政 每月 −2%，外汇 每月 −3%，公众安全感 每月 −2
   set_by:
   - E-1973-06
   - E-1973-07
-  read_by: []
-- name: 共谋的污点
+  read_by:
+  - M02_and_M12_engine
+- id: sevres_collusion_taint
+  name_zh: 共谋的污点
+  name: 共谋的污点
+  zh: 共谋的污点
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: -8.0
+    label_zh: 共谋的污点
+  - target: regime_hostility
+    shape: flag
+    coef: 5.0
+    label_zh: 共谋的污点
+    target_key: egypt
+  factors: []
+  monthly_effects:
+  - op: add
+    target: intl_legitimacy
+    value: -8.0
+  - op: add
+    target: regime_hostility
+    value: 5.0
+    key: egypt
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 如果旗标：密约曝光，则永久：国际合法性 −8，政权敌意[埃及] +5，在亚非国家的外交 −20%
   set_by:
   - E-1956-10a
-  read_by: []
-- name: 兵役换平等的承诺
+  read_by:
+  - M02_and_M12_engine
+- id: druze_service_equality_pledge
+  name_zh: 兵役换平等的承诺
+  name: 兵役换平等的承诺
+  zh: 兵役换平等的承诺
+  category: social
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: civic_identification
+    shape: flag
+    coef: -2.0
+    label_zh: 兵役换平等的承诺
+    target_key: druze
+  - target: land_grievance
+    shape: flag
+    coef: 2.0
+    label_zh: 兵役换平等的承诺
+    target_key: druze
+  factors: []
+  monthly_effects:
+  - op: add
+    target: civic_identification
+    value: -2.0
+    key: druze
+  - op: add
+    target: land_grievance
+    value: 2.0
+    key: druze
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：如果加利利的德鲁兹村庄 发展水平 长期低于犹太社区，国家认同度[德鲁兹人] 每年 −2，土地怨气[德鲁兹人] 每年 +2
   set_by:
   - E-1956-05
-  read_by: []
-- name: 内部敌人
+  read_by:
+  - M02_and_M12_engine
+- id: internal_enemy_suspicion
+  name_zh: 内部敌人
+  name: 内部敌人
+  zh: 内部敌人
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 36
+  duration_days: 1080
+  duration:
+    unit: months
+    n: 36
+  edges:
+  - target: region_security
+    shape: flag
+    coef: -0.3
+    label_zh: 内部敌人
+    target_key: galilee
+  factors: []
+  monthly_effects:
+  - op: add
+    target: region_security
+    value: -0.3
+    key: galilee
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 36个月：安全[加利利] 每月 −0.3；阿拉伯政党激进化；混居城市骚乱概率长期上升
   set_by:
   - E-1976-01c
   - E-2000-05
-  read_by: []
-- name: 军中不服
+  read_by:
+  - M02_and_M12_engine
+- id: idf_insubordination
+  name_zh: 军中不服
+  name: 军中不服
+  zh: 军中不服
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 军中不服
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 12个月：报复行动的执行偏离命令概率 +15%
   set_by:
   - E-1955-02
-  read_by: []
-- name: 军中党派色彩
+  read_by:
+  - M02_and_M12_engine
+- id: idf_partisan_politicization
+  name_zh: 军中党派色彩
+  name: 军中党派色彩
+  zh: 军中党派色彩
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 军中党派色彩
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：每次大选前，军中政治活动事件概率 +10%
   set_by:
   - E-1948-09
-  read_by: []
-- name: 军力失衡
+  read_by:
+  - M02_and_M12_engine
+- id: military_imbalance_1955
+  name_zh: 军力失衡
+  name: 军力失衡
+  zh: 军力失衡
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -0.5
+    label_zh: 军力失衡
+  factors: []
+  monthly_effects:
+  - op: add
+    target: public_security
+    value: -0.5
+  - op: add
+    target: political_capital
+    value: -2.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 直到 承诺进度[打破军火孤立] ≥ 60：公众安全感 每月 −0.5，政治资本 月产出 −2
   set_by:
   - E-1955-11a
   - E-1956-06b
@@ -140,45 +937,264 @@ modifiers:
   - E-1955-11a
   - E-1956-06b
   - E-1956-10c
-- name: 军售冻结
+- id: us_arms_freeze
+  name_zh: 军售冻结
+  name: 军售冻结
+  zh: 军售冻结
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 6
+  duration_days: 180
+  duration:
+    unit: months
+    n: 6
+  edges:
+  - target: readiness
+    shape: flag
+    coef: -1.0
+    label_zh: 军售冻结
+  factors: []
+  monthly_effects:
+  - op: add
+    target: readiness
+    value: -1.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 6个月：战备 每月 −1
   set_by:
   - E-1975-01
-  read_by: []
-- name: 军备失衡
+  read_by:
+  - M02_and_M12_engine
+- id: arms_imbalance
+  name_zh: 军备失衡
+  name: 军备失衡
+  zh: 军备失衡
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 24
+  duration_days: 720
+  duration:
+    unit: months
+    n: 24
+  edges:
+  - target: readiness
+    shape: flag
+    coef: -20.0
+    label_zh: 军备失衡
+  factors: []
+  monthly_effects:
+  - op: add
+    target: readiness
+    value: -20.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 24个月：战备 相对 −20，逐月扩大直到新的武器来源打开
   set_by:
   - E-1955-06
   - E-1955-07
-  read_by: []
-- name: 军火航班
+  read_by:
+  - M02_and_M12_engine
+- id: ethiopia_arms_for_aliyah_flights
+  name_zh: 军火航班
+  name: 军火航班
+  zh: 军火航班
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 6
+  duration_days: 180
+  duration:
+    unit: months
+    n: 6
+  edges:
+  - target: absorption_capacity
+    shape: flag
+    coef: -1.0
+    label_zh: 军火航班
+  factors: []
+  monthly_effects:
+  - op: add
+    target: absorption_capacity
+    value: -1.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 6个月：移民吸收容量 −1，疏离度[埃塞俄比亚裔] 初始化为35
   set_by:
   - E-1977-08
-  read_by: []
-- name: 军纪
+  read_by:
+  - M02_and_M12_engine
+- id: strict_military_discipline
+  name_zh: 军纪
+  name: 军纪
+  zh: 军纪
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 36
+  duration_days: 1080
+  duration:
+    unit: months
+    n: 36
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 军纪
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 36个月：暴行类事件触发概率 −40%
   set_by:
   - E-1948-09a
   - E-1948-11
   read_by:
   - E-1948-04
   - E-1948-11
-- name: 冷和平
+- id: cold_peace_egypt
+  name_zh: 冷和平
+  name: 冷和平
+  zh: 冷和平
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: -2.0
+    label_zh: 冷和平
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：政权敌意[埃及] 下限为 30，埃及不会主动推进正常化
   set_by:
   - E-1981-10
   read_by:
   - E-1981-10
-- name: 冷静的现实主义者
-  set_by: []
+- id: cool_realist
+  name_zh: 冷静的现实主义者
+  name: 冷静的现实主义者
+  zh: 冷静的现实主义者
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 48
+  duration_days: 1440
+  duration:
+    unit: months
+    n: 48
+  edges: []
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add:
+  - event: E-1991-09
+    value: 0.1
+  desc_zh: 48个月：定居点类行动对美国政府关系的负面效果 ×1.5，E-1991-09 触发概率 +10%
+  set_by:
+  - M07_or_M14_system
   read_by:
   - E-1978-09
   - E-1991-09
-- name: 冻结之争
+- id: settlement_freeze_dispute
+  name_zh: 冻结之争
+  name: 冻结之争
+  zh: 冻结之争
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: us_admin_relation
+    shape: flag
+    coef: -3.0
+    label_zh: 冻结之争
+  factors: []
+  monthly_effects:
+  - op: add
+    target: us_admin_relation
+    value: -3.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 12个月：每次推进定居点决议，美国政府关系 −3
   set_by:
   - E-1978-09
-  read_by: []
-- name: 判决未执行
+  read_by:
+  - M02_and_M12_engine
+- id: court_ruling_unxecuted
+  name_zh: 判决未执行
+  name: 判决未执行
+  zh: 判决未执行
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 6
+  duration_days: 180
+  duration:
+    unit: months
+    n: 6
+  edges:
+  - target: rule_of_law
+    shape: flag
+    coef: -0.5
+    label_zh: 判决未执行
+  factors: []
+  monthly_effects:
+  - op: add
+    target: rule_of_law
+    value: -0.5
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 6个月：民主法治指数 每月 −0.5
   set_by:
   - E-1979-10
-  read_by: []
-- name: 刺杀风险
+  read_by:
+  - M02_and_M12_engine
+- id: assassination_risk_mod
+  name_zh: 刺杀风险
+  name: 刺杀风险
+  zh: 刺杀风险
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 24
+  duration_days: 720
+  duration:
+    unit: months
+    n: 24
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.0
+    label_zh: 刺杀风险
+  factors: []
+  monthly_effects:
+  - op: add
+    target: public_security
+    value: -1.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 持续至24个月无领土让步且定居者动量<45：每月检定触发 E-1995-04，公众安全感 −1
   set_by:
   - E-1993-05
   - E-1995-03
@@ -186,11 +1202,64 @@ modifiers:
   read_by:
   - E-1995-03
   - E-1995-04
-- name: 前哨承诺
+- id: outpost_removal_pledge
+  name_zh: 前哨承诺
+  name: 前哨承诺
+  zh: 前哨承诺
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 24
+  duration_days: 720
+  duration:
+    unit: months
+    n: 24
+  edges:
+  - target: us_admin_relation
+    shape: flag
+    coef: -5.0
+    label_zh: 前哨承诺
+  factors: []
+  monthly_effects:
+  - op: add
+    target: us_admin_relation
+    value: -5.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 若24个月内未拆除前哨，美国政府关系 −5，见 E-G05-08
   set_by:
   - E-2003-02
-  read_by: []
-- name: 北方摩擦
+  read_by:
+  - M02_and_M12_engine
+- id: northern_border_friction
+  name_zh: 北方摩擦
+  name: 北方摩擦
+  zh: 北方摩擦
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 24
+  duration_days: 720
+  duration:
+    unit: months
+    n: 24
+  edges:
+  - target: region_security
+    shape: flag
+    coef: -2.0
+    label_zh: 北方摩擦
+    target_key: galilee
+  factors: []
+  monthly_effects:
+  - op: add
+    target: region_security
+    value: -2.0
+    key: galilee
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 24个月：安全[加利利] 每季度 −2，叙利亚开战概率 +5%
   set_by:
   - E-1964-11
   - E-1967-04
@@ -198,159 +1267,1113 @@ modifiers:
   read_by:
   - E-1967-04
   - E-1967-06e
-- name: 北线冻结
+- id: northern_front_frozen
+  name_zh: 北线冻结
+  name: 北线冻结
+  zh: 北线冻结
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 北线冻结
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 真主党在南黎巴嫩的攻击频率 +20%
   set_by:
   - E-1994-06
-  read_by: []
-- name: 南方渗透
+  read_by:
+  - M02_and_M12_engine
+- id: southern_fedayeen_infiltration
+  name_zh: 南方渗透
+  name: 南方渗透
+  zh: 南方渗透
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -2.0
+    label_zh: 南方渗透
+  - target: region_security
+    shape: flag
+    coef: -0.5
+    label_zh: 南方渗透
+    target_key: negev
+  factors: []
+  monthly_effects:
+  - op: add
+    target: public_security
+    value: -2.0
+  - op: add
+    target: region_security
+    value: -0.5
+    key: negev
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 12个月：费达因越境袭击持续，安全[内盖夫] 每月 −0.5，公众安全感 −2
   set_by:
   - E-1956-10a
-  read_by: []
-- name: 卡拉梅神话
+  read_by:
+  - M02_and_M12_engine
+- id: karameh_myth
+  name_zh: 卡拉梅神话
+  name: 卡拉梅神话
+  zh: 卡拉梅神话
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 24
+  duration_days: 720
+  duration:
+    unit: months
+    n: 24
+  edges:
+  - target: faction_strength
+    shape: flag
+    coef: 0.5
+    label_zh: 卡拉梅神话
+    target_key: fatah
+  factors: []
+  monthly_effects:
+  - op: add
+    target: faction_strength
+    value: 0.5
+    key: fatah
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 24个月：实力[法塔赫] 每月 +0.5；越境袭击频率 +20%
   set_by:
   - E-1968-01
-  read_by: []
-- name: 卡赫纳主义
+  read_by:
+  - M02_and_M12_engine
+- id: kahanism_spread
+  name_zh: 卡赫纳主义
+  name: 卡赫纳主义
+  zh: 卡赫纳主义
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 48
+  duration_days: 1440
+  duration:
+    unit: months
+    n: 48
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 48个月：犹太-阿拉伯混居区的骚乱概率 +20%
   set_by:
   - E-1985-08
-  read_by: []
-- name: 厨房内阁
+  read_by:
+  - M02_and_M12_engine
+- id: kitchen_cabinet
+  name_zh: 厨房内阁
+  name: 厨房内阁
+  zh: 厨房内阁
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: complacency
+    shape: flag
+    coef: 0.3
+    label_zh: 厨房内阁
+  factors: []
+  monthly_effects:
+  - op: add
+    target: complacency
+    value: 0.3
+  - op: add
+    target: political_capital
+    value: -30.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 持续至总理更换：重大安全决策的政治资本成本 −30%；战略自满度 每月 +0.3；未入核心圈的部长人物关系 每季度 −2
   set_by:
   - E-1969-02
   read_by:
   - E-1969-02
-- name: 双头政府
+- id: two_headed_unity_government
+  name_zh: 双头政府
+  name: 双头政府
+  zh: 双头政府
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 直至轮值结束：所有和平倡议类事件需双方同意，政治资本消耗 ×1.5；重大经济改革的议会阻力 −50%
   set_by:
   - E-1984-07
-  read_by: []
-- name: 双头政治
+  read_by:
+  - M02_and_M12_engine
+- id: diarchy_sde_boker
+  name_zh: 双头政治
+  name: 双头政治
+  zh: 双头政治
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 隐退期间：本-古里安的门生（达扬、佩雷斯
   set_by:
   - E-1953-06
   read_by:
   - E-1954-01
   - E-1955-02
-- name: 双重标准
+- id: double_standard_grievance
+  name_zh: 双重标准
+  name: 双重标准
+  zh: 双重标准
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: bloc_support
+    shape: flag
+    coef: -0.5
+    label_zh: 双重标准
+    target_key: mizrahi
+  factors: []
+  monthly_effects:
+  - op: add
+    target: bloc_support
+    value: -0.5
+    key: mizrahi
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 至大选：选民集团支持[米兹拉希] 每月 −0.5
   set_by:
   - E-1977-01
-  read_by: []
-- name: 双面间谍
+  read_by:
+  - M02_and_M12_engine
+- id: double_agent_exposed
+  name_zh: 双面间谍
+  name: 双面间谍
+  zh: 双面间谍
+  category: security
+  scope: country
+  scope_type: country
+  stack: refresh
+  duration_months: 24
+  duration_days: 720
+  duration:
+    unit: months
+    n: 24
+  edges:
+  - target: complacency
+    shape: flag
+    coef: -5.0
+    label_zh: 双面间谍
+  factors: []
+  monthly_effects:
+  - op: add
+    target: complacency
+    value: -5.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 24个月：对{国家} 的情报质量提升，战略自满度 −5
   set_by:
   - R-38
-  read_by: []
-- name: 反恐战争
+  read_by:
+  - M02_and_M12_engine
+- id: global_war_on_terror_frame
+  name_zh: 反恐战争
+  name: 反恐战争
+  zh: 反恐战争
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: -30.0
+    label_zh: 反恐战争
+  factors: []
+  monthly_effects:
+  - op: add
+    target: intl_legitimacy
+    value: -30.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 2001-09起：以色列军事行动的国际合法性损失 −30%，美国政府关系对反恐行动的惩罚减半
   set_by:
   - E-2001-03
-  read_by: []
-- name: 发展城镇的边缘
+  read_by:
+  - M02_and_M12_engine
+- id: development_town_periphery
+  name_zh: 发展城镇的边缘
+  name: 发展城镇的边缘
+  zh: 发展城镇的边缘
+  category: social
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: alienation
+    shape: flag
+    coef: 10.0
+    label_zh: 发展城镇的边缘
+    target_key: mizrahi
+  factors: []
+  monthly_effects:
+  - op: add
+    target: alienation
+    value: 10.0
+    key: mizrahi
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：内盖夫与加利利发展城镇的疏离度[米兹拉希] 下限 +10
   set_by:
   - E-1950-07
-  read_by: []
-- name: 口头授权
+  read_by:
+  - M02_and_M12_engine
+- id: shin_bet_oral_authorization
+  name_zh: 口头授权
+  name: 口头授权
+  zh: 口头授权
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: -8.0
+    label_zh: 口头授权
+  - target: us_congress_relation
+    shape: flag
+    coef: -8.0
+    label_zh: 口头授权
+  - target: rule_of_law
+    shape: flag
+    coef: -10.0
+    label_zh: 口头授权
+  factors: []
+  monthly_effects:
+  - op: add
+    target: intl_legitimacy
+    value: -8.0
+  - op: add
+    target: us_congress_relation
+    value: -8.0
+  - op: add
+    target: rule_of_law
+    value: -10.0
+  - op: add
+    target: political_capital
+    value: -30.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：每年 5% 概率曝光；曝光时 民主法治指数 −10，国际合法性 −8，美国国会关系 −8，政治资本 −30，并直接触发 E-1986-05，且其选项B、C
+    会牵连主角本人
   set_by:
   - E-G04-19
-  read_by: []
-- name: 右翼合法化
+  read_by:
+  - M02_and_M12_engine
+- id: herut_legitimized
+  name_zh: 右翼合法化
+  name: 右翼合法化
+  zh: 右翼合法化
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: bloc_support
+    shape: flag
+    coef: 1.0
+    label_zh: 右翼合法化
+    target_key: mizrahi
+  factors: []
+  monthly_effects:
+  - op: add
+    target: bloc_support
+    value: 1.0
+    key: mizrahi
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：选民集团支持[米兹拉希] 向加哈尔漂移 每年 +1
   set_by:
   - E-1965-04
-  read_by: []
-- name: 右翼地下复燃
+  read_by:
+  - M02_and_M12_engine
+- id: right_wing_underground_revival
+  name_zh: 右翼地下复燃
+  name: 右翼地下复燃
+  zh: 右翼地下复燃
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 36
+  duration_days: 1080
+  duration:
+    unit: months
+    n: 36
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -3.0
+    label_zh: 右翼地下复燃
+  factors: []
+  monthly_effects:
+  - op: add
+    target: public_security
+    value: -3.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 36个月：每季度有10%概率发生政治暴力事件，公众安全感 −3
   set_by:
   - E-1948-02
-  read_by: []
-- name: 右翼地下的怨恨
+  read_by:
+  - M02_and_M12_engine
+- id: right_wing_underground_resentment
+  name_zh: 右翼地下的怨恨
+  name: 右翼地下的怨恨
+  zh: 右翼地下的怨恨
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 右翼地下的怨恨
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 12个月：每季度5%概率发生针对政府官员的袭击
   set_by:
   - E-1948-07
-  read_by: []
-- name: 合作者审判
+  read_by:
+  - M02_and_M12_engine
+- id: kastner_collaborator_trial
+  name_zh: 合作者审判
+  name: 合作者审判
+  zh: 合作者审判
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 至大选：赫鲁特与马基的选民倾向 +2%
   set_by:
   - E-1955-04
-  read_by: []
-- name: 合作者污名·约旦
+  read_by:
+  - M02_and_M12_engine
+- id: jordan_collaborator_stigma
+  name_zh: 合作者污名·约旦
+  name: 合作者污名·约旦
+  zh: 合作者污名·约旦
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 24
+  duration_days: 720
+  duration:
+    unit: months
+    n: 24
+  edges:
+  - target: regime_stability
+    shape: flag
+    coef: -0.3
+    label_zh: 合作者污名·约旦
+    target_key: jordan
+  factors: []
+  monthly_effects:
+  - op: add
+    target: regime_stability
+    value: -0.3
+    key: jordan
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 24个月：政权稳定度[约旦] 每月 −0.3，因为王室被视为靠以色列保住王位
   set_by:
   - E-1970-05
-  read_by: []
-- name: 周六冲突
+  read_by:
+  - M02_and_M12_engine
+- id: sabbath_street_clashes
+  name_zh: 周六冲突
+  name: 周六冲突
+  zh: 周六冲突
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 3
+  duration_days: 90
+  duration:
+    unit: months
+    n: 3
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -0.5
+    label_zh: 周六冲突
+  factors: []
+  monthly_effects:
+  - op: add
+    target: public_security
+    value: -0.5
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 3个月：每月 公众安全感 −0.5
   set_by:
   - R-22
-  read_by: []
-- name: 和平红利
+  read_by:
+  - M02_and_M12_engine
+- id: oslo_peace_dividend
+  name_zh: 和平红利
+  name: 和平红利
+  zh: 和平红利
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 36
+  duration_days: 1080
+  duration:
+    unit: months
+    n: 36
+  edges:
+  - target: growth
+    shape: flag
+    coef: 0.5
+    label_zh: 和平红利
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 36个月：经济增长 +小，外国投资上升，与亚洲、阿拉伯国家建交事件解锁
   set_by:
   - E-1993-03
-  read_by: []
-- name: 和平阵营动员
+  read_by:
+  - M02_and_M12_engine
+- id: peace_now_mobilization
+  name_zh: 和平阵营动员
+  name: 和平阵营动员
+  zh: 和平阵营动员
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: bloc_support
+    shape: flag
+    coef: -0.3
+    label_zh: 和平阵营动员
+    target_key: liberal_middle
+  factors: []
+  monthly_effects:
+  - op: add
+    target: bloc_support
+    value: -0.3
+    key: liberal_middle
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 12个月："现在就和平"每季度举行一次大型集会，选民集团支持[中产自由派] 每月 −0.3
   set_by:
   - E-1978-04
-  read_by: []
-- name: 和约危机
+  read_by:
+  - M02_and_M12_engine
+- id: peace_treaty_crisis
+  name_zh: 和约危机
+  name: 和约危机
+  zh: 和约危机
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: readiness
+    shape: flag
+    coef: 10.0
+    label_zh: 和约危机
+  - target: budget_balance
+    shape: flag
+    coef: -2.0
+    label_zh: 和约危机
+  - target: regime_hostility
+    shape: flag
+    coef: 10.0
+    label_zh: 和约危机
+    target_key: egypt
+  factors: []
+  monthly_effects:
+  - op: add
+    target: readiness
+    value: 10.0
+  - op: add
+    target: budget_balance
+    value: -2.0
+  - op: add
+    target: regime_hostility
+    value: 10.0
+    key: egypt
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：战备需求 +10，财政每年 −2%，政权敌意[埃及] +10
   set_by:
   - E-1982-04
-  read_by: []
-- name: 四位母亲的先声
+  read_by:
+  - M02_and_M12_engine
+- id: four_mothers_precursor
+  name_zh: 四位母亲的先声
+  name: 四位母亲的先声
+  zh: 四位母亲的先声
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 23964
+  duration_days: 718920
+  duration:
+    unit: months
+    n: 23964
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 四位母亲的先声
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 若累计触发 ≥ 6次：解锁撤出安全区的社会运动，史实对应1997年后的"四位母亲"运动
   set_by:
   - E-G04-18
-  read_by: []
-- name: 四十万人
+  read_by:
+  - M02_and_M12_engine
+- id: four_hundred_thousand_protest
+  name_zh: 四十万人
+  name: 四十万人
+  zh: 四十万人
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 6
+  duration_days: 180
+  duration:
+    unit: months
+    n: 6
+  edges:
+  - target: bloc_support
+    shape: flag
+    coef: -2.0
+    label_zh: 四十万人
+    target_key: liberal_middle
+  factors: []
+  monthly_effects:
+  - op: add
+    target: political_capital
+    value: -5.0
+  - op: add
+    target: bloc_support
+    value: -2.0
+    key: liberal_middle
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 6个月：每月一次大型示威，选民集团支持[中产自由派] 每月 −2，政治资本 每月 −5
   set_by:
   - E-1982-09d
-  read_by: []
-- name: 四月谅解
+  read_by:
+  - M02_and_M12_engine
+- id: april_1996_understanding
+  name_zh: 四月谅解
+  name: 四月谅解
+  zh: 四月谅解
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 监督小组：双方攻击平民的成本上升
   set_by:
   - E-1996-03
-  read_by: []
-- name: 四母亲运动
+  read_by:
+  - M02_and_M12_engine
+- id: four_mothers_movement
+  name_zh: 四母亲运动
+  name: 四母亲运动
+  zh: 四母亲运动
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges: []
+  factors: []
+  monthly_effects:
+  - op: add
+    target: political_capital
+    value: -5.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 持续到撤出黎巴嫩：南黎巴嫩每有一名以军阵亡，选民集团支持[中产自由派]、[基布兹与莫沙夫] 对现政府各 −0.3；撤军议题的政治资本成本 −5
   set_by:
   - E-1997-02
   - E-2000-01
   read_by:
   - E-1997-02
   - E-2000-01
-- name: 回归之梦
+- id: palestinian_dream_of_return
+  name_zh: 回归之梦
+  name: 回归之梦
+  zh: 回归之梦
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: pal_hostility
+    shape: flag
+    coef: 10.0
+    label_zh: 回归之梦
+  factors: []
+  monthly_effects:
+  - op: add
+    target: pal_hostility
+    value: 10.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：巴勒斯坦民间敌意 下限 +10
   set_by:
   - E-1948-03
-  read_by: []
-- name: 回归先例
+  read_by:
+  - M02_and_M12_engine
+- id: internal_refugee_return_precedent
+  name_zh: 回归先例
+  name: 回归先例
+  zh: 回归先例
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：其他国内流离者提出返回诉求的事件概率上升
   set_by:
   - E-1972-01
-  read_by: []
-- name: 团结政府否决权
+  read_by:
+  - M02_and_M12_engine
+- id: unity_coalition_mutual_veto
+  name_zh: 团结政府否决权
+  name: 团结政府否决权
+  zh: 团结政府否决权
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges: []
+  factors: []
+  monthly_effects:
+  - op: add
+    target: political_capital
+    value: 15.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 所有领土让步需额外消耗政治资本 +15；劳工党阻止吞并、大规模定居扩张
   set_by:
   - E-1992-01
   - E-2001-01
-  read_by: []
-- name: 围困穆卡塔
-  set_by: []
+  read_by:
+  - M02_and_M12_engine
+- id: mukataa_siege
+  name_zh: 围困穆卡塔
+  name: 围困穆卡塔
+  zh: 围困穆卡塔
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: -0.5
+    label_zh: 围困穆卡塔
+  factors: []
+  monthly_effects:
+  - op: add
+    target: intl_legitimacy
+    value: -0.5
+  - op: add
+    target: health
+    value: -1.0
+    key: arafat
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 持续至解围：人物健康[阿拉法特] 每月 −1，国际合法性每月 −0.5
+  set_by:
+  - M07_or_M14_system
   read_by:
   - E-2004-04
-- name: 围城心态
+- id: siege_mentality
+  name_zh: 围城心态
+  name: 围城心态
+  zh: 围城心态
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 24
+  duration_days: 720
+  duration:
+    unit: months
+    n: 24
+  edges: []
+  factors: []
+  monthly_effects:
+  - op: add
+    target: political_capital
+    value: 20.0
+  option_tag_effects:
+  - tag: restraint
+    effects:
+    - op: add
+      target: political_capital
+      value: -20.0
+  event_prob_add: []
+  desc_zh: 24个月：鸽派选项的政治资本成本 +20%；选民倾向整体右移
   set_by:
   - E-1975-02
-  read_by: []
-- name: 土地日纪念
+  read_by:
+  - M02_and_M12_engine
+- id: land_day_annual_commemoration
+  name_zh: 土地日纪念
+  name: 土地日纪念
+  zh: 土地日纪念
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：每年3月30日触发阿拉伯公民纪念抗议
   set_by:
   - E-1976-01b
-  read_by: []
-- name: 圣地之火
+  read_by:
+  - M02_and_M12_engine
+- id: al_aqsa_arson_aftermath
+  name_zh: 圣地之火
+  name: 圣地之火
+  zh: 圣地之火
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: region_security
+    shape: flag
+    coef: -5.0
+    label_zh: 圣地之火
+    target_key: jerusalem
+  factors: []
+  monthly_effects:
+  - op: add
+    target: region_security
+    value: -5.0
+    key: jerusalem
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：每年 安全[耶路撒冷] −5，与穆斯林世界的任何和解谈判难度 +50%
   set_by:
   - E-1967-06f
-  read_by: []
-- name: 圣地对峙
+  read_by:
+  - M02_and_M12_engine
+- id: temple_mount_standoff
+  name_zh: 圣地对峙
+  name: 圣地对峙
+  zh: 圣地对峙
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: region_security
+    shape: flag
+    coef: -0.5
+    label_zh: 圣地对峙
+    target_key: jerusalem
+  factors: []
+  monthly_effects:
+  - op: add
+    target: region_security
+    value: -0.5
+    key: jerusalem
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久，撤销需政治资本40：安全[耶路撒冷] 每月 −0.5；所有阿拉伯国家政权敌意下限 +5
   set_by:
   - E-1967-02
-  read_by: []
-- name: 圣殿山阴谋的回声
+  read_by:
+  - M02_and_M12_engine
+- id: temple_mount_plot_echoes
+  name_zh: 圣殿山阴谋的回声
+  name: 圣殿山阴谋的回声
+  zh: 圣殿山阴谋的回声
+  category: religious
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: religious_status_quo
+    shape: flag
+    coef: 2.0
+    label_zh: 圣殿山阴谋的回声
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：圣地冲突事件概率 +30%，伊斯兰派系合法性 +5
   set_by:
   - E-1984-04b
-  read_by: []
-- name: 埃及无力开战
+  read_by:
+  - M02_and_M12_engine
+- id: conception_egypt_cannot_war
+  name_zh: 埃及无力开战
+  name: 埃及无力开战
+  zh: 埃及无力开战
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: complacency
+    shape: flag
+    coef: 0.3
+    label_zh: 埃及无力开战
+  factors: []
+  monthly_effects:
+  - op: add
+    target: complacency
+    value: 0.3
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 持续至1973-10或战争爆发：战略自满度 每月 +0.3；情报报告对埃及战备的评估偏乐观
   set_by:
   - E-1972-02
   read_by:
   - E-1973-04
-- name: 塔尔法
+- id: tal_law_interim
+  name_zh: 塔尔法
+  name: 塔尔法
+  zh: 塔尔法
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 60
+  duration_days: 1800
+  duration:
+    unit: months
+    n: 60
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 60个月后到期，届时再次触发本事件，阈值更高
   set_by:
   - E-1999-02
-  read_by: []
-- name: 复仇
+  read_by:
+  - M02_and_M12_engine
+- id: revenge_bombing_wave
+  name_zh: 复仇
+  name: 复仇
+  zh: 复仇
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 2
+  duration_days: 60
+  duration:
+    unit: months
+    n: 2
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 2个月：大规模爆炸概率 +60%，触发 → E-1996-02；3个月
   set_by:
   - E-1996-01
   - E-2002-04
@@ -358,24 +2381,151 @@ modifiers:
   read_by:
   - E-1996-02
   - E-G05-06
-- name: 复仇的长枪党
+- id: vengeful_phalange
+  name_zh: 复仇的长枪党
+  name: 复仇的长枪党
+  zh: 复仇的长枪党
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 1
+  duration_days: 30
+  duration:
+    unit: months
+    n: 1
+  edges: []
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add:
+  - event: E-1982-09c
+    value: 0.6
+  desc_zh: 1个月：→ E-1982-09c 触发概率 +60%
   set_by:
   - E-1982-09a
   read_by:
   - E-1982-09c
-- name: 外围网络
+- id: periphery_intelligence_network
+  name_zh: 外围网络
+  name: 外围网络
+  zh: 外围网络
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: regime_hostility
+    shape: flag
+    coef: 5.0
+    label_zh: 外围网络
+    target_key: iraq
+  factors: []
+  monthly_effects:
+  - op: add
+    target: regime_hostility
+    value: 5.0
+    key: iraq
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：情报预警 +10%，政权敌意[伊拉克] +5
   set_by:
   - E-1958-08
-  read_by: []
-- name: 外籍劳工
+  read_by:
+  - M02_and_M12_engine
+- id: foreign_guest_workers
+  name_zh: 外籍劳工
+  name: 外籍劳工
+  zh: 外籍劳工
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: union_strength
+    shape: flag
+    coef: -3.0
+    label_zh: 外籍劳工
+  - target: inequality
+    shape: flag
+    coef: 3.0
+    label_zh: 外籍劳工
+  factors: []
+  monthly_effects:
+  - op: add
+    target: union_strength
+    value: -3.0
+  - op: add
+    target: inequality
+    value: 3.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 贫富差距 +3；非法滞留者与其子女的身份问题形成后续事件；工会实力 −3
   set_by:
   - E-G05-05
-  read_by: []
-- name: 外长的保留
+  read_by:
+  - M02_and_M12_engine
+- id: dayan_settlement_reservations
+  name_zh: 外长的保留
+  name: 外长的保留
+  zh: 外长的保留
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges: []
+  factors: []
+  monthly_effects:
+  - op: add
+    target: relation
+    value: -5.0
+    key: dayan
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 12个月：每次推进定居点决议，人物关系[达扬] −5
   set_by:
   - E-1977-06
-  read_by: []
-- name: 多支武装并存
+  read_by:
+  - M02_and_M12_engine
+- id: multiple_armed_militias
+  name_zh: 多支武装并存
+  name: 多支武装并存
+  zh: 多支武装并存
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: readiness
+    shape: flag
+    coef: -15.0
+    label_zh: 多支武装并存
+  factors: []
+  monthly_effects:
+  - op: add
+    target: readiness
+    value: -15.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 哈加纳、伊尔贡、莱希、帕尔马赫指挥部并存：战备上限 −15，承诺进度[一支军队] 无法超过 30，直到相关事件结算
   set_by:
   - E-1948-01
   - E-1948-02
@@ -384,165 +2534,1161 @@ modifiers:
   read_by:
   - E-1948-02
   - E-1948-09
-- name: 大使馆留在特拉维夫
+- id: embassies_remain_in_tel_aviv
+  name_zh: 大使馆留在特拉维夫
+  name: 大使馆留在特拉维夫
+  zh: 大使馆留在特拉维夫
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: -5.0
+    label_zh: 大使馆留在特拉维夫
+  factors: []
+  monthly_effects:
+  - op: add
+    target: intl_legitimacy
+    value: -5.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：国际合法性中的耶路撒冷分项 −5
   set_by:
   - E-1949-10
-  read_by: []
-- name: 大国对抗边缘
+  read_by:
+  - M02_and_M12_engine
+- id: superpower_confrontation_brink
+  name_zh: 大国对抗边缘
+  name: 大国对抗边缘
+  zh: 大国对抗边缘
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 6
+  duration_days: 180
+  duration:
+    unit: months
+    n: 6
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 大国对抗边缘
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 6个月：美国政府关系对以色列军事行动的敏感度 ×1.5
   set_by:
   - E-1970-03
-  read_by: []
-- name: 失去外围
+  read_by:
+  - M02_and_M12_engine
+- id: lost_periphery_ally
+  name_zh: 失去外围
+  name: 失去外围
+  zh: 失去外围
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 失去外围
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：以色列在海湾地区的情报行动成本 +30%
   set_by:
   - E-1979-02
-  read_by: []
-- name: 失去孩子的父母
+  read_by:
+  - M02_and_M12_engine
+- id: bereaved_parents_protest
+  name_zh: 失去孩子的父母
+  name: 失去孩子的父母
+  zh: 失去孩子的父母
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: party_standing
+    shape: flag
+    coef: -0.3
+    label_zh: 失去孩子的父母
+  factors: []
+  monthly_effects:
+  - op: add
+    target: party_standing
+    value: -0.3
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 12个月：每月 党内地位 −0.3，直到选择一次B或C
   set_by:
   - R-07
-  read_by: []
-- name: 奥尔委员会
+  read_by:
+  - M02_and_M12_engine
+- id: or_commission_inquiry
+  name_zh: 奥尔委员会
+  name: 奥尔委员会
+  zh: 奥尔委员会
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 36
+  duration_days: 1080
+  duration:
+    unit: months
+    n: 36
+  edges:
+  - target: rule_of_law
+    shape: flag
+    coef: 3.0
+    label_zh: 奥尔委员会
+  - target: budget_balance
+    shape: flag
+    coef: -1.0
+    label_zh: 奥尔委员会
+  - target: civic_identification
+    shape: flag
+    coef: 6.0
+    label_zh: 奥尔委员会
+    target_key: arab
+  - target: land_grievance
+    shape: flag
+    coef: 5.0
+    label_zh: 奥尔委员会
+    target_key: arab
+  factors: []
+  monthly_effects:
+  - op: add
+    target: rule_of_law
+    value: 3.0
+  - op: add
+    target: budget_balance
+    value: -1.0
+  - op: add
+    target: civic_identification
+    value: 6.0
+    key: arab
+  - op: add
+    target: land_grievance
+    value: 5.0
+    key: arab
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 约36个月后发布报告：民主法治指数 +3；若政府执行建议，国家认同度[阿拉伯人] +6，财政 −1%；若搁置，土地怨气[阿拉伯人] +5，国家认同度[阿拉伯人]
+    −4
   set_by:
   - E-2000-05
-  read_by: []
-- name: 守墓人示威
+  read_by:
+  - M02_and_M12_engine
+- id: neturei_karta_protests
+  name_zh: 守墓人示威
+  name: 守墓人示威
+  zh: 守墓人示威
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 2
+  duration_days: 60
+  duration:
+    unit: months
+    n: 2
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -0.5
+    label_zh: 守墓人示威
+  factors: []
+  monthly_effects:
+  - op: add
+    target: public_security
+    value: -0.5
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 2个月：每月 公众安全感 −0.5
   set_by:
   - R-23
-  read_by: []
-- name: 安全区
+  read_by:
+  - M02_and_M12_engine
+- id: security_zone
+  name_zh: 安全区
+  name: 安全区
+  zh: 安全区
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -0.2
+    label_zh: 安全区
+  - target: faction_strength
+    shape: flag
+    coef: 5.0
+    label_zh: 安全区
+    target_key: hezbollah
+  factors: []
+  monthly_effects:
+  - op: add
+    target: public_security
+    value: -0.2
+  - op: add
+    target: faction_strength
+    value: 5.0
+    key: hezbollah
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 直至撤出：每月 以军伤亡小，公众安全感 −0.2；实力[真主党] 每年 +5
   set_by:
   - E-1985-01
   read_by:
   - E-G04-18
-- name: 安全协调
+- id: pa_security_coordination
+  name_zh: 安全协调
+  name: 安全协调
+  zh: 安全协调
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 安全协调
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 巴方安全部门是否打击哈马斯，取决于 人物关系[阿拉法特] 与 合法性[法塔赫]
   set_by:
   - E-1994-04
-  read_by: []
-- name: 宗教化的冲突
+  read_by:
+  - M02_and_M12_engine
+- id: religious_conflict_frame
+  name_zh: 宗教化的冲突
+  name: 宗教化的冲突
+  zh: 宗教化的冲突
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 宗教化的冲突
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：圣地相关事件对 巴勒斯坦民间敌意 的效果 ×1.5；任何以色列-巴解谈判都会触发哈马斯的反对行动
   set_by:
   - E-1987-12b
-  read_by: []
-- name: 宗教婚姻难题
+  read_by:
+  - M02_and_M12_engine
+- id: civil_marriage_absence
+  name_zh: 宗教婚姻难题
+  name: 宗教婚姻难题
+  zh: 宗教婚姻难题
+  category: religious
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: religious_status_quo
+    shape: flag
+    coef: 2.0
+    label_zh: 宗教婚姻难题
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：每年触发一次"无法在国内结婚"的风味事件
   set_by:
   - E-1950-05
-  read_by: []
-- name: 宗教阵线的否决权
+  read_by:
+  - M02_and_M12_engine
+- id: religious_front_veto
+  name_zh: 宗教阵线的否决权
+  name: 宗教阵线的否决权
+  zh: 宗教阵线的否决权
+  category: religious
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: religious_status_quo
+    shape: flag
+    coef: 2.0
+    label_zh: 宗教阵线的否决权
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 宗教相关法令需额外消耗政治资本10
   set_by:
   - E-1949-03
-  read_by: []
-- name: 宗教阵营右转
+  read_by:
+  - M02_and_M12_engine
+- id: nrp_rightward_turn
+  name_zh: 宗教阵营右转
+  name: 宗教阵营右转
+  zh: 宗教阵营右转
+  category: religious
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: religious_status_quo
+    shape: flag
+    coef: 2.0
+    label_zh: 宗教阵营右转
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：国家宗教党与利库德组阁的意愿 +20
   set_by:
   - E-1976-04
-  read_by: []
-- name: 审讯改革
+  read_by:
+  - M02_and_M12_engine
+- id: landau_interrogation_reform
+  name_zh: 审讯改革
+  name: 审讯改革
+  zh: 审讯改革
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 36
+  duration_days: 1080
+  duration:
+    unit: months
+    n: 36
+  edges:
+  - target: pal_hostility
+    shape: flag
+    coef: -1.0
+    label_zh: 审讯改革
+  factors: []
+  monthly_effects:
+  - op: add
+    target: pal_hostility
+    value: -1.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 36个月：辛贝特效率 −15%，巴勒斯坦民间敌意 每年 −1
   set_by:
   - E-1986-05
-  read_by: []
-- name: 宪法法院
+  read_by:
+  - M02_and_M12_engine
+- id: constitutional_court_activism
+  name_zh: 宪法法院
+  name: 宪法法院
+  zh: 宪法法院
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: centralization
+    shape: flag
+    coef: -0.2
+    label_zh: 宪法法院
+  factors: []
+  monthly_effects:
+  - op: add
+    target: centralization
+    value: -0.2
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：集权度每月 −0.2，紧急条例的使用需要更多政治资本
   set_by:
   - E-1950-04
-  read_by: []
-- name: 寒蝉
+  read_by:
+  - M02_and_M12_engine
+- id: chilling_effect
+  name_zh: 寒蝉
+  name: 寒蝉
+  zh: 寒蝉
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 12个月：负面报道类事件触发概率 −30%，但丑闻曝光时的冲击 ×2
   set_by:
   - E-G04-12
-  read_by: []
-- name: 封存的档案
+  read_by:
+  - M02_and_M12_engine
+- id: sealed_1948_archives
+  name_zh: 封存的档案
+  name: 封存的档案
+  zh: 封存的档案
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 480
+  duration_days: 14400
+  duration:
+    unit: months
+    n: 480
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: -5.0
+    label_zh: 封存的档案
+  - target: power_relation
+    shape: flag
+    coef: -3.0
+    label_zh: 封存的档案
+    target_key: diaspora
+  factors: []
+  monthly_effects:
+  - op: add
+    target: intl_legitimacy
+    value: -5.0
+  - op: add
+    target: power_relation
+    value: -3.0
+    key: diaspora
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 隐藏，约40年后档案解密时触发"新历史学家"事件：国际合法性 −5，关系[海外犹太社群] −3，历史评价中"民主"维度 −5；永久：每年 5%
+    概率解密曝光，届时国际合法性 −4
   set_by:
   - E-1948-05
   - E-1967-01c
-  read_by: []
-- name: 将领的委屈
+  read_by:
+  - M02_and_M12_engine
+- id: palmach_generals_grievance
+  name_zh: 将领的委屈
+  name: 将领的委屈
+  zh: 将领的委屈
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 24
+  duration_days: 720
+  duration:
+    unit: months
+    n: 24
+  edges:
+  - target: readiness
+    shape: flag
+    coef: -3.0
+    label_zh: 将领的委屈
+  factors: []
+  monthly_effects:
+  - op: add
+    target: readiness
+    value: -3.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 24个月：一批帕尔马赫出身的将领陆续退役，战备 −3
   set_by:
   - E-1948-09
-  read_by: []
-- name: 小圈子决策
+  read_by:
+  - M02_and_M12_engine
+- id: inner_circle_decision_making
+  name_zh: 小圈子决策
+  name: 小圈子决策
+  zh: 小圈子决策
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: centralization
+    shape: flag
+    coef: 1.0
+    label_zh: 小圈子决策
+  factors: []
+  monthly_effects:
+  - op: add
+    target: centralization
+    value: 1.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 集权度 +1/年，盟党满意度 每月 −0.2
   set_by:
   - R-27
-  read_by: []
-- name: 巴列夫防线
+  read_by:
+  - M02_and_M12_engine
+- id: bar_lev_line_mod
+  name_zh: 巴列夫防线
+  name: 巴列夫防线
+  zh: 巴列夫防线
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：运河前线日常伤亡 −30%；遭到突然渡河进攻时，前线据点损失 ×1.5
   set_by:
   - E-1968-03
-  read_by: []
-- name: 币制转换
+  read_by:
+  - M02_and_M12_engine
+- id: currency_conversion_shock
+  name_zh: 币制转换
+  name: 币制转换
+  zh: 币制转换
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 6
+  duration_days: 180
+  duration:
+    unit: months
+    n: 6
+  edges:
+  - target: growth
+    shape: flag
+    coef: -0.5
+    label_zh: 币制转换
+  factors: []
+  monthly_effects:
+  - op: add
+    target: growth
+    value: -0.5
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 6个月：经济增长 −0.5
   set_by:
   - R-16
-  read_by: []
-- name: 布什的冷淡
+  read_by:
+  - M02_and_M12_engine
+- id: bush_baker_coolness
+  name_zh: 布什的冷淡
+  name: 布什的冷淡
+  zh: 布什的冷淡
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: us_admin_relation
+    shape: flag
+    coef: -1.0
+    label_zh: 布什的冷淡
+  factors: []
+  monthly_effects:
+  - op: add
+    target: us_admin_relation
+    value: -1.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 直至大选：美国政府关系 每月 −1
   set_by:
   - E-1991-09
-  read_by: []
-- name: 希伯伦宵禁
+  read_by:
+  - M02_and_M12_engine
+- id: hebron_extended_curfew
+  name_zh: 希伯伦宵禁
+  name: 希伯伦宵禁
+  zh: 希伯伦宵禁
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 6
+  duration_days: 180
+  duration:
+    unit: months
+    n: 6
+  edges:
+  - target: pal_hostility
+    shape: flag
+    coef: 0.5
+    label_zh: 希伯伦宵禁
+  - target: pal_living_standard
+    shape: flag
+    coef: -4.0
+    label_zh: 希伯伦宵禁
+  factors: []
+  monthly_effects:
+  - op: add
+    target: pal_hostility
+    value: 0.5
+  - op: add
+    target: pal_living_standard
+    value: -4.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 6个月：巴勒斯坦生活水平 −4，巴勒斯坦民间敌意每月 +0.5
   set_by:
   - E-1994-02
-  read_by: []
-- name: 希伯伦火药桶
+  read_by:
+  - M02_and_M12_engine
+- id: hebron_powder_keg
+  name_zh: 希伯伦火药桶
+  name: 希伯伦火药桶
+  zh: 希伯伦火药桶
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：希伯伦一带冲突事件概率 ×2
   set_by:
   - E-1968-02
-  read_by: []
-- name: 希伯来文化的自信
+  read_by:
+  - M02_and_M12_engine
+- id: hebrew_cultural_confidence
+  name_zh: 希伯来文化的自信
+  name: 希伯来文化的自信
+  zh: 希伯来文化的自信
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: bloc_support
+    shape: flag
+    coef: 1.0
+    label_zh: 希伯来文化的自信
+    target_key: labor_ashkenazi
+  factors: []
+  monthly_effects:
+  - op: add
+    target: bloc_support
+    value: 1.0
+    key: labor_ashkenazi
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 12个月：选民集团支持[劳工派阿什肯纳兹] +1
   set_by:
   - E-G02-08
-  read_by: []
-- name: 帐篷城
+  read_by:
+  - M02_and_M12_engine
+- id: tent_city_protests
+  name_zh: 帐篷城
+  name: 帐篷城
+  zh: 帐篷城
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 6
+  duration_days: 180
+  duration:
+    unit: months
+    n: 6
+  edges: []
+  factors: []
+  monthly_effects:
+  - op: add
+    target: political_capital
+    value: -3.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 6个月：每月 政治资本 −3
   set_by:
   - E-G04-08
-  read_by: []
-- name: 幻影机交付延迟
+  read_by:
+  - M02_and_M12_engine
+- id: mirage_delivery_delayed
+  name_zh: 幻影机交付延迟
+  name: 幻影机交付延迟
+  zh: 幻影机交付延迟
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 6
+  duration_days: 180
+  duration:
+    unit: months
+    n: 6
+  edges:
+  - target: readiness
+    shape: flag
+    coef: -0.5
+    label_zh: 幻影机交付延迟
+  factors: []
+  monthly_effects:
+  - op: add
+    target: readiness
+    value: -0.5
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 6个月：战备 每月 −0.5
   set_by:
   - E-1970-04
-  read_by: []
-- name: 廉价劳动力
+  read_by:
+  - M02_and_M12_engine
+- id: occupied_territories_cheap_labor
+  name_zh: 廉价劳动力
+  name: 廉价劳动力
+  zh: 廉价劳动力
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：以色列建筑业和农业对巴勒斯坦劳工的依赖逐年加深；未来封锁的经济代价 +
   set_by:
   - E-G03-02
-  read_by: []
-- name: 开放桥梁
+  read_by:
+  - M02_and_M12_engine
+- id: open_bridges_policy
+  name_zh: 开放桥梁
+  name: 开放桥梁
+  zh: 开放桥梁
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久，见 E-G03-02
   set_by:
   - E-1967-05
-  read_by: []
-- name: 弹药荒
+  read_by:
+  - M02_and_M12_engine
+- id: ammunition_shortage
+  name_zh: 弹药荒
+  name: 弹药荒
+  zh: 弹药荒
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 战争剩余期间战役效率 −25%
   set_by:
   - E-1973-08
   read_by:
   - E-1973-08
-- name: 总理兼国防
+- id: acting_defense_minister
+  name_zh: 总理兼国防
+  name: 总理兼国防
+  zh: 总理兼国防
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: readiness
+    shape: flag
+    coef: -1.0
+    label_zh: 总理兼国防
+  factors: []
+  monthly_effects:
+  - op: add
+    target: readiness
+    value: -1.0
+  - op: add
+    target: political_capital
+    value: -3.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 至玩家任命新国防部长为止：每月 政治资本 −3，战备 每季度 −1
   set_by:
   - E-1980-05a
-  read_by: []
-- name: 恩德培神话
+  read_by:
+  - M02_and_M12_engine
+- id: entebbe_euphoria
+  name_zh: 恩德培神话
+  name: 恩德培神话
+  zh: 恩德培神话
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 36
+  duration_days: 1080
+  duration:
+    unit: months
+    n: 36
+  edges:
+  - target: public_security
+    shape: flag
+    coef: 2.0
+    label_zh: 恩德培神话
+  - target: complacency
+    shape: flag
+    coef: 5.0
+    label_zh: 恩德培神话
+  factors: []
+  monthly_effects:
+  - op: add
+    target: public_security
+    value: 2.0
+  - op: add
+    target: complacency
+    value: 5.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 36个月：公众安全感 +2，战略自满度 +5（隐藏
   set_by:
   - R-58
-  read_by: []
-- name: 戒严的阴影
+  read_by:
+  - M02_and_M12_engine
+- id: martial_law_shadow
+  name_zh: 戒严的阴影
+  name: 戒严的阴影
+  zh: 戒严的阴影
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: rule_of_law
+    shape: flag
+    coef: -15.0
+    label_zh: 戒严的阴影
+  factors: []
+  monthly_effects:
+  - op: add
+    target: rule_of_law
+    value: -15.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：民主法治指数 上限 −15，每年 人才外流 修正
   set_by:
   - E-1982-09d
-  read_by: []
-- name: 战争罪调查
+  read_by:
+  - M02_and_M12_engine
+- id: un_war_crimes_probe
+  name_zh: 战争罪调查
+  name: 战争罪调查
+  zh: 战争罪调查
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 36
+  duration_days: 1080
+  duration:
+    unit: months
+    n: 36
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: -0.3
+    label_zh: 战争罪调查
+  factors: []
+  monthly_effects:
+  - op: add
+    target: intl_legitimacy
+    value: -0.3
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 36个月：国际合法性每月 −0.3
   set_by:
   - E-2002-02
-  read_by: []
-- name: 战略资产
+  read_by:
+  - M02_and_M12_engine
+- id: us_strategic_asset
+  name_zh: 战略资产
+  name: 战略资产
+  zh: 战略资产
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 战略资产
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：美国军援 +10%，美方视以色列为地区战略伙伴
   set_by:
   - E-1970-05
-  read_by: []
-- name: 扎伊姆渠道
+  read_by:
+  - M02_and_M12_engine
+- id: husni_zaim_channel
+  name_zh: 扎伊姆渠道
+  name: 扎伊姆渠道
+  zh: 扎伊姆渠道
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: -2.0
+    label_zh: 扎伊姆渠道
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 每月：扎伊姆被推翻概率 = 5% + 民间敌意[叙利亚]/20%
   set_by:
   - E-1949-05
-  read_by: []
-- name: 报复国家
+  read_by:
+  - M02_and_M12_engine
+- id: retaliation_state_stigma
+  name_zh: 报复国家
+  name: 报复国家
+  zh: 报复国家
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: -10.0
+    label_zh: 报复国家
+  factors: []
+  monthly_effects:
+  - op: add
+    target: intl_legitimacy
+    value: -10.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：国际合法性 上限 −10，渗透事件的民间敌意增量 ×1.5
   set_by:
   - E-1953-05
-  read_by: []
-- name: 报复螺旋
+  read_by:
+  - M02_and_M12_engine
+- id: retaliation_spiral
+  name_zh: 报复螺旋
+  name: 报复螺旋
+  zh: 报复螺旋
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 报复螺旋
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 12个月：渗透次数 +20%
   set_by:
   - E-G02-01
-  read_by: []
-- name: 报复行动政策
+  read_by:
+  - M02_and_M12_engine
+- id: reprisal_operations_doctrine
+  name_zh: 报复行动政策
+  name: 报复行动政策
+  zh: 报复行动政策
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 报复行动政策
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 启用：此后致命袭击后自动提供报复选项，规模失控事件概率 +10%
   set_by:
   - E-G01-01
   read_by:
   - E-1953-02a
   - E-1953-04
   - E-1955-03
-- name: 拉冯的幽灵
+- id: ghost_of_lavon_affair
+  name_zh: 拉冯的幽灵
+  name: 拉冯的幽灵
+  zh: 拉冯的幽灵
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: party_standing
+    shape: flag
+    coef: -3.0
+    label_zh: 拉冯的幽灵
+  factors: []
+  monthly_effects:
+  - op: add
+    target: party_standing
+    value: -3.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久，直到旗标：拉菲分裂 发生：党内地位 每年 −3
   set_by:
   - E-1960-10
   - E-1965-02
@@ -550,26 +3696,152 @@ modifiers:
   - E-1963-06a
   - E-1965-02
   - E-1965-07
-- name: 拉宾与佩雷斯
+- id: rabin_peres_rivalry
+  name_zh: 拉宾与佩雷斯
+  name: 拉宾与佩雷斯
+  zh: 拉宾与佩雷斯
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: party_standing
+    shape: flag
+    coef: -10.0
+    label_zh: 拉宾与佩雷斯
+  factors: []
+  monthly_effects:
+  - op: add
+    target: party_standing
+    value: -10.0
+  - op: add
+    target: relation
+    value: -2.0
+    key: peres
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 持续至1977：人物关系[佩雷斯] 每季度 −2；党内地位上限 −10
   set_by:
   - E-1974-03
-  read_by: []
-- name: 拒签者运动
+  read_by:
+  - M02_and_M12_engine
+- id: soviet_refusenik_movement
+  name_zh: 拒签者运动
+  name: 拒签者运动
+  zh: 拒签者运动
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: absorption_capacity
+    shape: flag
+    coef: -1.0
+    label_zh: 拒签者运动
+  factors: []
+  monthly_effects:
+  - op: add
+    target: absorption_capacity
+    value: -1.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 持续至苏联政策改变：苏联犹太移民 每年 +1万；移民吸收容量 每季度 −1
   set_by:
   - E-1970-07
   read_by:
   - E-1970-07
   - E-1971-02
   - E-G03-05
-- name: 拒绝派的回应
+- id: rejectionist_terror_wave
+  name_zh: 拒绝派的回应
+  name: 拒绝派的回应
+  zh: 拒绝派的回应
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 拒绝派的回应
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 哈马斯、伊斯兰圣战爆炸概率上升
   set_by:
   - E-1993-03
-  read_by: []
-- name: 指数化经济
+  read_by:
+  - M02_and_M12_engine
+- id: indexed_economy_rigidity
+  name_zh: 指数化经济
+  name: 指数化经济
+  zh: 指数化经济
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: inflation
+    shape: flag
+    coef: 20.0
+    label_zh: 指数化经济
+  factors: []
+  monthly_effects:
+  - op: add
+    target: inflation
+    value: 20.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：每次通胀上升时，下一季度通胀额外 +20%，直至进行结构改革
   set_by:
   - E-G03-08
-  read_by: []
-- name: 指数化螺旋
+  read_by:
+  - M02_and_M12_engine
+- id: indexation_spiral
+  name_zh: 指数化螺旋
+  name: 指数化螺旋
+  zh: 指数化螺旋
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 36
+  duration_days: 1080
+  duration:
+    unit: months
+    n: 36
+  edges:
+  - target: inflation
+    shape: flag
+    coef: 3.0
+    label_zh: 指数化螺旋
+  factors: []
+  monthly_effects:
+  - op: add
+    target: inflation
+    value: 3.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 36个月：通胀每季度 +3，除非玩家通过 E-G04-02 打破工资指数化
   set_by:
   - E-1977-10
   - E-1985-07
@@ -578,47 +3850,286 @@ modifiers:
   - E-1985-07
   - E-G04-01
   - E-G04-02
-- name: 挨第一拳
+- id: absorb_first_strike_cost
+  name_zh: 挨第一拳
+  name: 挨第一拳
+  zh: 挨第一拳
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 战争首周前线损失 ×1.5
   set_by:
   - E-1973-05
-  read_by: []
-- name: 掩盖
+  read_by:
+  - M02_and_M12_engine
+- id: cover_up_vulnerability
+  name_zh: 掩盖
+  name: 掩盖
+  zh: 掩盖
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: party_standing
+    shape: flag
+    coef: -15.0
+    label_zh: 掩盖
+  factors: []
+  monthly_effects:
+  - op: add
+    target: party_standing
+    value: -15.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 12个月：抗议事件概率 ×2；若泄露，党内地位 −15
   set_by:
   - E-1974-02
   read_by:
   - E-1974-03
-- name: 撤军压力
+- id: eisenhower_withdrawal_pressure
+  name_zh: 撤军压力
+  name: 撤军压力
+  zh: 撤军压力
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: -1.0
+    label_zh: 撤军压力
+  - target: fx_reserves
+    shape: flag
+    coef: -1.0
+    label_zh: 撤军压力
+  factors: []
+  monthly_effects:
+  - op: add
+    target: intl_legitimacy
+    value: -1.0
+  - op: add
+    target: fx_reserves
+    value: -1.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 直到 西奈、加沙 动态区撤销：外汇 每月 −1%，国际合法性 每月 −1
   set_by:
   - E-1956-11c
   - E-1956-11d
   read_by:
   - E-1956-11d
-- name: 撤出黎巴嫩运动
+- id: withdraw_from_lebanon_movement
+  name_zh: 撤出黎巴嫩运动
+  name: 撤出黎巴嫩运动
+  zh: 撤出黎巴嫩运动
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: bloc_support
+    shape: flag
+    coef: -0.5
+    label_zh: 撤出黎巴嫩运动
+    target_key: liberal_middle
+  factors: []
+  monthly_effects:
+  - op: add
+    target: political_capital
+    value: -5.0
+  - op: add
+    target: bloc_support
+    value: -0.5
+    key: liberal_middle
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 持续至撤出黎巴嫩：选民集团支持[中产自由派] 每月 −0.5，撤军议题政治资本成本 −5
   set_by:
   - R-07
-  read_by: []
-- name: 撤离创伤
+  read_by:
+  - M02_and_M12_engine
+- id: gaza_evacuation_trauma
+  name_zh: 撤离创伤
+  name: 撤离创伤
+  zh: 撤离创伤
+  category: religious
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: religious_status_quo
+    shape: flag
+    coef: 2.0
+    label_zh: 撤离创伤
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 宗教犹太复国主义青年对国家机构的信任长期下降，未来撤离的抵抗强度 +50%
   set_by:
   - E-2005-02
-  read_by: []
-- name: 收编
+  read_by:
+  - M02_and_M12_engine
+- id: black_panthers_coopted
+  name_zh: 收编
+  name: 收编
+  zh: 收编
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 12个月：黑豹党分裂，激进派另起炉灶的概率 50%
   set_by:
   - E-1971-02
-  read_by: []
-- name: 改革受挫
+  read_by:
+  - M02_and_M12_engine
+- id: economic_reform_stalled
+  name_zh: 改革受挫
+  name: 改革受挫
+  zh: 改革受挫
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges: []
+  factors: []
+  monthly_effects:
+  - op: add
+    target: political_capital
+    value: -5.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 12个月：每月一次大型抗议，政治资本 每月 −5
   set_by:
   - E-1992-03
   read_by:
   - E-1992-03
-- name: 政治暴力的先例
+- id: political_violence_precedent
+  name_zh: 政治暴力的先例
+  name: 政治暴力的先例
+  zh: 政治暴力的先例
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：此后在领土让步类事件中，"极右翼刺杀风险" 基础值 +5%
   set_by:
   - E-1983-02b
-  read_by: []
-- name: 敢死队
+  read_by:
+  - M02_and_M12_engine
+- id: egyptian_fedayeen_raids
+  name_zh: 敢死队
+  name: 敢死队
+  zh: 敢死队
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 敢死队
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 埃及支持的加沙敢死队开始组建：此后每月渗透袭击概率 +20%
   set_by:
   - E-1955-03
-  read_by: []
-- name: 新谢克尔
+  read_by:
+  - M02_and_M12_engine
+- id: new_shekel
+  name_zh: 新谢克尔
+  name: 新谢克尔
+  zh: 新谢克尔
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: growth
+    shape: flag
+    coef: 0.5
+    label_zh: 新谢克尔
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：通胀基线下降，央行独立性上升
   set_by:
   - E-1985-07
   read_by:
@@ -627,137 +4138,908 @@ modifiers:
   - E-1985-07
   - E-G04-01
   - E-G04-02
-- name: 族群投票
+- id: ethnic_voting_polarization
+  name_zh: 族群投票
+  name: 族群投票
+  zh: 族群投票
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 48
+  duration_days: 1440
+  duration:
+    unit: months
+    n: 48
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 48个月：米兹拉希与劳工派阿什肯纳兹的选民倾向两极化，中间摇摆票 −20%
   set_by:
   - E-1981-06b
   read_by:
   - E-1981-06b
   - E-1983-02b
-- name: 无上限豁免
+- id: uncapped_exemption
+  name_zh: 无上限豁免
+  name: 无上限豁免
+  zh: 无上限豁免
+  category: debt
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: draft_exemption
+    shape: flag
+    coef: 1.0
+    label_zh: 无上限豁免
+  factors: []
+  monthly_effects:
+  - op: add
+    target: draft_exemption
+    value: 1.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：兵役豁免规模 每年 +1
   set_by:
   - E-G04-03
-  read_by: []
-- name: 既成事实
+  read_by:
+  - M02_and_M12_engine
+- id: settlement_fait_accompli
+  name_zh: 既成事实
+  name: 既成事实
+  zh: 既成事实
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：擅自建点被政府追认的概率 +20%
   set_by:
   - E-1975-03
-  read_by: []
-- name: 有罪不罚
+  read_by:
+  - M02_and_M12_engine
+- id: settler_impunity
+  name_zh: 有罪不罚
+  name: 有罪不罚
+  zh: 有罪不罚
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 36
+  duration_days: 1080
+  duration:
+    unit: months
+    n: 36
+  edges:
+  - target: rule_of_law
+    shape: flag
+    coef: 20.0
+    label_zh: 有罪不罚
+  factors: []
+  monthly_effects:
+  - op: add
+    target: rule_of_law
+    value: 20.0
+  - op: add
+    target: political_capital
+    value: -20.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久，较弱：日后的暴行类事件中，"掩盖"选项的政治资本代价 −20%，但民主法治指数代价 +20%；36个月：定居者暴力事件概率 +50%
   set_by:
   - E-1948-11
   - E-1980-06
-  read_by: []
-- name: 有限问责
+  read_by:
+  - M02_and_M12_engine
+- id: limited_accountability
+  name_zh: 有限问责
+  name: 有限问责
+  zh: 有限问责
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：定居者暴力事件概率 +15%
   set_by:
   - E-1984-04b
-  read_by: []
-- name: 未了的案子
+  read_by:
+  - M02_and_M12_engine
+- id: unresolved_corruption_case
+  name_zh: 未了的案子
+  name: 未了的案子
+  zh: 未了的案子
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 12个月：按定罪概率的一半，可能再次爆发
   set_by:
   - R-26
-  read_by: []
-- name: 未完成的正义
+  read_by:
+  - M02_and_M12_engine
+- id: kafr_qasim_unfinished_justice
+  name_zh: 未完成的正义
+  name: 未完成的正义
+  zh: 未完成的正义
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: bloc_support
+    shape: flag
+    coef: -1.0
+    label_zh: 未完成的正义
+    target_key: arab_citizens
+  factors: []
+  monthly_effects:
+  - op: add
+    target: bloc_support
+    value: -1.0
+    key: arab_citizens
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：每逢周年 选民集团支持[阿拉伯公民] −1
   set_by:
   - E-1956-11a
-  read_by: []
-- name: 未解之谜
+  read_by:
+  - M02_and_M12_engine
+- id: dakar_unresolved_mystery
+  name_zh: 未解之谜
+  name: 未解之谜
+  zh: 未解之谜
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 36
+  duration_days: 1080
+  duration:
+    unit: months
+    n: 36
+  edges: []
+  factors: []
+  monthly_effects:
+  - op: add
+    target: political_capital
+    value: -5.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 36个月：每年一次搜寻要求，政治资本 −5
   set_by:
   - R-08
-  read_by: []
-- name: 未解的伤口
+  read_by:
+  - M02_and_M12_engine
+- id: yemenite_children_unhealed_wound
+  name_zh: 未解的伤口
+  name: 未解的伤口
+  zh: 未解的伤口
+  category: debt
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: historical_grievance
+    shape: flag
+    coef: 3.0
+    label_zh: 未解的伤口
+    target_key: mizrahi
+  factors: []
+  monthly_effects:
+  - op: add
+    target: historical_grievance
+    value: 3.0
+    key: mizrahi
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 隐藏，历史债务型：每10年触发一次社会运动事件，每次 历史怨气[米兹拉希] +3，处理成本逐次上升
   set_by:
   - E-1950-08
   read_by:
   - E-1950-08
-- name: 未解的疑问
+- id: uss_liberty_unresolved_question
+  name_zh: 未解的疑问
+  name: 未解的疑问
+  zh: 未解的疑问
+  category: political
+  scope: country
+  scope_type: country
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：每隔若干年由对方国会、媒体或老兵团体重新提起，每次 关系[{国家}] −2
   set_by:
   - R-59
-  read_by: []
-- name: 本-古里安归来
+  read_by:
+  - M02_and_M12_engine
+- id: ben_gurion_returned_defense
+  name_zh: 本-古里安归来
+  name: 本-古里安归来
+  zh: 本-古里安归来
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 本-古里安归来
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 本-古里安以国防部长身份在安全事务上主导政策：总理的愿景进度（夏里特
   set_by:
   - E-1955-02
   - E-1955-05
   read_by:
   - E-1955-03
-- name: 村庄联盟
+- id: village_leagues_program
+  name_zh: 村庄联盟
+  name: 村庄联盟
+  zh: 村庄联盟
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 36
+  duration_days: 1080
+  duration:
+    unit: months
+    n: 36
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 36个月：每季度30%概率发生联盟成员遭暗杀或滥权事件
   set_by:
   - E-1981-11
-  read_by: []
-- name: 板房
+  read_by:
+  - M02_and_M12_engine
+- id: mobile_home_outposts
+  name_zh: 板房
+  name: 板房
+  zh: 板房
+  category: religious
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 36
+  duration_days: 1080
+  duration:
+    unit: months
+    n: 36
+  edges:
+  - target: bloc_support
+    shape: flag
+    coef: -0.3
+    label_zh: 板房
+    target_key: religious_zionist
+  factors: []
+  monthly_effects:
+  - op: add
+    target: bloc_support
+    value: -0.3
+    key: religious_zionist
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 36个月：若安置资金不足，选民集团支持[宗教犹太复国主义者] 每月 −0.3
   set_by:
   - E-2005-02
-  read_by: []
-- name: 校园对立
+  read_by:
+  - M02_and_M12_engine
+- id: campus_ideological_clash
+  name_zh: 校园对立
+  name: 校园对立
+  zh: 校园对立
+  category: social
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 6
+  duration_days: 180
+  duration:
+    unit: months
+    n: 6
+  edges:
+  - target: alienation
+    target_key: mizrahi
+    shape: flag
+    coef: 1.5
+    label_zh: 校园对立
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 6个月：下次 R-18 概率翻倍
   set_by:
   - R-18
-  read_by: []
-- name: 核对峙
+  read_by:
+  - M02_and_M12_engine
+- id: superpower_nuclear_alert_1973
+  name_zh: 核对峙
+  name: 核对峙
+  zh: 核对峙
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 核对峙
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 若继续拖延3天，30%概率触发苏联空降部队介入
   set_by:
   - E-1973-09
-  read_by: []
-- name: 核模糊
+  read_by:
+  - M02_and_M12_engine
+- id: nuclear_ambiguity_mod
+  name_zh: 核模糊
+  name: 核模糊
+  zh: 核模糊
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: deterrence
+    shape: flag
+    coef: 5.0
+    label_zh: 核模糊
+  factors: []
+  monthly_effects:
+  - op: add
+    target: deterrence
+    value: 5.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：威慑值 +5，核暴露风险增长速度 −50%
   set_by:
   - E-1986-10
-  read_by: []
-- name: 核阴影
+  read_by:
+  - M02_and_M12_engine
+- id: dimona_exposure_shadow
+  name_zh: 核阴影
+  name: 核阴影
+  zh: 核阴影
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: -10.0
+    label_zh: 核阴影
+  - target: us_admin_relation
+    shape: flag
+    coef: -8.0
+    label_zh: 核阴影
+  factors: []
+  monthly_effects:
+  - op: add
+    target: intl_legitimacy
+    value: -10.0
+  - op: add
+    target: us_admin_relation
+    value: -8.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：核计划暴露风险 +15；暴露时国际合法性 −10，美国政府关系 −8
   set_by:
   - E-1973-07
-  read_by: []
-- name: 模糊政策
+  read_by:
+  - M02_and_M12_engine
+- id: amimut_policy_shield
+  name_zh: 模糊政策
+  name: 模糊政策
+  zh: 模糊政策
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 模糊政策
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：核暴露风险的增长速度 −50%
   set_by:
   - E-G03-04
-  read_by: []
-- name: 殉道叙事
+  read_by:
+  - M02_and_M12_engine
+- id: settler_martyrdom_narrative
+  name_zh: 殉道叙事
+  name: 殉道叙事
+  zh: 殉道叙事
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: settler_momentum
+    shape: flag
+    coef: 0.5
+    label_zh: 殉道叙事
+  factors: []
+  monthly_effects:
+  - op: add
+    target: settler_momentum
+    value: 0.5
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 12个月：定居者运动动量 每月 +0.5
   set_by:
   - E-1975-03
-  read_by: []
-- name: 殉道者
+  read_by:
+  - M02_and_M12_engine
+- id: martyrdom_wave
+  name_zh: 殉道者
+  name: 殉道者
+  zh: 殉道者
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 24
+  duration_days: 720
+  duration:
+    unit: months
+    n: 24
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 殉道者
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 24个月：起义强度 +10%
   set_by:
   - E-1988-01
-  read_by: []
-- name: 殉道者卡赫纳
+  read_by:
+  - M02_and_M12_engine
+- id: kahane_martyr_cult
+  name_zh: 殉道者卡赫纳
+  name: 殉道者卡赫纳
+  zh: 殉道者卡赫纳
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 36
+  duration_days: 1080
+  duration:
+    unit: months
+    n: 36
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 36个月：极右翼暴力事件概率 +25%
   set_by:
   - E-1985-08
-  read_by: []
-- name: 水源威胁
+  read_by:
+  - M02_and_M12_engine
+- id: headwater_diversion_threat
+  name_zh: 水源威胁
+  name: 水源威胁
+  zh: 水源威胁
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -0.3
+    label_zh: 水源威胁
+  factors: []
+  monthly_effects:
+  - op: add
+    target: public_security
+    value: -0.3
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 直到 旗标：引水计划 被移除：公众安全感 每月 −0.3
   set_by:
   - E-1964-01
   - E-1964-11
   read_by:
   - E-1964-11
-- name: 沉默的总理
+- id: silent_pm
+  name_zh: 沉默的总理
+  name: 沉默的总理
+  zh: 沉默的总理
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges: []
+  factors:
+  - key: pc_income
+    mode: add_pct
+    value: -30.0
+  monthly_effects:
+  - op: add
+    target: political_capital
+    value: -30.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 直至主角更换：政治资本月产出 −30%，演说类选项效果 −50%，每月10%概率触发 E-1983-08
   set_by:
   - E-1982-11
   read_by:
   - E-1983-08
-- name: 沙龙的国防部
+- id: sharon_fiefdom_defense
+  name_zh: 沙龙的国防部
+  name: 沙龙的国防部
+  zh: 沙龙的国防部
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 沙龙的国防部
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 直至沙龙离任：国防部越权事件概率 +50%，军事行动执行效率 +20%
   set_by:
   - E-1981-08
-  read_by: []
-- name: 沙龙的怨气
+  read_by:
+  - M02_and_M12_engine
+- id: sharon_cabinet_resentment
+  name_zh: 沙龙的怨气
+  name: 沙龙的怨气
+  zh: 沙龙的怨气
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 24
+  duration_days: 720
+  duration:
+    unit: months
+    n: 24
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 24个月：沙龙在内阁投票中有30%概率反对总理
   set_by:
   - E-1981-08
-  read_by: []
-- name: 没有回家的士兵
+  read_by:
+  - M02_and_M12_engine
+- id: missing_soldiers_campaign
+  name_zh: 没有回家的士兵
+  name: 没有回家的士兵
+  zh: 没有回家的士兵
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 6
+  duration_days: 180
+  duration:
+    unit: months
+    n: 6
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -0.3
+    label_zh: 没有回家的士兵
+  factors: []
+  monthly_effects:
+  - op: add
+    target: public_security
+    value: -0.3
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 持续到解决：每月 公众安全感 −0.3，家属运动每6个月要求一次会面
   set_by:
   - R-37
-  read_by: []
-- name: 泄密
+  read_by:
+  - M02_and_M12_engine
+- id: cabinet_leaks
+  name_zh: 泄密
+  name: 泄密
+  zh: 泄密
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 12个月：重大决策有20%概率提前见报
   set_by:
   - E-1969-02
-  read_by: []
-- name: 泡沫破裂
+  read_by:
+  - M02_and_M12_engine
+- id: dotcom_bubble_burst
+  name_zh: 泡沫破裂
+  name: 泡沫破裂
+  zh: 泡沫破裂
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: budget_balance
+    shape: flag
+    coef: -2.0
+    label_zh: 泡沫破裂
+  - target: bloc_support
+    shape: flag
+    coef: -4.0
+    label_zh: 泡沫破裂
+    target_key: liberal_middle
+  factors: []
+  monthly_effects:
+  - op: add
+    target: budget_balance
+    value: -2.0
+  - op: add
+    target: bloc_support
+    value: -4.0
+    key: liberal_middle
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 失业率上升：选民集团支持[中产自由派] 对现政府 −4，财政 −2%
   set_by:
   - E-G05-04
   read_by:
   - E-2003-01
-- name: 波拉德阴影
+- id: pollard_shadow
+  name_zh: 波拉德阴影
+  name: 波拉德阴影
+  zh: 波拉德阴影
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 120
+  duration_days: 3600
+  duration:
+    unit: months
+    n: 120
+  edges:
+  - target: us_admin_relation
+    shape: flag
+    coef: -3.0
+    label_zh: 波拉德阴影
+  factors: []
+  monthly_effects:
+  - op: add
+    target: us_admin_relation
+    value: -3.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 120个月：美以情报合作效率 −20%，每次以色列为波拉德求情 美国政府关系 −3
   set_by:
   - E-1985-11
-  read_by: []
-- name: 活动房营地
+  read_by:
+  - M02_and_M12_engine
+- id: caravan_absorption_camps
+  name_zh: 活动房营地
+  name: 活动房营地
+  zh: 活动房营地
+  category: social
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 36
+  duration_days: 1080
+  duration:
+    unit: months
+    n: 36
+  edges:
+  - target: alienation
+    shape: flag
+    coef: 0.2
+    label_zh: 活动房营地
+    target_key: mizrahi
+  - target: alienation
+    shape: flag
+    coef: 0.3
+    label_zh: 活动房营地
+    target_key: russian
+  factors: []
+  monthly_effects:
+  - op: add
+    target: alienation
+    value: 0.2
+    key: mizrahi
+  - op: add
+    target: alienation
+    value: 0.3
+    key: russian
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 36个月：疏离度[俄裔] 每月 +0.3，疏离度[米兹拉希] 每月 +0.2——资源被认为偏向新移民
   set_by:
   - E-1989-10
-  read_by: []
-- name: 消耗战
+  read_by:
+  - M02_and_M12_engine
+- id: war_of_attrition_mod
+  name_zh: 消耗战
+  name: 消耗战
+  zh: 消耗战
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -0.5
+    label_zh: 消耗战
+  - target: budget_balance
+    shape: flag
+    coef: -0.3
+    label_zh: 消耗战
+  factors: []
+  monthly_effects:
+  - op: add
+    target: public_security
+    value: -0.5
+  - op: add
+    target: budget_balance
+    value: -0.3
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 持续至停火：财政 每月 −0.3%；公众安全感 每月 −0.5；每月触发运河前线伤亡事件
   set_by:
   - E-1969-03
   - E-1970-04
@@ -765,72 +5047,533 @@ modifiers:
   - E-1970-01
   - E-1970-03
   - E-1970-04
-- name: 渗透袭击
+- id: border_infiltration_raids
+  name_zh: 渗透袭击
+  name: 渗透袭击
+  zh: 渗透袭击
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: region_security
+    shape: flag
+    coef: -3.0
+    label_zh: 渗透袭击
+    target_key: negev
+  - target: region_security
+    shape: flag
+    coef: -3.0
+    label_zh: 渗透袭击
+    target_key: triangle
+  factors: []
+  monthly_effects:
+  - op: add
+    target: region_security
+    value: -3.0
+    key: negev
+  - op: add
+    target: region_security
+    value: -3.0
+    key: triangle
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 随机：每季度 安全[加利利] 或 安全[三角地带] 或 安全[内盖夫] −3
   set_by:
   - E-1964-05
-  read_by: []
-- name: 温和峰会
-  set_by: []
+  read_by:
+  - M02_and_M12_engine
+- id: moderate_arab_summit
+  name_zh: 温和峰会
+  name: 温和峰会
+  zh: 温和峰会
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: regime_hostility
+    shape: flag
+    coef: -3.0
+    label_zh: 温和峰会
+    target_key: egypt
+  factors: []
+  monthly_effects:
+  - op: add
+    target: regime_hostility
+    value: -3.0
+    key: egypt
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 12个月：政权敌意[埃及] −3；旗标：六一九决议 继续有效
+  set_by:
+  - M07_or_M14_system
   read_by:
   - E-1967-06
-- name: 漏风的内阁
+- id: leaky_cabinet
+  name_zh: 漏风的内阁
+  name: 漏风的内阁
+  zh: 漏风的内阁
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 6
+  duration_days: 180
+  duration:
+    unit: months
+    n: 6
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 6个月：秘密行动的暴露风险 +10%
   set_by:
   - R-27
-  read_by: []
-- name: 特赦先例
+  read_by:
+  - M02_and_M12_engine
+- id: shin_bet_pardon_precedent
+  name_zh: 特赦先例
+  name: 特赦先例
+  zh: 特赦先例
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 特赦先例
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：安全机构违法事件 曝光后的问责概率 −30%，辛贝特越权概率 +20%
   set_by:
   - E-1986-05
-  read_by: []
-- name: 独立宗教教育系统
+  read_by:
+  - M02_and_M12_engine
+- id: independent_haredi_schools
+  name_zh: 独立宗教教育系统
+  name: 独立宗教教育系统
+  zh: 独立宗教教育系统
+  category: religious
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: religious_status_quo
+    shape: flag
+    coef: 2.0
+    label_zh: 独立宗教教育系统
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 历史债务型：哈雷迪教育系统规模每年 +3%，兵役豁免规模增长加速
   set_by:
   - E-1953-02
-  read_by: []
-- name: 独立战争
+  read_by:
+  - M02_and_M12_engine
+- id: war_of_independence_mobilization
+  name_zh: 独立战争
+  name: 独立战争
+  zh: 独立战争
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -15.0
+    label_zh: 独立战争
+  - target: readiness
+    shape: flag
+    coef: -2.0
+    label_zh: 独立战争
+  - target: growth
+    shape: flag
+    coef: -3.0
+    label_zh: 独立战争
+  - target: budget_balance
+    shape: flag
+    coef: -1.5
+    label_zh: 独立战争
+  factors: []
+  monthly_effects:
+  - op: add
+    target: public_security
+    value: -15.0
+  - op: add
+    target: readiness
+    value: -2.0
+  - op: add
+    target: growth
+    value: -3.0
+  - op: add
+    target: budget_balance
+    value: -1.5
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 持续到全部停战协定签订：战备每月 −2 的消耗，财政每月 −1.5%，公众安全感 −15，经济增长 −3个百分点
   set_by:
   - E-1948-01
   - E-1949-02
   read_by:
   - E-1949-01
   - E-1949-02
-- name: 狼来了
+- id: cry_wolf_mobilization_fatigue
+  name_zh: 狼来了
+  name: 狼来了
+  zh: 狼来了
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: party_standing
+    shape: flag
+    coef: -3.0
+    label_zh: 狼来了
+  factors: []
+  monthly_effects:
+  - op: add
+    target: party_standing
+    value: -3.0
+  - op: add
+    target: political_capital
+    value: -10.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 政治资本 −10，大选前党内地位 −3
   set_by:
   - E-1973-04
-  read_by: []
-- name: 留在内阁的沙龙
+  read_by:
+  - M02_and_M12_engine
+- id: sharon_remains_in_cabinet
+  name_zh: 留在内阁的沙龙
+  name: 留在内阁的沙龙
+  zh: 留在内阁的沙龙
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 36
+  duration_days: 1080
+  duration:
+    unit: months
+    n: 36
+  edges:
+  - target: party_standing
+    shape: flag
+    coef: -2.0
+    label_zh: 留在内阁的沙龙
+  factors: []
+  monthly_effects:
+  - op: add
+    target: party_standing
+    value: -2.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 36个月：沙龙在党内持续培植势力，党内地位 每年 −2
   set_by:
   - E-1983-02a
-  read_by: []
-- name: 疲惫
+  read_by:
+  - M02_and_M12_engine
+- id: ben_gurion_exhaustion
+  name_zh: 疲惫
+  name: 疲惫
+  zh: 疲惫
+  category: political
+  scope: national
+  scope_type: national
+  stack: stack
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges: []
+  factors:
+  - key: pc_income
+    mode: add_flat
+    value: -1.0
+  monthly_effects:
+  - op: add
+    target: political_capital
+    value: -1.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 可叠加最多3层：每层政治资本月产出 −1，所有人物能力判定 −3%
   set_by:
   - E-1953-06
   - E-G01-08
   read_by:
   - E-1953-06
-- name: 病榻上的总理
+- id: incapacitated_pm
+  name_zh: 病榻上的总理
+  name: 病榻上的总理
+  zh: 病榻上的总理
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 4
+  duration_days: 120
+  duration:
+    unit: months
+    n: 4
+  edges: []
+  factors:
+  - key: pc_income
+    mode: add_pct
+    value: -40.0
+  monthly_effects:
+  - op: add
+    target: political_capital
+    value: -40.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 2–4个月：政治资本月产出 −40%，所有议会投票的阻力 +20%，副总理与国防部长越权概率 +30%
   set_by:
   - E-G04-15
-  read_by: []
-- name: 监狱学校
+  read_by:
+  - M02_and_M12_engine
+- id: prison_schools
+  name_zh: 监狱学校
+  name: 监狱学校
+  zh: 监狱学校
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 24
+  duration_days: 720
+  duration:
+    unit: months
+    n: 24
+  edges:
+  - target: faction_strength
+    shape: flag
+    coef: 3.0
+    label_zh: 监狱学校
+    target_key: hamas
+  factors: []
+  monthly_effects:
+  - op: add
+    target: faction_strength
+    value: 3.0
+    key: hamas
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 24个月：被拘留者在狱中被派系组织化，实力[法塔赫] 与 实力[哈马斯] 每年 +3
   set_by:
   - E-G04-09
-  read_by: []
-- name: 直选时代
+  read_by:
+  - M02_and_M12_engine
+- id: direct_election_era
+  name_zh: 直选时代
+  name: 直选时代
+  zh: 直选时代
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 23952
+  duration_days: 718560
+  duration:
+    unit: months
+    n: 23952
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 1996年起：大党席位每届 −10%，小党与族群政党崛起，总理个人声望对选举的权重 ×2
   set_by:
   - E-1992-03
-  read_by: []
-- name: 秘密渠道
+  read_by:
+  - M02_and_M12_engine
+- id: secret_backchannel_risk
+  name_zh: 秘密渠道
+  name: 秘密渠道
+  zh: 秘密渠道
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: ally_satisfaction
+    shape: flag
+    coef: -10.0
+    label_zh: 秘密渠道
+    target_key: shas
+  factors: []
+  monthly_effects:
+  - op: add
+    target: political_capital
+    value: -20.0
+  - op: add
+    target: ally_satisfaction
+    value: -10.0
+    key: shas
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 每月有 3% 暴露风险；暴露时 政治资本 −20、盟党满意度[沙斯] −10
   set_by:
   - E-1993-01
-  read_by: []
-- name: 空置村庄
+  read_by:
+  - M02_and_M12_engine
+- id: depopulated_arab_villages
+  name_zh: 空置村庄
+  name: 空置村庄
+  zh: 空置村庄
+  category: social
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: land_grievance
+    shape: flag
+    coef: 1.0
+    label_zh: 空置村庄
+    target_key: arab
+  factors: []
+  monthly_effects:
+  - op: add
+    target: land_grievance
+    value: 1.0
+    key: arab
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 土地怨气[阿拉伯人] 每年 +1，持续到难民问题解决
   set_by:
   - E-1948-03
-  read_by: []
-- name: 第7A条
+  read_by:
+  - M02_and_M12_engine
+- id: basic_law_section_7a
+  name_zh: 第7A条
+  name: 第7A条
+  zh: 第7A条
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: judicial_conflict
+    shape: flag
+    coef: 3.0
+    label_zh: 第7A条
+  factors: []
+  monthly_effects:
+  - op: add
+    target: judicial_conflict
+    value: 3.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：极右翼与阿拉伯政党的参选资格每届大选接受审查，司法冲突度基础 +3
   set_by:
   - E-1985-08
-  read_by: []
-- name: 紧缩配给
+  read_by:
+  - M02_and_M12_engine
+- id: tzena_austerity_rationing
+  name_zh: 紧缩配给
+  name: 紧缩配给
+  zh: 紧缩配给
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 36
+  duration_days: 1080
+  duration:
+    unit: months
+    n: 36
+  edges:
+  - target: absorption_capacity
+    shape: flag
+    coef: 10.0
+    label_zh: 紧缩配给
+  - target: inflation
+    shape: flag
+    coef: -3.0
+    label_zh: 紧缩配给
+  - target: fx_reserves
+    shape: flag
+    coef: -20.0
+    label_zh: 紧缩配给
+  - target: bloc_support
+    shape: flag
+    coef: -0.5
+    label_zh: 紧缩配给
+    target_key: liberal_middle
+  factors: []
+  monthly_effects:
+  - op: add
+    target: absorption_capacity
+    value: 10.0
+  - op: add
+    target: inflation
+    value: -3.0
+  - op: add
+    target: fx_reserves
+    value: -20.0
+  - op: add
+    target: bloc_support
+    value: -0.5
+    key: liberal_middle
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 36个月：外汇消耗 −20%，通胀 −3，选民集团支持[中产自由派] 每月 −0.5，移民吸收容量 +10
   set_by:
   - E-1949-06
   - E-1951-03
@@ -839,79 +5582,515 @@ modifiers:
   read_by:
   - E-1952-02
   - E-G01-03
-- name: 约旦边境失控
+- id: jordan_border_destabilized
+  name_zh: 约旦边境失控
+  name: 约旦边境失控
+  zh: 约旦边境失控
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 24
+  duration_days: 720
+  duration:
+    unit: months
+    n: 24
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 约旦边境失控
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 24个月：渗透者事件频率 +25%，三角地带 安全 −5
   set_by:
   - E-1951-02
-  read_by: []
-- name: 约旦选项受阻
+  read_by:
+  - M02_and_M12_engine
+- id: jordan_option_blocked
+  name_zh: 约旦选项受阻
+  name: 约旦选项受阻
+  zh: 约旦选项受阻
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: -2.0
+    label_zh: 约旦选项受阻
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：与约旦就西岸进行谈判的事件，政治资本成本 ×1.5，成功率 −30%
   set_by:
   - E-1974-05
   - E-1975-01
-  read_by: []
-- name: 纳哈尔掩护
+  read_by:
+  - M02_and_M12_engine
+- id: nahal_settlement_disguise
+  name_zh: 纳哈尔掩护
+  name: 纳哈尔掩护
+  zh: 纳哈尔掩护
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges: []
+  factors: []
+  monthly_effects:
+  - op: add
+    target: political_capital
+    value: -30.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：以后以军事据点名义建点的政治资本成本 −30%
   set_by:
   - E-1967-07
-  read_by: []
-- name: 纵深防御
+  read_by:
+  - M02_and_M12_engine
+- id: sinai_depth_defense
+  name_zh: 纵深防御
+  name: 纵深防御
+  zh: 纵深防御
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：遭到突然渡河进攻时，前线损失 −20%
   set_by:
   - E-1968-03
   read_by:
   - E-1968-03
-- name: 结对社群
+- id: renewal_twinning
+  name_zh: 结对社群
+  name: 结对社群
+  zh: 结对社群
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 60
+  duration_days: 1800
+  duration:
+    unit: months
+    n: 60
+  edges:
+  - target: alienation
+    shape: flag
+    coef: -1.0
+    label_zh: 结对社群
+    target_key: mizrahi
+  factors: []
+  monthly_effects:
+  - op: add
+    target: alienation
+    value: -1.0
+    key: mizrahi
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 60个月：每年 疏离度[米兹拉希] −1，海外捐款 +0.3% 财政
   set_by:
   - E-1978-06
-  read_by: []
-- name: 统一水价
+  read_by:
+  - M02_and_M12_engine
+- id: uniform_water_pricing
+  name_zh: 统一水价
+  name: 统一水价
+  zh: 统一水价
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: growth
+    shape: flag
+    coef: 0.5
+    label_zh: 统一水价
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：此后 R-01 的 k × 0.8
   set_by:
   - R-01
-  read_by: []
-- name: 统一的耶路撒冷
+  read_by:
+  - M02_and_M12_engine
+- id: united_jerusalem_consensus
+  name_zh: 统一的耶路撒冷
+  name: 统一的耶路撒冷
+  zh: 统一的耶路撒冷
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：耶路撒冷选民倾向右移；任何涉及耶路撒冷让步的选项政治资本成本 ×1.5
   set_by:
   - E-1967-04
-  read_by: []
-- name: 继承之争
+  read_by:
+  - M02_and_M12_engine
+- id: alon_dayan_succession_rivalry
+  name_zh: 继承之争
+  name: 继承之争
+  zh: 继承之争
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 3
+  duration_days: 90
+  duration:
+    unit: months
+    n: 3
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 3个月：党内地位每周随机波动 ±2；人物关系[达扬] 与 人物关系[阿隆] 此消彼长
   set_by:
   - E-1969-01
-  read_by: []
-- name: 美元化的日常
+  read_by:
+  - M02_and_M12_engine
+- id: de_facto_dollarization
+  name_zh: 美元化的日常
+  name: 美元化的日常
+  zh: 美元化的日常
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: growth
+    shape: flag
+    coef: -1.0
+    label_zh: 美元化的日常
+  factors:
+  - key: pc_income
+    mode: add_flat
+    value: -2.0
+  monthly_effects:
+  - op: add
+    target: growth
+    value: -1.0
+  - op: add
+    target: political_capital
+    value: -2.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 12个月：经济增长 −1，政治资本月产出 −2
   set_by:
   - E-G04-01
-  read_by: []
-- name: 美国冷淡
+  read_by:
+  - M02_and_M12_engine
+- id: us_diplomatic_coolness
+  name_zh: 美国冷淡
+  name: 美国冷淡
+  zh: 美国冷淡
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 24
+  duration_days: 720
+  duration:
+    unit: months
+    n: 24
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 美国冷淡
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 24个月：美国军售请求成功率 −50%
   set_by:
   - E-1963-05
-  read_by: []
-- name: 美国制裁
+  read_by:
+  - M02_and_M12_engine
+- id: us_economic_sanctions_1957
+  name_zh: 美国制裁
+  name: 美国制裁
+  zh: 美国制裁
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: growth
+    shape: flag
+    coef: -1.0
+    label_zh: 美国制裁
+  - target: fx_reserves
+    shape: flag
+    coef: -2.0
+    label_zh: 美国制裁
+  factors: []
+  monthly_effects:
+  - op: add
+    target: growth
+    value: -1.0
+  - op: add
+    target: fx_reserves
+    value: -2.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 12个月：外汇 每月 −2%，经济增长 −1
   set_by:
   - E-1956-11d
-  read_by: []
-- name: 美国武器生命线
+  read_by:
+  - M02_and_M12_engine
+- id: us_arms_lifeline
+  name_zh: 美国武器生命线
+  name: 美国武器生命线
+  zh: 美国武器生命线
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 美国武器生命线
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：美国军援占国防预算比例上升；美国政府关系对以色列决策的影响 ×1.3
   set_by:
   - E-1973-08
-  read_by: []
-- name: 美国石油保证
+  read_by:
+  - M02_and_M12_engine
+- id: us_oil_guarantee
+  name_zh: 美国石油保证
+  name: 美国石油保证
+  zh: 美国石油保证
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 180
+  duration_days: 5400
+  duration:
+    unit: months
+    n: 180
+  edges:
+  - target: growth
+    shape: flag
+    coef: 0.5
+    label_zh: 美国石油保证
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 180个月：外汇 石油冲击效果减半
   set_by:
   - E-1979-03
-  read_by: []
-- name: 美国石油保障
+  read_by:
+  - M02_and_M12_engine
+- id: us_oil_supply_memorandum
+  name_zh: 美国石油保障
+  name: 美国石油保障
+  zh: 美国石油保障
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: -2.0
+    label_zh: 美国石油保障
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：能源危机事件影响 −50%
   set_by:
   - E-1975-01
-  read_by: []
-- name: 耶希瓦学生豁免
+  read_by:
+  - M02_and_M12_engine
+- id: yeshiva_draft_exemption_debt
+  name_zh: 耶希瓦学生豁免
+  name: 耶希瓦学生豁免
+  zh: 耶希瓦学生豁免
+  category: religious
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges: []
+  factors: []
+  monthly_effects:
+  - op: add
+    target: political_capital
+    value: 2.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 历史债务型：每年覆盖人数随哈雷迪人口和豁免覆盖率增长，取消所需政治资本每年 +2
   set_by:
   - E-1949-09
   read_by:
   - E-G01-09
-- name: 腐败之风
+- id: labor_corruption_atmosphere
+  name_zh: 腐败之风
+  name: 腐败之风
+  zh: 腐败之风
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: bloc_support
+    shape: flag
+    coef: -0.5
+    label_zh: 腐败之风
+    target_key: liberal_middle
+  factors: []
+  monthly_effects:
+  - op: add
+    target: bloc_support
+    value: -0.5
+    key: liberal_middle
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 至大选：选民集团支持[中产自由派] 每月 −0.5；新中间派政党实力上升
   set_by:
   - E-1976-03
   read_by:
   - E-1977-02
-- name: 腐败政府
+- id: corrupt_government_stigma
+  name_zh: 腐败政府
+  name: 腐败政府
+  zh: 腐败政府
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: bloc_support
+    shape: flag
+    coef: -0.3
+    label_zh: 腐败政府
+    target_key: liberal_middle
+  factors:
+  - key: pc_income
+    mode: add_flat
+    value: -2.0
+  monthly_effects:
+  - op: add
+    target: political_capital
+    value: -2.0
+  - op: add
+    target: bloc_support
+    value: -0.3
+    key: liberal_middle
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 12个月：每月 政治资本产出 −2，选民集团支持[中产自由派] −0.3
   set_by:
   - R-26
-  read_by: []
-- name: 自杀式爆炸时代
+  read_by:
+  - M02_and_M12_engine
+- id: suicide_bombing_era
+  name_zh: 自杀式爆炸时代
+  name: 自杀式爆炸时代
+  zh: 自杀式爆炸时代
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 自杀式爆炸时代
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 解锁 E-G05-06，持续到实力[哈马斯] < 15
   set_by:
   - E-1994-03
   read_by:
@@ -921,225 +6100,1477 @@ modifiers:
   - E-1996-02
   - E-2002-04
   - E-G05-06
-- name: 苏东移民通道关闭
+- id: soviet_bloc_aliyah_closed
+  name_zh: 苏东移民通道关闭
+  name: 苏东移民通道关闭
+  zh: 苏东移民通道关闭
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 36
+  duration_days: 1080
+  duration:
+    unit: months
+    n: 36
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: -2.0
+    label_zh: 苏东移民通道关闭
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 36个月：来自苏联与东欧的移民 −80%
   set_by:
   - E-1953-01
-  read_by: []
-- name: 苏联防空网
+  read_by:
+  - M02_and_M12_engine
+- id: soviet_air_defense_umbrella
+  name_zh: 苏联防空网
+  name: 苏联防空网
+  zh: 苏联防空网
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: readiness
+    shape: flag
+    coef: -3.0
+    label_zh: 苏联防空网
+  factors: []
+  monthly_effects:
+  - op: add
+    target: readiness
+    value: -3.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 持续至苏军撤离：空军行动损失 +30%，战备 −3
   set_by:
   - E-1970-01
   read_by:
   - E-1970-03
   - E-1972-02
-- name: 获释者
+- id: jibril_released_prisoners
+  name_zh: 获释者
+  name: 获释者
+  zh: 获释者
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 36
+  duration_days: 1080
+  duration:
+    unit: months
+    n: 36
+  edges:
+  - target: region_security
+    shape: flag
+    coef: -3.0
+    label_zh: 获释者
+    target_key: west_bank
+  factors: []
+  monthly_effects:
+  - op: add
+    target: region_security
+    value: -3.0
+    key: west_bank
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 36个月：起义组织度 +10%，安全[约旦河西岸] −3
   set_by:
   - E-G04-11
   read_by:
   - E-1987-12a
-- name: 萧条
+- id: mitun_recession
+  name_zh: 萧条
+  name: 萧条
+  zh: 萧条
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 18
+  duration_days: 540
+  duration:
+    unit: months
+    n: 18
+  edges:
+  - target: absorption_capacity
+    shape: flag
+    coef: -10.0
+    label_zh: 萧条
+  factors: []
+  monthly_effects:
+  - op: add
+    target: absorption_capacity
+    value: -10.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 18个月：移民吸收容量 −10，触发 → 移民外流结构事件 的概率翻倍
   set_by:
   - E-1966-01
   - E-1967-06g
   read_by:
   - E-G02-02
-- name: 萨布拉与夏蒂拉
+- id: sabra_shatila_stigma
+  name_zh: 萨布拉与夏蒂拉
+  name: 萨布拉与夏蒂拉
+  zh: 萨布拉与夏蒂拉
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：历史评价"国际地位"维度 −10
   set_by:
   - E-1982-09c
-  read_by: []
-- name: 萨达特的耐心
+  read_by:
+  - M02_and_M12_engine
+- id: sadat_patience_countdown
+  name_zh: 萨达特的耐心
+  name: 萨达特的耐心
+  zh: 萨达特的耐心
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 24
+  duration_days: 720
+  duration:
+    unit: months
+    n: 24
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: -2.0
+    label_zh: 萨达特的耐心
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 沿历史轨道，倒计时24个月；24个月倒计时：若期间没有实质谈判，埃及开战概率逐月上升；沿历史轨道
   set_by:
   - E-1971-01
   read_by:
   - E-1971-01
   - E-1973-04
   - E-1973-06
-- name: 藐视委员会
+- id: contempt_for_inquiry_commission
+  name_zh: 藐视委员会
+  name: 藐视委员会
+  zh: 藐视委员会
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：未来设立调查委员会的公信力 −50%
   set_by:
   - E-1983-02a
-  read_by: []
-- name: 血钱之争
+  read_by:
+  - M02_and_M12_engine
+- id: reparations_blood_money_feud
+  name_zh: 血钱之争
+  name: 血钱之争
+  zh: 血钱之争
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 12个月：政治暴力事件概率 +15%
   set_by:
   - E-1952-01
-  read_by: []
-- name: 被压下的怒火
+  read_by:
+  - M02_and_M12_engine
+- id: wadi_salib_suppressed_anger
+  name_zh: 被压下的怒火
+  name: 被压下的怒火
+  zh: 被压下的怒火
+  category: social
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 120
+  duration_days: 3600
+  duration:
+    unit: months
+    n: 120
+  edges:
+  - target: alienation
+    shape: flag
+    coef: 0.2
+    label_zh: 被压下的怒火
+    target_key: mizrahi
+  factors: []
+  monthly_effects:
+  - op: add
+    target: alienation
+    value: 0.2
+    key: mizrahi
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 120个月：疏离度[米兹拉希] 的月增长 +0.2
   set_by:
   - E-1959-07b
-  read_by: []
-- name: 被围的内盖夫
-  set_by: []
+  read_by:
+  - M02_and_M12_engine
+- id: besieged_negev
+  name_zh: 被围的内盖夫
+  name: 被围的内盖夫
+  zh: 被围的内盖夫
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: region_security
+    shape: flag
+    coef: -1.0
+    label_zh: 被围的内盖夫
+    target_key: negev
+  factors: []
+  monthly_effects:
+  - op: add
+    target: region_security
+    value: -1.0
+    key: negev
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 安全[内盖夫] 每月 −1，愿景进度 无法超过 20
+  set_by:
+  - M07_or_M14_system
   read_by:
   - E-1948-10
-- name: 被禁止的反对派
+- id: banned_herut_martyrdom
+  name_zh: 被禁止的反对派
+  name: 被禁止的反对派
+  zh: 被禁止的反对派
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 36
+  duration_days: 1080
+  duration:
+    unit: months
+    n: 36
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: -5.0
+    label_zh: 被禁止的反对派
+  factors: []
+  monthly_effects:
+  - op: add
+    target: intl_legitimacy
+    value: -5.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 36个月：国际合法性 −5，每次大选前赫鲁特以"受迫害者"形象获得 选民倾向 +3%
   set_by:
   - E-1952-01
-  read_by: []
-- name: 被迫害的右翼
+  read_by:
+  - M02_and_M12_engine
+- id: persecuted_right_wing
+  name_zh: 被迫害的右翼
+  name: 被迫害的右翼
+  zh: 被迫害的右翼
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 24
+  duration_days: 720
+  duration:
+    unit: months
+    n: 24
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 24个月：利库德的选民倾向 +3%
   set_by:
   - E-1995-03
-  read_by: []
-- name: 要求回应
+  read_by:
+  - M02_and_M12_engine
+- id: demand_response
+  name_zh: 要求回应
+  name: 要求回应
+  zh: 要求回应
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 1
+  duration_days: 30
+  duration:
+    unit: months
+    n: 1
+  edges:
+  - target: party_standing
+    shape: flag
+    coef: -2.0
+    label_zh: 要求回应
+  factors: []
+  monthly_effects:
+  - op: add
+    target: party_standing
+    value: -2.0
+  option_tag_effects:
+  - tag: restraint
+    effects:
+    - op: add
+      target: party_standing
+      value: -2.0
+  event_prob_add: []
+  desc_zh: 1个月：克制类选项 党内地位 −2
   set_by:
   - R-36
-  read_by: []
-- name: 要求强硬
+  read_by:
+  - M02_and_M12_engine
+- id: public_demands_toughness
+  name_zh: 要求强硬
+  name: 要求强硬
+  zh: 要求强硬
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 6
+  duration_days: 180
+  duration:
+    unit: months
+    n: 6
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 要求强硬
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 若公众安全感 < 30；强制生效6个月
   set_by:
   - E-1996-02
   - E-2001-03
   - E-2002-01
   - E-2002-02
   - E-G05-06
-  read_by: []
-- name: 要求报复
+  read_by:
+  - M02_and_M12_engine
+- id: demand_retaliation
+  name_zh: 要求报复
+  name: 要求报复
+  zh: 要求报复
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 3
+  duration_days: 90
+  duration:
+    unit: months
+    n: 3
+  edges:
+  - target: party_standing
+    shape: flag
+    coef: -5.0
+    label_zh: 要求报复
+  factors: []
+  monthly_effects:
+  - op: add
+    target: party_standing
+    value: -5.0
+  option_tag_effects:
+  - tag: restraint
+    effects:
+    - op: add
+      target: party_standing
+      value: -5.0
+  event_prob_add:
+  - event: E-1978-03b
+    value: 0.2
+  desc_zh: 3个月：选择克制类选项时 党内地位 −5；2个月；1个月：克制类选项 党内地位 −3
   set_by:
   - E-1978-03a
   - E-G04-17
   - R-57
   read_by:
   - E-1978-03b
-- name: 要求赔偿
+- id: demand_compensation_diplomacy
+  name_zh: 要求赔偿
+  name: 要求赔偿
+  zh: 要求赔偿
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: 2.0
+    label_zh: 要求赔偿
+  - target: fx_reserves
+    shape: flag
+    coef: 1.0
+    label_zh: 要求赔偿
+  factors: []
+  monthly_effects:
+  - op: add
+    target: intl_legitimacy
+    value: 2.0
+  - op: add
+    target: fx_reserves
+    value: 1.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 12个月：可以通过外交行动要求赔偿，成功时外汇 +1%，国际合法性 +2
   set_by:
   - R-08
-  read_by: []
-- name: 议会安保
+  read_by:
+  - M02_and_M12_engine
+- id: knesset_tight_security
+  name_zh: 议会安保
+  name: 议会安保
+  zh: 议会安保
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: rule_of_law
+    shape: flag
+    coef: -1.0
+    label_zh: 议会安保
+  factors: []
+  monthly_effects:
+  - op: add
+    target: rule_of_law
+    value: -1.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：议会旁听受限，民主法治指数 −1
   set_by:
   - E-1957-10b
   read_by:
   - E-1957-10b
-- name: 议会碎片化
+- id: knesset_fragmentation
+  name_zh: 议会碎片化
+  name: 议会碎片化
+  zh: 议会碎片化
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 直到废除直选：两大党席位 −10%，组阁成本 +10政治资本
   set_by:
   - E-1996-04
   - E-2001-01
-  read_by: []
-- name: 议会至上
+  read_by:
+  - M02_and_M12_engine
+- id: parliamentary_supremacy
+  name_zh: 议会至上
+  name: 议会至上
+  zh: 议会至上
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 23880
+  duration_days: 716400
+  duration:
+    unit: months
+    n: 23880
+  edges:
+  - target: centralization
+    shape: flag
+    coef: 10.0
+    label_zh: 议会至上
+  factors: []
+  monthly_effects:
+  - op: add
+    target: centralization
+    value: 10.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：政府在议会多数支持下可以修改任何法律，集权度上限 +10，但到1990年代将触发司法冲突度相关事件
   set_by:
   - E-1950-04
-  read_by: []
-- name: 记忆的转向
+  read_by:
+  - M02_and_M12_engine
+- id: holocaust_memory_centrality
+  name_zh: 记忆的转向
+  name: 记忆的转向
+  zh: 记忆的转向
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: public_security
+    shape: flag
+    coef: 10.0
+    label_zh: 记忆的转向
+  factors: []
+  monthly_effects:
+  - op: add
+    target: public_security
+    value: 10.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：大屠杀记忆成为国家认同核心；公众安全感 对外部威胁的敏感度 +10%
   set_by:
   - E-1961-04
-  read_by: []
-- name: 贝鲁特之殇
+  read_by:
+  - M02_and_M12_engine
+- id: beirut_siege_scar
+  name_zh: 贝鲁特之殇
+  name: 贝鲁特之殇
+  zh: 贝鲁特之殇
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：历史评价"和平"维度 −10
   set_by:
   - E-1982-08
-  read_by: []
-- name: 贷款担保扣减
+  read_by:
+  - M02_and_M12_engine
+- id: loan_guarantee_settlement_deduction
+  name_zh: 贷款担保扣减
+  name: 贷款担保扣减
+  zh: 贷款担保扣减
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 60
+  duration_days: 1800
+  duration:
+    unit: months
+    n: 60
+  edges:
+  - target: growth
+    shape: flag
+    coef: 0.5
+    label_zh: 贷款担保扣减
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 60个月：约旦河西岸每有一次积极扩张决策，外汇 −小
   set_by:
   - E-1992-02
-  read_by: []
-- name: 起义
+  read_by:
+  - M02_and_M12_engine
+- id: first_intifada
+  name_zh: 起义
+  name: 起义
+  zh: 起义
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: -1.0
+    label_zh: 起义
+  - target: budget_balance
+    shape: flag
+    coef: -0.3
+    label_zh: 起义
+  - target: bloc_support
+    shape: flag
+    coef: -0.3
+    label_zh: 起义
+    target_key: liberal_middle
+  factors: []
+  monthly_effects:
+  - op: add
+    target: intl_legitimacy
+    value: -1.0
+  - op: add
+    target: budget_balance
+    value: -0.3
+  - op: add
+    target: bloc_support
+    value: -0.3
+    key: liberal_middle
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 直至平息：每月 国际合法性 −1，财政 −0.3%，选民集团支持[中产自由派] −0.3，三难三角"民主合法性"顶点持续下降
   set_by:
   - E-1987-12a
   read_by:
   - E-1988-01
   - E-1988-07
   - E-G04-09
-- name: 起义经济
+- id: second_intifada_recession
+  name_zh: 起义经济
+  name: 起义经济
+  zh: 起义经济
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: growth
+    shape: flag
+    coef: 0.5
+    label_zh: 起义经济
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 持续到起义结束：旅游收入崩溃，经济增长每季 −小
   set_by:
   - E-2000-04
   - E-G05-04
   read_by:
   - E-2003-01
-- name: 超采
+- id: aquifer_overextraction
+  name_zh: 超采
+  name: 超采
+  zh: 超采
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 36
+  duration_days: 1080
+  duration:
+    unit: months
+    n: 36
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 36个月：下次 R-01 的 k +0.3
   set_by:
   - R-01
-  read_by: []
-- name: 越界回流
+  read_by:
+  - M02_and_M12_engine
+- id: refugee_infiltration_return
+  name_zh: 越界回流
+  name: 越界回流
+  zh: 越界回流
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 36
+  duration_days: 1080
+  duration:
+    unit: months
+    n: 36
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 越界回流
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 36个月：渗透者事件频率 +30%
   set_by:
   - E-1949-04
-  read_by: []
-- name: 越过底线的报复
+  read_by:
+  - M02_and_M12_engine
+- id: unrestrained_reprisal_precedent
+  name_zh: 越过底线的报复
+  name: 越过底线的报复
+  zh: 越过底线的报复
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 24
+  duration_days: 720
+  duration:
+    unit: months
+    n: 24
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 越过底线的报复
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 24个月：报复行动的规模失控概率 +20%，因为部队相信政府会为他们掩护
   set_by:
   - E-1953-05
   read_by:
   - E-1953-04
-- name: 边境城镇的愤怒
+- id: border_towns_anger
+  name_zh: 边境城镇的愤怒
+  name: 边境城镇的愤怒
+  zh: 边境城镇的愤怒
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 3
+  duration_days: 90
+  duration:
+    unit: months
+    n: 3
+  edges:
+  - target: party_standing
+    shape: flag
+    coef: -3.0
+    label_zh: 边境城镇的愤怒
+  factors: []
+  monthly_effects:
+  - op: add
+    target: party_standing
+    value: -3.0
+  option_tag_effects:
+  - tag: restraint
+    effects:
+    - op: add
+      target: party_standing
+      value: -3.0
+  event_prob_add: []
+  desc_zh: 3个月：克制类选项 党内地位 −3
   set_by:
   - E-G04-05
-  read_by: []
-- name: 过渡蜜月
+  read_by:
+  - M02_and_M12_engine
+- id: post_transition_honeymoon
+  name_zh: 过渡蜜月
+  name: 过渡蜜月
+  zh: 过渡蜜月
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 6
+  duration_days: 180
+  duration:
+    unit: months
+    n: 6
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 6个月：选民集团支持 各集团 +2
   set_by:
   - E-1963-06a
-  read_by: []
-- name: 运河导弹墙
+  read_by:
+  - M02_and_M12_engine
+- id: suez_sam_missile_wall
+  name_zh: 运河导弹墙
+  name: 运河导弹墙
+  zh: 运河导弹墙
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：此后运河方向空中支援效率 −30%
   set_by:
   - E-1970-04
-  read_by: []
-- name: 选举授权
+  read_by:
+  - M02_and_M12_engine
+- id: fresh_electoral_mandate
+  name_zh: 选举授权
+  name: 选举授权
+  zh: 选举授权
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 6
+  duration_days: 180
+  duration:
+    unit: months
+    n: 6
+  edges: []
+  factors:
+  - key: pc_income
+    mode: add_flat
+    value: 3.0
+  monthly_effects:
+  - op: add
+    target: political_capital
+    value: 3.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 6个月：政治资本月产出 +3
   set_by:
   - E-1949-01
-  read_by: []
-- name: 选举窗口推迟
+  read_by:
+  - M02_and_M12_engine
+- id: delayed_election_window_risk
+  name_zh: 选举窗口推迟
+  name: 选举窗口推迟
+  zh: 选举窗口推迟
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges: []
+  factors:
+  - key: pc_cost_modifier
+    mode: add_pct
+    value: 0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 拖延期间若发生大规模恐袭，党的选民倾向 −5%
   set_by:
   - E-1995-05
-  read_by: []
-- name: 铁拳
+  read_by:
+  - M02_and_M12_engine
+- id: iron_fist_beating
+  name_zh: 铁拳
+  name: 铁拳
+  zh: 铁拳
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: faction_legitimacy
+    shape: flag
+    coef: 0.5
+    label_zh: 铁拳
+    target_key: hamas
+  factors: []
+  monthly_effects:
+  - op: add
+    target: faction_legitimacy
+    value: 0.5
+    key: hamas
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 12个月：起义强度 −20%，但每月 合法性[哈马斯] +0.5
   set_by:
   - E-1988-01
-  read_by: []
-- name: 银行股安排
+  read_by:
+  - M02_and_M12_engine
+- id: bank_shares_bailout_burden
+  name_zh: 银行股安排
+  name: 银行股安排
+  zh: 银行股安排
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 72
+  duration_days: 2160
+  duration:
+    unit: months
+    n: 72
+  edges:
+  - target: budget_balance
+    shape: flag
+    coef: -1.5
+    label_zh: 银行股安排
+  factors: []
+  monthly_effects:
+  - op: add
+    target: budget_balance
+    value: -1.5
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 72个月：财政 每年 −1.5%
   set_by:
   - E-1983-10
-  read_by: []
-- name: 错过的约旦方案
+  read_by:
+  - M02_and_M12_engine
+- id: missed_jordan_option
+  name_zh: 错过的约旦方案
+  name: 错过的约旦方案
+  zh: 错过的约旦方案
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: -2.0
+    label_zh: 错过的约旦方案
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 隐藏：E-1987-12a 的触发阈值 −10
   set_by:
   - E-1987-04
   read_by:
   - E-1987-12a
   - E-1988-07
-- name: 阻挡集团
+- id: arab_parties_blocking_bloc
+  name_zh: 阻挡集团
+  name: 阻挡集团
+  zh: 阻挡集团
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges: []
+  factors: []
+  monthly_effects:
+  - op: add
+    target: political_capital
+    value: 5.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 直到阿拉伯政党撤回支持：不信任动议无法通过，但每次涉及阿拉伯政党诉求的表决消耗政治资本 +5；同上，但表决成本 +10
   set_by:
   - E-1992-01
   - E-1993-04
   read_by:
   - E-G05-07
-- name: 阿隆走廊
+- id: allon_plan_corridor
+  name_zh: 阿隆走廊
+  name: 阿隆走廊
+  zh: 阿隆走廊
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: -2.0
+    label_zh: 阿隆走廊
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：约旦河谷新建定居点成本 −30%；在山地腹地建点时 立场偏离[领土] 额外 +2
   set_by:
   - E-1967-05
-  read_by: []
-- name: 降级
+  read_by:
+  - M02_and_M12_engine
+- id: sovereign_credit_downgrade
+  name_zh: 降级
+  name: 降级
+  zh: 降级
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 24
+  duration_days: 720
+  duration:
+    unit: months
+    n: 24
+  edges:
+  - target: growth
+    shape: flag
+    coef: -1.5
+    label_zh: 降级
+  - target: fx_reserves
+    shape: flag
+    coef: -0.5
+    label_zh: 降级
+  factors: []
+  monthly_effects:
+  - op: add
+    target: growth
+    value: -1.5
+  - op: add
+    target: fx_reserves
+    value: -0.5
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 24个月：国际信用降级，经济增长 −1.5，外汇储备每月 −0.5
   set_by:
   - E-2003-01
-  read_by: []
-- name: 隐形的总理
+  read_by:
+  - M02_and_M12_engine
+- id: invisible_pm_depression
+  name_zh: 隐形的总理
+  name: 隐形的总理
+  zh: 隐形的总理
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: party_standing
+    shape: flag
+    coef: -1.0
+    label_zh: 隐形的总理
+  factors:
+  - key: pc_income
+    mode: add_pct
+    value: -50.0
+  monthly_effects:
+  - op: add
+    target: party_standing
+    value: -1.0
+  - op: add
+    target: political_capital
+    value: -50.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 每月：政治资本产出 −50%，党内地位 −1，30%概率内阁出现越权事件
   set_by:
   - E-1983-08
-  read_by: []
-- name: 雅林使命
+  read_by:
+  - M02_and_M12_engine
+- id: jarring_mission_talks
+  name_zh: 雅林使命
+  name: 雅林使命
+  zh: 雅林使命
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 23652
+  duration_days: 709560
+  duration:
+    unit: months
+    n: 23652
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: -2.0
+    label_zh: 雅林使命
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 至1971年底：每季度可能触发一次联合国特使斡旋事件
   set_by:
   - E-1967-08
   read_by:
   - E-1967-08
   - E-1971-01
-- name: 非洲之友
+- id: african_diplomatic_network
+  name_zh: 非洲之友
+  name: 非洲之友
+  zh: 非洲之友
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: -2.0
+    label_zh: 非洲之友
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 直到下次大战：联合国投票支持 +15%
   set_by:
   - E-G02-03
-  read_by: []
-- name: 飞行员信
+  read_by:
+  - M02_and_M12_engine
+- id: pilots_refusal_letter
+  name_zh: 飞行员信
+  name: 飞行员信
+  zh: 飞行员信
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 14
+  duration_days: 420
+  duration:
+    unit: months
+    n: 14
+  edges:
+  - target: rule_of_law
+    shape: flag
+    coef: 2.0
+    label_zh: 飞行员信
+  - target: bloc_support
+    shape: flag
+    coef: -3.0
+    label_zh: 飞行员信
+    target_key: liberal_middle
+  factors: []
+  monthly_effects:
+  - op: add
+    target: rule_of_law
+    value: 2.0
+  - op: add
+    target: bloc_support
+    value: -3.0
+    key: liberal_middle
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 14个月后：民主法治指数 +2，选民集团支持[中产自由派] 对现政府 −3，人物关系[空军司令] −5
   set_by:
   - E-2002-04
-  read_by: []
-- name: 马帕姆要价
+  read_by:
+  - M02_and_M12_engine
+- id: mapam_defense_veto
+  name_zh: 马帕姆要价
+  name: 马帕姆要价
+  zh: 马帕姆要价
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -1.5
+    label_zh: 马帕姆要价
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 马帕姆要求国防部长或总参谋长人选的否决权：承诺进度[一支军队] −10
   set_by:
   - E-1949-03
-  read_by: []
-- name: 驱逐国家的名声
+  read_by:
+  - M02_and_M12_engine
+- id: expeller_state_reputation
+  name_zh: 驱逐国家的名声
+  name: 驱逐国家的名声
+  zh: 驱逐国家的名声
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: -15.0
+    label_zh: 驱逐国家的名声
+  - target: power_relation
+    shape: flag
+    coef: -5.0
+    label_zh: 驱逐国家的名声
+    target_key: diaspora
+  factors: []
+  monthly_effects:
+  - op: add
+    target: intl_legitimacy
+    value: -15.0
+  - op: add
+    target: power_relation
+    value: -5.0
+    key: diaspora
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 永久：国际合法性 上限 −15；关系[海外犹太社群] −5
   set_by:
   - E-1948-05
-  read_by: []
-- name: 驱逐指令
+  read_by:
+  - M02_and_M12_engine
+- id: sealed_expulsion_order
+  name_zh: 驱逐指令
+  name: 驱逐指令
+  zh: 驱逐指令
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: -10.0
+    label_zh: 驱逐指令
+  - target: power_relation
+    shape: flag
+    coef: -5.0
+    label_zh: 驱逐指令
+    target_key: diaspora
+  factors: []
+  monthly_effects:
+  - op: add
+    target: intl_legitimacy
+    value: -10.0
+  - op: add
+    target: power_relation
+    value: -5.0
+    key: diaspora
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 隐藏，永久：文件档案解密或外泄时 国际合法性 −10，关系[海外犹太社群] −5
   set_by:
   - E-1948-03a
-  read_by: []
-- name: 驱逐营地
+  read_by:
+  - M02_and_M12_engine
+- id: marj_al_zuhur_deportee_camp
+  name_zh: 驱逐营地
+  name: 驱逐营地
+  zh: 驱逐营地
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: intl_legitimacy
+    shape: flag
+    coef: -0.5
+    label_zh: 驱逐营地
+  - target: faction_strength
+    shape: flag
+    coef: 5.0
+    label_zh: 驱逐营地
+    target_key: hamas
+  factors: []
+  monthly_effects:
+  - op: add
+    target: intl_legitimacy
+    value: -0.5
+  - op: add
+    target: faction_strength
+    value: 5.0
+    key: hamas
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 6–12个月：国际合法性每月 −0.5；被驱逐者与真主党、伊朗建立联系，12个月后 实力[哈马斯] +5、旗标：哈马斯学会自杀式爆炸
   set_by:
   - E-1992-03
-  read_by: []
-- name: 高科技繁荣
+  read_by:
+  - M02_and_M12_engine
+- id: silicon_wadi_boom
+  name_zh: 高科技繁荣
+  name: 高科技繁荣
+  zh: 高科技繁荣
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: inequality
+    shape: flag
+    coef: 1.0
+    label_zh: 高科技繁荣
+  - target: bloc_support
+    shape: flag
+    coef: 3.0
+    label_zh: 高科技繁荣
+    target_key: liberal_middle
+  factors: []
+  monthly_effects:
+  - op: add
+    target: inequality
+    value: 1.0
+  - op: add
+    target: bloc_support
+    value: 3.0
+    key: liberal_middle
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 经济增长 +小，贫富差距 每年 +1，中部沿海 发展水平 每年 +2，选民集团支持[中产自由派] +3
   set_by:
   - E-G05-03
   read_by:
   - E-G05-04
-- name: 黎巴嫩泥潭
+- id: lebanon_quagmire
+  name_zh: 黎巴嫩泥潭
+  name: 黎巴嫩泥潭
+  zh: 黎巴嫩泥潭
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: public_security
+    shape: flag
+    coef: -0.5
+    label_zh: 黎巴嫩泥潭
+  - target: bloc_support
+    shape: flag
+    coef: -0.5
+    label_zh: 黎巴嫩泥潭
+    target_key: liberal_middle
+  factors: []
+  monthly_effects:
+  - op: add
+    target: public_security
+    value: -0.5
+  - op: add
+    target: bloc_support
+    value: -0.5
+    key: liberal_middle
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 直至撤出：每月 公众安全感 −0.5，选民集团支持[中产自由派] −0.5；同 E-1982-06a 选项B
   set_by:
   - E-1982-06a
   - E-1982-06b
@@ -1151,7 +7582,494 @@ modifiers:
   - E-1983-08
   - E-1985-01
   - E-G04-12
-- name: 黑市清剿
+- id: black_market_crackdown
+  name_zh: 黑市清剿
+  name: 黑市清剿
+  zh: 黑市清剿
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: rule_of_law
+    shape: flag
+    coef: -0.3
+    label_zh: 黑市清剿
+  - target: centralization
+    shape: flag
+    coef: 0.3
+    label_zh: 黑市清剿
+  factors: []
+  monthly_effects:
+  - op: add
+    target: rule_of_law
+    value: -0.3
+  - op: add
+    target: centralization
+    value: 0.3
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 12个月：民主法治指数 −0.3/月，集权度 +0.3/月
   set_by:
   - E-1952-02
-  read_by: []
+  read_by:
+  - M02_and_M12_engine
+- id: mahapach_mandate
+  name_zh: 翻盘的授权
+  name: 翻盘的授权
+  zh: 翻盘的授权
+  category: political
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: party_standing
+    shape: flag
+    coef: 5.0
+    label_zh: 1977大翻盘胜选威望
+  - target: bloc_support
+    target_key: mizrahi
+    shape: flag
+    coef: 4.0
+    label_zh: 第二以色列的翻身喜悦
+  factors:
+  - key: pc_income
+    mode: add_flat
+    value: 3.0
+  monthly_effects:
+  - op: add
+    target: political_capital
+    value: 3.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 终结工党29年统治的历史性胜选授权：每月政治资本产出 +3，党内地位目标值 +5，米兹拉希集团支持目标值 +4（持续12个月）。
+  set_by:
+  - M14
+  - E-1977-02
+  read_by:
+  - M02
+  - M04
+  - M05
+- id: histadrut_opposition_bastion
+  name_zh: 总工会的反对派堡垒
+  name: 总工会的反对派堡垒
+  zh: 总工会的反对派堡垒
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: union_strength
+    shape: flag
+    coef: 4.0
+    label_zh: 工党掌控劳工总联合会
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 利库德赢得了议会，但工党依然牢牢把控着劳工总联合会（Histadrut）与库帕特霍林医保网络，罢工动员力提高。
+  set_by:
+  - M14
+  read_by:
+  - M02
+  - M10
+- id: recent_settler_attack
+  name_zh: 定居者遇袭
+  name: 定居者遇袭
+  zh: 定居者遇袭
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 1
+  duration_days: 30
+  duration:
+    unit: months
+    n: 1
+  edges:
+  - target: settler_momentum
+    shape: flag
+    coef: 3.0
+    label_zh: 近期定居者遇袭愤怒
+  factors: []
+  monthly_effects:
+  - op: add
+    target: public_security
+    value: -2.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 近1个月内发生针对定居者的致命袭击，定居者报复情绪升温（持续30天）。
+  set_by:
+  - E-G04-09
+  - R-07
+  read_by:
+  - E-1980-05b
+  - M12
+- id: recent_lebanon_attack
+  name_zh: 黎巴嫩越境袭击
+  name: 黎巴嫩越境袭击
+  zh: 黎巴嫩越境袭击
+  category: security
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 1
+  duration_days: 30
+  duration:
+    unit: months
+    n: 1
+  edges:
+  - target: region_security
+    target_key: galilee
+    shape: flag
+    coef: -4.0
+    label_zh: 近期北境袭击
+  factors: []
+  monthly_effects:
+  - op: add
+    target: public_security
+    value: -2.0
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 近期发生来自黎巴嫩方向的越境袭击或喀秋莎火箭弹袭击（持续30天）。
+  set_by:
+  - E-1978-03a
+  - E-G04-05
+  read_by:
+  - E-1978-03b
+  - M12
+- id: local_resentment
+  name_zh: 地方怨气
+  name: 地方怨气
+  zh: 地方怨气
+  category: political
+  scope: region
+  scope_type: region
+  stack: stack
+  duration_months: 6
+  duration_days: 180
+  duration:
+    unit: months
+    n: 6
+  edges:
+  - target: region_development
+    target_key: $scope
+    shape: flag
+    coef: -2.0
+    label_zh: 地方事故与忽视怨气
+  factors: []
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 地方事故或忽视引发区域选民对执政党的不满：该区选民倾向每层 −2%（持续6个月）。
+  set_by:
+  - R-05
+  read_by:
+  - M03
+  - M11
+- id: road_safety_plan
+  name_zh: 全国道路安全整治方案
+  name: 全国道路安全整治方案
+  zh: 全国道路安全整治方案
+  category: social
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: region_development
+    target_key: galilee
+    shape: flag
+    coef: 1.0
+    label_zh: 道路安全整治
+  factors:
+  - key: r05_scale_mult
+    mode: mult
+    value: 0.6
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 全国道路安全整治方案生效：R-05 公交车事故规模系数 ×0.6（永久）。
+  set_by:
+  - R-05
+  read_by:
+  - R-05
+  - M12
+- id: us_camp_david_aid
+  name_zh: 戴维营美援与安全补助包
+  name: 戴维营美援与安全补助包
+  zh: 戴维营美援与安全补助包
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: fx_reserves
+    shape: flag
+    coef: 4.0
+    label_zh: 戴维营年度美援增量
+  factors:
+  - key: us_aid
+    mode: add_pct
+    value: 0.25
+  - key: fx_spend
+    mode: add_pct
+    value: -0.1
+  monthly_effects: []
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 批准埃以和约后的美国专项军经援助包：美援 +25%，外汇消耗 −10%（和约有效期内常驻）。
+  set_by:
+  - E-1979-03
+  - M07
+  read_by:
+  - M07
+  - M10
+- id: us_emergency_aid_1985
+  name_zh: 美国1985紧急经济稳定赠款
+  name: 美国1985紧急经济稳定赠款
+  zh: 美国1985紧急经济稳定赠款
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 24
+  duration_days: 720
+  duration:
+    unit: months
+    n: 24
+  edges:
+  - target: fx_reserves
+    shape: flag
+    coef: 5.0
+    label_zh: 1985紧急经济稳定赠款
+  factors:
+  - key: us_aid
+    mode: add_pct
+    value: 0.2
+  monthly_effects:
+  - op: add
+    target: fx_reserves
+    value: 0.4
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 美国1985年15亿美元紧急稳定赠款：24个月内美援 +20%，外汇储备每月 +0.4。
+  set_by:
+  - E-1985-07
+  - M07
+  read_by:
+  - M07
+  - M10
+- id: us_loan_freeze
+  name_zh: 老布什冻结100亿美元贷款担保
+  name: 老布什冻结100亿美元贷款担保
+  zh: 老布什冻结100亿美元贷款担保
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: fx_reserves
+    shape: flag
+    coef: -5.0
+    label_zh: 美国冻结100亿贷款担保
+  factors:
+  - key: us_aid
+    mode: add_pct
+    value: -0.35
+  - key: fx_spend
+    mode: add_pct
+    value: 0.15
+  monthly_effects:
+  - op: add
+    target: fx_reserves
+    value: -0.5
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 美国政府因西岸定居点扩建冻结100亿美元贷款担保：美援效应 −35%，外汇消耗 +15%。
+  set_by:
+  - E-1991-09
+  - M07
+  read_by:
+  - E-1992-02
+  - M07
+  - M10
+- id: us_loan_approved
+  name_zh: 美国100亿美元移民安置贷款担保
+  name: 美国100亿美元移民安置贷款担保
+  zh: 美国100亿美元移民安置贷款担保
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 60
+  duration_days: 1800
+  duration:
+    unit: months
+    n: 60
+  edges:
+  - target: absorption_capacity
+    shape: flag
+    coef: 8.0
+    label_zh: 100亿美元移民安置贷款担保
+  factors:
+  - key: us_aid
+    mode: add_pct
+    value: 0.3
+  - key: fx_spend
+    mode: add_pct
+    value: -0.1
+  monthly_effects:
+  - op: add
+    target: fx_reserves
+    value: 0.5
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 美国批准100亿美元移民安置贷款担保：60个月内美援 +30%，外汇消耗 −10%，移民吸纳容量大幅提升。
+  set_by:
+  - E-1991-09
+  - E-1992-02
+  - M07
+  read_by:
+  - M07
+  - M10
+- id: strategic_partner_us
+  name_zh: 战略伙伴
+  name: 战略伙伴
+  zh: 战略伙伴
+  category: diplomatic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 48
+  duration_days: 1440
+  duration:
+    unit: months
+    n: 48
+  edges:
+  - target: us_admin_relation
+    shape: flag
+    coef: 5.0
+    label_zh: 白宫亲以战略伙伴倾向
+  factors:
+  - key: us_relation_gain_mult
+    mode: mult
+    value: 1.2
+  monthly_effects:
+  - op: add
+    target: us_admin_relation
+    value: 0.5
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 亲以白宫执政团队：美国政府关系增长 +20%，对占领区批评力度 −30%（48个月）。
+  set_by:
+  - E-G04-17
+  - M07
+  read_by:
+  - M07
+  - M12
+- id: bank_bubble
+  name_zh: 银行股托市泡沫
+  name: 银行股托市泡沫
+  zh: 银行股托市泡沫
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: null
+  duration_days: null
+  duration:
+    unit: permanent
+  edges:
+  - target: public_debt
+    shape: flag
+    coef: 5.0
+    label_zh: 各大银行隐性护盘泡沫
+  factors: []
+  monthly_effects:
+  - op: add
+    target: inflation
+    value: 0.3
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 四大银行长期人为操纵股价制造虚高泡沫，随时面临崩盘风险。
+  set_by:
+  - M10
+  - M14
+  read_by:
+  - E-1983-10
+  - M05
+  - M10
+- id: oil_crisis_1979
+  name_zh: 第二次石油危机冲击
+  name: 第二次石油危机冲击
+  zh: 第二次石油危机冲击
+  category: economic
+  scope: national
+  scope_type: national
+  stack: refresh
+  duration_months: 12
+  duration_days: 360
+  duration:
+    unit: months
+    n: 12
+  edges:
+  - target: inflation
+    shape: flag
+    coef: 8.0
+    label_zh: 1979全球油价暴涨
+  factors:
+  - key: fx_spend
+    mode: mult
+    value: 1.2
+  monthly_effects:
+  - op: add
+    target: fx_reserves
+    value: -0.8
+  option_tag_effects: []
+  event_prob_add: []
+  desc_zh: 1979年伊朗革命引发全球油价翻倍：12个月内进口用汇消耗 ×1.20，输入性通胀飙升。
+  set_by:
+  - E-1979-02
+  - M07
+  - M10
+  read_by:
+  - M10
+modifier_aliases:
+  intifada: first_intifada
+  第一次起义: first_intifada
+  获释者骨干网络: jibril_released_prisoners
+  殉道者浪潮: martyrdom_wave
+  铁拳殴打政策: iron_fist_beating
+  美国石油保障: us_oil_guarantee
+  us_oil_supply_memorandum: us_oil_guarantee
+summary:
+  total: 265
+  original_event_modifiers: 252
+  with_structured_effects: 265
+  empty_shells: 0
