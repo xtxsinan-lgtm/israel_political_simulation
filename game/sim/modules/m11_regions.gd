@@ -10,28 +10,25 @@ func _init() -> void:
 func weekly_step(step_no: int, state: SimState, _ctx: Dictionary) -> Array[Dictionary]:
 	if step_no != 8:
 		return []
-	var ids: Array[String] = _region_ids(state)
-	for i: int in range(ids.size()):
-		if not _exists(state, ids[i]):
-			continue
-		var security: float = state.params.get_val("region_security", ids[i], state)
-		security += (state.params.get_val("public_security", "", state) - security) * 0.05
-		state.params.set_val("region_security", ids[i], security, state)
+	var core: Array[String] = ["galilee", "haifa", "tel_aviv", "triangle", "jerusalem", "negev"]
+	for i: int in range(core.size()):
+		var security: float = state.params.get_val("region_security", core[i], state)
+		if security < 35.0:
+			security += 0.4
+		elif security > 90.0:
+			security -= 0.3
+		state.params.set_val("region_security", core[i], security, state)
 	return []
 
 
 func monthly_step(step_no: int, state: SimState, _ctx: Dictionary) -> Array[Dictionary]:
 	if step_no != 13:
 		return []
-	var ids: Array[String] = _region_ids(state)
-	for i: int in range(ids.size()):
-		if not _exists(state, ids[i]):
-			continue
-		var dev: float = state.params.get_val("region_development", ids[i], state) + 0.1
-		state.params.set_val("region_development", ids[i], dev, state)
-		var settlers: float = state.params.get_val("settler_population", ids[i], state)
-		if settlers > 0.0:
-			state.params.set_val("settler_population", ids[i], settlers * 1.004, state)
+	if _exists(state, "west_bank"):
+		var sp_pol: float = state.params.get_val("settlement_policy", "west_bank", state)
+		var mom: float = state.params.get_val("settler_momentum", "", state)
+		var growth: float = maxf(0.0, (sp_pol - 15.0) * 4.5 + (mom - 40.0) * 6.0)
+		state.params.set_val("settler_population", "west_bank", state.params.get_val("settler_population", "west_bank", state) + growth, state)
 	_update_trilemma(state)
 	return []
 
@@ -119,20 +116,30 @@ func compute_oslo_shares(state: SimState) -> Dictionary:
 
 
 func _update_trilemma(state: SimState) -> void:
-	var jewish: float = state.params.get_val("jewish_majority", "", state)
-	var democracy: float = state.params.get_val("democracy_index", "", state)
-	var territory: float = state.params.get_val("territorial_control", "", state)
-	if jewish <= 0.0:
-		jewish = 70.0
-	if democracy <= 0.0:
-		democracy = 75.0
-	if territory <= 0.0:
-		territory = 80.0
-	var tension: float = maxf(0.0, (jewish + democracy + territory) - 200.0) * 0.1
-	state.params.set_val("trilemma_tension", "", tension, state)
-	state.params.set_val("trilemma_jewish", "", jewish, state)
-	state.params.set_val("trilemma_democracy", "", democracy, state)
-	state.params.set_val("trilemma_territory", "", territory, state)
+	var rol: float = state.params.get_val("rule_of_law", "", state)
+	var cent: float = state.params.get_val("centralization", "", state)
+	var arab_id: float = state.params.get_val("civic_identification", "arab", state)
+	var autonomy: float = state.params.get_val("autonomy_progress", "", state)
+	var settler_regions: Array[String] = ["jerusalem", "west_bank", "gaza", "golan", "sinai"]
+	var settlers: float = 0.0
+	for i: int in range(settler_regions.size()):
+		if not _exists(state, settler_regions[i]):
+			continue
+		settlers += float(int(floor(state.params.get_val("settler_population", settler_regions[i], state))))
+	var t_dem: float = clampf(0.55 * rol + 0.25 * (100.0 - cent) + 0.10 * arab_id + 0.10 * autonomy, 15.0, 95.0)
+	var sinai_term: float = 8.0 if _exists(state, "sinai") else -4.0
+	var t_terr: float = clampf(65.0 + minf(30.0, settlers / 3500.0) + sinai_term, 25.0, 96.0)
+	var annexed_pen: float = 6.0 if _flag_on(state, "west_bank_annexed") and autonomy < 20.0 else 0.0
+	var t_jew: float = clampf(72.0 + 0.10 * (100.0 - state.params.get_val("alienation", "mizrahi", state)) - annexed_pen, 30.0, 95.0)
+	var tri: float = clampf((t_dem + t_terr + t_jew) / 3.0 - 0.15 * maxf(0.0, t_terr - 82.0), 20.0, 92.0)
+	state.params.set_val("trilemma_democratic", "", t_dem, state)
+	state.params.set_val("trilemma_territory", "", t_terr, state)
+	state.params.set_val("trilemma_jewish", "", t_jew, state)
+	state.params.set_val("trilemma", "", tri, state)
+
+
+func _flag_on(state: SimState, flag_id: String) -> bool:
+	return state.flags.has(flag_id) and float(_as_dict(state.flags[flag_id]).get("value", 1.0)) != 0.0
 
 
 func _set_exists(state: SimState, region_id: String, exists: bool) -> Array[Dictionary]:

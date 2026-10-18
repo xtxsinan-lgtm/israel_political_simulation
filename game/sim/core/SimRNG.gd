@@ -21,6 +21,7 @@ class Stream extends RefCounted:
 	var s2: int = 0
 	var s3: int = 0
 	var draws: int = 0
+	var python_float: bool = false
 
 	static func mul32(a: int, b: int) -> int:
 		var a32: int = a & MASK32
@@ -70,6 +71,18 @@ class Stream extends RefCounted:
 		s3 = st[3]
 		draws = 0
 
+	func init_python_stream(seed: int, stream_name: String) -> void:
+		name = stream_name
+		python_float = true
+		var base: int = (seed & MASK32) ^ fnv1a32(stream_name)
+		s0 = fmix32((base + 0x9E3779B9) & MASK32)
+		s1 = fmix32((base + 0x3C6EF372) & MASK32)
+		s2 = fmix32((base + 0xDAA66D2B) & MASK32)
+		s3 = fmix32((base + 0x78DDE6E4) & MASK32)
+		if s0 == 0 and s1 == 0 and s2 == 0 and s3 == 0:
+			s0 = 1
+		draws = 0
+
 	func next_u32() -> int:
 		var r: int = mul32(rotl32(mul32(s1, 5), 7), 9)
 		var t: int = (s1 << 9) & MASK32
@@ -83,6 +96,8 @@ class Stream extends RefCounted:
 		return r
 
 	func next_float() -> float:
+		if python_float:
+			return float(next_u32()) / 4294967296.0
 		return float(next_u32() >> 8) / 16777216.0
 
 	func chance(p: float) -> bool:
@@ -90,6 +105,10 @@ class Stream extends RefCounted:
 		return f < p
 
 	func range_int(lo: int, hi: int) -> int:
+		if python_float:
+			if hi <= lo:
+				return lo
+			return lo + int(floor(next_float() * float(hi - lo + 1)))
 		var span: int = hi - lo + 1
 		if span <= 1:
 			next_u32()
@@ -134,6 +153,18 @@ class Stream extends RefCounted:
 			"s3": s3,
 			"draws": draws,
 		}
+
+
+func init_python_from_master_seed(seed: int) -> void:
+	master_seed = seed & Stream.MASK32
+	streams = {}
+	for i: int in range(STREAM_NAMES.size()):
+		var stream_name: String = STREAM_NAMES[i]
+		var created: Stream = Stream.new()
+		created.init_python_stream(master_seed, stream_name)
+		streams[stream_name] = created
+	cosmetic_stream = Stream.new()
+	cosmetic_stream.init_python_stream(master_seed, SimTypes.COSMETIC_RNG_STREAM)
 
 
 func init_from_master_seed(seed: int) -> void:

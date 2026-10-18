@@ -41,20 +41,16 @@ func recompute_appointment_gap(state: SimState) -> void:
 func weekly_step(step_no: int, state: SimState, _ctx: Dictionary) -> Array[Dictionary]:
 	if step_no != 6:
 		return []
-	recompute_appointment_gap(state)
 	var rng: SimRNG.Stream = state.rng.get_stream("ai")
-	var proposal: Dictionary = {}
-	if rng.chance(0.15):
-		var reason: Dictionary = {"actor_id": "weizman", "primary_param_id": "relation", "current_val": 40.0, "threshold_val": 35.0, "top_factors": ["portfolio"]}
-		proposal = {"id": "minister_proposal", "is_minister_proposal": true, "pc_cost": 10, "days": 3, "discount": 0.30, "free_slot": true, "kind": "MinisterProposal", "ai_reason_breakdown": reason}
-		var m05: Dictionary = _as_dict(state.modules.get("M05", {}))
-		var staged: Array = []
-		if typeof(m05.get("staged_actions", [])) == TYPE_ARRAY:
-			staged = m05["staged_actions"]
-		if staged.is_empty():
-			staged.append(proposal)
-			m05["staged_actions"] = staged
-			state.modules["M05"] = m05
+	var offices: Dictionary = _as_dict(_m06(state).get("offices", {}))
+	var office_ids: Array[String] = SimMath.sorted_keys(offices)
+	var leader: String = String(state.player.get("leader_id", ""))
+	for i: int in range(office_ids.size()):
+		var cid: String = String(offices[office_ids[i]])
+		if cid == "" or cid == leader:
+			continue
+		if state.params.get_val("relation", cid, state) < -35.0 and rng.chance(0.05):
+			state.params.set_val("party_standing", "", state.params.get_val("party_standing", "", state) - 1.0, state)
 	return []
 
 
@@ -67,18 +63,7 @@ func annual_step(step_no: int, state: SimState, _ctx: Dictionary) -> Array[Dicti
 	for i: int in range(ids.size()):
 		var row: Dictionary = _as_dict(characters[ids[i]])
 		row["age"] = int(row.get("age", 40)) + 1
-		var stress: float = state.params.get_val("character_stress", ids[i], state)
-		var health: float = state.params.get_val("health", ids[i], state)
-		if health <= 0.0:
-			health = float(row.get("health", 80.0))
-		health = clampf(health - 0.4 - stress * 0.02, 0.0, 100.0)
-		if ids[i] == "begin" and state.clock.y >= 1982:
-			health -= 4.0
-		state.params.set_val("health", ids[i], health, state)
-		row["health"] = health
 		characters[ids[i]] = row
-		if health <= 5.0 and bool(row.get("alive", true)):
-			effects.append_array(handle_custom_op("m06_kill_character", state, {"character": ids[i], "cause": "health"}, {}))
 	var m06: Dictionary = _m06(state)
 	m06["characters"] = characters
 	state.modules["M06"] = m06

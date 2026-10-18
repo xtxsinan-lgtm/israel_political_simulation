@@ -17,12 +17,18 @@ const EXCLUDED_META_KEYS: Dictionary = {
 
 
 static func compute_state_hash_sha256(state: SimState) -> String:
-	var canonical_json: String = to_canonical_json_string(state.to_raw_state_dict())
+	var canonical_json: String = to_python_json(state.python_hash_payload())
 	var ctx: HashingContext = HashingContext.new()
 	ctx.start(HashingContext.HASH_SHA256)
 	ctx.update(canonical_json.to_utf8_buffer())
 	var digest: PackedByteArray = ctx.finish()
 	return digest.hex_encode().to_lower()
+
+
+static func to_python_json(value: Variant) -> String:
+	var chunks: PackedStringArray = PackedStringArray()
+	_python_value(value, chunks)
+	return "".join(chunks)
 
 
 static func to_canonical_json_string(root_dict: Dictionary) -> String:
@@ -90,6 +96,59 @@ static func _serialize_value(val: Variant, parent_path: String, out: PackedStrin
 			out.append("}")
 		_:
 			out.append("null")
+
+
+static func _python_value(val: Variant, out: PackedStringArray) -> void:
+	match typeof(val):
+		TYPE_NIL:
+			out.append("null")
+		TYPE_BOOL:
+			out.append("true" if bool(val) else "false")
+		TYPE_INT:
+			out.append(str(int(val)))
+		TYPE_FLOAT:
+			out.append(_python_float(float(val)))
+		TYPE_STRING:
+			out.append(_escape_json_string(String(val)))
+		TYPE_ARRAY:
+			var arr: Array = val
+			out.append("[")
+			for i: int in range(arr.size()):
+				if i > 0:
+					out.append(",")
+				_python_value(arr[i], out)
+			out.append("]")
+		TYPE_DICTIONARY:
+			var d: Dictionary = val
+			var keys: Array[String] = SimMath.sorted_keys(d)
+			out.append("{")
+			var first: bool = true
+			for i: int in range(keys.size()):
+				var key: String = keys[i]
+				if not d.has(key):
+					continue
+				if not first:
+					out.append(",")
+				first = false
+				out.append(_escape_json_string(key))
+				out.append(":")
+				_python_value(d[key], out)
+			out.append("}")
+		_:
+			out.append("null")
+
+
+static func _python_float(value: float) -> String:
+	var quantized: float = SimMath.quantize(value)
+	var nearest: int = int(floor(quantized + 0.5)) if quantized >= 0.0 else int(ceil(quantized - 0.5))
+	if absf(quantized - float(nearest)) < 1.0e-9:
+		return str(nearest) + ".0"
+	var text: String = String.num(quantized, 10)
+	while text.ends_with("0") and text.contains("."):
+		text = text.substr(0, text.length() - 1)
+	if text.ends_with("."):
+		text += "0"
+	return text
 
 
 static func _escape_json_string(s: String) -> String:

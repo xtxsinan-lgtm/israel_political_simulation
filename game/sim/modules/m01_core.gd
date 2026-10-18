@@ -32,11 +32,20 @@ func record_monthly_ring_snapshot(state: SimState) -> void:
 func _step_1(state: SimState, ctx: Dictionary) -> Array[Dictionary]:
 	state._set_clock(state.clock.start_date, state.clock.day_index + 1)
 	if state.clock.is_month:
+		var m10: Dictionary = _as_dict(state.modules.get("M10", {}))
+		m10["last_one_off_flow"] = float(state.one_off_flows.get("budget_balance", 0.0))
+		state.one_off_flows["budget_balance"] = 0.0
+		state.modules["M10"] = m10
 		state.counters.forced_popups_month = 0
 		var m12: Dictionary = _as_dict(state.modules.get("M12", {}))
 		m12["major_events_this_month"] = 0
 		m12["month_random_count"] = 0
 		state.modules["M12"] = m12
+		var impulse_axes: Array[String] = ["territory", "security", "economy", "religion", "foreign"]
+		for axis_i: int in range(impulse_axes.size()):
+			var axis_name: String = impulse_axes[axis_i]
+			if state.axis_impulse.has(axis_name):
+				state.axis_impulse[axis_name] = SimMath.quantize(float(state.axis_impulse[axis_name]) * 0.95)
 	if state.clock.is_week:
 		var m05: Dictionary = _as_dict(state.modules.get("M05", {}))
 		m05["weekly_slots_used"] = 0

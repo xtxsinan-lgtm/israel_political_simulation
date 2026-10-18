@@ -48,14 +48,17 @@ func set_val(raw_param: String, raw_key: String, new_val: float, state: Variant 
 	var stored: float = SimMath.quantize(clampf(new_val, lo, hi))
 	if scope == "national":
 		_scalars[param_id] = stored
+		if param_id == "us_admin_relation":
+			_write_scoped_raw("power_relation", "usa", stored)
 		return stored
 	var scope_key: String = _resolve_scope_key(scope, raw_key, state)
 	if scope_key == "":
 		return 0.0
-	var sub_dict: Dictionary = _as_dict(_scoped.get(param_id, {}))
-	sub_dict[scope_key] = stored
-	_scoped[param_id] = sub_dict
-	_remember_key(param_id, scope_key)
+	_write_scoped_raw(param_id, scope_key, stored)
+	if param_id == "power_relation" and scope_key == "usa":
+		_scalars["us_admin_relation"] = stored
+	if param_id == "promise_progress":
+		_sync_promise_progress(state, scope_key, stored)
 	return stored
 
 
@@ -117,6 +120,13 @@ func export_scoped() -> Dictionary:
 	return _scoped.duplicate(true)
 
 
+func _write_scoped_raw(param_id: String, scope_key: String, stored: float) -> void:
+	var sub_dict: Dictionary = _as_dict(_scoped.get(param_id, {}))
+	sub_dict[scope_key] = stored
+	_scoped[param_id] = sub_dict
+	_remember_key(param_id, scope_key)
+
+
 func _remember_key(param_id: String, key: String) -> void:
 	var keys: Array = _as_array(_active_keys.get(param_id, []))
 	for i: int in range(keys.size()):
@@ -146,6 +156,24 @@ func _resolve_scope_key(scope_type: String, raw_key: String, state: Variant) -> 
 			return raw_key
 		_:
 			return raw_key
+
+
+func _sync_promise_progress(state: Variant, promise_id: String, stored: float) -> void:
+	if state == null or typeof(state) != TYPE_OBJECT or promise_id == "":
+		return
+	var obj: Object = state
+	var rows_v: Variant = obj.get("promises")
+	if typeof(rows_v) != TYPE_ARRAY:
+		return
+	var rows: Array = rows_v
+	for i: int in range(rows.size()):
+		var row: Dictionary = _as_dict(rows[i])
+		var row_id: String = String(row.get("id", row.get("promise_id", "")))
+		if row_id != promise_id:
+			continue
+		row["progress"] = stored
+		rows[i] = row
+	obj.set("promises", rows)
 
 
 func _offices_of(state: Variant) -> Dictionary:

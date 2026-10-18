@@ -47,9 +47,11 @@ func _run() -> void:
 		quit(1)
 		return
 	state.one_off_flows["budget_balance"] = -3.0
-	var economy: M10Economy = M10Economy.new()
-	economy.monthly_step(9, state, {})
-	if float(state.one_off_flows["budget_balance"]) != 0.0:
+	state._set_clock("1977-06-30", state.clock.day_index)
+	var core: M01Core = M01Core.new()
+	core.daily_step(1, state, {})
+	var booked: Dictionary = state.modules["M10"]
+	if float(state.one_off_flows["budget_balance"]) != 0.0 or not is_equal_approx(float(booked.get("last_one_off_flow", 0.0)), -3.0):
 		push_error("one off")
 		quit(1)
 		return

@@ -59,6 +59,7 @@ EXPR_KEYS = {
     "pre",
     "succ",
     "cond",
+    "when",
 }
 
 INT_KEYS = [

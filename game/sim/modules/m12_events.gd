@@ -4,8 +4,11 @@ extends SimModuleBase
 
 const ANCHORS: Dictionary = {
 	"E-1977-06": true, "E-1977-10": true, "E-1977-11": true, "E-1978-03": true,
-	"E-1978-09": true, "E-1979-03": true, "E-1981-06a": true, "E-1982-06a": true,
-	"E-1985-07": true, "E-1987-12a": true, "E-1991-01": true,
+	"E-1978-09": true, "E-1979-03": true, "E-1981-06a": true, "E-1981-06b": true,
+	"E-1981-12": true, "E-1982-04": true, "E-1982-06a": true, "E-1982-06b": true,
+	"E-1982-09a": true, "E-1983-02": true, "E-1983-08": true, "E-1983-10": true,
+	"E-1984-07": true, "E-1985-07": true, "E-1987-12a": true, "E-1988-11": true,
+	"E-1990-03": true, "E-1991-01": true, "E-1991-05": true, "E-1991-10": true,
 }
 
 
@@ -22,6 +25,8 @@ func daily_step(step_no: int, state: SimState, ctx: Dictionary) -> Array[Diction
 	var today: Array[Dictionary] = []
 	_release_scheduled_events(state, m12, expr, today)
 	_scan_fixed_events(state, m12, expr, today)
+	if today.is_empty():
+		_scan_random_events(state, m12, expr, today)
 	_apply_throttle(state, m12, today)
 	var pending: Array = _as_array(m12.get("pending_events", []))
 	for i: int in range(today.size()):
@@ -43,19 +48,25 @@ func resolve_event_choice(state: SimState, event_id: String, option_id: String, 
 	var last: Dictionary = _as_dict(state.history.get("event_last_day", {}))
 	last[event_id] = state.clock.day_index
 	state.history["event_last_day"] = last
+	var log: Array = _as_array(state.history.get("event_log", []))
+	log.append({"event_id": event_id, "choice": option_id, "day_index": state.clock.day_index})
+	state.history["event_log"] = log
 	var effects: Array[Dictionary] = []
 	var ev: Dictionary = _event_def(event_id)
+	_append_effect_rows(effects, ev.get("immediate_effects", []))
+	_append_effect_rows(effects, ev.get("passive_effects", []))
 	var options: Array = _as_array(ev.get("options", []))
 	for i: int in range(options.size()):
 		var opt: Dictionary = _as_dict(options[i])
 		if String(opt.get("id", "")) != option_id:
 			continue
-		var raw: Variant = opt.get("effects", [])
-		if typeof(raw) == TYPE_ARRAY:
-			var effect_rows: Array = raw
-			for j: int in range(effect_rows.size()):
-				if typeof(effect_rows[j]) == TYPE_DICTIONARY:
-					effects.append(effect_rows[j])
+		_append_effect_rows(effects, opt.get("effects", []))
+	if options.is_empty():
+		_append_effect_rows(effects, ev.get("effects", []))
+	var event_source: String = "event:%s:%s" % [event_id, option_id]
+	for i: int in range(effects.size()):
+		if String(effects[i].get("source", "")) == "":
+			effects[i]["source"] = event_source
 	var queue: Array = _as_array(m12.get("pending_events", []))
 	var kept: Array = []
 	for i: int in range(queue.size()):
@@ -65,9 +76,21 @@ func resolve_event_choice(state: SimState, event_id: String, option_id: String, 
 	state.modules["M12"] = m12
 	var processor: Variant = ctx.get("processor", null)
 	if processor is EffectProcessor and not effects.is_empty():
-		(processor as EffectProcessor).apply_effects(effects, ctx, state, 0)
+		var apply_ctx: Dictionary = ctx.duplicate()
+		if not apply_ctx.has("k"):
+			apply_ctx["k"] = 1.0
+		(processor as EffectProcessor).apply_effects(effects, apply_ctx, state, 0)
 		return []
 	return effects
+
+
+func _append_effect_rows(effects: Array[Dictionary], raw: Variant) -> void:
+	if typeof(raw) != TYPE_ARRAY:
+		return
+	var rows: Array = raw
+	for i: int in range(rows.size()):
+		if typeof(rows[i]) == TYPE_DICTIONARY:
+			effects.append((_as_dict(rows[i])).duplicate(true))
 
 
 func evaluate_event_options_for_ui(event_id: String, state: SimState) -> Array[Dictionary]:
@@ -181,36 +204,88 @@ func _scan_fixed_events(state: SimState, m12: Dictionary, expr: ExprEngine, toda
 	if GameData.current == null:
 		return
 	var rng: SimRNG.Stream = state.rng.get_stream("events")
-	var ids: Array[String] = SimMath.sorted_keys(GameData.current.events_def)
 	var fired: Dictionary = _as_dict(m12.get("fired", {}))
-	var suppressed: Dictionary = _as_dict(m12.get("suppressed_events", {}))
+	var expired: Dictionary = _as_dict(m12.get("expired", {}))
 	var cool: Dictionary = _as_dict(m12.get("event_cooldowns", {}))
-	for i: int in range(ids.size()):
-		var ev: Dictionary = _as_dict(GameData.current.events_def[ids[i]])
-		var event_id: String = String(ev.get("id", ids[i]))
-		if fired.has(event_id) or suppressed.has(event_id):
+	var g04_count: int = int(m12.get("g04_fired_count", 0))
+	var non_anchor_count: int = int(m12.get("non_anchor_fixed_count", 0))
+	var rows: Array = GameData.current.events_list
+	for i: int in range(rows.size()):
+		var ev: Dictionary = _as_dict(rows[i])
+		if String(ev.get("kind", "")) != "fixed":
 			continue
-		if int(cool.get(event_id, -1)) > state.clock.day_index:
+		var tags: Array = _as_array(ev.get("scenario_tags", []))
+		if not _has_tag(tags, "begin_1977"):
 			continue
-		if not _in_window(state, ev):
+		var event_id: String = String(ev.get("id", ""))
+		if fired.has(event_id) or expired.has(event_id):
 			continue
-		var trig: Dictionary = _as_dict(ev.get("trigger", {}))
-		if trig.has("trigger_ast") and not expr.eval_bool(trig["trigger_ast"], {}):
+		var anchor: bool = _is_anchor(event_id, ev)
+		var g04: bool = event_id.begins_with("E-G04")
+		if g04 and (g04_count >= 5 or SimMath.imod_pos(state.clock.day_index, 5) != 0):
 			continue
-		var anchor: bool = ANCHORS.has(event_id) or String(ev.get("type", "")) == "anchor" or int(ev.get("priority", 0)) >= 100 or bool(ev.get("mandatory", false))
-		var daily_p: float = 1.0 if anchor else 0.02
-		var prob: Dictionary = _as_dict(trig.get("probability", {}))
-		if not anchor and prob.has("base"):
-			daily_p = float(prob.get("base", daily_p))
-		var period: String = String(prob.get("period", "day"))
-		if period == "month":
-			daily_p = daily_p / 30.0
-		elif period == "week":
-			daily_p = daily_p / 7.0
-		if daily_p <= 0.0 or not rng.chance(clampf(daily_p, 0.0, 1.0)):
+		if not anchor and not g04 and (non_anchor_count >= 28 or SimMath.imod_pos(state.clock.day_index, 2) != 0):
 			continue
-		today.append(_instantiate(ev))
-		break
+		if _window_expired(state, ev, expired, event_id):
+			continue
+		if not _window_open(state, ev):
+			continue
+		if int(cool.get(event_id, 0)) > state.clock.day_index:
+			continue
+		if not _trigger_ok(state, ev, expr):
+			continue
+		var daily_p: float = _daily_probability(ev, anchor, g04, expr)
+		daily_p *= float(_as_dict(m12.get("multipliers", {})).get(event_id, 1.0))
+		var rolled: bool = daily_p > 0.0 and rng.chance(minf(1.0, daily_p))
+		if rolled:
+			if g04:
+				g04_count += 1
+				m12["g04_fired_count"] = g04_count
+			elif not anchor:
+				non_anchor_count += 1
+				m12["non_anchor_fixed_count"] = non_anchor_count
+			today.append(_instantiate(ev))
+			break
+	m12["expired"] = expired
+
+
+func _scan_random_events(state: SimState, m12: Dictionary, expr: ExprEngine, today: Array[Dictionary]) -> void:
+	if GameData.current == null:
+		return
+	var total_random: int = int(m12.get("total_random_fired", 0))
+	if int(m12.get("month_random_count", 0)) >= 1 or total_random >= 16:
+		return
+	var rng: SimRNG.Stream = state.rng.get_stream("random_events")
+	if not rng.chance(0.012):
+		return
+	var fired: Dictionary = _as_dict(m12.get("fired", {}))
+	var cool: Dictionary = _as_dict(m12.get("event_cooldowns", {}))
+	var candidates: Array = []
+	var weights: PackedFloat64Array = PackedFloat64Array()
+	var rows: Array = GameData.current.events_list
+	for i: int in range(rows.size()):
+		var ev: Dictionary = _as_dict(rows[i])
+		if String(ev.get("kind", "")) != "random":
+			continue
+		var event_id: String = String(ev.get("id", ""))
+		if fired.has(event_id) or int(cool.get(event_id, 0)) > state.clock.day_index:
+			continue
+		if not _trigger_ok(state, ev, expr):
+			continue
+		var weight: float = float(ev.get("base_prob_month", ev.get("weight", 0.03))) * 100.0
+		weight *= float(_as_dict(m12.get("multipliers", {})).get(event_id, 1.0))
+		if weight <= 0.0:
+			continue
+		candidates.append(ev)
+		weights.append(weight)
+	if candidates.is_empty():
+		return
+	var chosen: Variant = rng.weighted_pick(candidates, weights)
+	if typeof(chosen) != TYPE_DICTIONARY:
+		return
+	m12["month_random_count"] = int(m12.get("month_random_count", 0)) + 1
+	m12["total_random_fired"] = total_random + 1
+	today.append(_instantiate(chosen))
 
 
 func _apply_throttle(state: SimState, m12: Dictionary, today: Array[Dictionary]) -> void:
@@ -279,6 +354,96 @@ func _instantiate(ev: Dictionary) -> Dictionary:
 	}
 
 
+func _is_anchor(event_id: String, ev: Dictionary) -> bool:
+	return ANCHORS.has(event_id) or String(ev.get("type", "")) == "anchor"
+
+
+func _has_tag(tags: Array, tag: String) -> bool:
+	for i: int in range(tags.size()):
+		if String(tags[i]) == tag:
+			return true
+	return false
+
+
+func _window_open(state: SimState, ev: Dictionary) -> bool:
+	return _in_window(state, ev)
+
+
+func _window_expired(state: SimState, ev: Dictionary, expired: Dictionary, event_id: String) -> bool:
+	var window: Dictionary = _as_dict(_as_dict(ev.get("trigger", {})).get("window", {}))
+	var end: String = String(window.get("to", ""))
+	if end != "" and state.clock.date > end:
+		expired[event_id] = true
+		return true
+	return false
+
+
+func _trigger_ok(state: SimState, ev: Dictionary, expr: ExprEngine) -> bool:
+	var era: Variant = ev.get("era", null)
+	if typeof(era) == TYPE_ARRAY:
+		var bounds: Array = era
+		if bounds.size() >= 1 and bounds[0] != null and state.clock.y < int(floor(float(bounds[0]))):
+			return false
+		if bounds.size() >= 2 and bounds[1] != null and state.clock.y > int(floor(float(bounds[1]))):
+			return false
+	if not _eval_present(expr, ev.get("prerequisites_ast", null)):
+		return false
+	var trig: Dictionary = _as_dict(ev.get("trigger", {}))
+	if _eval_blocking(expr, trig.get("invalidation_ast", null)):
+		return false
+	if not _eval_present(expr, trig.get("prerequisites_ast", null)):
+		return false
+	if not _eval_present(expr, trig.get("condition_ast", trig.get("trigger_ast", null))):
+		return false
+	return true
+
+
+func _eval_blocking(expr: ExprEngine, node: Variant) -> bool:
+	if node == null:
+		return false
+	if typeof(node) == TYPE_STRING and String(node).is_empty():
+		return false
+	if typeof(node) != TYPE_ARRAY and typeof(node) != TYPE_DICTIONARY:
+		return false
+	return expr.eval_bool(node, {})
+
+
+func _eval_present(expr: ExprEngine, node: Variant) -> bool:
+	if node == null:
+		return true
+	if typeof(node) == TYPE_STRING and String(node).is_empty():
+		return true
+	if typeof(node) != TYPE_ARRAY and typeof(node) != TYPE_DICTIONARY:
+		return true
+	return expr.eval_bool(node, {})
+
+
+func _daily_probability(ev: Dictionary, anchor: bool, g04: bool, expr: ExprEngine) -> float:
+	var trig: Dictionary = _as_dict(ev.get("trigger", {}))
+	var prob: Dictionary = _as_dict(trig.get("probability", {}))
+	var period: String = String(prob.get("period", "day"))
+	var base_p: float = 1.0
+	if period != "immediate":
+		base_p = float(prob.get("base", 1.0))
+		var adds: Array = _as_array(prob.get("add", []))
+		for j: int in range(adds.size()):
+			var item: Dictionary = _as_dict(adds[j])
+			var when_text: String = String(item.get("when", ""))
+			if when_text != "" and expr.eval_bool(when_text, {}):
+				base_p += float(item.get("value", 0.0))
+		base_p = maxf(0.0, base_p)
+	var daily_p: float = base_p
+	if period == "month":
+		daily_p = base_p / 30.0
+	elif period == "week":
+		daily_p = base_p / 7.0
+	if g04:
+		daily_p *= 2.5
+	elif not anchor and period != "immediate":
+		daily_p *= 1.8
+	return daily_p
+
+
 func _in_window(state: SimState, ev: Dictionary) -> bool:
 	var trig: Dictionary = _as_dict(ev.get("trigger", {}))
 	var window: Dictionary = _as_dict(trig.get("window", {}))
@@ -307,6 +472,12 @@ func _m12(state: SimState) -> Dictionary:
 		current["event_cooldowns"] = {}
 		current["active_chains"] = {}
 		current["major_events_this_month"] = 0
+		current["expired"] = {}
+		current["g04_fired_count"] = 0
+		current["non_anchor_fixed_count"] = 0
+		current["total_random_fired"] = 0
+		current["month_random_count"] = 0
+		current["multipliers"] = {}
 	state.modules["M12"] = current
 	return current
 

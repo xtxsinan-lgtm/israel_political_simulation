@@ -13,6 +13,7 @@ var param_aliases: Dictionary = {}
 var entity_aliases: Dictionary = {}
 var modifiers_def: Dictionary = {}
 var causal_nodes_def: Dictionary = {}
+var causal_node_order: Array[String] = []
 var causal_edges_def: Array[Dictionary] = []
 var thresholds_def: Array[Dictionary] = []
 var policies_def: Dictionary = {}
@@ -25,6 +26,7 @@ var sites_def: Dictionary = {}
 var sites_list: Array = []
 var plans_def: Dictionary = {}
 var events_def: Dictionary = {}
+var events_list: Array = []
 var ui_config: Dictionary = {}
 var codex_terms: Dictionary = {}
 var migrations_def: Array[Dictionary] = []
@@ -58,6 +60,13 @@ func load_all_runtime_data() -> Error:
 
 	var causal: Dictionary = _load_dict("res://res/data/causal_edges.json")
 	causal_nodes_def = _as_dict(causal.get("by_param", {}))
+	causal_node_order = []
+	var raw_nodes: Array = _as_array(causal.get("nodes", []))
+	for node_i: int in range(raw_nodes.size()):
+		var node_row: Dictionary = _as_dict(raw_nodes[node_i])
+		var node_param: String = String(node_row.get("param", node_row.get("id", "")))
+		if node_param != "":
+			causal_node_order.append(node_param)
 	causal_edges_def = _dict_array(causal.get("edges", []))
 	thresholds_def = _dict_array(causal.get("thresholds", []))
 
@@ -79,6 +88,8 @@ func load_all_runtime_data() -> Error:
 
 	var events: Dictionary = _load_dict("res://res/data/events.json")
 	events_def = _as_dict(events.get("by_id", {}))
+	var raw_events: Variant = events.get("events", [])
+	events_list = raw_events if typeof(raw_events) == TYPE_ARRAY else []
 	ui_config = _load_dict("res://res/data/ui_config.json")
 	codex_terms = _load_dict("res://res/data/codex_terms.json")
 	var migrations: Dictionary = _load_dict("res://res/data/migrations.json")

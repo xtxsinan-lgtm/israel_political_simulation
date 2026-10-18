@@ -35,40 +35,72 @@ func apply_pc_soft_cap(state: SimState, raw_pc: float) -> float:
 
 
 func recompute_gov_axis_positions(state: SimState) -> void:
-	var impulses: Dictionary = _as_dict(_m05(state).get("axis_impulses", {}))
-	var axes: Array[String] = SimTypes.STANCE_AXES
+	var axes: Array[String] = ["territory", "security", "economy", "religion", "foreign"]
+	var totals: Dictionary = {}
+	for i: int in range(axes.size()):
+		totals[axes[i]] = 0.0
+	if GameData.current != null:
+		var ids: Array[String] = SimMath.sorted_keys(GameData.current.policies_def)
+		for p: int in range(ids.size()):
+			var pol: Dictionary = _as_dict(GameData.current.policies_def[ids[p]])
+			var ax_map: Dictionary = _as_dict(pol.get("ax", pol.get("axis", {})))
+			if ax_map.is_empty():
+				continue
+			var level: float = _policy_axis_level(state, ids[p], pol)
+			var tiers: Array = _as_array(pol.get("tiers", []))
+			var min_v: float = 0.0
+			var max_v: float = 100.0
+			var have_tier: bool = false
+			for t: int in range(tiers.size()):
+				var tier_v: float = _tier_scalar(tiers[t])
+				if not have_tier:
+					min_v = tier_v
+					max_v = tier_v
+					have_tier = true
+				else:
+					min_v = minf(min_v, tier_v)
+					max_v = maxf(max_v, tier_v)
+			var neutral: float = 0.0 if min_v < 0.0 else 50.0
+			if pol.has("n"):
+				neutral = float(pol.get("n", neutral))
+			var rel: float = 0.0
+			if level >= neutral:
+				rel = (level - neutral) / maxf(1.0, max_v - neutral)
+			else:
+				rel = (level - neutral) / maxf(1.0, neutral - min_v)
+			var ax_keys: Array[String] = SimMath.sorted_keys(ax_map)
+			for a: int in range(ax_keys.size()):
+				var axis_name: String = ax_keys[a]
+				if totals.has(axis_name):
+					totals[axis_name] = float(totals[axis_name]) + float(ax_map[axis_name]) * rel
 	for i: int in range(axes.size()):
 		var axis: String = axes[i]
-		var total: float = float(impulses.get(axis, state.axis_impulse.get(axis, 0.0)))
-		if GameData.current != null:
-			var ids: Array[String] = SimMath.sorted_keys(GameData.current.policies_def)
-			for p: int in range(ids.size()):
-				var pol: Dictionary = _as_dict(GameData.current.policies_def[ids[p]])
-				var level: float = state.params.get_val("policy_level", ids[p], state)
-				var weights: Dictionary = _as_dict(pol.get("axis", pol.get("axes", {})))
-				total += float(weights.get(axis, 0.0)) * level
-		total = clampf(total, -100.0, 100.0)
-		state.gov_axis_position[axis] = total
-	for i: int in range(axes.size()):
-		var axis: String = axes[i]
-		impulses[axis] = float(impulses.get(axis, 0.0)) * 0.95
-	var m05: Dictionary = _m05(state)
-	m05["axis_impulses"] = impulses
-	state.modules["M05"] = m05
-	state.axis_impulse = impulses
+		var impulse: float = clampf(float(state.axis_impulse.get(axis, 0.0)), -18.0, 18.0)
+		state.axis_impulse[axis] = SimMath.quantize(impulse)
+		var pos: float = SimMath.quantize(clampf(float(totals[axis]) + impulse, -100.0, 100.0))
+		state.gov_axis_position[axis] = pos
+		state.params.set_val("gov_axis_position", axis, pos, state)
 
 
 func m05_policy_fiscal_delta(state: SimState) -> float:
 	if GameData.current == null:
-		return 0.0
-	var total: float = 0.0
+		return SimMath.quantize(-0.056)
+	var delta_annual: float = 0.0
 	var ids: Array[String] = SimMath.sorted_keys(GameData.current.policies_def)
 	for i: int in range(ids.size()):
 		var pol: Dictionary = _as_dict(GameData.current.policies_def[ids[i]])
-		var level: float = state.params.get_val("policy_level", ids[i], state)
-		var per: float = float(pol.get("fiscal_per_level", pol.get("cost_per_level", 0.0)))
-		total += per * level
-	return SimMath.quantize(total)
+		var tiers: Array = _as_array(pol.get("tiers", []))
+		if tiers.is_empty():
+			continue
+		var start_idx: int = _tier_index(_as_dict(pol.get("start", {})).get("begin_1977", 0), tiers.size())
+		var cur_idx: int = start_idx
+		var saved: Dictionary = _as_dict(state.policies.get(ids[i], {}))
+		if saved.has("tier_idx"):
+			cur_idx = _tier_index(saved.get("tier_idx", start_idx), tiers.size())
+		var f0: float = _tier_fiscal(tiers, start_idx)
+		var f_cur: float = _tier_fiscal(tiers, cur_idx)
+		delta_annual -= (f_cur - f0)
+	return SimMath.quantize(-0.056 + delta_annual / 12.0)
 
 
 func adjust_policy_level(state: SimState, policy_id: String, target_level: int, charge_costs: bool) -> Array[Dictionary]:
@@ -103,10 +135,12 @@ func daily_step(step_no: int, state: SimState, _ctx: Dictionary) -> Array[Dictio
 func monthly_step(step_no: int, state: SimState, _ctx: Dictionary) -> Array[Dictionary]:
 	if step_no != 15:
 		return []
-	var income: float = compute_monthly_pc_income(state)
-	var raw: float = state.params.get_val("political_capital", "", state) + income
-	var stored: float = apply_pc_soft_cap(state, raw)
-	state.params.set_val("political_capital", "", stored, state)
+	var standing: float = state.params.get_val("party_standing", "", state)
+	var seats: float = state.params.get_val("coalition_seats", "", state)
+	var base_pc: float = 16.0 + (standing - 50.0) * 0.12 + (seats - 61.0) * 0.20
+	var cur_pc: float = state.params.get_val("political_capital", "", state)
+	if cur_pc < 110.0:
+		state.params.set_val("political_capital", "", cur_pc + maxf(8.0, base_pc * 0.75), state)
 	recompute_gov_axis_positions(state)
 	return []
 
@@ -316,6 +350,48 @@ func _m05(state: SimState) -> Dictionary:
 	var current: Dictionary = _as_dict(state.modules.get("M05", {}))
 	state.modules["M05"] = current
 	return current
+
+
+func _policy_axis_level(state: SimState, pol_id: String, pol: Dictionary) -> float:
+	var saved: Dictionary = _as_dict(state.policies.get(pol_id, {}))
+	if saved.has("level"):
+		return float(saved.get("level", 0.0))
+	var live_levels: Dictionary = _as_dict(state.params.export_scoped().get("policy_level", {}))
+	if live_levels.has(pol_id):
+		return float(live_levels[pol_id])
+	var tiers: Array = _as_array(pol.get("tiers", []))
+	var start_raw: Variant = _as_dict(pol.get("start", {})).get("begin_1977", 0)
+	if typeof(start_raw) == TYPE_DICTIONARY:
+		var start_map: Dictionary = start_raw
+		var start_keys: Array = start_map.keys()
+		start_raw = start_map[start_keys[0]] if not start_keys.is_empty() else 0
+	var idx: int = _tier_index(saved.get("tier_idx", start_raw), tiers.size())
+	return _tier_scalar(tiers[idx]) if idx >= 0 and idx < tiers.size() else 0.0
+
+
+func _tier_scalar(tier: Variant) -> float:
+	if typeof(tier) == TYPE_DICTIONARY:
+		return float((tier as Dictionary).get("v", 0.0))
+	if typeof(tier) == TYPE_INT or typeof(tier) == TYPE_FLOAT:
+		return float(tier)
+	return 0.0
+
+
+func _tier_index(raw: Variant, size: int) -> int:
+	var idx: int = 0
+	if typeof(raw) == TYPE_BOOL:
+		idx = 1 if bool(raw) else 0
+	elif typeof(raw) == TYPE_INT or typeof(raw) == TYPE_FLOAT:
+		idx = int(floor(float(raw)))
+	if size <= 0:
+		return 0
+	return clampi(idx, 0, size - 1)
+
+
+func _tier_fiscal(tiers: Array, idx: int) -> float:
+	if idx < 0 or idx >= tiers.size() or typeof(tiers[idx]) != TYPE_DICTIONARY:
+		return 0.0
+	return float((tiers[idx] as Dictionary).get("f", 0.0))
 
 
 func _as_dict(value: Variant) -> Dictionary:

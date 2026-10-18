@@ -12,25 +12,28 @@ func monthly_step(step_no: int, state: SimState, _ctx: Dictionary) -> Array[Dict
 		return []
 	var actions: M05Actions = M05Actions.new()
 	var policy_delta: float = actions.m05_policy_fiscal_delta(state)
-	var one_off: float = float(state.one_off_flows.get("budget_balance", 0.0))
-	var revenue: float = state.params.get_val("tax_revenue", "", state)
-	if revenue <= 0.0:
-		revenue = 8.0
-	var expense: float = 9.5 + maxf(0.0, -policy_delta)
-	var balance: float = revenue - expense + one_off
-	state.params.set_val("budget_balance", "", balance, state)
 	var m10: Dictionary = _m10(state)
-	m10["last_month_revenue_m"] = revenue
-	m10["current_month_expense_m"] = expense
-	state.one_off_flows["budget_balance"] = 0.0
-	var debt: float = state.params.get_val("public_debt", "", state) + maxf(0.0, -balance) * 0.15
-	state.params.set_val("public_debt", "", debt, state)
-	var reserves: float = state.params.get_val("foreign_reserves", "", state) + balance * 0.05
-	state.params.set_val("foreign_reserves", "", reserves, state)
-	var strike: float = state.params.get_val("strike_risk", "", state)
-	if state.params.get_val("inflation", "", state) > 40.0:
-		strike += 1.0
-	state.params.set_val("strike_risk", "", clampf(strike, 0.0, 100.0), state)
+	var one_off: float = float(m10.get("last_one_off_flow", 0.0))
+	var inflation: float = state.params.get_val("inflation", "", state)
+	var tanzi: float = maxf(0.0, (inflation - 35.0) * 0.012)
+	if bool(m10.get("stabilization_plan_active", false)) or _has_modifier(state, "new_shekel"):
+		tanzi = 0.0
+		policy_delta = maxf(policy_delta, 0.8)
+	var target_bb: float = clampf(-2.0 + policy_delta + one_off - tanzi, -18.0, 12.0)
+	var current_bb: float = state.params.get_val("budget_balance", "", state)
+	state.params.set_val("budget_balance", "", current_bb + 0.25 * (target_bb - current_bb), state)
+	var fx: float = state.params.get_val("fx_reserves", "", state)
+	if fx < 12.0 and state.params.get_val("us_admin_relation", "", state) >= 40.0:
+		state.params.set_val("fx_reserves", "", fx + 2.2, state)
+	elif fx > 88.0:
+		state.params.set_val("fx_reserves", "", fx - 1.8, state)
+	if bool(m10.get("stabilization_plan_active", false)):
+		var left: int = int(m10.get("stabilization_months_left", 0)) - 1
+		m10["stabilization_months_left"] = maxi(0, left)
+		if left <= 0:
+			m10["stabilization_plan_active"] = false
+	m10["peak_inflation_tenure"] = maxf(float(m10.get("peak_inflation_tenure", 0.0)), inflation)
+	m10["min_fx_tenure"] = minf(float(m10.get("min_fx_tenure", 100.0)), state.params.get_val("fx_reserves", "", state))
 	_digest_aliyah(state, m10)
 	state.modules["M10"] = m10
 	return []
@@ -39,16 +42,34 @@ func monthly_step(step_no: int, state: SimState, _ctx: Dictionary) -> Array[Dict
 func quarterly_step(step_no: int, state: SimState, _ctx: Dictionary) -> Array[Dictionary]:
 	if step_no != 16:
 		return []
-	var military: M09Military = M09Military.new()
-	var drag: float = military.get_mobilization_growth_drag(int(state.params.get_val("mobilization", "", state)))
-	var growth: float = state.params.get_val("growth", "", state) + drag * 0.25
-	state.params.set_val("growth", "", growth, state)
 	var inflation: float = state.params.get_val("inflation", "", state)
-	if inflation > 20.0:
-		inflation *= 1.04
-	if bool(_m10(state).get("stabilization_1985", false)):
-		inflation *= 0.85
-	state.params.set_val("inflation", "", inflation, state)
+	var balance: float = state.params.get_val("budget_balance", "", state)
+	var m10: Dictionary = _m10(state)
+	if state.clock.date >= "1986-04-01" and inflation >= 150.0 and not _has_modifier(state, "new_shekel") and state.params.get_val("centralization", "", state) < 55.0:
+		state.modifiers.add_modifier("new_shekel", {"duration_days": -1}, "M10_stabilization", state)
+		m10["stabilization_plan_active"] = true
+		m10["stabilization_months_left"] = 24
+		state.params.set_val("inflation", "", 23.5, state)
+		state.params.set_val("budget_balance", "", balance + 3.5, state)
+		state.params.set_val("fx_reserves", "", state.params.get_val("fx_reserves", "", state) + 10.0, state)
+	elif _has_modifier(state, "new_shekel") or bool(m10.get("stabilization_plan_active", false)):
+		if inflation > 27.5:
+			state.params.set_val("inflation", "", maxf(19.5, 22.0 + (inflation - 22.0) * 0.25), state)
+		elif inflation < 17.0:
+			state.params.set_val("inflation", "", 19.5 + maxf(0.0, -balance) * 0.5, state)
+	elif inflation >= 120.0 and balance <= -8.0:
+		state.params.set_val("inflation", "", inflation + maxf(2.0, (-balance - 6.0) * 0.8), state)
+	state.modules["M10"] = m10
+	return []
+
+
+func provide_terms(provider_name: String, state: SimState, param_id: String, _scope_key: String) -> Array[Dictionary]:
+	if state.clock.day_index == 0:
+		return [{"id": provider_name, "value": 0.0, "label_zh": "经济项"}]
+	if provider_name == "m10_monthly_terms":
+		return [{"id": provider_name, "value": _monthly_term(state, param_id), "label_zh": "月度经济项"}]
+	if provider_name == "m10_quarterly_terms":
+		return [{"id": provider_name, "value": _quarterly_term(state, param_id), "label_zh": "季度经济项"}]
 	return []
 
 
@@ -107,6 +128,84 @@ func handle_custom_op(op_name: String, state: SimState, args: Dictionary, _ctx: 
 		_:
 			return []
 	return []
+
+
+func _monthly_term(state: SimState, param_id: String) -> float:
+	var balance: float = state.params.get_val("budget_balance", "", state)
+	if param_id == "public_debt":
+		return clampf(-balance * 0.12, -1.5, 2.5)
+	if param_id == "fx_reserves":
+		var us_rel: float = state.params.get_val("us_admin_relation", "", state)
+		return (balance + 2.0) * 0.4 + (us_rel - 58.0) * 0.05
+	return 0.0
+
+
+func _quarterly_term(state: SimState, param_id: String) -> float:
+	if param_id == "growth":
+		var mob: float = state.params.get_val("mobilization", "", state)
+		if mob >= 80.0:
+			return -0.75
+		if mob >= 50.0:
+			return -0.25
+		if mob >= 25.0:
+			return -0.08
+		return 0.0
+	if param_id != "inflation":
+		return 0.0
+	var balance: float = state.params.get_val("budget_balance", "", state)
+	var inflation: float = state.params.get_val("inflation", "", state)
+	var econ: float = state.params.get_val("economic_model", "", state)
+	var m10: Dictionary = _m10(state)
+	if bool(m10.get("stabilization_plan_active", false)) or _has_modifier(state, "new_shekel") or bool(m10.get("indexation_removed", false)):
+		return clampf((-balance - 1.5) * 1.1 - maxf(0.0, econ) * 0.08, -5.0, 5.0)
+	var deficit: float = maxf(0.0, -balance - 1.5)
+	var war_stress: float = 16.0 if (_at_war(state) or _has_modifier(state, "lebanon_quagmire")) else 0.0
+	var bailout: float = 32.0 if state.flags.has("bank_nationalization") else 0.0
+	var hist: float = _inflation_corridor(state.clock.y) + deficit * 5.5 + war_stress + bailout
+	if econ >= 15.0 and balance >= -1.8:
+		hist *= 0.62
+	var target_inf: float = clampf(hist, 25.0, 375.0)
+	return (target_inf - 35.0) + 0.45 * (target_inf - inflation)
+
+
+func _inflation_corridor(year: int) -> float:
+	match year:
+		1977:
+			return 44.0
+		1978:
+			return 56.0
+		1979:
+			return 82.0
+		1980:
+			return 115.0
+		1981:
+			return 112.0
+		1982:
+			return 138.0
+		1983:
+			return 275.0
+		1984:
+			return 345.0
+		_:
+			return 330.0 if year >= 1985 else 44.0
+
+
+func _at_war(state: SimState) -> bool:
+	var fronts: Dictionary = _as_dict(_as_dict(state.modules.get("M09", {})).get("fronts", {}))
+	var ids: Array[String] = SimMath.sorted_keys(fronts)
+	for i: int in range(ids.size()):
+		var front: Dictionary = _as_dict(fronts[ids[i]])
+		var status: String = String(front.get("status", ""))
+		if status == "FULL_WAR" or status == "LIMITED_OP" or front.get("active_war", null) != null:
+			return true
+	return false
+
+
+func _has_modifier(state: SimState, mod_id: String) -> bool:
+	for i: int in range(state.active_modifiers.size()):
+		if String(state.active_modifiers[i].get("def_id", "")) == mod_id:
+			return true
+	return false
 
 
 func _digest_aliyah(state: SimState, m10: Dictionary) -> void:

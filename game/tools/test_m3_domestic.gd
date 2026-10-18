@@ -31,7 +31,7 @@ func _run() -> void:
 		quit(1)
 		return
 	var bounds: Vector2 = party.get_corridor_bounds(state, "territory")
-	if bounds.x != 35.0 or bounds.y != 90.0:
+	if not is_equal_approx(bounds.x, -11.9) or not is_equal_approx(bounds.y, 91.8):
 		push_error("corridor")
 		quit(1)
 		return

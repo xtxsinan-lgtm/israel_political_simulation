@@ -107,6 +107,7 @@ var monthly_snapshots: Array[Dictionary] = []
 var stats: Dictionary = {}
 var errors: Array[Dictionary] = []
 var policies: Dictionary = {}
+var promises: Array = []
 var offices: Dictionary = {}
 var parliament: Dictionary = {}
 var gov_axis_position: Dictionary = {}
@@ -130,7 +131,7 @@ func init_from_scenario_bundle(scenario_id: String, master_seed: int, is_ironman
 	meta.completed = false
 	var start_date: String = String(scenario.get("start_date", snapshot.get("start_date", "1977-06-20")))
 	_set_clock(start_date, 0)
-	rng.init_from_master_seed(master_seed)
+	rng.init_python_from_master_seed(master_seed)
 	player = {
 		"leader_id": String(scenario.get("leader_id", "begin")),
 		"party_id": String(scenario.get("party_id", "likud")),
@@ -152,10 +153,15 @@ func init_from_scenario_bundle(scenario_id: String, master_seed: int, is_ironman
 	}
 	_load_default_params()
 	_overlay_snapshot_params(_as_dict(snapshot.get("params", {})))
+	_init_policies()
+	_ensure_hash_params()
 	_load_flags(snapshot.get("initial_flags", {}))
 	_load_modifiers(snapshot.get("initial_modifiers", []))
+	promises = _as_array(snapshot.get("promises", [])).duplicate(true)
 	_init_modules(snapshot)
 	_activate_era_params()
+	_align_python_init_params()
+	M05Actions.new().recompute_gov_axis_positions(self)
 
 
 func push_delayed_effect_heap(item: Dictionary) -> void:
@@ -198,6 +204,119 @@ func record_error(code: String, msg: String) -> void:
 		"msg": msg,
 		"day_index": clock.day_index,
 	})
+
+
+func python_hash_payload() -> Dictionary:
+	var py_flags: Dictionary = {}
+	var flag_ids: Array[String] = SimMath.sorted_keys(flags)
+	for i: int in range(flag_ids.size()):
+		var flag_id: String = flag_ids[i]
+		var row: Dictionary = _as_dict(flags[flag_id])
+		var expires: Variant = row.get("expires_day", null)
+		py_flags[flag_id] = {
+			"expires_day": expires,
+			"set_day": int(floor(float(row.get("set_day", 0)))),
+			"source": String(row.get("source", "scenario")),
+			"value": int(floor(float(row.get("value", 1)))),
+		}
+	var py_mods: Array = []
+	for i: int in range(active_modifiers.size()):
+		var mod: Dictionary = active_modifiers[i]
+		py_mods.append({
+			"def_id": String(mod.get("def_id", "")),
+			"end_day": int(floor(float(mod.get("end_day", -1)))),
+			"scope_key": String(mod.get("scope_key", "")),
+			"source": String(mod.get("source", "scenario")),
+			"stacks": int(floor(float(mod.get("stacks", 1)))),
+			"start_day": int(floor(float(mod.get("start_day", 0)))),
+			"uid": int(floor(float(mod.get("uid", 0)))),
+		})
+	return {
+		"date_str": clock.date,
+		"day_index": clock.day_index,
+		"flags": py_flags,
+		"gov_axis_position": _python_axis_position(),
+		"modifiers": py_mods,
+		"params": _python_params(),
+		"parliament_seats": params.get_val("coalition_seats", "", self),
+		"player": {
+			"leader_id": String(player.get("leader_id", "")),
+			"party_id": String(player.get("party_id", "")),
+			"role": String(player.get("role", "pm")),
+		},
+		"policies": policies.duplicate(true),
+		"promises": _python_promises(),
+		"rng": _python_rng(),
+		"vision_progress": params.get_val("vision_progress", "", self),
+	}
+
+
+func _python_params() -> Dictionary:
+	var merged: Dictionary = params.export_scalars().duplicate(true)
+	var scoped: Dictionary = params.export_scoped()
+	var scoped_ids: Array[String] = SimMath.sorted_keys(scoped)
+	for i: int in range(scoped_ids.size()):
+		merged[scoped_ids[i]] = scoped[scoped_ids[i]]
+	merged["gov_axis_position"] = _python_axis_position()
+	merged["voter_cynicism"] = params.get_val("cynicism", "", self)
+	merged["islamic_assoc_strength"] = params.get_val("faction_strength", "mujama", self)
+	return merged
+
+
+func _python_axis_position() -> Dictionary:
+	var axes: Array[String] = ["territory", "security", "economy", "religion", "foreign"]
+	var out: Dictionary = {}
+	for i: int in range(axes.size()):
+		out[axes[i]] = float(gov_axis_position.get(axes[i], 0.0))
+	return out
+
+
+func _python_promises() -> Array:
+	var out: Array = []
+	for i: int in range(promises.size()):
+		var row: Dictionary = _as_dict(promises[i]).duplicate(true)
+		if row.has("boldness"):
+			row["boldness"] = int(floor(float(row["boldness"]) + 0.5))
+		if row.has("violation_penalty"):
+			row["violation_penalty"] = int(floor(float(row["violation_penalty"]) + 0.5))
+		if row.has("stance_hint") and row["stance_hint"] is Dictionary:
+			var hint: Dictionary = row["stance_hint"]
+			if hint.has("value"):
+				hint["value"] = int(floor(float(hint["value"]) + 0.5))
+			row["stance_hint"] = hint
+		out.append(row)
+	return out
+
+
+func _python_rng() -> Dictionary:
+	var contract: Dictionary = {
+		"ai": true, "combat": true, "core": true, "economy": true, "elections": true,
+		"events": true, "politics": true, "random_events": true, "world": true,
+	}
+	var out_streams: Dictionary = {}
+	var keys: Array[String] = SimMath.sorted_keys(rng.streams)
+	for i: int in range(keys.size()):
+		var key: String = keys[i]
+		var st: SimRNG.Stream = rng.streams[key] as SimRNG.Stream
+		if st == null:
+			continue
+		if not contract.has(key) and st.draws <= 0:
+			continue
+		out_streams[key] = {
+			"calls": st.draws,
+			"s0": _u32(st.s0),
+			"s1": _u32(st.s1),
+			"s2": _u32(st.s2),
+			"s3": _u32(st.s3),
+		}
+	return {"master_seed": _u32(rng.master_seed), "streams": out_streams}
+
+
+func _u32(value: int) -> int:
+	var word: int = value & 0xFFFFFFFF
+	if word < 0:
+		word += 4294967296
+	return word
 
 
 func to_raw_state_dict() -> Dictionary:
@@ -323,6 +442,94 @@ func _write_scoped(param_id: String, value: Variant) -> void:
 			params.set_val(param_id, key, number, self)
 
 
+func _init_policies() -> void:
+	policies = {}
+	if GameData.current == null:
+		return
+	var levels: Dictionary = _as_dict(params.export_scoped().get("policy_level", {}))
+	var ids: Array[String] = SimMath.sorted_keys(GameData.current.policies_def)
+	for i: int in range(ids.size()):
+		var pol_id: String = ids[i]
+		var pol: Dictionary = _as_dict(GameData.current.policies_def[pol_id])
+		var tiers: Array = []
+		var raw_tiers: Variant = pol.get("tiers", [])
+		if typeof(raw_tiers) == TYPE_ARRAY:
+			tiers = raw_tiers
+		var level: float = 0.0
+		if levels.has(pol_id):
+			level = float(levels[pol_id])
+		elif not tiers.is_empty():
+			level = _tier_number(tiers[0])
+		var tier_idx: int = 0
+		for t: int in range(tiers.size()):
+			if absf(_tier_number(tiers[t]) - level) < 1.0e-6:
+				tier_idx = t
+				break
+		policies[pol_id] = {
+			"id": pol_id,
+			"level": level,
+			"target_level": level,
+			"tier_idx": tier_idx,
+			"cooldown_until_day": 0,
+			"PendingBillId": null,
+		}
+
+
+func _align_python_init_params() -> void:
+	var scoped: Dictionary = params.export_scoped()
+	var region_defaults: Dictionary = {
+		"region_absorption_priority": 50.0,
+		"region_investment_priority": 50.0,
+		"region_security_posture": 50.0,
+		"region_vote_share": 40.0,
+	}
+	var default_ids: Array[String] = SimMath.sorted_keys(region_defaults)
+	for i: int in range(default_ids.size()):
+		var param_id: String = default_ids[i]
+		var table: Dictionary = _as_dict(scoped.get(param_id, {}))
+		var region_ids: Array[String] = SimMath.sorted_keys(table)
+		if not region_ids.has("south_lebanon"):
+			region_ids.append("south_lebanon")
+		for r: int in range(region_ids.size()):
+			params.set_val(param_id, region_ids[r], float(region_defaults[param_id]), self)
+	params.set_val("coup_risk", "", 0.0, self)
+	params.set_val("assassination_risk", "", 2.0, self)
+	var war_ids: Array[String] = ["egypt", "jordan", "syria", "lebanon", "iraq", "saudi", "iran"]
+	var war: Dictionary = _as_dict(params.export_scoped().get("war_probability", {}))
+	for i: int in range(war_ids.size()):
+		if not war.has(war_ids[i]):
+			params.set_val("war_probability", war_ids[i], 15.0, self)
+
+
+func _ensure_hash_params() -> void:
+	params.set_val("voter_cynicism", "", params.get_val("cynicism", "", self), self)
+	if GameData.current == null:
+		return
+	var raw_parties: Variant = _as_dict(GameData.current.entity_aliases).get("parties", [])
+	if typeof(raw_parties) != TYPE_ARRAY:
+		return
+	var party_rows: Array = raw_parties
+	var existing: Dictionary = _as_dict(params.export_scoped().get("favor_party", {}))
+	for i: int in range(party_rows.size()):
+		var party_id: String = String(party_rows[i])
+		if party_id != "" and not existing.has(party_id):
+			params.set_val("favor_party", party_id, 0.0, self)
+
+
+func _tier_number(tier: Variant) -> float:
+	if typeof(tier) == TYPE_DICTIONARY:
+		return float((tier as Dictionary).get("v", 0.0))
+	if typeof(tier) == TYPE_INT or typeof(tier) == TYPE_FLOAT:
+		return float(tier)
+	return 0.0
+
+
+func _as_array(value: Variant) -> Array:
+	if typeof(value) == TYPE_ARRAY:
+		return value
+	return []
+
+
 func _load_flags(raw: Variant) -> void:
 	flags = {}
 	if typeof(raw) == TYPE_DICTIONARY:
@@ -333,8 +540,9 @@ func _load_flags(raw: Variant) -> void:
 			var entry: Dictionary = _as_dict(fmap[fid])
 			flags[fid] = {
 				"set_day": int(entry.get("set_day", 0)),
-				"value": float(entry.get("value", 1)),
+				"expires_day": entry.get("expires_day", null),
 				"source": String(entry.get("source", "scenario")),
+				"value": int(floor(float(entry.get("value", 1)))),
 			}
 	elif typeof(raw) == TYPE_ARRAY:
 		var items: Array = raw
@@ -344,8 +552,9 @@ func _load_flags(raw: Variant) -> void:
 				continue
 			flags[String(entry["id"])] = {
 				"set_day": int(entry.get("set_day", 0)),
-				"value": float(entry.get("value", 1)),
+				"expires_day": entry.get("expires_day", null),
 				"source": String(entry.get("source", "scenario")),
+				"value": int(floor(float(entry.get("value", 1)))),
 			}
 	if flags.has("likud_in_power") and not flags.has("likud_in_government"):
 		flags["likud_in_government"] = _as_dict(flags["likud_in_power"]).duplicate(true)

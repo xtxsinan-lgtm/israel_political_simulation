@@ -68,11 +68,17 @@ func provide_terms(provider_name: String, state: SimState, _param_id: String, sc
 func monthly_step(step_no: int, state: SimState, _ctx: Dictionary) -> Array[Dictionary]:
 	if step_no != 12:
 		return []
-	var inflow: float = compute_immigration_inflow(state)
-	state.params.set_val("immigration_inflow", "", inflow, state)
+	var fired: Dictionary = _as_dict(_as_dict(state.modules.get("M12", {})).get("fired", {}))
 	var nuclear: float = state.params.get_val("enemy_nuclear_progress", "iraq", state)
-	if state.clock.y >= 1977 and state.clock.y <= 1981 and not _flag(state, "osirak_struck"):
-		state.params.set_val("enemy_nuclear_progress", "iraq", nuclear + 0.8, state)
+	if state.clock.date <= "1981-12-31" and not fired.has("E-1981-06a") and nuclear < 92.0:
+		state.params.set_val("enemy_nuclear_progress", "iraq", minf(92.0, nuclear + 1.15), state)
+	if state.clock.date >= "1978-06-01" and state.clock.date <= "1979-03-01" and not fired.has("E-1979-02"):
+		state.params.set_val("regime_stability", "iran", 15.0, state)
+	if state.clock.y >= 1990 and not fired.has("E-1991-05"):
+		state.params.set_val("regime_stability", "ethiopia", 12.0, state)
+	if state.clock.y >= 1989:
+		state.params.set_val("power_relation", "ussr", state.params.get_val("power_relation", "ussr", state) + 1.5, state)
+		state.params.set_val("regime_stability", "egypt", minf(38.0, state.params.get_val("regime_stability", "egypt", state)), state)
 	var effects: Array[Dictionary] = []
 	var countries: Dictionary = _countries(state)
 	var ids: Array[String] = SimMath.sorted_keys(countries)
@@ -80,7 +86,6 @@ func monthly_step(step_no: int, state: SimState, _ctx: Dictionary) -> Array[Dict
 		var p: float = compute_war_probability(state, ids[i])
 		if p > 0.55:
 			effects.append({"op": "custom", "key": "m09_start_war", "value": {"country": ids[i], "ai_reason_breakdown": build_ai_reason_breakdown(ids[i], "regime_hostility", p, 0.55)}})
-	_sync_congress(state)
 	return effects
 
 

@@ -40,6 +40,8 @@ func eval_raw(expr_or_ast: Variant, ctx: Dictionary = {}) -> Variant:
 		var text: String = String(expr_or_ast)
 		if text.is_empty():
 			return true
+		if ctx.has(text):
+			return ctx[text]
 		if GameData.current != null:
 			var compiled: Array = GameData.current.get_compiled_ast(text)
 			if not compiled.is_empty():
@@ -84,7 +86,12 @@ func _eval_node(node: Variant, ctx: Dictionary) -> Variant:
 			return _resolve_variable(String(arr[1]), ctx)
 		"idx":
 			var param_name: String = _as_name(arr[1] if arr.size() > 1 else "")
-			var key_val: String = _as_name(_eval_node(arr[2], ctx) if arr.size() > 2 else "")
+			var key_node: Variant = arr[2] if arr.size() > 2 else ""
+			var key_val: String = ""
+			if typeof(key_node) == TYPE_ARRAY and (key_node as Array).size() > 1 and String((key_node as Array)[0]) == "var":
+				key_val = String((key_node as Array)[1])
+			else:
+				key_val = _as_name(_eval_node(key_node, ctx))
 			if _state == null or param_name == "":
 				return 0.0
 			return _state.params.get_val(param_name, key_val, _state)
@@ -272,7 +279,7 @@ func _dispatch_builtin(fn_name: String, args: Array, ctx: Dictionary) -> Variant
 		"action_done_count":
 			return int(_as_dict(_m05().get("completed_actions", {})).get(_sarg(args, 0), 0))
 		"character_in_office":
-			return _holder_of(_sarg(args, 0)) != "" or _char_holds(_sarg(args, 0))
+			return _character_in_office(_sarg(args, 0))
 		"character_alive":
 			return _char_alive(_sarg(args, 0))
 		"holder_of":
@@ -371,10 +378,46 @@ func _day_index() -> int:
 
 
 func _flag_on(flag_id: String) -> bool:
-	if _state == null or not _state.flags.has(flag_id):
+	if _state == null:
 		return false
-	var entry: Dictionary = _as_dict(_state.flags[flag_id])
-	return float(entry.get("value", 1.0)) != 0.0
+	if _state.flags.has(flag_id):
+		var entry: Dictionary = _as_dict(_state.flags[flag_id])
+		return float(entry.get("value", 1.0)) != 0.0
+	if flag_id == "likud_in_government" and _state.flags.has("likud_in_power"):
+		return true
+	if flag_id == "likud_in_power" and _state.flags.has("likud_in_government"):
+		return true
+	if flag_id == "bank_shares_manipulation" and _state.flags.has("bank_shares_regulation"):
+		return true
+	if flag_id == "liberals_hold_finance":
+		var finance_holder: String = _holder_of("finance")
+		return finance_holder == "ehrlich" or finance_holder == "modai" or finance_holder == "patt"
+	if flag_id == "dayan_foreign_minister":
+		var choice_a: bool = _event_choice("E-1977-06") == "A"
+		return choice_a or (_state.clock.day_index >= 30 and _holder_of("foreign") == "dayan")
+	if flag_id == "settlers_momentum_high":
+		return _state.params.get_val("settler_momentum", "", _state) >= 50.0
+	if flag_id == "lakam_us_operation":
+		return bool(_as_dict(_as_dict(_m09()).get("nuclear", {})).get("lakam_active", true))
+	if flag_id == "first_intifada_active":
+		return _state.flags.has("intifada_active") or _has_modifier("first_intifada", "") or bool(_as_dict(_as_dict(_m08()).get("uprising_state", {})).get("active", false))
+	if flag_id == "world_iran_iraq_war":
+		return _state.clock.date >= "1980-09-22" and _state.clock.date <= "1988-08-20"
+	if flag_id == "world_us_refugee_quota_tightened":
+		return _state.clock.date >= "1989-06-01"
+	if flag_id == "world_gulf_war":
+		return _state.clock.date >= "1990-08-02" and _state.clock.date <= "1991-04-30"
+	if flag_id == "national_unity_government":
+		var seats: float = _state.params.get_val("coalition_seats", "", _state)
+		var parties_v: Variant = _as_dict(_as_dict(_state.modules.get("M03", {})).get("parliament", {})).get("coalition_parties", [])
+		var labor_in: bool = false
+		if typeof(parties_v) == TYPE_ARRAY:
+			var parties: Array = parties_v
+			for i: int in range(parties.size()):
+				if String(parties[i]) == "labor":
+					labor_in = true
+		return _state.clock.y >= 1984 and (seats >= 75.0 or labor_in)
+	return false
 
 
 func _has_modifier(mod_id: String, scope_key: String) -> bool:
@@ -437,6 +480,10 @@ func _m06() -> Dictionary:
 
 func _m07() -> Dictionary:
 	return _mod("M07")
+
+
+func _m08() -> Dictionary:
+	return _mod("M08")
 
 
 func _m09() -> Dictionary:
@@ -528,6 +575,35 @@ func _holder_of(office_or_char: String) -> String:
 		if offices.has(canon):
 			return String(offices[canon])
 	return ""
+
+
+func _character_in_office(char_id: String) -> bool:
+	var date: String = "" if _state == null else _state.clock.date
+	var fired: Dictionary = {}
+	if _state != null:
+		fired = _as_dict(_as_dict(_state.modules.get("M12", {})).get("fired", {}))
+	if char_id == "sadat":
+		return date <= "1981-10-06" and not _flag_on("sadat_assassinated") and not fired.has("E-1981-10")
+	if char_id == "mubarak":
+		return date > "1981-10-06" or _flag_on("sadat_assassinated") or fired.has("E-1981-10")
+	if char_id == "hussein_king" or char_id == "hussein" or char_id == "assad_hafez" or char_id == "arafat" or char_id == "saddam":
+		return true
+	if char_id == "mengistu":
+		return date <= "1991-05-28"
+	if char_id == "shah_pahlavi":
+		return date <= "1979-03-01" and not fired.has("E-1979-02")
+	if char_id == "bashir_gemayel":
+		return date >= "1982-01-01" and date <= "1983-12-31" and not fired.has("E-1982-09a")
+	if char_id == "numayri":
+		return date <= "1985-06-30"
+	if char_id == "carter" or char_id == "reagan" or char_id == "bush_sr" or char_id == "clinton":
+		var president: String = String(_as_dict(_as_dict(_m07()).get("us_politics", {})).get("president_id", ""))
+		return president == char_id
+	if _holder_of(char_id) != "":
+		return true
+	if _state != null and String(_state.player.get("leader_id", "")) == char_id:
+		return true
+	return _char_holds(char_id)
 
 
 func _char_holds(char_id: String) -> bool:

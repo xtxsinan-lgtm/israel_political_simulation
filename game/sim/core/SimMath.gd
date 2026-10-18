@@ -2,13 +2,12 @@ class_name SimMath
 extends RefCounted
 
 const QUANT_SCALE: float = 1000000.0
-const INV_QUANT_SCALE: float = 1.0 / 1000000.0
 
 
 static func quantize(x: float) -> float:
 	if is_nan(x) or is_inf(x):
 		return 0.0
-	return floor(x * QUANT_SCALE + 0.5) * INV_QUANT_SCALE
+	return floor(x * QUANT_SCALE + 0.5) / QUANT_SCALE
 
 
 static func to_canonical_int(x: Variant) -> int:

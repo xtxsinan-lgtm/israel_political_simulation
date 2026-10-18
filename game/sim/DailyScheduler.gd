@@ -20,6 +20,15 @@ var expr: ExprEngine = ExprEngine.new()
 var trace: Array[String] = []
 
 
+func _init() -> void:
+	processor.causal_net = CausalNet.new()
+	processor.modules = {
+		"M01": m01, "M02": m02, "M03": m03, "M04": m04, "M05": m05,
+		"M06": m06, "M07": m07, "M08": m08, "M09": m09, "M10": m10,
+		"M11": m11, "M12": m12, "M13": m13, "M14": m14,
+	}
+
+
 func execute_day(state: SimState, bot: Variant = null) -> Dictionary:
 	return execute_single_day(state, bot)
 
@@ -66,9 +75,11 @@ func execute_single_day(state: SimState, bot: Variant = null) -> Dictionary:
 		m01.record_monthly_ring_snapshot(state)
 		trace.append("15")
 	if state.clock.is_quarter:
+		_run(m02.step_tick(16, state, ctx, "quarterly"), state)
 		_run(m10.quarterly_step(16, state, ctx), state)
 		trace.append("16")
 	if state.clock.is_year:
+		_run(m02.step_tick(17, state, ctx, "yearly"), state)
 		_run_step_17_locked_sequence(state, ctx)
 		trace.append("17")
 	_run(m12.daily_step(18, state, ctx), state)

@@ -57,6 +57,11 @@ func apply_effects(raw_effects: Array, step_ctx: Dictionary, state: SimState, de
 			var opts: Dictionary = {}
 			if typeof(eff.get("value", {})) == TYPE_DICTIONARY:
 				opts = eff.get("value", {})
+			else:
+				opts = {}
+			if eff.has("duration_days"):
+				opts = opts.duplicate()
+				opts["duration_days"] = eff["duration_days"]
 			state.modifiers.add_modifier(String(eff.get("modifier", eff.get("key", ""))), opts, String(eff.get("source", "")), state)
 			mod_changed = true
 	for i: int in range(active_effects.size()):
@@ -71,6 +76,8 @@ func apply_effects(raw_effects: Array, step_ctx: Dictionary, state: SimState, de
 			if state.flags.has(flag_id) and typeof(state.flags[flag_id]) == TYPE_DICTIONARY:
 				var row: Dictionary = state.flags[flag_id]
 				row["value"] = f_val
+				if String(eff.get("source", "")) != "":
+					row["source"] = String(eff.get("source", ""))
 				state.flags[flag_id] = row
 			else:
 				state.flags[flag_id] = {"set_day": state.clock.day_index, "value": f_val, "source": String(eff.get("source", ""))}
@@ -121,11 +128,18 @@ func apply_effects(raw_effects: Array, step_ctx: Dictionary, state: SimState, de
 		var op: String = String(eff.get("op", ""))
 		if op != "custom" and op != "random_branch" and op != "if":
 			continue
-		var custom_name: String = op if op != "custom" else String(eff.get("key", eff.get("custom", "")))
+		var handler_name: String = String(eff.get("handler", ""))
+		var custom_name: String = op if op != "custom" else handler_name
+		if custom_name == "":
+			custom_name = String(eff.get("key", eff.get("custom", "")))
 		if custom_name == "if":
 			custom_name = "if_then"
 		var raw_args: Variant = eff.get("value", eff.get("args", {}))
 		var custom_args: Dictionary = raw_args if typeof(raw_args) == TYPE_DICTIONARY else {"value": raw_args}
+		if handler_name != "" and not custom_args.has("axis"):
+			custom_args["axis"] = String(eff.get("key", "territory"))
+		if eff.has("direction") and not custom_args.has("direction"):
+			custom_args["direction"] = String(eff.get("direction"))
 		var owner_mod: String = GameData.current.get_custom_handler_owner(custom_name)
 		if owner_mod == "" or not modules.has(owner_mod) or not (modules[owner_mod] is SimModuleBase):
 			state.record_error("E_UNKNOWN_CUSTOM", "Unregistered custom op: " + custom_name)
@@ -134,6 +148,19 @@ func apply_effects(raw_effects: Array, step_ctx: Dictionary, state: SimState, de
 		var child_effects: Array[Dictionary] = owner.handle_custom_op(custom_name, state, custom_args, step_ctx)
 		if not child_effects.is_empty():
 			apply_effects(child_effects, step_ctx, state, depth + 1)
+	for i: int in range(active_effects.size()):
+		var mult_eff: Dictionary = active_effects[i]
+		if String(mult_eff.get("op", "")) != "event_multiplier":
+			continue
+		var mult_event: String = String(mult_eff.get("event", mult_eff.get("key", "")))
+		if mult_event == "":
+			continue
+		var m12_box: Dictionary = _as_dict(state.modules.get("M12", {}))
+		var multipliers: Dictionary = _as_dict(m12_box.get("multipliers", {}))
+		var next_mult: float = float(multipliers.get(mult_event, 1.0)) * float(mult_eff.get("value", 1.0)) * float(mult_eff.get("_computed_scale", 1.0))
+		multipliers[mult_event] = SimMath.quantize(next_mult)
+		m12_box["multipliers"] = multipliers
+		state.modules["M12"] = m12_box
 	for i: int in range(active_effects.size()):
 		var eff: Dictionary = active_effects[i]
 		var op: String = String(eff.get("op", ""))

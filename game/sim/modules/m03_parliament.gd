@@ -114,7 +114,10 @@ func weekly_step(step_no: int, state: SimState, ctx: Dictionary) -> Array[Dictio
 	if step_no != 7:
 		return []
 	var effects: Array[Dictionary] = open_campaign_if_due(state)
-	if SimCalendar.is_first_sunday_of_month(state.clock.weekday, state.clock.d):
+	var pc: float = state.params.get_val("political_capital", "", state)
+	if pc < 85.0:
+		state.params.set_val("political_capital", "", pc + 1.5, state)
+	if state.clock.d <= 7:
 		effects.append_array(_step_7a(state))
 	effects.append_array(_step_7b(state))
 	effects.append_array(_resolve_due_bills(state, ctx))
@@ -175,8 +178,10 @@ func handle_custom_op(op_name: String, state: SimState, args: Dictionary, _ctx: 
 func _step_7a(state: SimState) -> Array[Dictionary]:
 	var m03: Dictionary = _m03(state)
 	var parties: Array = _as_array(m03.get("coalition_parties", []))
-	var fatigue: float = state.params.get_val("govt_fatigue", "", state) + 0.4
+	var elections_won: int = int(state.run.get("tenure_elections_won", 0))
+	var fatigue: float = state.params.get_val("govt_fatigue", "", state) + 0.22 + 0.22 * float(elections_won)
 	state.params.set_val("govt_fatigue", "", fatigue, state)
+	state.params.set_val("months_to_election", "", state.params.get_val("months_to_election", "", state) - 1.0, state)
 	var effects: Array[Dictionary] = []
 	for i: int in range(parties.size()):
 		var party_id: String = String(parties[i])
@@ -184,8 +189,7 @@ func _step_7a(state: SimState) -> Array[Dictionary]:
 		var deals: Dictionary = _as_dict(m03.get("ally_deal_score", {}))
 		deals[party_id] = score
 		m03["ally_deal_score"] = deals
-		var sat: float = clampf(state.params.get_val("ally_satisfaction", party_id, state) * 0.9 + score * 0.1, 0.0, 100.0)
-		state.params.set_val("ally_satisfaction", party_id, sat, state)
+		var sat: float = state.params.get_val("ally_satisfaction", party_id, state)
 		var low: Dictionary = _as_dict(m03.get("low_sat_months", {}))
 		if sat < 20.0:
 			low[party_id] = int(low.get(party_id, 0)) + 1
@@ -201,34 +205,27 @@ func _step_7a(state: SimState) -> Array[Dictionary]:
 
 
 func _step_7b(state: SimState) -> Array[Dictionary]:
-	var shares: Dictionary = compute_party_vote_shares(state)
 	var rng: SimRNG.Stream = state.rng.get_stream("politics")
-	var noisy: Dictionary = {}
-	var ids: Array[String] = SimMath.sorted_keys(shares)
-	var total: float = 0.0
-	for i: int in range(ids.size()):
-		var jitter: float = rng.uniform(-1.5, 1.5)
-		var value: float = maxf(0.0, float(shares[ids[i]]) + jitter)
-		noisy[ids[i]] = value
-		total += value
-	if total > 1.0e-9:
-		for i: int in range(ids.size()):
-			noisy[ids[i]] = 100.0 * float(noisy[ids[i]]) / total
-	for i: int in range(ids.size()):
-		state.params.set_val("poll_share", ids[i], float(noisy[ids[i]]), state)
-	var seats: Dictionary = allocate_knesset_seats(noisy, state.clock.y, _pairs(state))
-	var seat_ids: Array[String] = SimMath.sorted_keys(seats)
-	for i: int in range(seat_ids.size()):
-		state.params.set_val("poll_seats", seat_ids[i], float(seats[seat_ids[i]]), state)
+	var standing: float = state.params.get_val("party_standing", "", state)
+	var pub_sec: float = state.params.get_val("public_security", "", state)
+	var inf: float = state.params.get_val("inflation", "", state)
+	var fatigue: float = state.params.get_val("govt_fatigue", "", state)
+	var elections_won: int = int(state.run.get("tenure_elections_won", 0))
+	var term_drag: float = maxf(0.0, float(elections_won - 1) * 4.2) + fatigue * 0.14
+	var treaties: int = 0
+	var treaty_countries: Array[String] = ["egypt", "jordan", "syria", "lebanon", "saudi"]
+	for i: int in range(treaty_countries.size()):
+		if state.params.get_val("peace_treaty_state", treaty_countries[i], state) >= 3.0:
+			treaties += 1
+	var peace_div: float = (6.8 if treaties >= 1 else 0.0) + maxf(0.0, state.params.get_val("intl_legitimacy", "", state) - 55.0) * 0.18
+	var base_likud: float = clampf(41.5 + (standing - 60.0) * 0.22 + (pub_sec - 60.0) * 0.15 + peace_div - maxf(0.0, inf - 95.0) * 0.020 - term_drag, 18.0, 56.0)
+	var poll_likud: float = clampf(base_likud + rng.uniform(-1.5, 1.5), 15.0, 60.0)
+	var poll_labor: float = clampf(40.0 - (poll_likud - 40.0) * 0.65 + term_drag * 0.35 + rng.uniform(-1.5, 1.5), 15.0, 58.0)
 	var player: String = String(state.player.get("party_id", "likud"))
-	var player_seats: int = int(seats.get(player, 0))
-	var opponent: int = 0
-	for i: int in range(seat_ids.size()):
-		if seat_ids[i] == player:
-			continue
-		opponent = maxi(opponent, int(seats[seat_ids[i]]))
-	var lead: int = player_seats - opponent
-	state.params.set_val("poll_lead", "", float(lead), state)
+	state.params.set_val("poll_seats", player, float(int(floor(poll_likud + 0.5))), state)
+	state.params.set_val("poll_seats", "labor", float(int(floor(poll_labor + 0.5))), state)
+	var lead: float = poll_likud - poll_labor
+	state.params.set_val("poll_lead", "", lead, state)
 	var m03: Dictionary = _m03(state)
 	m03["poll_lead"] = lead
 	state.modules["M03"] = m03

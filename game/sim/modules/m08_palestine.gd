@@ -12,15 +12,14 @@ func _init() -> void:
 func monthly_step(step_no: int, state: SimState, _ctx: Dictionary) -> Array[Dictionary]:
 	if step_no != 12:
 		return []
-	_conserve_legitimacy(state)
-	var hostility: float = 0.0
-	for i: int in range(FACTIONS.size()):
-		hostility += state.params.get_val("faction_strength", FACTIONS[i], state) * state.params.get_val("faction_militancy", FACTIONS[i], state)
-	state.params.set_val("pal_hostility", "", clampf(hostility / 400.0, 0.0, 100.0), state)
-	var uprising: float = state.params.get_val("uprising_risk", "", state)
-	if _flag(state, "intifada_active"):
-		uprising = minf(100.0, uprising + 1.5)
-	state.params.set_val("uprising_risk", "", uprising, state)
+	var pal_host: float = state.params.get_val("pal_hostility", "", state)
+	var autonomy: float = state.params.get_val("autonomy_progress", "", state)
+	var settler_mom: float = state.params.get_val("settler_momentum", "", state)
+	var terr_axis: float = state.params.get_val("gov_axis_position", "territory", state)
+	var drift: float = 0.06 * maxf(0.0, pal_host - 46.0) + 0.04 * maxf(0.0, settler_mom - 42.0) - 0.03 * maxf(0.0, autonomy - 15.0)
+	if state.clock.y >= 1985 and terr_axis >= 5.0 and autonomy < 28.0:
+		drift += 0.45
+	state.params.set_val("uprising_risk", "", state.params.get_val("uprising_risk", "", state) + drift, state)
 	var backlash: Dictionary = _as_dict(_m08(state).get("repression_months", {}))
 	var keys: Array[String] = SimMath.sorted_keys(backlash)
 	for i: int in range(keys.size()):
@@ -39,11 +38,13 @@ func monthly_step(step_no: int, state: SimState, _ctx: Dictionary) -> Array[Dict
 func weekly_step(step_no: int, state: SimState, _ctx: Dictionary) -> Array[Dictionary]:
 	if step_no != 8:
 		return []
-	var risk: float = state.params.get_val("uprising_risk", "", state)
-	if risk < 40.0:
+	var hostility: float = state.params.get_val("pal_hostility", "", state)
+	if hostility <= 65.0:
 		return []
-	state.params.set_val("public_security", "", state.params.get_val("public_security", "", state) - 1.0, state)
-	return [{"op": "set_flag", "flag": "sig.m08_armed_incident", "value": 1.0, "ai_reason_breakdown": build_ai_reason_breakdown("fatah", "uprising_risk", risk, 40.0)}]
+	if not state.rng.get_stream("combat").chance((hostility - 60.0) / 220.0):
+		return []
+	state.params.set_val("public_security", "", state.params.get_val("public_security", "", state) - 1.2, state)
+	return [{"op": "set_flag", "flag": "sig.m08_armed_incident", "value": 1.0, "ai_reason_breakdown": build_ai_reason_breakdown("fatah", "pal_hostility", hostility, 65.0)}]
 
 
 func handle_custom_op(op_name: String, state: SimState, args: Dictionary, _ctx: Dictionary) -> Array[Dictionary]:

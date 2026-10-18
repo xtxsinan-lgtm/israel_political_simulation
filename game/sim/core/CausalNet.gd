@@ -18,8 +18,12 @@ func on_effect_applied(state: SimState, param_id: String, scope_key: String, del
 	var node_type: String = String(ndef.get("node_type", ndef.get("mode", "")))
 	if node_type != "level":
 		return
+	var rho: float = float(ndef.get("memory_rho", MEMORY_RHO))
+	if absf(rho) < 1.0e-12:
+		return
+	var cap: float = float(ndef.get("memory_cap", 30.0))
 	var node_key: String = _make_node_key(param_id, scope_key)
-	var mem_delta: float = SimMath.quantize(delta_actual * MEMORY_RHO)
+	var mem_delta: float = SimMath.quantize(delta_actual * rho)
 	var m02: Dictionary = _m02(state)
 	var memories: Dictionary = _as_dict(m02.get("shock_memories", {}))
 	var bucket: Array = _as_array(memories.get(node_key, []))
@@ -95,7 +99,7 @@ func compute_node_step_breakdown(state: SimState, param_id: String, scope_key: S
 			})
 	var provider_name: String = String(ndef.get("term_provider", ""))
 	if provider_name != "":
-		var owner_mod_id: String = String(ndef.get("provider_module", ""))
+		var owner_mod_id: String = String(ndef.get("provider_module", ndef.get("owner", "")))
 		if modules.has(owner_mod_id) and modules[owner_mod_id] is SimModuleBase:
 			var owner: SimModuleBase = modules[owner_mod_id]
 			var dynamic_terms: Array[Dictionary] = owner.provide_terms(provider_name, state, param_id, scope_key)
@@ -127,18 +131,25 @@ func compute_node_step_breakdown(state: SimState, param_id: String, scope_key: S
 			"raw_target_shift": rem,
 				"kind": "memory",
 			})
-	var alpha: float = _alpha(ndef)
-	var raw_step: float = alpha * (target_sum - current_val)
-	var max_step: float = float(ndef.get("max_step_per_month", 5.0))
-	var clamped_step: float = clampf(raw_step, -max_step, max_step)
-	var soft: Dictionary = _as_dict(ndef.get("soft", {}))
-	if not soft.is_empty():
-		var lo_s: float = float(soft.get("lo_s", 0.0))
-		var hi_s: float = float(soft.get("hi_s", 100.0))
-		var width: float = float(soft.get("w", 13.0))
-		var proposed: float = current_val + clamped_step
-		var softened: float = SimMath.soft_clamp(proposed, lo_s, hi_s, width)
-		clamped_step = softened - current_val
+	var mode: String = String(ndef.get("mode", ndef.get("node_type", "")))
+	var raw_step: float = 0.0
+	var clamped_step: float = 0.0
+	if mode == "rate":
+		var flow: float = target_sum
+		if bool(ndef.get("headroom", false)) and flow > 0.0:
+			flow *= _headroom(param_id, current_val)
+		raw_step = flow
+		clamped_step = flow
+	else:
+		var alpha: float = _alpha(ndef)
+		var soft: Dictionary = _as_dict(ndef.get("soft", {}))
+		var target_clamped: float = target_sum
+		if soft.is_empty():
+			target_clamped = SimMath.soft_clamp(target_sum, 15.0, 85.0, 13.0)
+		else:
+			target_clamped = SimMath.soft_clamp(target_sum, float(soft.get("lo_s", 15.0)), float(soft.get("hi_s", 85.0)), float(soft.get("w", 13.0)))
+		raw_step = alpha * (target_clamped - current_val)
+		clamped_step = raw_step
 	var convergence_pct: float = 100.0
 	if absf(target_sum - current_val) >= 0.5:
 		convergence_pct = clampf((1.0 - absf(target_sum - current_val) / 50.0) * 100.0, 0.0, 99.0)
@@ -149,27 +160,39 @@ func compute_node_step_breakdown(state: SimState, param_id: String, scope_key: S
 		"target_val": SimMath.quantize(target_sum),
 		"raw_step": SimMath.quantize(raw_step),
 		"clamped_step": SimMath.quantize(clamped_step),
+		"next_unquantized": current_val + clamped_step,
 		"convergence_pct": SimMath.quantize(convergence_pct),
 		"contributions": contributions,
 	}
 
 
-func step_all_nodes(state: SimState, expr: ExprEngine, modules: Dictionary) -> Array[Dictionary]:
-	_decay_memories(state)
+func step_all_nodes(state: SimState, expr: ExprEngine, modules: Dictionary, tick_filter: String = "monthly", decay_memory: bool = true) -> Array[Dictionary]:
 	var effects: Array[Dictionary] = []
 	if GameData.current == null:
 		return effects
-	var ids: Array[String] = SimMath.sorted_keys(GameData.current.causal_nodes_def)
+	var ids: Array[String] = GameData.current.causal_node_order.duplicate()
+	if ids.is_empty():
+		var raw_ids: Array = GameData.current.causal_nodes_def.keys()
+		for n: int in range(raw_ids.size()):
+			ids.append(String(raw_ids[n]))
 	for i: int in range(ids.size()):
 		var param_id: String = ids[i]
 		var ndef: Dictionary = _as_dict(GameData.current.causal_nodes_def[param_id])
-		if String(ndef.get("mode", ndef.get("node_type", ""))) == "none":
+		var mode: String = String(ndef.get("mode", ndef.get("node_type", "")))
+		if mode != "level" and mode != "rate":
+			continue
+		var node_tick: String = String(ndef.get("tick", "monthly"))
+		if tick_filter != "all" and node_tick != tick_filter:
+			continue
+		if not _param_era_active(state, param_id):
 			continue
 		var keys: Array[String] = _node_keys(state, param_id, ndef)
 		for k: int in range(keys.size()):
 			var scope_key: String = keys[k]
+			if not _key_active(state, ndef, scope_key, expr):
+				continue
 			var breakdown: Dictionary = compute_node_step_breakdown(state, param_id, scope_key, expr, modules, false)
-			var next_val: float = SimMath.quantize(float(breakdown["current_val"]) + float(breakdown["clamped_step"]))
+			var next_val: float = SimMath.quantize(float(breakdown["next_unquantized"]))
 			effects.append({
 				"op": "set",
 				"target": param_id,
@@ -178,6 +201,8 @@ func step_all_nodes(state: SimState, expr: ExprEngine, modules: Dictionary) -> A
 				"priority": 100,
 				"source": "M02." + param_id,
 			})
+		if decay_memory and mode == "level":
+			_decay_node_memory(state, param_id, ndef)
 	return effects
 
 
@@ -210,7 +235,7 @@ func evaluate_thresholds(state: SimState) -> Array[Dictionary]:
 	var thr_states: Dictionary = _as_dict(m02.get("thr_states", {}))
 	for i: int in range(GameData.current.thresholds_def.size()):
 		var thr: Dictionary = GameData.current.thresholds_def[i]
-		if String(thr.get("type", "level")) == "compound":
+		if String(thr.get("type", "level")) != "level":
 			continue
 		var param_id: String = String(thr.get("param", ""))
 		var key_spec: String = "" if thr.get("key", null) == null else String(thr.get("key"))
@@ -343,6 +368,53 @@ func verify_day0_zero_drift(state: SimState, expr: ExprEngine, modules: Dictiona
 	return {"max_drift_err": max_err, "ok": max_err < 1.0e-4}
 
 
+func _decay_node_memory(state: SimState, param_id: String, ndef: Dictionary) -> void:
+	var mu: float = float(ndef.get("memory_mu", MEMORY_MU))
+	if mu <= 0.0:
+		return
+	var m02: Dictionary = _m02(state)
+	var memories: Dictionary = _as_dict(m02.get("shock_memories", {}))
+	var shock_mem: Dictionary = _as_dict(m02.get("shock_mem", {}))
+	var prefix: String = param_id + "["
+	var keys: Array[String] = SimMath.sorted_keys(memories)
+	for i: int in range(keys.size()):
+		var node_key: String = keys[i]
+		if node_key != param_id and not node_key.begins_with(prefix):
+			continue
+		var bucket: Array = _as_array(memories[node_key])
+		var kept: Array = []
+		var total: float = 0.0
+		for j: int in range(bucket.size()):
+			var item: Dictionary = _as_dict(bucket[j])
+			var remaining: float = SimMath.quantize(float(item.get("remaining", 0.0)) * (1.0 - mu))
+			if absf(remaining) < 1.0e-6:
+				continue
+			item["remaining"] = remaining
+			kept.append(item)
+			total += remaining
+		if kept.is_empty():
+			memories.erase(node_key)
+			shock_mem.erase(node_key)
+		else:
+			memories[node_key] = kept
+			shock_mem[node_key] = SimMath.quantize(total)
+	var shock_keys: Array[String] = SimMath.sorted_keys(shock_mem)
+	for i: int in range(shock_keys.size()):
+		var node_key: String = shock_keys[i]
+		if memories.has(node_key):
+			continue
+		if node_key != param_id and not node_key.begins_with(prefix):
+			continue
+		var faded: float = SimMath.quantize(float(shock_mem[node_key]) * (1.0 - mu))
+		if absf(faded) < 1.0e-6:
+			shock_mem.erase(node_key)
+		else:
+			shock_mem[node_key] = faded
+	m02["shock_memories"] = memories
+	m02["shock_mem"] = shock_mem
+	state.modules["M02"] = m02
+
+
 func _decay_memories(state: SimState) -> void:
 	var m02: Dictionary = _m02(state)
 	var memories: Dictionary = _as_dict(m02.get("shock_memories", {}))
@@ -436,8 +508,11 @@ func _node_keys(state: SimState, param_id: String, ndef: Dictionary) -> Array[St
 	var out: Array[String] = []
 	if typeof(raw_keys) == TYPE_ARRAY:
 		var listed: Array = raw_keys
+		var active_now: Array[String] = state.params.get_active_keys(param_id)
 		for i: int in range(listed.size()):
-			out.append(String(listed[i]))
+			var listed_key: String = String(listed[i])
+			if active_now.has(listed_key):
+				out.append(listed_key)
 		if not out.is_empty():
 			return out
 	var active: Array[String] = state.params.get_active_keys(param_id)
@@ -457,6 +532,50 @@ func _baseline(ndef: Dictionary, scope_key: String) -> float:
 	if raw == null:
 		return 50.0
 	return float(raw)
+
+
+func _param_era_active(state: SimState, param_id: String) -> bool:
+	if GameData.current == null:
+		return true
+	var pdef: Dictionary = _as_dict(GameData.current.parameters_def.get(param_id, {}))
+	var era_v: Variant = pdef.get("era", null)
+	if typeof(era_v) != TYPE_ARRAY:
+		return true
+	var era_arr: Array = era_v
+	if era_arr.is_empty() or era_arr[0] == null:
+		return true
+	return state.clock.y >= int(floor(float(era_arr[0]) + 0.5))
+
+
+func _key_active(state: SimState, ndef: Dictionary, scope_key: String, expr: ExprEngine) -> bool:
+	if scope_key == "south_lebanon":
+		var regions: Dictionary = _as_dict(_as_dict(state.modules.get("M11", {})).get("regions", {}))
+		if not bool(_as_dict(regions.get("south_lebanon", {})).get("exists", false)):
+			return false
+	var active: Variant = ndef.get("active", {})
+	if typeof(active) != TYPE_DICTIONARY or not (active as Dictionary).has(scope_key):
+		return true
+	var cond: String = String((active as Dictionary)[scope_key])
+	if cond.begins_with("year >= "):
+		return state.clock.y >= int(cond.substr(8).strip_edges())
+	return expr.eval_bool(cond, {})
+
+
+func _headroom(param_id: String, current_val: float) -> float:
+	if GameData.current == null:
+		return 1.0
+	var pdef: Dictionary = _as_dict(GameData.current.parameters_def.get(param_id, {}))
+	var range_v: Variant = pdef.get("range", null)
+	if typeof(range_v) != TYPE_ARRAY:
+		return 1.0
+	var range_arr: Array = range_v
+	if range_arr.size() < 2:
+		return 1.0
+	var lo: float = float(range_arr[0])
+	var hi: float = float(range_arr[1])
+	if hi <= lo:
+		return 1.0
+	return maxf(0.0, (hi - current_val) / (hi - lo))
 
 
 func _alpha(ndef: Dictionary) -> float:

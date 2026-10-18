@@ -53,13 +53,21 @@ func daily_step(step_no: int, state: SimState, _ctx: Dictionary) -> Array[Dictio
 func weekly_step(step_no: int, state: SimState, _ctx: Dictionary) -> Array[Dictionary]:
 	if step_no != 8:
 		return []
-	var security: float = state.params.get_val("public_security", "", state)
+	var core: Array[String] = ["galilee", "haifa", "tel_aviv", "triangle", "jerusalem", "negev"]
+	var sec_sum: float = 0.0
+	for i: int in range(core.size()):
+		sec_sum += state.params.get_val("region_security", core[i], state)
+	var avg_core: float = sec_sum / float(core.size())
 	var deterrence: float = state.params.get_val("deterrence", "", state)
-	var patriot: bool = _flag(state, "patriot_deployed")
+	var hostility: float = state.params.get_val("pal_hostility", "", state)
+	var quagmire: float = 5.0 if _has_modifier(state, "lebanon_quagmire") else 0.0
+	var target: float = clampf(0.55 * avg_core + 0.35 * deterrence - 0.15 * maxf(0.0, hostility - 50.0) - quagmire, 18.0, 92.0)
+	var current: float = state.params.get_val("public_security", "", state)
+	var security: float = current + 0.15 * (target - current)
 	var missile: float = state.params.get_val("missile_attacks", "", state)
-	if patriot:
+	if _flag(state, "patriot_deployed"):
 		missile *= 0.5
-	security += (deterrence - 50.0) * 0.02 - missile * 0.3
+	security -= missile * 0.3
 	state.params.set_val("public_security", "", clampf(security, 0.0, 100.0), state)
 	return []
 
@@ -109,6 +117,13 @@ func _m09(state: SimState) -> Dictionary:
 
 func _flag(state: SimState, flag_id: String) -> bool:
 	return state.flags.has(flag_id)
+
+
+func _has_modifier(state: SimState, mod_id: String) -> bool:
+	for i: int in range(state.active_modifiers.size()):
+		if String(state.active_modifiers[i].get("def_id", "")) == mod_id:
+			return true
+	return false
 
 
 func _as_dict(value: Variant) -> Dictionary:

@@ -64,11 +64,39 @@ static func eval_shape(x: float, edge: Dictionary) -> float:
 static func read_source_effective_val(state: SimState, edge: Dictionary, scope_key: String) -> float:
 	var source: String = String(edge.get("source", edge.get("source_param", "")))
 	var param_id: String = source
-	if source.begins_with("param:"):
-		param_id = source.substr(6)
 	var key: String = scope_key
 	if edge.get("source_key", null) != null:
 		key = String(edge.get("source_key", ""))
+	if source.begins_with("flag:"):
+		var flag_id: String = source.substr(5)
+		var flags: Dictionary = state.flags
+		if not flags.has(flag_id):
+			return 0.0
+		return 0.0 if float(_as_dict(flags[flag_id]).get("value", 1.0)) == 0.0 else 1.0
+	if source.begins_with("modifier:"):
+		var mod_id: String = source.substr(9)
+		if state.modifiers == null:
+			return 0.0
+		for i: int in range(state.modifiers.active.size()):
+			if String(state.modifiers.active[i].get("def_id", "")) == mod_id:
+				return 1.0
+		return 0.0
+	if source.begins_with("param:"):
+		param_id = source.substr(6)
+	elif source.begins_with("lever:"):
+		var lever_name: String = source.substr(6)
+		var scoped: Dictionary = state.params.export_scoped()
+		if key != "" and scoped.has(lever_name) and typeof(scoped[lever_name]) == TYPE_DICTIONARY:
+			var lever_dict: Dictionary = scoped[lever_name]
+			if lever_dict.has(key):
+				return float(lever_dict[key])
+		var levels: Dictionary = _as_dict(scoped.get("policy_level", {}))
+		if levels.has(lever_name):
+			return float(levels[lever_name])
+		var sliders: Dictionary = _as_dict(scoped.get("budget_slider", {}))
+		if sliders.has(lever_name):
+			return float(sliders[lever_name])
+		param_id = lever_name
 	if not edge.has("lag_months") and not edge.has("delay") and not edge.has("smooth_months"):
 		return state.params.get_val(param_id, key, state)
 	var lag: int = int(edge.get("lag_months", edge.get("delay", 0)))
@@ -86,7 +114,7 @@ static func read_source_effective_val(state: SimState, edge: Dictionary, scope_k
 		if count == 0:
 			return state.params.get_val(param_id, key, state)
 		return total / float(count)
-	var index: int = hist.size() - 1 - lag
+	var index: int = hist.size() - lag
 	if index < 0 or index >= hist.size():
 		return state.params.get_val(param_id, key, state)
 	return float(hist[index])
@@ -132,6 +160,12 @@ static func _history(state: SimState, param_id: String, key: String) -> Array:
 	if typeof(series) == TYPE_ARRAY:
 		return series
 	return []
+
+
+static func _as_dict(value: Variant) -> Dictionary:
+	if typeof(value) == TYPE_DICTIONARY:
+		return value
+	return {}
 
 
 static func _as_array(value: Variant) -> Array:

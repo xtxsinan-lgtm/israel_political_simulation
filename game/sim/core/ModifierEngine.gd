@@ -49,6 +49,7 @@ func add_modifier(mod_id: String, opts: Dictionary, source_id: String, state: Si
 		"strength": float(opts.get("strength", 1.0)),
 		"max_strength": float(opts.get("max_strength", 100.0)),
 		"growth_per_month": float(opts.get("growth_per_month", 0.0)),
+		"start_day": state.clock.day_index,
 		"end_day": end_day,
 		"remove_if": opts.get("remove_if", null),
 		"remove_on": String(opts.get("remove_on", "")),
@@ -167,7 +168,9 @@ func _def_stack(mod_id: String) -> String:
 
 func _duration_days(opts: Dictionary, mod_id: String) -> int:
 	if opts.has("duration_days"):
-		return int(opts["duration_days"])
+		if opts["duration_days"] == null:
+			return -1
+		return int(floor(float(opts["duration_days"]) + 0.5))
 	if opts.has("end_day"):
 		return -1
 	var row: Dictionary = {}

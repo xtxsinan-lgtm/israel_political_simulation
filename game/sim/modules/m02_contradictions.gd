@@ -18,10 +18,22 @@ func monthly_step(step_no: int, state: SimState, ctx: Dictionary) -> Array[Dicti
 		modules = ctx["modules"]
 	net.record_monthly_history(state)
 	var effects: Array[Dictionary] = net.evaluate_thresholds(state)
-	var steps: Array[Dictionary] = net.step_all_nodes(state, expr, modules)
+	var steps: Array[Dictionary] = net.step_all_nodes(state, expr, modules, "monthly", true)
 	for i: int in range(steps.size()):
 		effects.append(steps[i])
 	return effects
+
+
+func step_tick(step_no: int, state: SimState, ctx: Dictionary, tick_filter: String) -> Array[Dictionary]:
+	if step_no != 16 and step_no != 17:
+		return []
+	var net: CausalNet = CausalNet.new()
+	var expr: ExprEngine = ExprEngine.new()
+	expr.bind(state)
+	var modules: Dictionary = {}
+	if ctx.has("modules") and typeof(ctx["modules"]) == TYPE_DICTIONARY:
+		modules = ctx["modules"]
+	return net.step_all_nodes(state, expr, modules, tick_filter, true)
 
 
 func handle_custom_op(op_name: String, state: SimState, args: Dictionary, _ctx: Dictionary) -> Array[Dictionary]:
