@@ -14,6 +14,7 @@ var entity_aliases: Dictionary = {}
 var modifiers_def: Dictionary = {}
 var causal_nodes_def: Dictionary = {}
 var causal_edges_def: Array[Dictionary] = []
+var thresholds_def: Array[Dictionary] = []
 var policies_def: Dictionary = {}
 var actions_def: Dictionary = {}
 var characters_def: Dictionary = {}
@@ -57,6 +58,7 @@ func load_all_runtime_data() -> Error:
 	var causal: Dictionary = _load_dict("res://res/data/causal_edges.json")
 	causal_nodes_def = _as_dict(causal.get("by_param", {}))
 	causal_edges_def = _dict_array(causal.get("edges", []))
+	thresholds_def = _dict_array(causal.get("thresholds", []))
 
 	var policies: Dictionary = _load_dict("res://res/data/policies.json")
 	policies_def = _as_dict(policies.get("by_id", {}))

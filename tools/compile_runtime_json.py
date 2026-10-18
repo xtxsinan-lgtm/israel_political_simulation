@@ -206,6 +206,17 @@ def apply_action_mutex(events: List[dict], action_ids: set, ast_map: Dict[str, l
         ast_map[f"mutex:{event_id}"] = base
 
 
+def index_nodes_by_param(nodes: Any) -> Dict[str, Any]:
+    out: Dict[str, Any] = {}
+    if isinstance(nodes, list):
+        for item in nodes:
+            if isinstance(item, dict):
+                key = item.get("param") or item.get("id")
+                if key:
+                    out[str(key)] = item
+    return out
+
+
 def index_by_id(items: Any) -> Dict[str, Any]:
     out: Dict[str, Any] = {}
     if isinstance(items, list):
@@ -329,7 +340,10 @@ def compile_all_yaml_to_json(root_dir: Path, out_dir: Path) -> Dict[str, list]:
     causal = load_yaml(root_dir / "data" / "causal_edges.yaml")
     annotate_exprs(causal, ast_map, errors, "causal_edges")
     if isinstance(causal, dict):
-        causal["by_param"] = index_by_id(causal.get("nodes", []))
+        causal["by_param"] = index_nodes_by_param(causal.get("nodes", []))
+        thresholds = load_yaml(root_dir / "data" / "thresholds.yaml")
+        if isinstance(thresholds, dict):
+            causal["thresholds"] = thresholds.get("thresholds", [])
     write_json(out_dir / "causal_edges.json", causal)
 
     policies = load_yaml(root_dir / "data" / "policies.yaml")

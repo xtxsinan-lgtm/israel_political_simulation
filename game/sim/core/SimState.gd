@@ -78,6 +78,7 @@ var meta: SimMeta = SimMeta.new()
 var clock: SimClock = SimClock.new()
 var run: Dictionary = {"phase": "PAUSED", "speed": 2, "paused": true, "pause_reasons": ["AP00"], "headless": false}
 var params: ParameterStore = ParameterStore.new()
+var modifiers: ModifierEngine = ModifierEngine.new()
 var param_status: Dictionary = {}
 var flags: Dictionary = {}
 var active_modifiers: Array[Dictionary] = []
@@ -110,6 +111,10 @@ var offices: Dictionary = {}
 var parliament: Dictionary = {}
 var gov_axis_position: Dictionary = {}
 var axis_impulse: Dictionary = {}
+
+
+func _init() -> void:
+	modifiers.active = active_modifiers
 
 
 func init_from_scenario_bundle(scenario_id: String, master_seed: int, is_ironman: bool) -> void:
@@ -151,6 +156,28 @@ func init_from_scenario_bundle(scenario_id: String, master_seed: int, is_ironman
 	_load_modifiers(snapshot.get("initial_modifiers", []))
 	_init_modules(snapshot)
 	_activate_era_params()
+
+
+func push_delayed_effect_heap(item: Dictionary) -> void:
+	SimContainers.heap_push(delayed_effects, item)
+
+
+func push_scheduled_event_heap(item: Dictionary) -> void:
+	SimContainers.heap_push(scheduled_events, item)
+
+
+func process_pending_signals() -> void:
+	var signals_v: Variant = pending.get("signals", [])
+	if typeof(signals_v) != TYPE_ARRAY:
+		return
+	var pending_signals: Array = signals_v
+	while not pending_signals.is_empty():
+		var sig: Variant = pending_signals.pop_front()
+		var name: String = String(sig)
+		if typeof(sig) == TYPE_DICTIONARY:
+			name = String((sig as Dictionary).get("name", ""))
+		modifiers.remove_on_signal(name, self)
+	pending["signals"] = pending_signals
 
 
 func record_contrib(param_id: String, key: String, source_id: String, delta: float) -> void:

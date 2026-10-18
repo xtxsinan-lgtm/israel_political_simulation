@@ -59,6 +59,23 @@ func set_val(raw_param: String, raw_key: String, new_val: float, state: Variant 
 	return stored
 
 
+func resolve_key_for_write(raw_param: String, raw_key: String, state: Variant = null) -> String:
+	var param_id: String = GameData.current.resolve_param_alias(raw_param)
+	var pdef: Dictionary = _as_dict(GameData.current.parameters_def.get(param_id, {}))
+	var scope: String = String(pdef.get("scope", "national"))
+	if scope == "national":
+		return ""
+	var offices: Dictionary = _offices_of(state)
+	var office_id: String = raw_key
+	if GameData.current != null:
+		office_id = GameData.current.resolve_office_id(raw_key)
+	if offices.has(raw_key) and String(offices[raw_key]) == "":
+		return "__INVALID_EMPTY_OFFICE__"
+	if offices.has(office_id) and String(offices[office_id]) == "":
+		return "__INVALID_EMPTY_OFFICE__"
+	return _resolve_scope_key(scope, raw_key, state)
+
+
 func activate_key(param_id: String, key: String, init_val: float) -> void:
 	var sub_dict: Dictionary = _as_dict(_scoped.get(param_id, {}))
 	if not sub_dict.has(key):
