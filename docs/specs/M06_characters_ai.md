@@ -1038,15 +1038,17 @@ M06 的玩家交互由两部分组成：**（A）在 M05 登记并消耗政治�
 遵循规格说明模板与零散落魔法数原则，M06 提议在 `data/parameters.yaml` 中正式登记 **1 个** 人物级状态参数 `character_stress`（已在 `docs/design_document.md` §7.5 与事件库 E-1982-11 中被引用，此前未在 `parameters.yaml` 顶层登记）：
 
 ```yaml
-  character_stress:
-    type: float
-    min: 0
-    max: 100
-    initial: 15
+  - id: character_stress
+    zh: 人物压力
+    type: stock
     scope: character
-    update_freq: monthly
+    range: [0, 100]
+    tick: monthly
     owner: M06
-    formula_desc: "人物心理与工作压力（0-100），由职位负荷、战争伤亡、通胀/党内危机与违心政策驱动，高压力侵蚀健康并诱发抑郁"
+    visible: true
+    era: null
+    drift: "人物心理与工作压力（0-100），由职位负荷、战争伤亡、通胀/党内危机与违心政策驱动，高压力侵蚀健康并诱发抑郁"
+    note: "贝京1977开局默认15"
 ```
 
 ---

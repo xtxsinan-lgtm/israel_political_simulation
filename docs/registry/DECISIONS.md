@@ -87,6 +87,10 @@
 | D-066 | 采纳 M07 附录A：新增 `country_war_readiness`、`peace_treaty_state`（`scope: country`），并将 `enemy_nuclear_progress` 的 `scope` 统一修正为 `country`（対象 `iraq, iran`）。 |
 | D-067 | 采纳 M07 附录B/C：M03 在星期三结算国际条约批准法案后回调 `m07_ratification_result {bill_uid, passed}`；M12 表达式新增 `peace_treaty(c)`、`treaty_tier(c)`、`secret_channel(c)`、`nuclear_progress(c)`。 |
 | D-068 | 在 M02/M12 参数解析器中内置 M07 的 4 项别名映射（`country_stability -> regime_stability`、`country_nuclear_progress -> enemy_nuclear_progress`、`annual_immigration -> immigration_inflow`、`country_relation -> us_admin_relation / power_relation / (100 - regime_hostility)`）。 |
+| D-069 | 采纳 M09 附录A/B/C：将 M10 读取的 `security_index` 设为指向 M09 `public_security` 的只读属性别名（初值同为 `62.0`）；在 M12 表达式中注册 `front_phase(front_id)` 与 `casualties_total(front_id)`；在 M01 信号总线与 `AP04` 自动暂停触发器中登记 `minister_overreach` 信号。 |
+| D-070 | 批准 `M09.GRO.01`（`mobilization -> growth`）采用 M09 按动员档位非线性注入 `[0.0, -0.08, -0.25, -0.75]` 的 `term_provider` 实现。 |
+| D-071 | 批准 1991 海湾战争部署“爱国者”防空系统对 `under_missile_attack` 每周 `public_security` 惩罚减半（`-12.0 -> -6.0`）的细则。 |
+
 
 
 
