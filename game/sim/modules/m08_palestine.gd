@@ -93,8 +93,15 @@ func _conserve_legitimacy(state: SimState) -> void:
 		total += value
 	if total <= 1.0e-6:
 		return
+	var assigned: float = 0.0
 	for i: int in range(FACTIONS.size()):
-		state.params.set_val("faction_legitimacy", FACTIONS[i], 100.0 * float(values[FACTIONS[i]]) / total, state)
+		var share: float = 100.0 * float(values[FACTIONS[i]]) / total
+		if i == FACTIONS.size() - 1:
+			share = 100.0 - assigned
+		else:
+			share = SimMath.quantize(share)
+			assigned += share
+		state.params.set_val("faction_legitimacy", FACTIONS[i], share, state)
 
 
 func _m08(state: SimState) -> Dictionary:

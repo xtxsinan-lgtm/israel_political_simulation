@@ -10,15 +10,15 @@ func _init() -> void:
 
 
 func stage_from_centralization(value: float) -> int:
-	if value >= 80.0:
+	if value >= 85.0:
 		return 5
 	if value >= 65.0:
 		return 4
-	if value >= 50.0:
+	if value >= 45.0:
 		return 3
-	if value >= 35.0:
+	if value >= 25.0:
 		return 2
-	if value >= 20.0:
+	if value >= 0.0:
 		return 1
 	return 0
 
