@@ -306,6 +306,8 @@ class StrategyBot:
     ) -> List[Dict[str, Any]]:
         """Choose desired policy lever direction ('up' or 'down') based on policy effects."""
         recs: List[Tuple[float, Dict[str, Any]]] = []
+        state_pols = getattr(state, "policies", None) if state is not None else None
+        cur_day = int(getattr(state, "day_index", 0)) if state is not None else 0
         for idx, pol in enumerate(policies or []):
             pid = str(_get_field(pol, "id", f"pol_{idx}"))
             es = _get_field(pol, "e") or _get_field(pol, "fx") or []
@@ -314,7 +316,13 @@ class StrategyBot:
                 t = str(_get_field(ef, "t") or _get_field(ef, "to") or _get_field(ef, "dst") or "")
                 k = str(_get_field(ef, "k") or _get_field(ef, "key") or "")
                 c = float(_get_field(ef, "c", 0.0) or 0.0)
-                marginal_utility += c * self._lookup_param_weight(state, t, k)
+                marginal_utility += 45.0 * c * self._lookup_param_weight(state, t, k)
+            tiers = _get_field(pol, "tiers") or []
+            if len(tiers) >= 2 and isinstance(tiers[0], dict) and isinstance(tiers[-1], dict):
+                em_span = float(tiers[-1].get("em", 0.0)) - float(tiers[0].get("em", 0.0))
+                f_span = float(tiers[-1].get("f", 0.0)) - float(tiers[0].get("f", 0.0))
+                marginal_utility += 0.25 * em_span * self.weights.get("economic_model", self.weights.get("_axis_economy", 0.0))
+                marginal_utility -= 0.40 * f_span * self.weights.get("budget_balance", 0.0)
             ax = _get_field(pol, "ax") or {}
             if isinstance(ax, dict):
                 for axis_name, axis_val in ax.items():
@@ -323,6 +331,24 @@ class StrategyBot:
 
             if abs(marginal_utility) > 0.05:
                 direction = "up" if marginal_utility > 0 else "down"
+                if isinstance(state_pols, dict) and pid in state_pols:
+                    p_st = state_pols[pid]
+                    if int(p_st.get("cooldown_until_day", 0)) > cur_day:
+                        continue
+                    cur_idx = int(p_st.get("tier_idx", 0))
+                    if direction == "up" and cur_idx >= len(tiers) - 1:
+                        continue
+                    if direction == "down" and cur_idx <= 0:
+                        continue
+                    cat = str(_get_field(pol, "cat", ""))
+                    if direction == "down" and cur_idx <= 1 and cat in ("sec", "occ", "terr", "media") and self.bot_id not in ("peace_dove", "neoliberal_technocrat"):
+                        continue
+                    if direction == "up" and pid in ("emergency_regs_use", "press_ordinance", "military_government", "military_censorship") and self.bot_id != "authoritarian_caesar":
+                        continue
+                    if pid == "settlement_policy" and direction == "down" and cur_idx <= 1 and self.weights.get("_axis_territory", 0.0) > -0.5:
+                        continue
+                    if pid == "bank_regulation" and direction == "up" and self.bot_id == "historical" and getattr(state, "date_str", "1999") < "1983-11-01":
+                        continue
                 recs.append(
                     (
                         abs(marginal_utility) - idx * 1e-6,
@@ -377,32 +403,36 @@ class HistoricalBot(StrategyBot):
         super().__init__(
             seed=seed,
             weights={
-                "party_standing": 0.8,
+                "party_standing": 1.2,
                 "political_capital": 0.4,
-                "public_security": 1.0,
-                "deterrence": 0.8,
-                "readiness": 0.8,
+                "public_security": 1.2,
+                "deterrence": 1.4,
+                "readiness": 1.1,
+                "settler_momentum": 1.6,
                 "us_admin_relation": 0.9,
                 "intl_legitimacy": 0.6,
-                "rule_of_law": 0.6,
+                "rule_of_law": 0.8,
+                "centralization": -1.5,
                 "growth": 1.0,
                 "fx_reserves": 0.6,
                 "budget_balance": 0.8,
                 "inflation": -0.6,
                 "unemployment": -0.8,
-                "pal_hostility": -0.5,
-                "promise_progress": 0.7,
-                "vision_progress": 0.7,
-                "ally_satisfaction": 0.6,
+                "pal_hostility": -0.4,
+                "promise_progress": 0.9,
+                "vision_progress": 1.2,
+                "ally_satisfaction": 0.8,
                 "bloc_support": 0.5,
                 "relation": 0.25,
                 "hostile_faction": -0.8,
-                "_corridor_away": -3.0,
-                "_corridor_toward": 2.0,
+                "_axis_territory": 0.9,
+                "_axis_security": 0.8,
+                "_corridor_away": -4.0,
+                "_corridor_toward": 3.0,
                 "_atrocity_avoidance": 2.0,
                 "_mod_crisis_penalty": -5.0,
             },
-            tag_bonuses={"economic": 1.0, "restraint": 0.5, "extreme": -25.0},
+            tag_bonuses={"economic": 1.0, "restraint": 0.5, "authoritarian": -15.0, "extreme": -25.0},
             cat_bonuses={"econ": 2.0, "mil": 1.5, "dip": 1.5, "parl": 1.0, "soc": 1.0},
         )
 
@@ -424,13 +454,13 @@ class RevisionistHawkBot(StrategyBot):
         super().__init__(
             seed=seed,
             weights={
-                "deterrence": 2.8,
-                "readiness": 2.4,
-                "public_security": 2.5,
+                "deterrence": 3.2,
+                "readiness": 2.6,
+                "public_security": 2.8,
                 "region_security": 2.2,
-                "settler_momentum": 3.0,
-                "promise_progress.cat_territory": 2.2,
-                "promise_progress.cat_security": 2.2,
+                "settler_momentum": 3.5,
+                "promise_progress.cat_territory": 2.5,
+                "promise_progress.cat_security": 2.5,
                 "promise_progress": 0.8,
                 "vision_progress": 1.0,
                 "bloc_support.religious_zionist": 2.2,
@@ -453,7 +483,8 @@ class RevisionistHawkBot(StrategyBot):
                 "intl_legitimacy": 0.1,
                 "us_admin_relation": 0.25,
                 "us_congress_relation": 0.8,
-                "rule_of_law": -0.2,
+                "rule_of_law": 1.2,
+                "centralization": -2.8,
                 "pal_hostility": -0.15,
                 "regime_hostility": -0.15,
                 "popular_hostility": -0.1,
@@ -464,19 +495,19 @@ class RevisionistHawkBot(StrategyBot):
                 "_mod_military_hawk": 12.0,
                 "_mod_peace_inst": -4.0,
                 "_mod_crisis_penalty": -2.0,
-                "_axis_security": 2.5,
-                "_axis_territory": 3.0,
+                "_axis_security": 1.8,
+                "_axis_territory": 3.2,
                 "_axis_foreign": 1.0,
             },
             tag_bonuses={
                 "hardline": 18.0,
-                "settlement": 15.0,
-                "authoritarian": 4.0,
+                "settlement": 18.0,
+                "authoritarian": -12.0,
                 "peace": -15.0,
                 "restraint": -12.0,
-                "extreme": 2.0,
+                "extreme": -5.0,
             },
-            cat_bonuses={"mil": 8.0, "terr": 9.0, "intel": 5.0, "opin": 2.0},
+            cat_bonuses={"mil": 8.0, "terr": 10.0, "intel": 5.0, "opin": 2.0},
         )
 
     def choose_budget(self, state: Any) -> Dict[str, float]:
@@ -620,7 +651,8 @@ class PopulistWelfareBot(StrategyBot):
                 "public_security": 1.0,
                 "deterrence": 0.8,
                 "intl_legitimacy": 0.4,
-                "rule_of_law": 0.4,
+                "rule_of_law": 1.0,
+                "centralization": -2.5,
                 "_mod_welfare": 15.0,
                 "_mod_crisis_penalty": -3.0,
                 "_axis_economy": -2.5,  # Socialist / welfare direction
@@ -630,6 +662,7 @@ class PopulistWelfareBot(StrategyBot):
                 "social": 20.0,
                 "economic": 4.0,
                 "restraint": 3.0,
+                "authoritarian": -15.0,
                 "extreme": -15.0,
             },
             cat_bonuses={"soc": 12.0, "opin": 8.0, "coal": 8.0, "econ": 5.0},
@@ -662,6 +695,7 @@ class NeoliberalTechnocratBot(StrategyBot):
                 "budget_balance": 3.5,
                 "fx_reserves": 3.2,
                 "growth": 3.5,
+                "economic_model": 3.8,
                 "debt_gdp": -3.0,
                 "union_strength": -2.5,
                 "absorption_capacity": 2.0,
@@ -670,9 +704,9 @@ class NeoliberalTechnocratBot(StrategyBot):
                 "us_congress_relation": 2.0,
                 "power_relation": 1.8,
                 "intl_legitimacy": 1.6,
-                "rule_of_law": 2.0,
+                "rule_of_law": 2.8,
                 "judicial_conflict": -1.8,
-                "centralization": -1.2,
+                "centralization": -2.8,
                 "bloc_support.liberal_middle": 3.0,
                 "bloc_support.russian": 2.0,
                 "bloc_support.haredi": -1.0,
@@ -861,6 +895,42 @@ class RandomBot(StrategyBot):
                 chosen.append(item)
                 rem_pc -= item["pc_cost"]
         return chosen
+
+    def score_action(self, state: Any, action: Any) -> float:
+        return 1.0
+
+    def choose_policy_adjustments(
+        self,
+        state: Any,
+        policies: Sequence[Any],
+        max_adjustments: int = 1,
+    ) -> List[Dict[str, Any]]:
+        pol_list = list(policies or [])
+        if not pol_list:
+            return []
+        self._rng.shuffle(pol_list)
+        out: List[Dict[str, Any]] = []
+        state_pols = getattr(state, "policies", None) if state is not None else None
+        cur_day = int(getattr(state, "day_index", 0)) if state is not None else 0
+        for pol in pol_list:
+            pid = str(_get_field(pol, "id", ""))
+            if not pid:
+                continue
+            direction = "up" if self._rng.random() < 0.5 else "down"
+            if isinstance(state_pols, dict) and pid in state_pols:
+                p_st = state_pols[pid]
+                if int(p_st.get("cooldown_until_day", 0)) > cur_day:
+                    continue
+                tiers = _get_field(pol, "tiers") or []
+                cur_idx = int(p_st.get("tier_idx", 0))
+                if direction == "up" and cur_idx >= len(tiers) - 1:
+                    direction = "down"
+                elif direction == "down" and cur_idx <= 0:
+                    direction = "up"
+            out.append({"policy_id": pid, "direction": direction, "utility": 1.0})
+            if len(out) >= max_adjustments:
+                break
+        return out
 
 
 def get_all_bots(seed: int = 1948) -> List[StrategyBot]:

@@ -55,12 +55,12 @@ actions:
      fx: [{op: add, target: faction_weight, key: "{faction}", value: -3}],
      dom: M04, note: "M04 A4（B-4新增）：将目标派系中委会权重 −3 并转入玩家派系"}
   - {id: coopt_challenger, zh: 收编挑战者, cat: parl, w: major, pre: "challenger_strength > 0",
-     cost: {pc: 15}, cd: 365,
+     cost: {pc: 15, standing: -1}, cd: 365,
      fx: [{op: add, target: challenger_strength, value: -25},
           {op: add_modifier, modifier: challenger_cooled, duration_days: 365}],
      dom: M04, note: "M04 A5（B-4新增）：授予挑战者高级内阁部委以压低挑战强度"}
   - {id: call_leadership_vote, zh: 提前党魁选举, cat: parl, w: major, pre: "party_stage() >= 1",
-     cost: {pc: 20}, cd: 365,
+     cost: {pc: 20, standing: -1}, cd: 365,
      fx: [{op: custom, target: custom, key: m04_leadership_vote, value: {}}],
      dom: M04, note: "M04 A6（B-4新增）：主动在中委会/初选摊牌决战"}
   - {id: expel_rebels, zh: 开除反叛者, cat: parl, w: major, args: {faction: party_faction}, pre: "faction_mood[{faction}] < 30",

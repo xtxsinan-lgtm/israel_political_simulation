@@ -251,13 +251,20 @@ class ExprValidator:
                         else:
                             break
                 self.consume(")")
-                return self.check_call(val, args), False
+                ret_t = self.check_call(val, args)
+                is_param_fn = val in (
+                    "ambition", "front_quagmire_months", "front_phase",
+                    "casualties_total", "settler_pop", "nuclear_progress", "party_seats"
+                )
+                return ret_t, is_param_fn
 
             # Built-in variables
             if val in ("year", "month", "day"):
                 return "number", False
             if val == "k":
                 return "number", False
+            if val == "leader_id":
+                return "string", False
 
             # Parameter reference
             if val not in self.params_meta:
@@ -306,19 +313,23 @@ class ExprValidator:
             if len(args) != 1 or args[0][0] != "number":
                 raise ExprError(f"E_ARITY/E_TYPE: {fn}(n) expects 1 number")
             return "number"
-        if fn in ("character_in_office", "character_alive", "region_exists"):
+        if fn in ("character_in_office", "character_alive", "region_exists", "peace_treaty", "secret_channel", "promise_active", "vision_milestone_done"):
             if len(args) != 1 or args[0][0] != "string":
                 raise ExprError(f"E_ARITY/E_TYPE: {fn}(s) expects 1 string")
             return "bool"
+        if fn in ("ambition", "front_quagmire_months", "front_phase", "casualties_total", "corridor_lo", "corridor_hi", "party_seats", "treaty_tier", "nuclear_progress", "settler_pop"):
+            if len(args) != 1 or args[0][0] != "string":
+                raise ExprError(f"E_ARITY/E_TYPE: {fn}(s) expects 1 string")
+            return "number"
         if fn == "at_war":
             if len(args) > 1 or (len(args) == 1 and args[0][0] != "string"):
                 raise ExprError("E_ARITY/E_TYPE: at_war([s]) expects 0 or 1 string")
             return "bool"
-        if fn == "scenario":
+        if fn in ("scenario", "active_plan"):
             if len(args) != 0:
-                raise ExprError("E_ARITY: scenario() takes 0 args")
+                raise ExprError(f"E_ARITY: {fn}() takes 0 args")
             return "string"
-        if fn in ("era", "term_months"):
+        if fn in ("era", "term_months", "tenure_months", "tenure_index", "tenure_elections_won", "count_peace_treaties", "settler_population_total", "casualties_total_all_fronts", "peak_inflation_tenure", "days_to_election", "party_stage"):
             if len(args) != 0:
                 raise ExprError(f"E_ARITY: {fn}() takes 0 args")
             return "number"
@@ -326,9 +337,9 @@ class ExprValidator:
             if len(args) != 1 or args[0][0] != "string":
                 raise ExprError("E_ARITY/E_TYPE: repeat_count(s) expects 1 string")
             return "number"
-        if fn == "slot":
+        if fn in ("slot", "holder_of", "legal_status", "site_status"):
             if len(args) != 1 or args[0][0] != "string":
-                raise ExprError("E_ARITY/E_TYPE: slot(s) expects 1 string")
+                raise ExprError(f"E_ARITY/E_TYPE: {fn}(s) expects 1 string")
             return "string"
         if fn == "party_has_tag":
             if len(args) != 2 or args[0][0] != "string" or args[1][0] != "string":

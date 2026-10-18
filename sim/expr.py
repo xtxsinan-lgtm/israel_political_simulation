@@ -869,6 +869,10 @@ class EffectExecutor:
 
             old_v = state.get_param(target, key)
             new_v = state.add_param(target, delta, key)
+            if target == "inflation" and (state.m10.get("stabilization_plan_active") or state.has_modifier("new_shekel")) and new_v < 18.5:
+                new_v = state.set_param("inflation", 22.5)
+                state.m02["shock_mem"].pop("inflation", None)
+                return {"op": "add", "target": target, "key": key, "delta": new_v - old_v, "new_value": new_v, "source": source}
             actual_delta = new_v - old_v
             if self.causal_net is not None and not source.startswith("owner:"):
                 self.causal_net.on_effect_applied(state, target, key, actual_delta, source)
@@ -1084,9 +1088,14 @@ class EffectExecutor:
 
         elif handler in ("stance_shift_by_corridor", "m04_add_stance_by_corridor"):
             axis = str(args.get("axis") or eff.get("key") or "territory")
-            amt = float(args.get("amount", eff.get("value", 5.0)) if not isinstance(eff.get("value"), dict) else args.get("amount", 5.0))
+            amt = abs(float(args.get("amount", eff.get("value", 5.0)) if not isinstance(eff.get("value"), dict) else args.get("amount", 5.0)))
             direction = str(args.get("direction") or eff.get("direction") or "away")
-            sign = 1.0 if direction in ("away", "toward_right", "right") else -1.0
+            party = state.player.get("party_id", "likud")
+            is_right_party = party not in ("labor", "mapam", "ratz")
+            if direction in ("away", "left", "dove"):
+                sign = -1.0 if is_right_party else 1.0
+            else:
+                sign = 1.0 if is_right_party else -1.0
             if axis in state.axis_impulse:
                 state.axis_impulse[axis] = float(state.axis_impulse.get(axis, 0.0)) + sign * amt
                 state.recompute_gov_axis_position()
@@ -1275,9 +1284,11 @@ class EffectExecutor:
 
         elif handler in ("m10_apply_stabilization_plan", "apply_stabilization_plan"):
             state.m10["stabilization_plan_active"] = True
-            state.m10["stabilization_months_left"] = 18
+            state.m10["stabilization_months_left"] = 24
             state.set_flag("stabilization_plan_active")
-            state.mul_param("inflation", 0.45)
+            state.add_modifier("new_shekel", duration_days=None, source=source)
+            state.m02["shock_mem"].pop("inflation", None)
+            state.set_param("inflation", 23.5)
             state.add_param("budget_balance", 4.0)
             state.add_param("fx_reserves", 12.0)
             return {"op": "custom", "handler": handler}

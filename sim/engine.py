@@ -48,9 +48,11 @@ class SimulationEngine:
         state: Optional[GameState] = None,
         bot: Optional[Any] = None,
         auto_resolve_events: bool = True,
+        allow_succession: bool = False,
     ) -> None:
         self.registry: DataRegistry = DataRegistry.instance()
         self.state: GameState = state or GameState(scenario_id=scenario_id, master_seed=master_seed, registry=self.registry)
+        self.state.run["allow_succession"] = bool(allow_succession)
         self.causal_net: CausalNet = CausalNet(self.registry)
         register_all_term_providers(self.causal_net)
         self.executor: EffectExecutor = EffectExecutor(self.causal_net)
@@ -106,8 +108,8 @@ class SimulationEngine:
 
         # Step 16: Quarterly macroeconomic settlement (Jan 1, Apr 1, Jul 1, Oct 1)
         if st.is_quarter:
-            step_16_m10_macro_quarterly(st, self.executor)
             self.causal_net.step_nodes(st, tick_filter="quarterly")
+            step_16_m10_macro_quarterly(st, self.executor)
 
         # Step 17: Yearly settlement (Jan 1)
         if st.is_year:
@@ -145,22 +147,44 @@ class SimulationEngine:
 
     def _run_bot_weekly_decisions(self, bot: Any) -> None:
         st = self.state
-        avail_acts = get_available_actions(st)
-        if hasattr(bot, "choose_actions") and avail_acts:
-            chosen_acts = bot.choose_actions(st, avail_acts, max_actions=1)
-            for item in chosen_acts:
-                aid = item.get("id") if isinstance(item, dict) else str(item)
-                if aid:
-                    self.queue_action(aid)
+        # Monthly Political Capital audit & decision cycle on first Sunday of each month (st.day <= 7)
+        if st.day <= 7:
+            all_pre_acts = get_available_actions(st, ignore_pc=True)
+            avail_acts = get_available_actions(st, ignore_pc=False)
+            # Check if bot wants any action ignoring PC
+            wants_any = False
+            if hasattr(bot, "score_action") and all_pre_acts:
+                wants_any = any(bot.score_action(st, a) > 0.0 for a in all_pre_acts)
+            elif all_pre_acts:
+                wants_any = True
 
-        if st.day <= 7 and hasattr(bot, "choose_policy_adjustments"):
-            pol_defs = list(self.registry.policies.values())
-            recs = bot.choose_policy_adjustments(st, pol_defs, max_adjustments=1)
-            for rec in recs:
-                pid = rec.get("policy_id")
-                direction = rec.get("direction")
-                if pid and direction:
-                    self.queue_policy_change(pid, direction=direction)
+            if wants_any:
+                st.m05["months_action_desired"] = int(st.m05.get("months_action_desired", 0)) + 1
+                chosen_acts = bot.choose_actions(st, avail_acts, max_actions=1) if hasattr(bot, "choose_actions") and avail_acts else []
+                if not chosen_acts:
+                    st.m05["months_pc_blocked"] = int(st.m05.get("months_pc_blocked", 0)) + 1
+                else:
+                    for item in chosen_acts:
+                        aid = item.get("id") if isinstance(item, dict) else str(item)
+                        if aid:
+                            self.queue_action(aid)
+
+            if st.month % 2 == 1 and hasattr(bot, "choose_policy_adjustments"):
+                pol_defs = list(self.registry.policies.values())
+                recs = bot.choose_policy_adjustments(st, pol_defs, max_adjustments=1)
+                for rec in recs:
+                    pid = rec.get("policy_id")
+                    direction = rec.get("direction")
+                    if pid and direction:
+                        self.queue_policy_change(pid, direction=direction)
+        elif 15 <= st.day <= 21 and st.get_param("political_capital") >= 38.0:
+            avail_acts = get_available_actions(st, ignore_pc=False)
+            if hasattr(bot, "choose_actions") and avail_acts:
+                chosen_acts = bot.choose_actions(st, avail_acts, max_actions=1)
+                for item in chosen_acts:
+                    aid = item.get("id") if isinstance(item, dict) else str(item)
+                    if aid:
+                        self.queue_action(aid)
 
     def run_days(
         self,

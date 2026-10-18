@@ -209,7 +209,8 @@ def test_m14_endings_and_final_evaluation() -> None:
     eng.executor.apply_one(eng.state, {"op": "custom", "handler": "end_tenure", "value": {"reason": "resignation"}})
     res = eng.step_day()
     assert res["ended"] is True
-    assert res["ending_id"] == "resignation"
+    assert res["ending_id"].startswith("END_")
+    assert eng.state.pending["tenure_end"] == "resignation"
 
 
 def test_365_day_determinism_save_load_and_performance(tmp_path: Path = None) -> None:

@@ -37,6 +37,8 @@ def eval_shape(
         return (lo - x) if x < lo else (x - hi)
     elif shape == "habit":
         return 0.0
+    elif shape == "flag":
+        return 1.0 if x >= 0.5 else 0.0
     return 0.0
 
 
@@ -101,6 +103,10 @@ class CausalNet:
         self.term_providers[provider_name] = fn
 
     def _get_source_val(self, state: Any, src_str: str, src_key: Optional[str], lag_months: int = 0) -> float:
+        if src_str.startswith("flag:"):
+            return 1.0 if state.has_flag(src_str.split(":", 1)[1]) else 0.0
+        if src_str.startswith("modifier:"):
+            return 1.0 if state.has_modifier(src_str.split(":", 1)[1]) else 0.0
         if src_str.startswith("param:"):
             pname = src_str.split(":", 1)[1]
         elif src_str.startswith("lever:"):

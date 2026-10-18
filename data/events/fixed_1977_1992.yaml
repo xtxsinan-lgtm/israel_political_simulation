@@ -15,13 +15,14 @@ events:
   trigger:
     window:
       from: '1977-06-20'
-      to: '1992-07-12'
+      to: '1978-02-28'
     prerequisites: flag("likud_in_government") and character_alive("dayan")
-    condition: intl_legitimacy <= 60 and us_admin_relation <= 60 and relation[dayan] >= -20
+    condition: (intl_legitimacy <= 60 or us_admin_relation <= 60) and relation[dayan]
+      >= -20
     probability:
       period: month
-      base: 0.4
-    invalidation: flag("dayan_foreign_minister") and character_in_office("dayan")
+      base: 0.55
+    invalidation: not character_alive("dayan")
   background: 利库德首次胜选，但缺乏外交与国际声望。贝京邀请工党名单当选的摩西·达扬出任外长；达扬的条件是在和平谈判期间不对约旦河西岸宣布主权。工党将达扬开除，指其"叛变"。
   narrative: 利库德首次胜选，但缺乏外交与国际声望。贝京邀请工党名单当选的摩西·达扬出任外长；达扬的条件是在和平谈判期间不对约旦河西岸宣布主权。工党将达扬开除，指其"叛变"。
   summary: 利库德首次胜选，但缺乏外交与国际声望。
@@ -58,9 +59,9 @@ events:
     - op: add
       target: party_standing
       value: -5.0
-    - op: schedule_event
+    - op: event_multiplier
       event: E-1977-11
-      delay_days: 30
+      value: 1.25
   - id: B
     title: 把外长留给党内元老
     label: 把外长留给党内元老
@@ -123,11 +124,11 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1977-07-01'
+      to: '1978-09-30'
     prerequisites: flag("likud_in_government") and region_exists("west_bank")
-    condition: settler_momentum >= 40 and promise_progress[settle_eretz_israel] <= 20 and ally_satisfaction[nrp]
-      <= 70
+    condition: settler_momentum >= 40 and (promise_progress[settle_eretz_israel] <=
+      20 or ally_satisfaction[nrp] <= 70)
     probability:
       period: month
       base: 0.4
@@ -251,8 +252,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1977-08-01'
+      to: '1980-12-31'
     prerequisites: character_in_office("mengistu")
     condition: power_relation[diaspora] >= 30 and regime_stability[ethiopia] <= 50
     probability:
@@ -312,9 +313,9 @@ events:
       target: power_relation
       value: 5.0
       key: diaspora
-    - op: schedule_event
+    - op: event_multiplier
       event: E-1984-11
-      delay_days: 30
+      value: 1.25
   - id: C
     title: 暂缓，等待身份问题的宗教裁决全面
     label: 暂缓，等待身份问题的宗教裁决全面落实
@@ -362,15 +363,15 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1977-09-01'
+      to: '1979-06-30'
     prerequisites: flag("liberals_hold_finance") and character_in_office("finance_minister")
-    condition: economic_model <= -30 and fx_reserves <= 40 and promise_progress[economic_liberalization]
-      <= 10
+    condition: economic_model <= -30 and (fx_reserves <= 40 or promise_progress[economic_liberalization]
+      <= 10)
     probability:
       period: month
       base: 0.25
-    invalidation: has_modifier("new_shekel") and economic_model > 0
+    invalidation: has_modifier("new_shekel") or economic_model > 0
     on_miss:
       effects:
       - op: add
@@ -507,20 +508,21 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
-    prerequisites: not flag("egypt_peace_treaty_signed") and region_exists("sinai") and character_in_office("sadat")
-    condition: flag("dayan_foreign_minister") and regime_hostility[egypt] <= 60 and regime_stability[egypt]
-      >= 30 and relation[foreign_minister] >= 20
+      from: '1977-10-01'
+      to: '1978-09-30'
+    prerequisites: not flag("egypt_peace_treaty_signed") and region_exists("sinai")
+      and character_in_office("sadat")
+    condition: regime_hostility[egypt] <= 65 and regime_stability[egypt] >= 25 and
+      (flag("dayan_foreign_minister") or relation[foreign_minister] >= 15)
     probability:
       period: month
-      base: 0.15
+      base: 0.112
       add:
-      - when: flag("dayan_foreign_minister")
-        value: 0.2
-      - when: us_admin_relation >= 60
-        value: 0.05
-    invalidation: character_in_office("sadat")
+      - when: gov_axis_position[territory] <= -35
+        value: 0.16
+      - when: gov_axis_position[territory] >= 35 or settler_momentum >= 65
+        value: -0.095
+    invalidation: not character_in_office("sadat") or flag("egypt_peace_treaty_signed")
     on_miss:
       effects:
       - op: set_flag
@@ -577,9 +579,9 @@ events:
       target: faction_legitimacy
       value: 3.0
       key: fatah
-    - op: schedule_event
+    - op: event_multiplier
       event: E-1978-09
-      delay_days: 30
+      value: 1.25
   - id: B
     title: 有条件邀请：先承诺不谈约旦河西岸
     label: 有条件邀请：先承诺不谈约旦河西岸
@@ -663,8 +665,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1978-02-01'
+      to: '1979-06-30'
     prerequisites: not flag("plo_moved_to_tunis")
     condition: faction_strength[fatah] >= 50 and region_security[tel_aviv] <= 80
     probability:
@@ -721,10 +723,11 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1978-03-01'
+      to: '1979-09-30'
     prerequisites: event_done("E-1978-03a")
-    condition: region_security[galilee] <= 50 and public_security <= 45 and readiness >= 40
+    condition: (region_security[galilee] <= 55 or public_security <= 50) and readiness
+      >= 40
     probability:
       period: month
       base: 0.8
@@ -782,9 +785,9 @@ events:
       target: popular_hostility
       value: 5.0
       key: lebanon
-    - op: schedule_event
+    - op: event_multiplier
       event: E-1985-01
-      delay_days: 30
+      value: 1.25
   - id: B
     title: 大规模行动，直抵贝鲁特南郊
     label: 大规模行动，直抵贝鲁特南郊
@@ -878,15 +881,15 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1978-03-01'
+      to: '1979-06-30'
     prerequisites: event_choice("E-1977-11") == "A"
-    condition: bloc_support[liberal_middle] <= 50 and promise_progress[peace_and_security] <= 25 and rule_of_law
-      >= 40
+    condition: (bloc_support[liberal_middle] <= 50 or promise_progress[peace_and_security]
+      <= 25) and rule_of_law >= 40
     probability:
       period: month
       base: 0.25
-    invalidation: flag("sadat_missed") and event_done("E-1979-03")
+    invalidation: flag("sadat_missed") or event_done("E-1979-03")
   background: 1978年3月，348名预备役军官和士兵联名致信贝京，警告：如果政府为了保住领土而错过和平，他们将难以相信自己所打的仗是正义的。这封信催生了"现在就和平"运动，此后成为以色列最大的和平运动。
   narrative: 1978年3月，348名预备役军官和士兵联名致信贝京，警告：如果政府为了保住领土而错过和平，他们将难以相信自己所打的仗是正义的。这封信催生了"现在就和平"运动，此后成为以色列最大的和平运动。
   summary: 1978年3月，348名预备役军官和士兵联名致信贝京，警告：如果政府为了保住。
@@ -992,8 +995,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1978-04-01'
+      to: '1980-12-31'
     prerequisites: flag("likud_in_government")
     condition: alienation[mizrahi] >= 30 and power_relation[diaspora] >= 30
     probability:
@@ -1130,18 +1133,20 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
-    prerequisites: not has_modifier("cool_realist") and character_in_office("sadat") and event_choice("E-1977-11")
-      == "A" and us_admin_relation >= 60
-    condition: regime_hostility[egypt] <= 40 and us_admin_relation >= 40
+      from: '1978-06-01'
+      to: '1979-09-30'
+    prerequisites: character_in_office("sadat") and (event_choice("E-1977-11") ==
+      "A" or event_choice("E-1977-11") == "B")
+    condition: regime_hostility[egypt] <= 55 and us_admin_relation >= 38
     probability:
       period: month
-      base: 0.2
+      base: 0.35
       add:
-      - when: flag("dayan_foreign_minister") and relation[weizman] >= 20
-        value: 0.05
-    invalidation: flag("sadat_missed") and not character_in_office("sadat")
+      - when: gov_axis_position[territory] <= 0
+        value: 0.2
+      - when: gov_axis_position[territory] >= 38
+        value: -0.25
+    invalidation: flag("sadat_missed") or not character_in_office("sadat")
     on_miss:
       effects:
       - op: set_flag
@@ -1209,9 +1214,9 @@ events:
     - op: add
       target: political_capital
       value: 10.0
-    - op: schedule_event
+    - op: event_multiplier
       event: E-1979-03
-      delay_days: 30
+      value: 1.25
   - id: B
     title: 只签西奈框架，拒绝写入巴勒斯坦自
     label: 只签西奈框架，拒绝写入巴勒斯坦自治
@@ -1306,8 +1311,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1979-01-01'
+      to: '1980-06-30'
     prerequisites: character_in_office("shah_pahlavi")
     condition: regime_stability[iran] <= 20
     probability:
@@ -1354,19 +1359,15 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
-    prerequisites: flag("autonomy_framework_signed") and character_in_office("sadat")
-    condition: regime_hostility[egypt] <= 30 and us_admin_relation >= 45
+      from: '1979-01-01'
+      to: '1980-09-30'
+    prerequisites: (flag("autonomy_framework_signed") or event_done("E-1978-09"))
+      and character_in_office("sadat")
+    condition: regime_hostility[egypt] <= 45 and us_admin_relation >= 40
     probability:
       period: month
       base: 0.25
-      add:
-      - when: us_admin_relation >= 60
-        value: 0.15
-      - when: stance_deviation[territory] >= 20
-        value: -0.1
-    invalidation: flag("sadat_missed") and not character_in_office("sadat")
+    invalidation: flag("sadat_missed") or not character_in_office("sadat")
     on_miss:
       effects:
       - op: set_flag
@@ -1386,6 +1387,12 @@ events:
     - peace
     requires: 'true'
     effects:
+    - op: set_flag
+      flag: egypt_peace_treaty_signed
+    - op: set
+      target: peace_treaty_state
+      key: egypt
+      value: 3.0
     - op: set_flag
       flag: tehiya_founded
     - op: add_modifier
@@ -1427,6 +1434,12 @@ events:
     - economic
     requires: 'true'
     effects:
+    - op: set_flag
+      flag: egypt_peace_treaty_signed
+    - op: set
+      target: peace_treaty_state
+      key: egypt
+      value: 3.0
     - op: add_modifier
       modifier: party_discipline_scars
       duration_days: 720
@@ -1496,8 +1509,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1979-06-01'
+      to: '1981-12-31'
     prerequisites: region_exists("west_bank")
     condition: settler_momentum >= 45 and rule_of_law >= 50
     probability:
@@ -1615,16 +1628,15 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
-    prerequisites: flag("autonomy_framework_signed") and character_in_office("weizman") and character_in_office("dayan")
-    condition: relation[weizman] <= 10 and relation[dayan] <= 10 and budget_balance <= -3
+      from: '1980-01-01'
+      to: '1981-09-30'
+    prerequisites: flag("autonomy_framework_signed") and (character_in_office("weizman")
+      or character_in_office("dayan"))
+    condition: relation[weizman] <= 35 or relation[dayan] <= 35 or budget_balance
+      <= -2.0
     probability:
       period: month
-      base: 0.1
-      add:
-      - when: vision_progress >= 50
-        value: -0.05
+      base: 0.18
     invalidation: vision_progress >= 60
   background: 达扬因不满自治谈判被交给国家宗教党的布尔格、政府缺乏诚意，于1979年10月辞去外长。1980年5月，国防部长魏茨曼也因国防预算被削减、和平进程停滞而辞职。两位为和平立下大功的人都离开了内阁，贝京自兼国防部长，沙米尔接任外长。
   narrative: 达扬因不满自治谈判被交给国家宗教党的布尔格、政府缺乏诚意，于1979年10月辞去外长。1980年5月，国防部长魏茨曼也因国防预算被削减、和平进程停滞而辞职。两位为和平立下大功的人都离开了内阁，贝京自兼国防部长，沙米尔接任外长。
@@ -1656,9 +1668,9 @@ events:
   - op: add
     target: party_standing
     value: 3.0
-  - op: schedule_event
+  - op: event_multiplier
     event: E-1981-08
-    delay_days: 30
+    value: 1.25
   notes: 达扬于1981年10月病逝，可作为人物死亡的风味文本。
 - id: E-1980-05b
   kind: fixed
@@ -1672,8 +1684,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1980-03-01'
+      to: '1982-06-30'
     prerequisites: region_exists("west_bank")
     condition: settler_momentum >= 50
     probability:
@@ -1815,10 +1827,10 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
-    prerequisites: flag("settlers_momentum_high") and event_done("E-1980-05b") and settler_momentum >=
-      50
+      from: '1980-05-01'
+      to: '1982-12-31'
+    prerequisites: flag("settlers_momentum_high") and event_done("E-1980-05b") and
+      settler_momentum >= 50
     condition: settler_momentum >= 50 and rule_of_law <= 65
     probability:
       period: month
@@ -1889,9 +1901,9 @@ events:
     - op: add
       target: intl_legitimacy
       value: 2.0
-    - op: schedule_event
+    - op: event_multiplier
       event: E-1984-04b
-      delay_days: 30
+      value: 1.25
   - id: C
     title: 把责任推给巴勒斯坦内部派系斗争
     label: 把责任推给巴勒斯坦内部派系斗争
@@ -1949,17 +1961,19 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1981-01-01'
+      to: '1981-12-31'
     prerequisites: character_in_office("saddam")
-    condition: regime_hostility[iraq] >= 70 and enemy_nuclear_progress[iraq] >= 80
+    condition: regime_hostility[iraq] >= 65 and enemy_nuclear_progress[iraq] >= 75
     probability:
       period: month
-      base: 0.3
+      base: 0.115
       add:
-      - when: flag("sharon_defense_minister") and relation[chief_of_staff] >= 30
-        value: 0.1
-    invalidation: enemy_nuclear_progress[iraq] == 100
+      - when: gov_axis_position[security] >= 26
+        value: 0.14
+      - when: gov_axis_position[security] <= -5
+        value: -0.075
+    invalidation: enemy_nuclear_progress[iraq] >= 100
     on_miss:
       effects:
       - op: set_flag
@@ -2009,6 +2023,10 @@ events:
       target: bloc_support
       value: -2.0
       key: liberal_middle
+    - op: set
+      target: enemy_nuclear_progress
+      key: iraq
+      value: 10.0
   - id: B
     title: 推迟到大选之后，由新政府决定
     label: 推迟到大选之后，由新政府决定
@@ -2080,8 +2098,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1981-03-01'
+      to: '1982-12-31'
     prerequisites: 'true'
     condition: alienation[mizrahi] >= 35
     probability:
@@ -2199,14 +2217,14 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
-    prerequisites: flag("defense_minister_vacant") and character_alive("sharon")
-    condition: character_in_office("sharon") and relation[sharon] >= -20 and party_standing <= 70
+      from: '1981-05-01'
+      to: '1982-06-30'
+    prerequisites: (flag("defense_minister_vacant") or year >= 1981) and character_alive("sharon")
+    condition: relation[sharon] >= -20 and party_standing <= 78
     probability:
       period: month
-      base: 0.7
-    invalidation: flag("sharon_dismissed_from_defense")
+      base: 0.25
+    invalidation: flag("sharon_defense_minister") or flag("sharon_dismissed_from_defense")
   background: 沙龙在第一届政府中任农业部长，主持定居点委员会，是西奈拆除与西岸扩建的执行者。他强烈要求出任国防部长。贝京曾半开玩笑地说担心沙龙"会用坦克包围总理府"，但最终任命了他。
   narrative: 沙龙在第一届政府中任农业部长，主持定居点委员会，是西奈拆除与西岸扩建的执行者。他强烈要求出任国防部长。贝京曾半开玩笑地说担心沙龙"会用坦克包围总理府"，但最终任命了他。
   summary: 沙龙在第一届政府中任农业部长，主持定居点委员会，是西奈拆除与西岸扩建的执行者。
@@ -2237,9 +2255,9 @@ events:
     - op: add
       target: us_admin_relation
       value: -3.0
-    - op: schedule_event
+    - op: event_multiplier
       event: E-1982-06a
-      delay_days: 30
+      value: 1.25
   - id: B
     title: 任命阿伦斯（或其他文官）
     label: 任命阿伦斯（或其他文官）
@@ -2298,17 +2316,14 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1981-09-01'
+      to: '1982-09-30'
     prerequisites: character_in_office("sadat")
-    condition: regime_stability[egypt] <= 40 and popular_hostility[egypt] >= 50
+    condition: regime_stability[egypt] <= 55 and popular_hostility[egypt] >= 45
     probability:
       period: month
-      base: 0.04
-      add:
-      - when: flag("autonomy_framework_signed")
-        value: 0.02
-    invalidation: character_in_office("sadat")
+      base: 0.15
+    invalidation: not character_in_office("sadat")
   background: 1981年10月6日，萨达特在阅兵式上被伊斯兰主义军官刺杀。穆巴拉克继任。贝京前往开罗出席葬礼，因为安息日，他步行前往。
   narrative: 1981年10月6日，萨达特在阅兵式上被伊斯兰主义军官刺杀。穆巴拉克继任。贝京前往开罗出席葬礼，因为安息日，他步行前往。
   summary: 1981年10月6日，萨达特在阅兵式上被伊斯兰主义军官刺杀。
@@ -2356,10 +2371,11 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1981-09-01'
+      to: '1983-06-30'
     prerequisites: flag("autonomy_framework_signed") and region_exists("west_bank")
-    condition: faction_strength[fatah] >= 50 and faction_legitimacy[jordan_notables] <= 40
+    condition: faction_strength[fatah] >= 50 and faction_legitimacy[jordan_notables]
+      <= 40
     probability:
       period: month
       base: 0.1
@@ -2491,10 +2507,11 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1981-10-01'
+      to: '1983-06-30'
     prerequisites: region_exists("golan")
-    condition: party_standing <= 60 and stance_deviation[territory] >= 15 and settler_momentum >= 45
+    condition: (party_standing <= 65 or stance_deviation[territory] >= 10) and settler_momentum
+      >= 42
     probability:
       period: month
       base: 0.08
@@ -2644,8 +2661,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1982-01-01'
+      to: '1983-06-30'
     prerequisites: flag("egypt_peace_treaty_signed") and region_exists("sinai")
     condition: regime_hostility[egypt] <= 40
     probability:
@@ -2688,6 +2705,12 @@ events:
       target: bloc_support
       value: -5.0
       key: religious_zionist
+    - op: custom
+      handler: m11_remove_region
+      value:
+        region: sinai
+    - op: set_flag
+      flag: yamit_evacuated
   - id: B
     title: 强制撤离，但保留建筑移交埃及
     label: 强制撤离，但保留建筑移交埃及
@@ -2711,6 +2734,12 @@ events:
     - op: add
       target: political_capital
       value: -5.0
+    - op: custom
+      handler: m11_remove_region
+      value:
+        region: sinai
+    - op: set_flag
+      flag: yamit_evacuated
   - id: C
     title: 以安全理由推迟撤离
     label: 以安全理由推迟撤离
@@ -2774,16 +2803,19 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1982-01-01'
+      to: '1982-12-31'
     prerequisites: 'true'
-    condition: region_security[galilee] <= 50 and public_security <= 45 and readiness >= 50
+    condition: (region_security[galilee] <= 62 or public_security <= 58 or flag("sharon_defense_minister"))
+      and readiness >= 45
     probability:
       period: month
-      base: 0.05
+      base: 0.115
       add:
-      - when: flag("sharon_defense_minister")
-        value: 0.1
+      - when: gov_axis_position[security] >= 25
+        value: 0.14
+      - when: gov_axis_position[security] <= -5
+        value: -0.075
     invalidation: flag("plo_moved_to_tunis") and faction_strength[fatah] < 30
   background: 1981年7月起，美国斡旋的黎以边境停火大体维持，但巴解组织在南黎巴嫩积聚了大量火炮。阿尔戈夫遇刺后，内阁批准"加利利和平行动"，公开目标是把巴解火炮推出边境40公里。沙龙与总参谋长埃坦另有更大的计划：摧毁巴解组织在贝鲁特的总部，扶植巴希尔·杰马耶勒建立亲以政府，并赶走叙利亚军队。
   narrative: 1981年7月起，美国斡旋的黎以边境停火大体维持，但巴解组织在南黎巴嫩积聚了大量火炮。阿尔戈夫遇刺后，内阁批准"加利利和平行动"，公开目标是把巴解火炮推出边境40公里。沙龙与总参谋长埃坦另有更大的计划：摧毁巴解组织在贝鲁特的总部，扶植巴希尔·杰马耶勒建立亲以政府，并赶走叙利亚军队。
@@ -2792,7 +2824,7 @@ events:
   - id: A
     title: 批准40公里的有限行动
     label: 批准40公里的有限行动
-    historical: false
+    historical: true
     tags:
     - economic
     requires: 'true'
@@ -2831,6 +2863,16 @@ events:
     - op: schedule_event
       event: E-1982-06b
       delay_days: 30
+    - op: add_modifier
+      modifier: lebanon_quagmire
+      duration_days: null
+    - op: set_flag
+      flag: lebanon_war_expanded
+    - op: custom
+      handler: m09_start_war
+      value:
+        front: lebanon
+        scope: full
   - id: B
     title: 批准沙龙的大计划：直抵贝鲁特
     label: 批准沙龙的大计划：直抵贝鲁特
@@ -2876,6 +2918,13 @@ events:
     - op: schedule_event
       event: E-1982-08
       delay_days: 30
+    - op: set_flag
+      flag: lebanon_war_expanded
+    - op: custom
+      handler: m09_start_war
+      value:
+        front: lebanon
+        scope: full
   - id: C
     title: 只做空中报复，避免地面战争
     label: 只做空中报复，避免地面战争
@@ -2932,10 +2981,11 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1982-01-01'
+      to: '1983-06-30'
     prerequisites: event_choice("E-1982-06a") == "A"
-    condition: readiness >= 40 and relation[defense_minister] <= 40
+    condition: readiness >= 40 and (ambition("sharon") >= 70 or relation[defense_minister]
+      <= 40)
     probability:
       period: month
       base: 0.8
@@ -3054,8 +3104,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1982-02-01'
+      to: '1983-09-30'
     prerequisites: 'true'
     condition: has_modifier("lebanon_quagmire") and faction_strength[fatah] >= 30
     probability:
@@ -3194,8 +3244,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1982-03-01'
+      to: '1983-12-31'
     prerequisites: flag("plo_moved_to_tunis") and character_in_office("bashir_gemayel")
     condition: faction_strength[phalange] >= 50 and regime_hostility[syria] >= 60
     probability:
@@ -3254,8 +3304,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1982-03-01'
+      to: '1983-12-31'
     prerequisites: event_done("E-1982-09a")
     condition: faction_strength[phalange] >= 40 and faction_strength[fatah] >= 10
     probability:
@@ -3398,10 +3448,11 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1982-03-01'
+      to: '1984-03-31'
     prerequisites: event_done("E-1982-09b")
-    condition: faction_strength[phalange] >= 40 and popular_hostility[lebanon] >= 40
+    condition: faction_strength[phalange] >= 40 and popular_hostility[lebanon] >=
+      40
     probability:
       period: month
       base: 0.8
@@ -3484,8 +3535,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1982-03-01'
+      to: '1984-06-30'
     prerequisites: flag("massacre_occurred")
     condition: rule_of_law >= 30 and bloc_support[liberal_middle] <= 50
     probability:
@@ -3627,13 +3678,13 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
-    prerequisites: character_alive("aliza_begin")
-    condition: has_modifier("lebanon_quagmire") and health[aliza_begin] <= 20
+      from: '1982-09-01'
+      to: '1983-12-31'
+    prerequisites: character_alive("aliza_begin") and leader_id == "begin"
+    condition: has_modifier("lebanon_quagmire") or health[begin] <= 100
     probability:
       period: month
-      base: 0.1
+      base: 0.25
     invalidation: 'false'
   background: 1982年11月，贝京的妻子阿丽扎在他访美期间去世。贝京提前回国，此后日益消沉。黎巴嫩伤亡人数每天在总理府外的抗议牌上更新。
   narrative: 1982年11月，贝京的妻子阿丽扎在他访美期间去世。贝京提前回国，此后日益消沉。黎巴嫩伤亡人数每天在总理府外的抗议牌上更新。
@@ -3666,8 +3717,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1982-10-01'
+      to: '1984-06-30'
     prerequisites: flag("kahan_commission_active")
     condition: flag("overreach_unpunished") and rule_of_law >= 40
     probability:
@@ -3811,8 +3862,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1982-11-01'
+      to: '1984-09-30'
     prerequisites: event_done("E-1983-02a")
     condition: has_modifier("ethnic_voting_polarization") and rule_of_law <= 70
     probability:
@@ -3865,14 +3916,14 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
-    prerequisites: 'true'
-    condition: has_modifier("silent_pm") and has_modifier("lebanon_quagmire") and health[prime_minister]
-      <= 30 and party_standing <= 30
+      from: '1983-05-01'
+      to: '1984-06-30'
+    prerequisites: leader_id == "begin"
+    condition: health[begin] <= 34 and (has_modifier("silent_pm") or has_modifier("lebanon_quagmire")
+      or party_standing <= 40)
     probability:
       period: month
-      base: 0.15
+      base: 0.35
     invalidation: 'false'
   background: 1983年8月28日，贝京对内阁说："我不能再继续了。"他闭门隐居，直到1992年去世。赫鲁特党选举沙米尔接任，击败戴维·利维。
   narrative: 1983年8月28日，贝京对内阁说："我不能再继续了。"他闭门隐居，直到1992年去世。赫鲁特党选举沙米尔接任，击败戴维·利维。
@@ -3895,6 +3946,9 @@ events:
     - op: add
       target: intl_legitimacy
       value: 2.0
+    - op: custom
+      handler: end_tenure
+      reason: resignation
   - id: B
     title: 留任，把日常政务交给副手
     label: 留任，把日常政务交给副手
@@ -3924,7 +3978,7 @@ events:
     - economic
     requires: 'true'
     effects:
-    - op: add_modifier
+    - op: remove_modifier
       modifier: lebanon_quagmire
       duration_days: null
     - op: custom
@@ -3970,17 +4024,20 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1983-06-01'
+      to: '1984-05-31'
     prerequisites: flag("bank_shares_manipulation")
-    condition: has_modifier("indexation_spiral") and inflation >= 130 and fx_reserves <= 30
+    condition: has_modifier("indexation_spiral") and inflation >= 105 and fx_reserves
+      <= 55
     probability:
       period: month
-      base: 0.1
+      base: 0.115
       add:
-      - when: flag("pre_election_spending_binge")
-        value: 0.15
-    invalidation: flag("bank_nationalization") and has_modifier("new_shekel")
+      - when: budget_balance <= -10.5
+        value: 0.08
+      - when: economic_model >= 15 and budget_balance >= -1.5
+        value: -0.095
+    invalidation: flag("bank_nationalization") or has_modifier("new_shekel")
   background: 多年来，以色列各大银行利用存款人资金秘密托市，推高自己的股票，把它们包装成"比美元更安全"的储蓄工具。1983年10月，市场传言本币将大幅贬值，公众疯狂抛售银行股换美元。证交所停牌约两周。与此同时，财长阿里多尔"美元化"计划泄露，他被迫辞职。
   narrative: 多年来，以色列各大银行利用存款人资金秘密托市，推高自己的股票，把它们包装成"比美元更安全"的储蓄工具。1983年10月，市场传言本币将大幅贬值，公众疯狂抛售银行股换美元。证交所停牌约两周。与此同时，财长阿里多尔"美元化"计划泄露，他被迫辞职。
   summary: 多年来，以色列各大银行利用存款人资金秘密托市，推高自己的股票，把它们包装成"。
@@ -4115,8 +4172,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1984-01-01'
+      to: '1985-12-31'
     prerequisites: region_exists("gaza")
     condition: faction_strength[fatah] >= 30 and region_security[gaza] <= 50
     probability:
@@ -4139,9 +4196,9 @@ events:
   - op: add
     target: rule_of_law
     value: -2.0
-  - op: schedule_event
+  - op: event_multiplier
     event: E-1986-05
-    delay_days: 30
+    value: 1.25
   perspectives:
   - group: cabinet
     label: 内阁成员
@@ -4165,9 +4222,9 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
-    prerequisites: flag("underground_unbroken") and event_choice("E-1980-06") == "B"
+      from: '1984-01-01'
+      to: '1986-06-30'
+    prerequisites: flag("underground_unbroken") or event_choice("E-1980-06") == "B"
     condition: rule_of_law >= 40 and relation[shin_bet_chief] >= 0
     probability:
       period: month
@@ -4309,10 +4366,11 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1984-05-01'
+      to: '1986-12-31'
     prerequisites: 'true'
-    condition: flag("kach_in_knesset") and rule_of_law <= 60 and alienation[mizrahi] >= 35
+    condition: flag("kach_in_knesset") and rule_of_law <= 60 and alienation[mizrahi]
+      >= 35
     probability:
       period: month
       base: 0.15
@@ -4419,8 +4477,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1984-06-01'
+      to: '1986-06-30'
     prerequisites: flag("sudan_route") and character_in_office("numayri") and regime_hostility[sudan]
       <= 60
     condition: power_relation[diaspora] >= 30
@@ -4539,14 +4597,14 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1984-09-01'
+      to: '1986-12-31'
     prerequisites: has_modifier("lebanon_quagmire")
-    condition: has_modifier("lebanon_quagmire") and public_security <= 40 and bloc_support[liberal_middle]
-      <= 35
+    condition: has_modifier("lebanon_quagmire") and (front_quagmire_months("lebanon")
+      >= 12 or public_security <= 50 or bloc_support[liberal_middle] <= 42)
     probability:
       period: month
-      base: 0.15
+      base: 0.2
     invalidation: 'false'
   background: 以军在黎巴嫩伤亡持续增加，什叶派武装（阿迈勒、新兴的真主党）取代巴解成为主要对手，自杀式卡车炸弹袭击了提尔的以军总部。1985年1月，团结政府决定分阶段撤军，6月完成，在边境北侧保留一条由以军和南黎巴嫩军（拉赫德领导）控制的"安全区"。
   narrative: 以军在黎巴嫩伤亡持续增加，什叶派武装（阿迈勒、新兴的真主党）取代巴解成为主要对手，自杀式卡车炸弹袭击了提尔的以军总部。1985年1月，团结政府决定分阶段撤军，6月完成，在边境北侧保留一条由以军和南黎巴嫩军（拉赫德领导）控制的"安全区"。
@@ -4560,7 +4618,7 @@ events:
     - restraint
     requires: 'true'
     effects:
-    - op: add_modifier
+    - op: remove_modifier
       modifier: lebanon_quagmire
       duration_days: null
     - op: add_modifier
@@ -4588,6 +4646,10 @@ events:
       target: faction_legitimacy
       value: -10.0
       key: sla
+    - op: custom
+      handler: m09_ceasefire
+      value:
+        front: lebanon
   - id: B
     title: 全面撤回国际边界
     label: 全面撤回国际边界
@@ -4596,7 +4658,7 @@ events:
     - economic
     requires: 'true'
     effects:
-    - op: add_modifier
+    - op: remove_modifier
       modifier: lebanon_quagmire
       duration_days: null
     - op: custom
@@ -4625,6 +4687,10 @@ events:
     - op: add
       target: intl_legitimacy
       value: 8.0
+    - op: custom
+      handler: m09_ceasefire
+      value:
+        front: lebanon
   - id: C
     title: 坚守现有阵线，等待政治解决
     label: 坚守现有阵线，等待政治解决
@@ -4675,18 +4741,18 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1985-04-01'
+      to: '1986-03-31'
     prerequisites: has_modifier("indexation_spiral")
-    condition: inflation >= 300 and fx_reserves <= 20
+    condition: inflation >= 160 and fx_reserves <= 38
     probability:
       period: month
-      base: 0.2
+      base: 0.088
       add:
-      - when: flag("national_unity_government")
-        value: 0.15
-      - when: us_admin_relation >= 60
-        value: 0.1
+      - when: economic_model >= 30
+        value: 0.12
+      - when: union_strength >= 72 or centralization >= 50
+        value: -0.075
     invalidation: has_modifier("new_shekel")
     on_miss:
       effects:
@@ -4705,6 +4771,8 @@ events:
     - economic
     requires: 'true'
     effects:
+    - op: custom
+      handler: m10_apply_stabilization_plan
     - op: remove_modifier
       modifier: indexation_spiral
     - op: add_modifier
@@ -4823,8 +4891,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1985-03-01'
+      to: '1987-12-31'
     prerequisites: flag("kach_in_knesset")
     condition: rule_of_law >= 40 and civic_identification[arab] <= 50
     probability:
@@ -4946,8 +5014,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1985-06-01'
+      to: '1987-12-31'
     prerequisites: flag("lakam_us_operation")
     condition: us_admin_relation >= 40 and us_congress_relation >= 40
     probability:
@@ -5067,8 +5135,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1986-01-01'
+      to: '1988-06-30'
     prerequisites: has_modifier("bus_300_secret") and event_done("E-1984-04a")
     condition: has_modifier("bus_300_secret") and rule_of_law >= 40
     probability:
@@ -5195,8 +5263,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1986-06-01'
+      to: '1988-12-31'
     prerequisites: 'true'
     condition: nuclear_exposure_risk >= 60
     probability:
@@ -5298,9 +5366,10 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
-    prerequisites: flag("national_unity_government") and not flag("jordan_option_ended") and character_in_office("hussein")
+      from: '1987-01-01'
+      to: '1988-12-31'
+    prerequisites: flag("national_unity_government") and not flag("jordan_option_ended")
+      and character_in_office("hussein")
     condition: regime_hostility[jordan] <= 40 and relation[foreign_minister] <= 30
     probability:
       period: month
@@ -5444,18 +5513,19 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
-    prerequisites: region_exists("west_bank")
-    condition: pal_hostility >= 70 and pal_living_standard <= 40
+      from: '1987-06-01'
+      to: '1988-12-31'
+    prerequisites: region_exists("west_bank") or region_exists("gaza")
+    condition: (pal_hostility >= 44 or uprising_risk >= 44) and autonomy_progress
+      <= 32
     probability:
       period: month
-      base: 0.1
+      base: 0.076
       add:
-      - when: has_modifier("missed_jordan_option")
-        value: 0.05
-      - when: has_modifier("jibril_released_prisoners")
-        value: 0.05
+      - when: gov_axis_position[territory] >= 52
+        value: 0.14
+      - when: autonomy_progress >= 22 or gov_axis_position[territory] <= -15
+        value: -0.070
     invalidation: 'false'
   background: 1987年12月8日，一辆以军卡车在加沙贾巴利耶难民营附近与巴勒斯坦人的汽车相撞，四人死亡。谣言称这是蓄意报复。次日起，抗议迅速蔓延到整个加沙和约旦河西岸：投石、罢市、拒绝纳税、挂巴勒斯坦旗帜。起义由地下的"统一民族领导层"协调，突尼斯的巴解领导层起初也感到意外。
   narrative: 1987年12月8日，一辆以军卡车在加沙贾巴利耶难民营附近与巴勒斯坦人的汽车相撞，四人死亡。谣言称这是蓄意报复。次日起，抗议迅速蔓延到整个加沙和约旦河西岸：投石、罢市、拒绝纳税、挂巴勒斯坦旗帜。起义由地下的"统一民族领导层"协调，突尼斯的巴解领导层起初也感到意外。
@@ -5525,8 +5595,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1987-07-01'
+      to: '1989-12-31'
     prerequisites: event_done("E-1987-12a")
     condition: islamic_assoc_strength >= 10
     probability:
@@ -5576,14 +5646,14 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1987-09-01'
+      to: '1990-06-30'
     prerequisites: has_modifier("first_intifada")
-    condition: region_security[west_bank] <= 50 and region_security[gaza] <= 40
+    condition: region_security[west_bank] <= 50 or region_security[gaza] <= 40
     probability:
       period: month
       base: 0.5
-    invalidation: has_modifier("first_intifada")
+    invalidation: not has_modifier("first_intifada")
   background: 国防部长拉宾宣布以"武力、权力和殴打"对付起义，以减少实弹造成的死亡。这一政策被广泛概括为"打断他们的骨头"，此说法的出处至今有争议。电视上士兵用石头砸断被捕者手臂的画面传遍世界。政府同时大量使用行政拘留、驱逐、宵禁、关闭学校和拆除房屋。
   narrative: 国防部长拉宾宣布以"武力、权力和殴打"对付起义，以减少实弹造成的死亡。这一政策被广泛概括为"打断他们的骨头"，此说法的出处至今有争议。电视上士兵用石头砸断被捕者手臂的画面传遍世界。政府同时大量使用行政拘留、驱逐、宵禁、关闭学校和拆除房屋。
   summary: 国防部长拉宾宣布以"武力、权力和殴打"对付起义，以减少实弹造成的死亡。
@@ -5737,11 +5807,11 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1988-03-01'
+      to: '1990-12-31'
     prerequisites: has_modifier("first_intifada") and character_in_office("hussein")
-    condition: has_modifier("missed_jordan_option") and regime_stability[jordan] <= 50 and faction_legitimacy[fatah]
-      >= 50
+    condition: (has_modifier("missed_jordan_option") or regime_stability[jordan] <=
+      50) and faction_legitimacy[fatah] >= 50
     probability:
       period: month
       base: 0.08
@@ -5792,11 +5862,11 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1989-06-01'
+      to: '1991-12-31'
     prerequisites: power_relation[diaspora] >= 60 and us_congress_relation >= 60
-    condition: flag("world_us_refugee_quota_tightened") and power_relation[ussr] >= 20 and regime_stability[egypt]
-      <= 40
+    condition: flag("world_us_refugee_quota_tightened") and power_relation[ussr] >=
+      20 and regime_stability[egypt] <= 40
     probability:
       period: month
       base: 0.2
@@ -5903,9 +5973,9 @@ events:
       target: alienation
       value: 3.0
       key: russian
-    - op: schedule_event
+    - op: event_multiplier
       event: E-1991-09
-      delay_days: 30
+      value: 1.25
   perspectives:
   - group: group_1
     label: 俄裔移民
@@ -5929,11 +5999,11 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1989-09-01'
+      to: '1991-06-30'
     prerequisites: flag("national_unity_government")
-    condition: ally_satisfaction[labor] <= 40 and relation[foreign_minister] <= 0 and ally_satisfaction[shas]
-      <= 60
+    condition: ally_satisfaction[labor] <= 40 and relation[foreign_minister] <= 0
+      and ally_satisfaction[shas] <= 60
     probability:
       period: month
       base: 0.1
@@ -5977,9 +6047,9 @@ events:
       target: bloc_support
       value: -8.0
       key: liberal_middle
-    - op: schedule_event
+    - op: event_multiplier
       event: E-1992-03
-      delay_days: 30
+      value: 1.25
   - id: B
     title: 接受贝克方案的措辞，保住团结政府
     label: 接受贝克方案的措辞，保住团结政府
@@ -6055,8 +6125,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1990-08-02'
+      to: '1991-06-30'
     prerequisites: flag("world_gulf_war")
     condition: regime_hostility[iraq] >= 80
     probability:
@@ -6103,9 +6173,9 @@ events:
     - op: add
       target: budget_balance
       value: 1.0
-    - op: schedule_event
+    - op: event_multiplier
       event: E-1991-10
-      delay_days: 30
+      value: 1.25
   - id: B
     title: 派空军和特种部队打击伊拉克西部发
     label: 派空军和特种部队打击伊拉克西部发射场
@@ -6184,8 +6254,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1990-11-01'
+      to: '1992-05-31'
     prerequisites: character_in_office("mengistu")
     condition: regime_stability[ethiopia] <= 15
     probability:
@@ -6296,10 +6366,11 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
+      from: '1991-03-01'
       to: '1992-07-12'
     prerequisites: event_done("E-1989-10")
-    condition: absorption_capacity <= 40 and settler_momentum >= 40 and us_admin_relation <= 60
+    condition: absorption_capacity <= 40 and settler_momentum >= 40 and us_admin_relation
+      <= 60
     probability:
       period: month
       base: 0.15
@@ -6440,10 +6511,11 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
+      from: '1991-06-01'
       to: '1992-07-12'
-    prerequisites: regime_stability[egypt] <= 30
-    condition: flag("gulf_war_restraint") and us_admin_relation >= 40 and regime_hostility[syria] <= 80
+    prerequisites: year >= 1991
+    condition: (flag("gulf_war_restraint") or us_admin_relation >= 40) and regime_hostility[syria]
+      <= 85
     probability:
       period: month
       base: 0.15
@@ -6580,7 +6652,7 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
+      from: '1991-06-01'
       to: '1992-07-12'
     prerequisites: flag("electoral_reform_movement")
     condition: bloc_support[liberal_middle] <= 40 and rule_of_law >= 40
@@ -6704,8 +6776,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1980-01-01'
+      to: '1985-06-30'
     prerequisites: has_modifier("indexation_spiral")
     condition: inflation >= 100
     probability:
@@ -6736,9 +6808,9 @@ events:
     target: alienation
     value: 2.0
     key: mizrahi
-  - op: schedule_event
+  - op: event_multiplier
     event: E-1983-10
-    delay_days: 30
+    value: 1.25
   perspectives:
   - group: group_1
     label: 家庭主妇
@@ -6758,8 +6830,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1979-01-01'
+      to: '1986-12-31'
     prerequisites: has_modifier("indexation_spiral")
     condition: union_strength >= 50 and inflation >= 50
     probability:
@@ -6866,14 +6938,14 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
+      from: '1978-06-01'
       to: '1992-07-12'
     prerequisites: 'true'
     condition: coalition_seats <= 64
     probability:
       period: month
       base: 0.2
-    invalidation: coalition_seats >= 61
+    invalidation: coalition_seats >= 68
     cooldown_months: 12
   background: 利库德首次执政依赖宗教党派，阿古达以色列党在1977年后作为联合政府成员（但不出任部长）提出大量诉求：耶希瓦预算、扩大兵役豁免、禁止以色列航空安息日飞行、收紧堕胎与验尸规定。（史实参照：贝京政府取消了耶希瓦学生豁免的人数上限；1982年以色列航空停止安息日航班，导致与工会冲突。）
   narrative: 利库德首次执政依赖宗教党派，阿古达以色列党在1977年后作为联合政府成员（但不出任部长）提出大量诉求：耶希瓦预算、扩大兵役豁免、禁止以色列航空安息日飞行、收紧堕胎与验尸规定。（史实参照：贝京政府取消了耶希瓦学生豁免的人数上限；1982年以色列航空停止安息日航班，导致与工会冲突。）
@@ -6964,7 +7036,7 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
+      from: '1979-01-01'
       to: '1992-07-12'
     prerequisites: region_exists("west_bank")
     condition: flag("outpost_legalization_precedent") and settler_momentum >= 70
@@ -7071,8 +7143,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1978-01-01'
+      to: '1983-06-30'
     prerequisites: 'true'
     condition: faction_strength[fatah] >= 40 and region_security[galilee] <= 60
     probability:
@@ -7098,9 +7170,9 @@ events:
     target: region_development
     value: -2.0
     key: galilee
-  - op: schedule_event
+  - op: event_multiplier
     event: E-1982-06a
-    delay_days: 30
+    value: 1.25
 - id: E-G04-06
   kind: fixed
   type: structure
@@ -7113,7 +7185,7 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
+      from: '1985-01-01'
       to: '1992-07-12'
     prerequisites: 'true'
     condition: economic_model >= 10
@@ -7214,7 +7286,7 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
+      from: '1980-06-01'
       to: '1992-07-12'
     prerequisites: 'true'
     condition: fx_reserves >= 15
@@ -7305,7 +7377,7 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
+      from: '1990-01-01'
       to: '1992-07-12'
     prerequisites: event_done("E-1989-10")
     condition: absorption_capacity <= 30
@@ -7348,10 +7420,10 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
+      from: '1986-01-01'
       to: '1992-07-12'
     prerequisites: region_exists("west_bank")
-    condition: region_security[west_bank] <= 50 and region_security[gaza] <= 50
+    condition: region_security[west_bank] <= 50 or region_security[gaza] <= 50
     probability:
       period: month
       base: 0.1
@@ -7453,8 +7525,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1983-01-01'
+      to: '1988-06-30'
     prerequisites: region_exists("gaza") and not event_done("E-1987-12b")
     condition: faction_strength[fatah] >= 50 and islamic_assoc_strength >= 5
     probability:
@@ -7537,8 +7609,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1983-06-01'
+      to: '1990-12-31'
     prerequisites: 'true'
     condition: faction_strength[fatah] >= 30 and public_security <= 80
     probability:
@@ -7633,8 +7705,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1982-09-01'
+      to: '1988-12-31'
     prerequisites: has_modifier("lebanon_quagmire")
     condition: rule_of_law <= 80
     probability:
@@ -7732,7 +7804,7 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
+      from: '1984-01-01'
       to: '1992-07-12'
     prerequisites: coalition_seats <= 60
     condition: religious_status_quo >= 10
@@ -7837,8 +7909,8 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1980-10-01'
+      to: '1987-12-31'
     prerequisites: flag("world_iran_iraq_war") and event_done("E-1979-02")
     condition: regime_hostility[iraq] >= 60
     probability:
@@ -7926,7 +7998,7 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
+      from: '1982-01-01'
       to: '1992-07-12'
     prerequisites: 'true'
     condition: health[defense_minister] <= 40
@@ -7958,10 +8030,10 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
-      to: '1992-07-12'
+      from: '1981-01-20'
+      to: '1989-12-31'
     prerequisites: 'true'
-    condition: political_capital >= 0
+    condition: year >= 1981 and political_capital >= 0
     probability:
       period: immediate
     invalidation: 'false'
@@ -7986,7 +8058,7 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
+      from: '1979-01-01'
       to: '1992-07-12'
     prerequisites: 'true'
     condition: public_security <= 85
@@ -8021,7 +8093,7 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
+      from: '1985-06-01'
       to: '1992-07-12'
     prerequisites: has_modifier("security_zone")
     condition: faction_strength[hezbollah] >= 30
@@ -8068,10 +8140,10 @@ events:
   - begin_1977
   trigger:
     window:
-      from: '1977-06-20'
+      from: '1985-01-01'
       to: '1992-07-12'
     prerequisites: 'true'
-    condition: region_security[gaza] <= 60 and region_security[west_bank] <= 60
+    condition: region_security[gaza] <= 60 or region_security[west_bank] <= 60
     probability:
       period: month
       base: 0.1

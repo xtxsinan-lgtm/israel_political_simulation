@@ -1246,19 +1246,26 @@ class GameState:
             if not isinstance(ax_map, dict) or not ax_map:
                 continue
             v = float(self.policies.get(pol_id, {}).get("level", 0.0))
-            n = float(pol_def.get("n", 50.0))
+            tiers = pol_def.get("tiers", [])
+            tier_vals = [float(t["v"] if isinstance(t, dict) else t) for t in tiers] if tiers else [0.0, 100.0]
+            min_v = min(tier_vals) if tier_vals else 0.0
+            max_v = max(tier_vals) if tier_vals else 100.0
+            default_n = 0.0 if min_v < 0.0 else 50.0
+            n = float(pol_def.get("n", default_n))
             if v >= n:
-                denom = max(1.0, 100.0 - n)
+                denom = max(1.0, max_v - n)
                 rel = (v - n) / denom
             else:
-                denom = max(1.0, n)
+                denom = max(1.0, n - min_v)
                 rel = (v - n) / denom
             for ax, weight in ax_map.items():
                 if ax in totals:
                     totals[ax] += float(weight) * rel
         for ax in axes:
-            imp = float(self.axis_impulse.get(ax, 0.0))
+            imp = clamp(float(self.axis_impulse.get(ax, 0.0)), -18.0, 18.0)
+            self.axis_impulse[ax] = quantize(imp)
             self.gov_axis_position[ax] = quantize(clamp(totals[ax] + imp, -100.0, 100.0))
+        self.params["gov_axis_position"] = dict(self.gov_axis_position)
         return self.gov_axis_position
 
     def m05_policy_fiscal_delta(self) -> float:
@@ -1303,15 +1310,25 @@ class GameState:
     def is_character_in_office(self, char_id: str) -> bool:
         # Foreign heads of state
         if char_id == "sadat":
-            return self.date_str <= "1981-10-06" and not self.has_flag("sadat_assassinated")
+            return self.date_str <= "1981-10-06" and not self.has_flag("sadat_assassinated") and not ("E-1981-10" in self.m12.get("fired", {}))
         if char_id == "mubarak":
-            return self.date_str > "1981-10-06" or self.has_flag("sadat_assassinated")
-        if char_id == "hussein_king":
+            return self.date_str > "1981-10-06" or self.has_flag("sadat_assassinated") or ("E-1981-10" in self.m12.get("fired", {}))
+        if char_id in ("hussein_king", "hussein"):
             return True
         if char_id == "assad_hafez":
             return True
         if char_id == "arafat":
             return True
+        if char_id == "saddam":
+            return True
+        if char_id == "mengistu":
+            return self.date_str <= "1991-05-28"
+        if char_id == "shah_pahlavi":
+            return self.date_str <= "1979-03-01" and not ("E-1979-02" in self.m12.get("fired", {}))
+        if char_id == "bashir_gemayel":
+            return "1982-01-01" <= self.date_str <= "1983-12-31" and not ("E-1982-09a" in self.m12.get("fired", {}))
+        if char_id == "numayri":
+            return self.date_str <= "1985-06-30"
         if char_id == "carter":
             return self.m07.get("us_politics", {}).get("president_id") == "carter"
         if char_id == "reagan":
@@ -1336,7 +1353,9 @@ class GameState:
 
     def is_character_alive(self, char_id: str) -> bool:
         if char_id == "sadat":
-            return self.date_str <= "1981-10-06" and not self.has_flag("sadat_assassinated")
+            return self.date_str <= "1981-10-06" and not self.has_flag("sadat_assassinated") and not ("E-1981-10" in self.m12.get("fired", {}))
+        if char_id == "aliza_begin":
+            return not ("E-1982-11" in self.m12.get("fired", {}))
         ch = self.characters.get(char_id)
         if ch is not None:
             return bool(ch.get("alive", True))
@@ -1624,22 +1643,20 @@ class GameState:
         # Promise category fan-out (e.g., promise_progress[cat_economy] += delta)
         if canon_param == "promise_progress" and k and k.startswith("cat_"):
             cat_name = k[4:]
+            cat_to_key = {
+                "economy": "economic_liberalization",
+                "peace": "peace_and_security",
+                "security": "peace_and_security",
+                "territory": "settle_eretz_israel",
+                "social": "social_justice",
+            }
             prom_map = self.params.get("promise_progress", {})
-            last_v = 0.0
-            matched = False
+            target_k = cat_to_key.get(cat_name, "peace_and_security")
+            cur = float(prom_map.get(target_k, 0.0))
+            last_v = self.set_param("promise_progress", cur + delta, key=target_k)
             for p in self.promises:
-                p_cat = p.get("category", "")
-                if p_cat == cat_name or (cat_name == "peace" and p_cat in ("peace", "security")):
-                    pid = p["id"]
-                    cur = float(prom_map.get(pid, 0.0))
-                    last_v = self.set_param("promise_progress", cur + delta, key=pid)
+                if isinstance(p, dict) and (p.get("id") == target_k or p.get("promise_id") == target_k):
                     p["progress"] = last_v
-                    matched = True
-            if not matched and self.promises:
-                pid = self.promises[0]["id"]
-                cur = float(prom_map.get(pid, 0.0))
-                last_v = self.set_param("promise_progress", cur + delta, key=pid)
-                self.promises[0]["progress"] = last_v
             return last_v
 
         if k == "peripheral_states" and canon_param in ("regime_hostility", "regime_stability"):
@@ -1653,7 +1670,7 @@ class GameState:
         new_v = self.set_param(canon_param, cur + float(delta), key=k)
         if canon_param == "promise_progress" and k:
             for p in self.promises:
-                if p.get("id") == k:
+                if isinstance(p, dict) and (p.get("id") == k or p.get("promise_id") == k):
                     p["progress"] = new_v
         return new_v
 
@@ -1690,6 +1707,26 @@ class GameState:
             return True
         if flag_id == "likud_in_power" and "likud_in_government" in self.flags:
             return True
+        if flag_id == "bank_shares_manipulation" and "bank_shares_regulation" in self.flags:
+            return True
+        if flag_id == "liberals_hold_finance":
+            return self.holder_of("finance") in ("ehrlich", "modai", "patt")
+        if flag_id == "dayan_foreign_minister":
+            return ("E-1977-06" in self.m12.get("fired", {}) and self.m12["fired"]["E-1977-06"].get("choice") == "A") or (self.day_index >= 30 and self.holder_of("foreign") == "dayan")
+        if flag_id == "settlers_momentum_high":
+            return self.get_param("settler_momentum") >= 50.0
+        if flag_id == "lakam_us_operation":
+            return bool(self.m09.get("nuclear", {}).get("lakam_active", True))
+        if flag_id == "first_intifada_active":
+            return "intifada_active" in self.flags or self.has_modifier("first_intifada") or bool(self.m08.get("uprising_state", {}).get("active"))
+        if flag_id == "world_iran_iraq_war":
+            return "1980-09-22" <= self.date_str <= "1988-08-20"
+        if flag_id == "world_us_refugee_quota_tightened":
+            return self.date_str >= "1989-06-01"
+        if flag_id == "world_gulf_war":
+            return "1990-08-02" <= self.date_str <= "1991-04-30"
+        if flag_id == "national_unity_government":
+            return self.year >= 1984 and (self.get_param("coalition_seats") >= 75.0 or "labor" in self.parliament.get("coalition_parties", []))
         return False
 
     def set_flag(
@@ -1715,6 +1752,8 @@ class GameState:
             if m.get("def_id") == mod_id:
                 if key is None or m.get("scope_key", "") == str(key):
                     return True
+        if mod_id == "indexation_spiral":
+            return not self.m10.get("indexation_removed", False) and not self.m10.get("stabilization_plan_active", False) and not self.has_modifier("new_shekel")
         return False
 
     def add_modifier(
@@ -1725,6 +1764,10 @@ class GameState:
         source: str = "event",
         stacks: int = 1,
     ) -> None:
+        if mod_id == "indexation_spiral":
+            self.m10["indexation_removed"] = False
+        if mod_id == "new_shekel":
+            self.m10["indexation_removed"] = True
         scope_key = str(key) if key is not None else ""
         mdef = self.registry.modifier_defs.get(mod_id, {})
         stack_mode = mdef.get("stack_mode", mdef.get("stack", "refresh"))
@@ -1758,6 +1801,8 @@ class GameState:
         })
 
     def remove_modifier(self, mod_id: str, key: Optional[str] = None) -> None:
+        if mod_id == "indexation_spiral":
+            self.m10["indexation_removed"] = True
         if key is None:
             self.modifiers = [m for m in self.modifiers if m.get("def_id") != mod_id]
         else:

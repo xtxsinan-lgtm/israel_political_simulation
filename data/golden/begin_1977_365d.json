@@ -15,7 +15,7 @@
         "rule_of_law": 66.0,
         "us_admin_relation": 58.0
       },
-      "state_hash": "c1e20bf03e3a9bd7ba09dc2d212a8e72dc37b930d190f7065e1849b9c142dd28"
+      "state_hash": "7a3fe5d7c9cf149d01992251174f409fa8e38a3fe64cdf1a43e64c29c0d5884a"
     },
     {
       "date": "1977-07-01",
@@ -25,290 +25,260 @@
         "coalition_seats": 61.0,
         "deterrence": 68.0,
         "fx_reserves": 34.9986,
-        "inflation": 35.02205,
+        "inflation": 41.024253,
         "party_cohesion": 57.04,
-        "party_standing": 74.65,
+        "party_standing": 70.031225,
         "public_security": 61.56125,
-        "rule_of_law": 64.14,
+        "rule_of_law": 66.0,
         "us_admin_relation": 58.0
       },
-      "state_hash": "b2134fa89d5d5c2bcda41496da841b94b75c54a5d96346f0763dd214d33be58e"
+      "state_hash": "426e93235dbfb9f4e91b0f162bb8a61a0a080d83949304307d27339cc8be996d"
     },
     {
       "date": "1977-08-01",
       "day_index": 42,
       "key_params": {
-        "budget_balance": -2.024583,
+        "budget_balance": -2.042573,
         "coalition_seats": 61.0,
-        "deterrence": 63.35,
-        "fx_reserves": 34.994183,
-        "inflation": 35.02205,
+        "deterrence": 68.0,
+        "fx_reserves": 35.159785,
+        "inflation": 41.024253,
         "party_cohesion": 57.04,
-        "party_standing": 71.5375,
-        "public_security": 61.860038,
-        "rule_of_law": 64.2672,
-        "us_admin_relation": 58.0
+        "party_standing": 65.381666,
+        "public_security": 60.178163,
+        "rule_of_law": 66.0,
+        "us_admin_relation": 62.5
       },
-      "state_hash": "ea50e89a514ecbb1cd8eb709b6434ca20cdee6055d17d43ca7906542c84deea1"
+      "state_hash": "5f19bc3389e7dc08b70154e32a08e26a88e34446dd4aac4b34fc01501799885e"
     },
     {
       "date": "1977-09-01",
       "day_index": 73,
       "key_params": {
-        "budget_balance": -2.03252,
+        "budget_balance": -2.064003,
         "coalition_seats": 61.0,
-        "deterrence": 63.6725,
-        "fx_reserves": 34.990077,
-        "inflation": 35.02205,
+        "deterrence": 68.0,
+        "fx_reserves": 35.234781,
+        "inflation": 41.024253,
         "party_cohesion": 57.04,
-        "party_standing": 71.433625,
-        "public_security": 59.750872,
-        "rule_of_law": 64.382856,
-        "us_admin_relation": 58.0
+        "party_standing": 65.700999,
+        "public_security": 59.650859,
+        "rule_of_law": 66.0,
+        "us_admin_relation": 62.05
       },
-      "state_hash": "e5e4f55b5a238f8d6fe8339dd28d6faac082bd9e8fd161d06843365451c698eb"
+      "state_hash": "d3948ed06757d0b4384547551d81fa1e5062b712a3907e8c39ab4f49a2b642df"
     },
     {
       "date": "1977-10-01",
       "day_index": 103,
       "key_params": {
-        "budget_balance": -2.038473,
+        "budget_balance": -2.080075,
         "coalition_seats": 61.0,
-        "deterrence": 59.319875,
-        "fx_reserves": 34.986402,
-        "inflation": 35.074927,
+        "deterrence": 68.0,
+        "fx_reserves": 35.250046,
+        "inflation": 44.279697,
         "party_cohesion": 57.04,
-        "party_standing": 68.547644,
-        "public_security": 59.433358,
-        "rule_of_law": 64.488099,
-        "us_admin_relation": 58.0
+        "party_standing": 65.995524,
+        "public_security": 59.375592,
+        "rule_of_law": 66.0,
+        "us_admin_relation": 61.645
       },
-      "state_hash": "db05c2d00642439ef2c9343f678a67938e7863efad803eecc3cf872191cbc8c9"
+      "state_hash": "d07215a0612fc9b57149a38703949267570cc8bffa4dde81a08bf1add9bd5fcb"
     },
     {
       "date": "1977-11-01",
       "day_index": 134,
       "key_params": {
-        "budget_balance": -2.043136,
+        "budget_balance": -2.101895,
         "coalition_seats": 61.0,
-        "deterrence": 59.916781,
-        "fx_reserves": 36.648375,
-        "inflation": 35.074927,
+        "deterrence": 68.0,
+        "fx_reserves": 36.295278,
+        "inflation": 44.279697,
         "party_cohesion": 57.04,
-        "party_standing": 64.002392,
-        "public_security": 57.543958,
-        "rule_of_law": 64.583947,
-        "us_admin_relation": 59.8
+        "party_standing": 66.267365,
+        "public_security": 59.208341,
+        "rule_of_law": 66.0,
+        "us_admin_relation": 58.5805
       },
-      "state_hash": "d8e5588e200a38d90839a916e9de389c75d4fcc0dbb3aec08be4810949c69153"
+      "state_hash": "cd839a5db16aa5129cc1930cfa19c5368e070fe86dc9d4addbce09db8c09e741"
     },
     {
       "date": "1977-12-01",
       "day_index": 164,
       "key_params": {
-        "budget_balance": -5.102883,
+        "budget_balance": -2.16326,
         "coalition_seats": 61.0,
-        "deterrence": 60.467552,
-        "fx_reserves": 30.09638,
-        "inflation": 50.074927,
+        "deterrence": 68.0,
+        "fx_reserves": 38.642421,
+        "inflation": 59.279697,
         "party_cohesion": 57.04,
-        "party_standing": 68.141189,
-        "public_security": 61.173481,
-        "rule_of_law": 64.671317,
-        "us_admin_relation": 66.82
+        "party_standing": 66.518453,
+        "public_security": 59.144551,
+        "rule_of_law": 66.0,
+        "us_admin_relation": 58.52245
       },
-      "state_hash": "81a2f47bf6a2889a7c0940948c6c19a3c2286e7ca84539ba6a14abfb694f8a8b"
+      "state_hash": "ae7b2a10a9a1ebf0afffad8e321494da0330fd96ce6b300c14c034d53b0a0292"
     },
     {
       "date": "1978-01-01",
       "day_index": 195,
       "key_params": {
-        "budget_balance": -4.397693,
+        "budget_balance": -2.209284,
         "coalition_seats": 61.0,
-        "deterrence": 60.976123,
-        "fx_reserves": 32.042153,
-        "inflation": 50.150054,
+        "deterrence": 68.0,
+        "fx_reserves": 36.643097,
+        "inflation": 61.218936,
         "party_cohesion": 57.04,
-        "party_standing": 58.969155,
-        "public_security": 58.331391,
-        "rule_of_law": 64.751035,
-        "us_admin_relation": 74.938
+        "party_standing": 66.750541,
+        "public_security": 59.105725,
+        "rule_of_law": 66.0,
+        "us_admin_relation": 58.470205
       },
-      "state_hash": "7252086755a43862b3ef1dfd50d56df745e0294bb1591206ff3f7b679dd7f8cb"
+      "state_hash": "2d7bfb3983460c4fa1ce723b9eec892f27c08a855e4c3073ce8e436ef54929a8"
     },
     {
       "date": "1978-02-01",
       "day_index": 226,
       "key_params": {
-        "budget_balance": -4.869082,
+        "budget_balance": -2.24962,
         "coalition_seats": 61.0,
-        "deterrence": 61.446071,
-        "fx_reserves": 26.422248,
-        "inflation": 65.150054,
+        "deterrence": 68.0,
+        "fx_reserves": 34.995561,
+        "inflation": 61.218936,
         "party_cohesion": 57.04,
-        "party_standing": 56.29222,
-        "public_security": 57.171367,
-        "rule_of_law": 64.823844,
-        "us_admin_relation": 82.2442
+        "party_standing": 66.965223,
+        "public_security": 59.090679,
+        "rule_of_law": 66.0,
+        "us_admin_relation": 58.423185
       },
-      "state_hash": "257ecf9a7a74141b9355bbbb818aca6fd23ade9864bb3556a78481053d1027a9"
+      "state_hash": "5873714cf6cb953c971173fd0395689b89716fc44348f5517beed3d4a91773a0"
     },
     {
       "date": "1978-03-01",
       "day_index": 254,
       "key_params": {
-        "budget_balance": -5.028874,
+        "budget_balance": -2.279872,
         "coalition_seats": 61.0,
-        "deterrence": 61.880646,
-        "fx_reserves": 28.980632,
-        "inflation": 65.150054,
+        "deterrence": 68.0,
+        "fx_reserves": 33.75277,
+        "inflation": 61.218936,
         "party_cohesion": 57.04,
-        "party_standing": 57.183869,
-        "public_security": 56.661918,
-        "rule_of_law": 64.890414,
-        "us_admin_relation": 79.81978
+        "party_standing": 67.115432,
+        "public_security": 59.082439,
+        "rule_of_law": 66.0,
+        "us_admin_relation": 58.380866
       },
-      "state_hash": "b54afb36f197d65eaa398051860102a24a3330996f7809c266b770f06f9c3965"
+      "state_hash": "4e355f1f6554eaa0e9c1333acea933dc72c6c07e0dd198b6f95346a8feb4380f"
     },
     {
       "date": "1978-04-01",
       "day_index": 285,
       "key_params": {
-        "budget_balance": -4.398718,
+        "budget_balance": -2.302561,
         "coalition_seats": 61.0,
-        "deterrence": 62.282805,
-        "fx_reserves": 30.750299,
-        "inflation": 61.87227,
+        "deterrence": 68.0,
+        "fx_reserves": 32.814705,
+        "inflation": 62.483289,
         "party_cohesion": 57.04,
-        "party_standing": 57.959792,
-        "public_security": 56.485465,
-        "rule_of_law": 64.951348,
-        "us_admin_relation": 77.637802
+        "party_standing": 68.148412,
+        "public_security": 60.522618,
+        "rule_of_law": 66.0,
+        "us_admin_relation": 58.342779
       },
-      "state_hash": "cb1a7612058b3d90ae3bad28156f50f632d3844ec2dfc603df738b6622e8ca73"
+      "state_hash": "5f3327c2e541180202c7099daeb3ab1f4e8d727eaec280768357e297d5384560"
     },
     {
       "date": "1978-05-01",
       "day_index": 315,
       "key_params": {
-        "budget_balance": -3.91381,
+        "budget_balance": -2.323371,
         "coalition_seats": 61.0,
-        "deterrence": 62.655237,
-        "fx_reserves": 31.317326,
-        "inflation": 61.87227,
+        "deterrence": 68.93,
+        "fx_reserves": 32.009568,
+        "inflation": 62.483289,
         "party_cohesion": 57.04,
-        "party_standing": 58.630485,
-        "public_security": 56.301445,
-        "rule_of_law": 65.007189,
-        "us_admin_relation": 68.474022
+        "party_standing": 69.983793,
+        "public_security": 59.882419,
+        "rule_of_law": 64.12,
+        "us_admin_relation": 58.308501
       },
-      "state_hash": "c54b29fa6d8085e38c0e110f6acfeeb8d186f8a754845d8e4e50cede3033c03c"
+      "state_hash": "01612797ef8ec6760b5e6b0fcbf29a45ee97a6ffc9a60b483785d9b339b0de17"
     },
     {
       "date": "1978-06-01",
       "day_index": 346,
       "key_params": {
-        "budget_balance": -3.550129,
+        "budget_balance": -2.338978,
         "coalition_seats": 61.0,
-        "deterrence": 63.00039,
-        "fx_reserves": 31.677133,
-        "inflation": 61.87227,
+        "deterrence": 68.8655,
+        "fx_reserves": 31.401155,
+        "inflation": 62.483289,
         "party_cohesion": 57.04,
-        "party_standing": 59.205448,
-        "public_security": 56.250934,
-        "rule_of_law": 65.058426,
-        "us_admin_relation": 67.42662
+        "party_standing": 69.789146,
+        "public_security": 59.649482,
+        "rule_of_law": 64.2292,
+        "us_admin_relation": 58.277651
       },
-      "state_hash": "d1ce6089adb5b0c49b4cd53a20d6a0b6dfb233ba8819c5c0b15c1025e3d19fe6"
+      "state_hash": "ebeb25527f7bf3d677cfe0d58b34add603384acb766bb88cd8f821648199dfb7"
     },
     {
       "date": "1978-06-20",
       "day_index": 365,
       "key_params": {
-        "budget_balance": -3.550129,
+        "budget_balance": -2.338978,
         "coalition_seats": 61.0,
-        "deterrence": 63.00039,
-        "fx_reserves": 31.677133,
-        "inflation": 61.87227,
+        "deterrence": 68.8655,
+        "fx_reserves": 31.401155,
+        "inflation": 62.483289,
         "party_cohesion": 57.04,
-        "party_standing": 59.205448,
-        "public_security": 56.294401,
-        "rule_of_law": 65.058426,
-        "us_admin_relation": 67.42662
+        "party_standing": 69.789146,
+        "public_security": 63.791993,
+        "rule_of_law": 64.2292,
+        "us_admin_relation": 66.277651
       },
-      "state_hash": "7ad0e24c53af3b2cf65cdc3a86bcef78b7ba7cb735edf00f9b702a10cb5ea552"
+      "state_hash": "2f27f20bc2a27385cd30323f3128c908b2d153602726860b02bb84b3dc16a600"
     }
   ],
-  "day0_state_hash": "c1e20bf03e3a9bd7ba09dc2d212a8e72dc37b930d190f7065e1849b9c142dd28",
+  "day0_state_hash": "7a3fe5d7c9cf149d01992251174f409fa8e38a3fe64cdf1a43e64c29c0d5884a",
   "days_simulated": 365,
   "end_date": "1978-06-20",
   "events_fired": {
     "E-1977-06": {
       "choice": "A",
-      "date": "1977-10-22",
-      "day_index": 124
-    },
-    "E-1977-07": {
-      "choice": "A",
-      "date": "1978-04-09",
-      "day_index": 293
+      "date": "1977-07-04",
+      "day_index": 14
     },
     "E-1977-08": {
       "choice": "A",
-      "date": "1977-10-07",
-      "day_index": 109
+      "date": "1977-10-26",
+      "day_index": 128
+    },
+    "E-1977-10": {
+      "choice": "A",
+      "date": "1977-11-04",
+      "day_index": 137
     },
     "E-1977-11": {
       "choice": "A",
-      "date": "1977-11-21",
-      "day_index": 154
+      "date": "1978-06-12",
+      "day_index": 357
     },
-    "E-1978-09": {
+    "R-27": {
       "choice": "A",
-      "date": "1977-12-21",
-      "day_index": 184
+      "date": "1978-04-07",
+      "day_index": 291
     },
-    "E-1979-03": {
+    "R-50": {
       "choice": "A",
-      "date": "1978-01-20",
-      "day_index": 214
-    },
-    "E-1980-05b": {
-      "choice": "A",
-      "date": "1977-12-22",
-      "day_index": 185
-    },
-    "E-1981-06b": {
-      "choice": "A",
-      "date": "1977-06-22",
-      "day_index": 2
-    },
-    "E-G04-05": {
-      "choice": "A",
-      "date": "1978-05-28",
-      "day_index": 342
-    },
-    "E-G04-07": {
-      "choice": "A",
-      "date": "1978-02-01",
-      "day_index": 226
-    },
-    "E-G04-11": {
-      "choice": "A",
-      "date": "1977-09-03",
-      "day_index": 75
-    },
-    "E-G04-16": {
-      "choice": "A",
-      "date": "1978-06-20",
-      "day_index": 365
+      "date": "1978-03-13",
+      "day_index": 266
     }
   },
   "final_params": {
-    "absorption_capacity": 54.641842,
+    "absorption_capacity": 54.535355,
     "alienation": {
-      "ethiopian": 30.013806,
-      "mizrahi": 37.089404,
+      "ethiopian": 30.419129,
+      "mizrahi": 39.747208,
       "russian": 35.0
     },
     "ally_deal_score": {
@@ -337,7 +307,7 @@
       "liberals": 60.0,
       "likud": 50.0,
       "mapam": 10.000028,
-      "nrp": 71.259248,
+      "nrp": 65.0,
       "poalei_agudat": 45.0,
       "rakah_hadash": 5.000009,
       "ratz": 15.0,
@@ -382,13 +352,13 @@
       "arab_citizens": 15.0,
       "haredi": 45.0,
       "kibbutz_moshav": 15.0,
-      "labor_ashkenazi": 27.0,
-      "liberal_middle": 38.0,
-      "mizrahi": 70.0,
-      "religious_zionist": 65.0,
+      "labor_ashkenazi": 30.0,
+      "liberal_middle": 43.0,
+      "mizrahi": 49.0,
+      "religious_zionist": 60.0,
       "russian": 40.0
     },
-    "budget_balance": -3.550129,
+    "budget_balance": -2.338978,
     "budget_slider": {
       "absorption": 45.0,
       "defense": 65.0,
@@ -399,7 +369,7 @@
       "settlements": 35.0,
       "welfare": 55.0
     },
-    "centralization": 5.0,
+    "centralization": 7.0,
     "challenger_strength": 0.0,
     "character_stress": {
       "abuhatzeira": 15.0,
@@ -409,7 +379,7 @@
       "bar_lev": 15.0,
       "barak_aharon": 15.0,
       "bashir_gemayel": 15.0,
-      "begin": 28.0,
+      "begin": 15.179937,
       "begin_b": 15.0,
       "burg": 15.0,
       "carter": 15.0,
@@ -447,9 +417,9 @@
       "zamir": 15.0
     },
     "civic_identification": {
-      "arab": 37.597674,
-      "bedouin": 49.821037,
-      "druze": 72.010717
+      "arab": 37.833733,
+      "bedouin": 49.914924,
+      "druze": 72.032658
     },
     "coalition_seats": 61.0,
     "collaborator_stigma": {
@@ -475,13 +445,13 @@
     },
     "coup_risk": 0.0,
     "cynicism": 20.0,
-    "deterrence": 63.00039,
+    "deterrence": 68.8655,
     "draft_exemption": 9.472,
-    "economic_model": -45.0,
+    "economic_model": -30.0,
     "enemy_nuclear_progress": {
       "egypt": 0.0,
       "iran": 5.0,
-      "iraq": 35.0,
+      "iraq": 48.8,
       "jordan": 0.0,
       "lebanon": 0.0,
       "saudi": 0.0,
@@ -500,7 +470,7 @@
       "village_leagues": 35.0
     },
     "faction_legitimacy": {
-      "fatah": 61.0,
+      "fatah": 45.0,
       "hamas": 0.0,
       "jordan_notables": 40.0,
       "local_mayors": 48.0,
@@ -528,7 +498,7 @@
       "liberal_wing": 52.0
     },
     "faction_strength": {
-      "fatah": 68.0,
+      "fatah": 58.0,
       "hamas": 0.0,
       "jordan_notables": 42.0,
       "local_mayors": 38.0,
@@ -637,16 +607,16 @@
       "yahad": 0.0,
       "yisrael_baalia": 0.0
     },
-    "fx_reserves": 31.677133,
+    "fx_reserves": 31.401155,
     "gov_axis_position": {
-      "economy": -45.0,
-      "foreign": 15.0,
-      "religion": 10.0,
-      "security": 25.0,
-      "territory": 35.0
+      "economy": -54.36,
+      "foreign": -4.0,
+      "religion": -10.0,
+      "security": 4.0,
+      "territory": -29.884001
     },
-    "govt_fatigue": 4.2,
-    "growth": 0.934635,
+    "govt_fatigue": 2.64,
+    "growth": 0.938157,
     "haredi_cohort": 1.6,
     "health": {
       "abuhatzeira": 86.0,
@@ -656,7 +626,7 @@
       "bar_lev": 78.0,
       "barak_aharon": 90.0,
       "bashir_gemayel": 88.0,
-      "begin": 68.0,
+      "begin": 65.48,
       "begin_b": 88.0,
       "burg": 76.0,
       "carter": 86.0,
@@ -695,15 +665,15 @@
     },
     "historical_grievance": {
       "ethiopian": 10.0,
-      "mizrahi": 58.0,
+      "mizrahi": 55.0,
       "russian": 0.0
     },
     "historical_rating": 0.0,
     "immigration_inflow": 21000.0,
-    "inequality": 38.258487,
-    "inflation": 61.87227,
+    "inequality": 42.006038,
+    "inflation": 62.483289,
     "intel_accuracy": 79.65,
-    "intl_legitimacy": 65.317592,
+    "intl_legitimacy": 57.278822,
     "islamic_assoc_strength": 12.0,
     "judicial_conflict": 10.0,
     "knesset_seats": {
@@ -736,10 +706,10 @@
     "nuclear_exposure_risk": 42.0,
     "nuclear_progress": 78.0,
     "outpost_enforcement": 50.0,
-    "pal_hostility": 61.410392,
-    "pal_living_standard": 44.607096,
+    "pal_hostility": 55.046683,
+    "pal_living_standard": 44.543328,
     "party_cohesion": 57.04,
-    "party_standing": 59.205448,
+    "party_standing": 69.789146,
     "peace_treaty_state": {
       "egypt": 1.0,
       "france": 3.0,
@@ -831,8 +801,8 @@
       "wage_indexation": 100.0,
       "work_permits": 50.0
     },
-    "political_capital": 92.586517,
-    "poll_lead": -5.660699,
+    "political_capital": 122.50391,
+    "poll_lead": 9.376859,
     "poll_seats": {
       "agudat": 4.0,
       "arab_lists": 1.0,
@@ -840,8 +810,8 @@
       "flatto_sharon": 1.0,
       "ilp": 1.0,
       "independents": 0.0,
-      "labor": 43.0,
-      "likud": 38.0,
+      "labor": 36.0,
+      "likud": 46.0,
       "nrp": 12.0,
       "poalei_agudat": 1.0,
       "rakah_hadash": 5.0,
@@ -872,10 +842,10 @@
       "syria": 84.0
     },
     "power_relation": {
-      "diaspora": 74.757034,
+      "diaspora": 74.814396,
       "france": 45.0,
       "uk": 52.0,
-      "usa": 67.42662,
+      "usa": 66.277651,
       "ussr": 15.0,
       "west_germany": 65.0
     },
@@ -890,16 +860,16 @@
       "russian": 0.0
     },
     "promise_progress": {
-      "economic_liberalization": 0.0,
-      "peace_and_security": 40.0,
-      "settle_eretz_israel": 10.0,
-      "social_justice": 0.0
+      "economic_liberalization": 15.0,
+      "peace_and_security": 15.0,
+      "settle_eretz_israel": 4.8,
+      "social_justice": 1.3
     },
-    "public_debt": 131.832244,
-    "public_security": 56.294401,
+    "public_debt": 122.702606,
+    "public_security": 63.791993,
     "readiness": 72.0,
     "regime_hostility": {
-      "egypt": 0.0,
+      "egypt": 38.0,
       "ethiopia": 40.0,
       "iran": 25.0,
       "iraq": 90.0,
@@ -914,7 +884,7 @@
     "regime_stability": {
       "egypt": 49.0,
       "ethiopia": 30.0,
-      "iran": 48.0,
+      "iran": 15.0,
       "iraq": 72.0,
       "jordan": 64.0,
       "lebanon": 25.0,
@@ -1013,7 +983,7 @@
       "south_lebanon": 45.0,
       "tel_aviv": 72.0,
       "triangle": 66.0,
-      "west_bank": 58.0
+      "west_bank": 55.0
     },
     "region_security_posture": {
       "galilee": 50.0,
@@ -1080,14 +1050,14 @@
       "shalom": 50.0,
       "shamir": 50.0,
       "shapira": 50.0,
-      "sharon": 45.0,
+      "sharon": 50.0,
       "tamir": 50.0,
       "weizman": 50.0,
       "yadin": 50.0,
       "zamir": 50.0
     },
     "religious_status_quo": 10.0,
-    "rule_of_law": 65.058426,
+    "rule_of_law": 64.2292,
     "seat_expectation_bonus": {
       "agudat": 0.0,
       "arab_lists": 0.0,
@@ -1116,7 +1086,7 @@
       "triangle": 0.0,
       "west_bank": 40.0
     },
-    "settler_momentum": 56.158612,
+    "settler_momentum": 45.0,
     "settler_population": {
       "galilee": 0.0,
       "gaza": 500.0,
@@ -1128,29 +1098,29 @@
       "south_lebanon": 0.0,
       "tel_aviv": 0.0,
       "triangle": 0.0,
-      "west_bank": 6080.0
+      "west_bank": 6710.0
     },
     "social_protest_tier": 0.0,
     "stance_deviation": {
-      "economy": 2.405556,
+      "economy": 0.769778,
       "foreign": 0.0,
       "religion": 0.0,
       "security": 0.0,
-      "territory": 0.0
+      "territory": 1.598578
     },
     "state_integration": 100.0,
     "strategic_dependence": 52.0,
     "strike_risk": 24.5,
-    "trilemma": 63.2715,
-    "trilemma_democratic": 56.663,
-    "trilemma_jewish": 73.3825,
-    "trilemma_territory": 85.8,
-    "unemployment": 3.924446,
-    "union_strength": 69.993537,
-    "uprising_risk": 40.064989,
-    "us_admin_relation": 67.42662,
-    "us_congress_relation": 73.139417,
-    "vision_progress": 40.0,
+    "trilemma": 72.576809,
+    "trilemma_democratic": 62.359433,
+    "trilemma_jewish": 78.025279,
+    "trilemma_territory": 77.345714,
+    "unemployment": 3.988135,
+    "union_strength": 66.462925,
+    "uprising_risk": 42.9287,
+    "us_admin_relation": 66.277651,
+    "us_congress_relation": 69.9448,
+    "vision_progress": 15.0,
     "voter_cynicism": 20.0,
     "war_probability": {
       "egypt": 18.0,
@@ -1162,7 +1132,7 @@
       "syria": 24.0
     }
   },
-  "final_state_hash": "7ad0e24c53af3b2cf65cdc3a86bcef78b7ba7cb735edf00f9b702a10cb5ea552",
+  "final_state_hash": "2f27f20bc2a27385cd30323f3128c908b2d153602726860b02bb84b3dc16a600",
   "master_seed": 19770620,
   "scenario_id": "begin_1977",
   "schema_version": 1,
