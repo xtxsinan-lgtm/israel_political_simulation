@@ -140,6 +140,11 @@ func apply_effects(raw_effects: Array, step_ctx: Dictionary, state: SimState, de
 			custom_args["axis"] = String(eff.get("key", "territory"))
 		if eff.has("direction") and not custom_args.has("direction"):
 			custom_args["direction"] = String(eff.get("direction"))
+		var passthrough: Array[String] = ["reason", "signal", "event", "branches", "cond", "then", "else"]
+		for p_i: int in range(passthrough.size()):
+			var p_key: String = passthrough[p_i]
+			if eff.has(p_key) and not custom_args.has(p_key):
+				custom_args[p_key] = eff[p_key]
 		var owner_mod: String = GameData.current.get_custom_handler_owner(custom_name)
 		if owner_mod == "" or not modules.has(owner_mod) or not (modules[owner_mod] is SimModuleBase):
 			state.record_error("E_UNKNOWN_CUSTOM", "Unregistered custom op: " + custom_name)

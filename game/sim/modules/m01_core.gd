@@ -95,6 +95,106 @@ func _scan_alerts(state: SimState) -> void:
 	state.history["active_alerts"] = alerts
 
 
+func handle_custom_op(op_name: String, state: SimState, args: Dictionary, ctx: Dictionary) -> Array[Dictionary]:
+	match op_name:
+		"if_then":
+			var cond: Variant = args.get("cond_ast", args.get("cond", args.get("condition", "true")))
+			var take_then: bool = _expr(ctx, state).eval_bool(cond, {})
+			return _as_effect_list(args.get("then", []) if take_then else args.get("else", []))
+		"random_branch":
+			var branches: Array = _as_array(args.get("branches", []))
+			if branches.is_empty():
+				return []
+			var weights: PackedFloat64Array = PackedFloat64Array()
+			for i: int in range(branches.size()):
+				weights.append(float(_as_dict(branches[i]).get("weight", 1.0)))
+			var chosen: Variant = _stream(state, ctx).weighted_pick(branches, weights)
+			if typeof(chosen) != TYPE_DICTIONARY:
+				return []
+			return _as_effect_list((chosen as Dictionary).get("effects", []))
+		"add_all_keys":
+			var t_param: String = String(args.get("target", "bloc_support"))
+			var delta: float = float(args.get("value", 0.0))
+			var exclude: Array = _as_array(args.get("exclude", []))
+			var keys: Array[String] = []
+			var listed: Array = _as_array(args.get("keys", []))
+			if listed.size() == 1 and String(listed[0]) == "cabinet":
+				var offices: Dictionary = _as_dict(_as_dict(state.modules.get("M06", {})).get("offices", {}))
+				var office_ids: Array[String] = SimMath.sorted_keys(offices)
+				for i: int in range(office_ids.size()):
+					var holder: String = str(offices[office_ids[i]]) if offices[office_ids[i]] != null else ""
+					if holder != "" and not keys.has(holder):
+						keys.append(holder)
+			elif not listed.is_empty():
+				for i: int in range(listed.size()):
+					keys.append(String(listed[i]))
+			else:
+				keys = state.params.get_active_keys(t_param)
+			for i: int in range(keys.size()):
+				var k: String = keys[i]
+				if exclude.has(k):
+					continue
+				state.params.set_val(t_param, k, state.params.get_val(t_param, k, state) + delta, state)
+			return []
+		"schedule_event_window":
+			var ev_id: String = String(args.get("event", ""))
+			var stream: SimRNG.Stream = _stream(state, ctx)
+			if ev_id != "" and stream.chance(float(args.get("chance", 1.0))):
+				var wait_days: int = stream.range_int(int(args.get("min_days", 7)), int(args.get("max_days", 30)))
+				state.push_scheduled_event_heap({"event_id": ev_id, "due_day": state.clock.day_index + wait_days, "source": "schedule_event_window"})
+			return []
+		"end_tenure", "m01_trigger_tenure_end":
+			var reason: String = str(args.get("reason", args.get("value", "resignation")))
+			if reason == "":
+				reason = "resignation"
+			state.pending["tenure_end"] = reason
+			return []
+		"m01_raise_signal":
+			var hooks: Array = _as_array(state.pending.get("hooks", []))
+			hooks.append({"signal": String(args.get("signal", "generic")), "day": state.clock.day_index, "payload": args.get("payload", {})})
+			state.pending["hooks"] = hooks
+			return []
+		"m01_force_pause":
+			var pauses: Array = _as_array(state.pending.get("pause_signals", []))
+			pauses.append(String(args.get("reason_zh", "重大事态暂停")))
+			state.pending["pause_signals"] = pauses
+			return []
+		"m01_set_player_party":
+			state.player["party_id"] = String(args.get("party", "new_party_a"))
+			return []
+		"activate_key":
+			var p_on: String = String(args.get("param", ""))
+			var k_on: String = String(args.get("key", ""))
+			if p_on != "" and k_on != "":
+				state.params.activate_key(p_on, k_on, float(args.get("value", 35.0)))
+				state.params.set_val(p_on, k_on, float(args.get("value", 35.0)), state)
+			return []
+		"deactivate_key":
+			return []
+		_:
+			return []
+	return []
+
+
+func _stream(state: SimState, ctx: Dictionary) -> SimRNG.Stream:
+	return state.rng.get_stream(String(ctx.get("stream_name", "events")))
+
+
+func _as_effect_list(value: Variant) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	var raw: Array = _as_array(value)
+	for i: int in range(raw.size()):
+		if typeof(raw[i]) == TYPE_DICTIONARY:
+			out.append(raw[i])
+	return out
+
+
+func _as_array(value: Variant) -> Array:
+	if typeof(value) == TYPE_ARRAY:
+		return value
+	return []
+
+
 func _expr(ctx: Dictionary, state: SimState) -> ExprEngine:
 	var existing: Variant = ctx.get("expr", null)
 	if existing is ExprEngine:

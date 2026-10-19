@@ -23,20 +23,27 @@ func _run() -> int:
 	for year: int in range(30):
 		year_sums[year] = 0.0
 		year_counts[year] = 0
+	var days_run: int = 0
 	for day: int in range(10950):
 		var started: int = Time.get_ticks_usec()
 		var stepped: Dictionary = scheduler.execute_day(state)
+		var _snap: SimReadonlySnapshot = SimReadonlySnapshot.capture(state)
 		var elapsed: float = float(Time.get_ticks_usec() - started) / 1000.0
+		days_run += 1
 		var year: int = mini(SimMath.idiv_floor(day, 365), 29)
 		year_sums[year] = float(year_sums[year]) + elapsed
 		year_counts[year] = int(year_counts[year]) + 1
-		var trace: String = String(stepped.get("trace", ""))
-		if trace.contains(",9,") or trace.begins_with("9,") or trace.contains(",9"):
+		if state.clock.is_month:
 			monthly_ms.append(elapsed)
-		elif not trace.contains(",6,") and not trace.contains(",6"):
+		else:
 			daily_ms.append(elapsed)
 		if bool(stepped.get("ended", false)):
 			break
+	if days_run < 10950:
+		return _fail("run ended after %d days (phase=%s); the 30-year bench needs 10950" % [days_run, state.run.get("phase", "")])
+	for y: int in range(30):
+		if int(year_counts[y]) == 0:
+			return _fail("empty year bucket %d" % y)
 	var avg_daily: float = _avg(daily_ms)
 	var p99_monthly: float = _p99(monthly_ms)
 	var year1: float = float(year_sums[0]) / float(maxi(int(year_counts[0]), 1))

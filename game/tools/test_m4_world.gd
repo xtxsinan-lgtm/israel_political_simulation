@@ -62,7 +62,7 @@ func _run() -> void:
 		quit(1)
 		return
 	state.params.set_val("centralization", "", 90.0, state)
-	var auth: M13Authoritarian = M13Authoritarian.new()
+	var auth: M13Centralization = M13Centralization.new()
 	auth.monthly_step(14, state, {})
 	if int(state.modules["M13"]["stage"]) != 5 or not bool(state.modules["M13"]["survival_mode"]):
 		push_error("stage")

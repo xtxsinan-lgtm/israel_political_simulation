@@ -10,6 +10,8 @@ const STREAM_NAMES: Array[String] = [
 var streams: Dictionary = {}
 var cosmetic_stream: Stream = Stream.new()
 var master_seed: int = 19770620
+## True when streams use the Python-parity init/float formulas (production path).
+var python_mode: bool = false
 
 
 class Stream extends RefCounted:
@@ -156,6 +158,7 @@ class Stream extends RefCounted:
 
 
 func init_python_from_master_seed(seed: int) -> void:
+	python_mode = true
 	master_seed = seed & Stream.MASK32
 	streams = {}
 	for i: int in range(STREAM_NAMES.size()):
@@ -168,6 +171,7 @@ func init_python_from_master_seed(seed: int) -> void:
 
 
 func init_from_master_seed(seed: int) -> void:
+	python_mode = false
 	master_seed = seed & Stream.MASK32
 	streams = {}
 	for i: int in range(STREAM_NAMES.size()):
@@ -185,7 +189,10 @@ func get_stream(stream_name: String) -> Stream:
 	if streams.has(stream_name):
 		return streams[stream_name] as Stream
 	var created: Stream = Stream.new()
-	created.init_stream(master_seed, stream_name)
+	if python_mode:
+		created.init_python_stream(master_seed, stream_name)
+	else:
+		created.init_stream(master_seed, stream_name)
 	streams[stream_name] = created
 	return created
 
@@ -206,7 +213,12 @@ func from_dict(d: Dictionary, seed: int) -> void:
 	var use_seed: int = seed
 	if d.has("master_seed"):
 		use_seed = int(d["master_seed"])
-	init_from_master_seed(use_seed)
+	# Restore in the same mode the state was created with; saves made by SimState
+	# are always Python-parity mode, so that is the default.
+	if bool(d.get("python_mode", true)):
+		init_python_from_master_seed(use_seed)
+	else:
+		init_from_master_seed(use_seed)
 	var raw_streams: Variant = d.get("streams", {})
 	if typeof(raw_streams) != TYPE_DICTIONARY:
 		return

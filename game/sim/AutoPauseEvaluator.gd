@@ -15,8 +15,12 @@ static func should_auto_pause(state: SimState) -> bool:
 	if bool(m03.get("vote_modal_open", false)):
 		return true
 	var votes: Variant = state.pending.get("vote_requests", [])
-	if typeof(votes) == TYPE_ARRAY and not (votes as Array).is_empty():
-		return true
+	if typeof(votes) == TYPE_ARRAY:
+		var vote_rows: Array = votes
+		for v_i: int in range(vote_rows.size()):
+			var due_day: int = int(_dict(vote_rows[v_i]).get("due_day", state.clock.day_index))
+			if due_day <= state.clock.day_index:
+				return true
 	var alerts: Variant = state.history.get("active_alerts", [])
 	if typeof(alerts) == TYPE_ARRAY:
 		for i: int in range((alerts as Array).size()):

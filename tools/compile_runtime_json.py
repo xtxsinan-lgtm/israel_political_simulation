@@ -470,12 +470,42 @@ def verify_outputs(out_dir: Path) -> None:
         raise SystemExit(f"parameters {len(parameters['by_id'])} < 110")
 
 
+def check_up_to_date(out_dir: Path) -> None:
+    """Compile into a temp dir and compare with out_dir without modifying it."""
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_dir = Path(tmp)
+        ast_map = compile_all_yaml_to_json(ROOT, tmp_dir)
+        manifest = generate_manifest(tmp_dir, ast_map)
+        stale: List[str] = []
+        for path in sorted(tmp_dir.rglob("*.json")):
+            rel = path.relative_to(tmp_dir).as_posix()
+            committed = out_dir / rel
+            if not committed.exists() or file_sha256(committed) != file_sha256(path):
+                stale.append(rel)
+        for path in sorted(out_dir.rglob("*.json")):
+            rel = path.relative_to(out_dir).as_posix()
+            if not (tmp_dir / rel).exists():
+                stale.append(f"{rel} (orphan)")
+    if stale:
+        raise SystemExit(
+            "STALE runtime JSON (run tools/compile_runtime_json.py and commit): " + ", ".join(stale)
+        )
+    verify_outputs(out_dir)
+    print(f"CHECK_OK {manifest['ruleset_hash']} files={len(manifest['files'])} asts={len(ast_map)}")
+
+
 def main(argv: Optional[List[str]] = None) -> None:
     parser = argparse.ArgumentParser(description="Compile runtime YAML into Godot JSON")
     parser.add_argument("--verify", action="store_true", help="Compile, check outputs, and confirm a stable ruleset hash")
+    parser.add_argument("--check", action="store_true", help="Fail if committed JSON differs from a fresh compile (does not write)")
     parser.add_argument("--out", default=str(OUT_DIR))
     args = parser.parse_args(argv)
     out_dir = Path(args.out)
+    if args.check:
+        check_up_to_date(out_dir)
+        return
     ast_map = compile_all_yaml_to_json(ROOT, out_dir)
     manifest = generate_manifest(out_dir, ast_map)
     if args.verify:

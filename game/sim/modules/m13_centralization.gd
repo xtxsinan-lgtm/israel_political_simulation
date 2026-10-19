@@ -25,7 +25,7 @@ func stage_label(value: float) -> String:
 
 
 func monthly_step(step_no: int, state: SimState, _ctx: Dictionary) -> Array[Dictionary]:
-	if step_no != 15 and step_no != 14:
+	if step_no != 14:
 		return []
 	var central: float = state.params.get_val("centralization", "", state)
 	var label: String = stage_label(central)

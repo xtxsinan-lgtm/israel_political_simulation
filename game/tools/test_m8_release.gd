@@ -56,6 +56,33 @@ func _run() -> int:
 	})
 	if String(replay.get("state_sha256", "")) != expected:
 		return _fail("replay hash")
+	var reloaded: SimDirector = SimDirector.new()
+	if saver.load_into(reloaded, restored) != OK:
+		return _fail("load_into")
+	if reloaded.get_state_hash_sha256() != expected:
+		return _fail("reloaded hash")
+	if reloaded.command_log.size() != live.command_log.size():
+		return _fail("reloaded command log")
+	reloaded.state.run["headless"] = true
+	for _j: int in range(3):
+		live.step_one_day()
+		reloaded.step_one_day()
+	if reloaded.get_state_hash_sha256() != live.get_state_hash_sha256():
+		return _fail("post-load divergence")
+	var seeded: SimDirector = SimDirector.new()
+	seeded.start_new_game("begin_1977", 4242, false)
+	seeded.state.run["headless"] = true
+	for _k: int in range(2):
+		seeded.step_one_day()
+	var seeded_env: Dictionary = saver.from_ipsave_json(saver.to_ipsave_json(saver.build_envelope(seeded.state, seeded.command_log)))
+	if int(seeded_env.get("master_seed", 0)) != 4242:
+		return _fail("seed not saved")
+	var seeded_back: SimDirector = SimDirector.new()
+	if saver.load_into(seeded_back, seeded_env) != OK or seeded_back.get_state_hash_sha256() != seeded.get_state_hash_sha256():
+		return _fail("custom seed reload")
+	var bogus: Error = live.submit_command({"op": "no_such_op"})
+	if bogus == OK or String(live.command_log[live.command_log.size() - 1].get("cmd_type", "")) == "no_such_op":
+		return _fail("invalid command logged")
 	print("M8_RELEASE_OK")
 	return 0
 

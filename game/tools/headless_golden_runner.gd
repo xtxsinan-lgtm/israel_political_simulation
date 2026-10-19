@@ -1,6 +1,13 @@
 extends SceneTree
 
-const GOLDEN_PATH: String = "/Users/xutongxin/Developer/israel_political_simulation/data/golden/begin_1977_365d.json"
+const GOLDEN_REL_PATH: String = "../data/golden/begin_1977_365d.json"
+
+
+func _golden_path() -> String:
+	var override: String = OS.get_environment("GOLDEN_PATH")
+	if override != "":
+		return override
+	return ProjectSettings.globalize_path("res://").path_join(GOLDEN_REL_PATH).simplify_path()
 
 
 func _initialize() -> void:
@@ -11,7 +18,7 @@ func _run() -> int:
 	var registry: GameData = GameData.new()
 	if registry.load_all_runtime_data() != OK:
 		return _fail("load")
-	var file: FileAccess = FileAccess.open(GOLDEN_PATH, FileAccess.READ)
+	var file: FileAccess = FileAccess.open(_golden_path(), FileAccess.READ)
 	if file == null:
 		file = FileAccess.open("res://data/golden/begin_1977_365d.json", FileAccess.READ)
 	if file == null:

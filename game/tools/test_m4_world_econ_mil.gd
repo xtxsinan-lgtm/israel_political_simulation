@@ -62,7 +62,7 @@ func _run() -> void:
 		quit(1)
 		return
 	state.params.set_val("centralization", "", 90.0, state)
-	central.monthly_step(15, state, {})
+	central.monthly_step(14, state, {})
 	if not bool(state.modules["M13"]["survival_mode"]):
 		push_error("survival")
 		quit(1)
