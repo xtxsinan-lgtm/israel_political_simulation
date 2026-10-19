@@ -39,15 +39,19 @@ func refresh(state: SimState) -> void:
 			var scaled: float = float(pal_legitimacy[factions[i]]) * scale
 			pal_legitimacy[factions[i]] = scaled
 			total += scaled
-	var uprising: float = state.params.get_val("uprising_risk", "", state)
-	if uprising >= 60.0:
+	# uprising_risk and faction_legitimacy are `visible: fuzzy` (D-088): only bands reach the UI.
+	var uprising_band: int = FuzzyBand.band_index(state.params.get_val("uprising_risk", "", state))
+	if uprising_band >= 3:
 		intifada_phase = "intifada"
-	elif uprising >= 30.0:
+	elif uprising_band >= 2:
 		intifada_phase = "unrest"
 	else:
 		intifada_phase = "calm"
-	summary.text = "合法性合计 %.1f  阶段 %s  mujama %.1f  hamas %.1f" % [
-		total, intifada_phase, float(pal_legitimacy["mujama"]), float(pal_legitimacy["hamas"]),
+	summary.text = "阶段 %s  起义风险 %s\nmujama %s  hamas %s" % [
+		intifada_phase,
+		FuzzyBand.describe_band(uprising_band, "uprising_risk"),
+		FuzzyBand.describe(float(pal_legitimacy["mujama"]), "faction_legitimacy"),
+		FuzzyBand.describe(float(pal_legitimacy["hamas"]), "faction_legitimacy"),
 	]
 
 

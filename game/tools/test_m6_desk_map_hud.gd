@@ -69,6 +69,10 @@ func _run() -> int:
 	var explained: Dictionary = controller.tooltips.explain_node(state, "inflation")
 	if not explained.has("top_contributions"):
 		return _fail("explain")
+	var coup_raw: float = state.params.get_val("coup_risk", "", state)
+	controller.tooltips.explain_node(state, "coup_risk")
+	if controller.tooltips.body.text.contains("%.2f" % coup_raw) or not controller.tooltips.body.text.contains("%)"):
+		return _fail("fuzzy tooltip leak %s" % controller.tooltips.body.text)
 	var card: RegionInspectorCard = controller.inspector
 	card.present("galilee", state)
 	card._submit("region_investment_priority", 40.0)

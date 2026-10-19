@@ -42,16 +42,33 @@ func _run() -> int:
 		return _fail("legitimacy %s" % pal.legitimacy_sum())
 	if not pal.summary.text.contains("mujama"):
 		return _fail("factions")
+	if pal.summary.text.contains("%.1f" % float(pal.pal_legitimacy["mujama"])):
+		return _fail("d6 leaks raw legitimacy")
 	var ledger: LedgerController = LedgerController.new()
 	ledger.set_hidden_rows([
-		{"id": "b", "hidden": 12.0},
-		{"id": "a", "hidden": 10.0},
-		{"id": "c", "hidden": 90.0},
+		{"id": "b", "param_id": "coup_risk", "hidden": 12.5},
+		{"id": "a", "param_id": "coup_risk", "hidden": 11.25},
+		{"id": "c", "param_id": "coup_risk", "hidden": 91.75},
 	])
 	if String(ledger.rows[0].get("id", "")) != "a" or String(ledger.rows[2].get("id", "")) != "c":
 		return _fail("fuzzy order")
-	if ledger.display_hidden(ledger.rows[0]) != "低":
-		return _fail("fuzzy badge")
+	if ledger.display_hidden(ledger.rows[0]) != "轻微 (0%–20%)":
+		return _fail("fuzzy badge %s" % ledger.display_hidden(ledger.rows[0]))
+	if ledger.display_hidden(ledger.rows[2]) != "严峻 (80%–100%)":
+		return _fail("fuzzy badge high %s" % ledger.display_hidden(ledger.rows[2]))
+	for row: Dictionary in ledger.rows:
+		if row.has("hidden"):
+			return _fail("ledger keeps raw hidden")
+		for key: Variant in row.keys():
+			if typeof(row[key]) == TYPE_FLOAT:
+				return _fail("ledger row has raw float %s" % String(key))
+			var cell_text: String = str(row[key])
+			if cell_text.contains("12.5") or cell_text.contains("11.25") or cell_text.contains("91.75"):
+				return _fail("ledger leaks raw value in %s" % String(key))
+	if FuzzyBand.band_index(19.99) != 0 or FuzzyBand.band_index(20.0) != 1 or FuzzyBand.band_index(100.0) != 4:
+		return _fail("band edges")
+	if not FuzzyBand.is_fuzzy("uprising_risk") or FuzzyBand.is_fuzzy("inflation"):
+		return _fail("is_fuzzy")
 	var linked: String = CodexAutoLinker.new().inject_codex_links("大转折改写了议会。")
 	if not linked.contains("codex://mahapach"):
 		return _fail("codex")

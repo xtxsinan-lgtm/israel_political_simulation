@@ -22,11 +22,18 @@ static func should_auto_pause(state: SimState) -> bool:
 			if due_day <= state.clock.day_index:
 				return true
 	var alerts: Variant = state.history.get("active_alerts", [])
+	var red_now: Array[String] = []
 	if typeof(alerts) == TYPE_ARRAY:
 		for i: int in range((alerts as Array).size()):
-			var code: String = String((alerts as Array)[i])
+			var code: String = str((alerts as Array)[i])
 			if code.ends_with("_red") or code == "coalition_minority":
-				return true
+				red_now.append(code)
+	var seen_v: Variant = state.run.get("auto_pause_seen_alerts", [])
+	var seen: Array = seen_v if typeof(seen_v) == TYPE_ARRAY else []
+	state.run["auto_pause_seen_alerts"] = red_now
+	for i: int in range(red_now.size()):
+		if not seen.has(red_now[i]):
+			return true
 	return false
 
 

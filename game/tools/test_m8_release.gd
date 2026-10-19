@@ -83,6 +83,33 @@ func _run() -> int:
 	var bogus: Error = live.submit_command({"op": "no_such_op"})
 	if bogus == OK or String(live.command_log[live.command_log.size() - 1].get("cmd_type", "")) == "no_such_op":
 		return _fail("invalid command logged")
+	var engine: Node = root.get_node("SimEngine")
+	if int(engine.call("start_new_game", "begin_1977", 19770620, false)) != OK:
+		return _fail("engine start")
+	if not bool(engine.get("paused")):
+		return _fail("engine not paused at start")
+	engine.call("set_speed", 4)
+	if int(engine.get("speed_level")) != 4:
+		return _fail("engine speed")
+	for _d: int in range(3):
+		engine.call("_advance_one_day")
+	var snap: Variant = engine.call("get_snapshot")
+	if not (snap is SimReadonlySnapshot) or (snap as SimReadonlySnapshot).day_index != 3:
+		return _fail("engine snapshot")
+	var bands: Dictionary = (snap as SimReadonlySnapshot).fuzzy_bands
+	if bands.is_empty():
+		return _fail("snapshot fuzzy bands")
+	for band_key: Variant in bands.keys():
+		if typeof(bands[band_key]) != TYPE_INT:
+			return _fail("snapshot band not int %s" % String(band_key))
+	var engine_hash: String = String(engine.call("get_state_hash_sha256"))
+	if int(engine.call("quick_save")) != OK:
+		return _fail("quick_save")
+	engine.call("_advance_one_day")
+	if int(engine.call("quick_load")) != OK:
+		return _fail("quick_load")
+	if String(engine.call("get_state_hash_sha256")) != engine_hash:
+		return _fail("quick_load hash")
 	print("M8_RELEASE_OK")
 	return 0
 

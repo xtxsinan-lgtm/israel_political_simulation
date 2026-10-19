@@ -15,6 +15,7 @@ signal region_selected(region_id: String)
 signal tooltip_lock_toggled(tooltip_id: String, locked: bool)
 signal codex_entry_requested(entry_id: String)
 signal era_skin_changed(era_id: String)
+signal overlay_toggled(overlay_id: String, is_open: bool)
 
 signal snapshot_updated(snapshot: Variant)
 signal day_advanced(day_index: int, date_str: String, is_week: bool, is_month: bool, is_quarter: bool, is_year: bool)

@@ -57,24 +57,52 @@ func explain_node(state: SimState, node_id: String) -> Dictionary:
 	expr.bind(state)
 	var net: CausalNet = CausalNet.new()
 	var explained: Dictionary = net.explain(state, node_id, "", expr, {}, 5)
-	var history: PackedFloat64Array = PackedFloat64Array()
-	var ring: Variant = state.history.get("daily_ring", [])
-	if typeof(ring) == TYPE_ARRAY:
-		var rows: Array = ring
-		var start: int = maxi(0, rows.size() - 30)
-		for i: int in range(start, rows.size()):
-			if typeof(rows[i]) == TYPE_DICTIONARY:
-				history.append(float((rows[i] as Dictionary).get("public_security", 0.0)))
-	sparkline.set_series(history, 35.0)
+	var fuzzy: bool = FuzzyBand.is_fuzzy(node_id)
+	sparkline.set_series(_node_history(state, node_id, fuzzy), 35.0 if node_id == "public_security" else -1.0)
+	var current: float = state.params.get_val(node_id, "", state)
 	var lines: PackedStringArray = PackedStringArray()
-	lines.append("%s = %.2f" % [node_id, state.params.get_val(node_id, "", state)])
+	if fuzzy:
+		lines.append("%s  %s" % [node_id, FuzzyBand.describe(current, node_id)])
+	else:
+		lines.append("%s = %.2f" % [node_id, current])
 	var top: Array = _array(explained.get("top_contributions", []))
 	for i: int in range(mini(5, top.size())):
 		var row: Dictionary = top[i] if typeof(top[i]) == TYPE_DICTIONARY else {}
-		lines.append("%s %+0.2f" % [String(row.get("source_label_zh", row.get("source_id", ""))), float(row.get("delta_per_tick", 0.0))])
+		var source_label: String = String(row.get("source_label_zh", row.get("source_id", "")))
+		var delta: float = float(row.get("delta_per_tick", 0.0))
+		if fuzzy:
+			var arrow: String = "—"
+			if delta > 0.0:
+				arrow = "↑"
+			elif delta < 0.0:
+				arrow = "↓"
+			lines.append("%s %s" % [source_label, arrow])
+		else:
+			lines.append("%s %+0.2f" % [source_label, delta])
 	body.text = "\n".join(lines)
 	visible = true
 	return explained
+
+
+## Last 30 daily values of the selected node (falls back to monthly snapshots).
+## Fuzzy nodes are plotted as band centres so the curve cannot reveal exact values.
+func _node_history(state: SimState, node_id: String, fuzzy: bool) -> PackedFloat64Array:
+	var history: PackedFloat64Array = PackedFloat64Array()
+	var rows: Array = _array(state.history.get("daily_ring", []))
+	if rows.is_empty() or typeof(rows[rows.size() - 1]) != TYPE_DICTIONARY or not (rows[rows.size() - 1] as Dictionary).has(node_id):
+		rows = state.monthly_snapshots
+	var start: int = maxi(0, rows.size() - 30)
+	for i: int in range(start, rows.size()):
+		if typeof(rows[i]) != TYPE_DICTIONARY:
+			continue
+		var row: Dictionary = rows[i]
+		if not row.has(node_id):
+			continue
+		var value: float = float(row[node_id])
+		if fuzzy:
+			value = float(FuzzyBand.band_centre(FuzzyBand.band_index(value)))
+		history.append(value)
+	return history
 
 
 func preview_action(state: SimState, effects: Array) -> Dictionary:

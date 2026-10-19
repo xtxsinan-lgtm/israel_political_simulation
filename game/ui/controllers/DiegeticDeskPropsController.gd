@@ -32,10 +32,21 @@ func _director_state() -> SimState:
 
 func _toggle(drawer_index: int) -> void:
 	var bus: DeskEventBus = DeskEventBus.hub()
-	if bus != null:
-		bus.drawer_toggled.emit(drawer_index)
+	if drawer_index != 0:
+		var router: DeskUiRouter = DeskUiRouter.current()
+		if router != null:
+			router.open_drawer(drawer_index)
+		elif bus != null:
+			bus.drawer_toggled.emit(drawer_index)
+		return
 	var state: SimState = _director_state()
-	if drawer_index == 0 and state != null and bus != null:
-		var speed: int = int(state.run.get("speed", 1))
-		state.run["speed"] = 1 if speed >= 3 else speed + 1
-		bus.sim_speed_changed.emit(int(state.run["speed"]))
+	if state == null:
+		return
+	var speed: int = int(state.run.get("speed", 1))
+	var next_speed: int = 1 if speed >= 5 else speed + 1
+	var loop: MainLoop = Engine.get_main_loop()
+	if loop is SceneTree and (loop as SceneTree).root.has_node("SimEngine"):
+		(loop as SceneTree).root.get_node("SimEngine").call("set_speed", next_speed)
+	elif bus != null:
+		state.run["speed"] = next_speed
+		bus.sim_speed_changed.emit(next_speed)

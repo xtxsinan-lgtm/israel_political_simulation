@@ -115,6 +115,11 @@ def main() -> int:
             return 0
         failures.append("godot missing")
     else:
+        print("+", godot, "--headless --path game --import", flush=True)
+        try:
+            subprocess.run([godot, "--headless", "--path", "game", "--import"], cwd=ROOT, timeout=args.timeout)
+        except subprocess.TimeoutExpired:
+            failures.append("godot --import timeout")
         scripts = list(TESTS) + [GOLDEN] + ([PERF] if args.perf else [])
         for script, sentinel in scripts:
             if not run_godot(godot, script, sentinel, args.timeout):

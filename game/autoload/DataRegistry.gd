@@ -1,12 +1,20 @@
 extends Node
 
 
-func _init() -> void:
-	if GameData.current == null:
-		GameData.current = GameData.new()
+func _ready() -> void:
+	var err: Error = ensure_loaded()
+	if err != OK:
+		push_error("DataRegistry: runtime data failed to load (%s)" % error_string(err))
+
+
+## Loads res://res/data/*.json once into GameData.current (no-op when already loaded).
+func ensure_loaded() -> Error:
+	return SimDirector.ensure_runtime_data()
 
 
 func load_all_runtime_data() -> Error:
+	if GameData.current == null:
+		GameData.current = GameData.new()
 	return GameData.current.load_all_runtime_data()
 
 

@@ -50,6 +50,16 @@ func _run() -> int:
 	paused.run["headless"] = true
 	if AutoPauseEvaluator.should_auto_pause(paused):
 		return _fail("headless must not pause")
+	var alerting: SimState = SimState.new()
+	alerting.init_from_scenario_bundle("begin_1977", 19770620, false)
+	alerting.history["active_alerts"] = ["coalition_minority"]
+	if not AutoPauseEvaluator.should_auto_pause(alerting):
+		return _fail("new red alert must pause")
+	if AutoPauseEvaluator.should_auto_pause(alerting):
+		return _fail("persisting alert re-paused")
+	alerting.pending["vote_requests"] = [{"kind": "election", "due_day": alerting.clock.day_index + 90}]
+	if AutoPauseEvaluator.should_auto_pause(alerting):
+		return _fail("future vote paused")
 	var events: M12Events = M12Events.new()
 	var m12: Dictionary = {"major_events_this_month": 3}
 	var today: Array[Dictionary] = [{"id": "E-CAP", "modal_class": "major", "major": true, "bypass_cap": false}]
@@ -104,9 +114,9 @@ func _run() -> int:
 		return _fail("M01 end_tenure dropped: %s" % str(op_state.pending.get("tenure_end", "")))
 	var bloc_keys: Array[String] = op_state.params.get_active_keys("bloc_support")
 	if not bloc_keys.is_empty():
-		var before: float = op_state.params.get_val("bloc_support", bloc_keys[0], op_state)
+		var bloc_before: float = op_state.params.get_val("bloc_support", bloc_keys[0], op_state)
 		op_sched.processor.apply_effects([{"key": "add_all_keys", "op": "custom", "target": "custom", "value": {"target": "bloc_support", "value": 1.5}}], op_sched._ctx(op_state), op_state, 0)
-		if before < 98.0 and op_state.params.get_val("bloc_support", bloc_keys[0], op_state) <= before:
+		if bloc_before < 98.0 and op_state.params.get_val("bloc_support", bloc_keys[0], op_state) <= bloc_before:
 			return _fail("M01 add_all_keys dropped")
 	director.state.run["headless"] = true
 	director.step_one_day()

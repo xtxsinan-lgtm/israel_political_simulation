@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://deskmain1977"]
+[gd_scene load_steps=15 format=3 uid="uid://deskmain1977"]
 
 [ext_resource type="Script" path="res://ui/controllers/DeskMainController.gd" id="1_desk"]
 [ext_resource type="PackedScene" path="res://ui/scenes/map/IsraelMapCanvas.tscn" id="2_map"]
@@ -8,6 +8,12 @@
 [ext_resource type="PackedScene" path="res://ui/scenes/components/AlertOutliner.tscn" id="6_alert"]
 [ext_resource type="PackedScene" path="res://ui/scenes/components/LockableTooltipPanel.tscn" id="7_tip"]
 [ext_resource type="Theme" path="res://ui/theme/mahapach_1977_theme.tres" id="8_theme"]
+[ext_resource type="PackedScene" path="res://ui/scenes/drawers/DrawerContainer.tscn" id="9_drawers"]
+[ext_resource type="PackedScene" path="res://ui/scenes/modals/LedgerOverlay.tscn" id="10_ledger"]
+[ext_resource type="PackedScene" path="res://ui/scenes/modals/CodexOverlay.tscn" id="11_codex"]
+[ext_resource type="PackedScene" path="res://ui/scenes/modals/EventModal.tscn" id="12_event"]
+[ext_resource type="PackedScene" path="res://ui/scenes/modals/EndTenureBookModal.tscn" id="13_book"]
+[ext_resource type="PackedScene" path="res://ui/scenes/components/SpotlightTutorialOverlay.tscn" id="14_spotlight"]
 
 [node name="DeskMain" type="Control"]
 layout_mode = 3
@@ -40,13 +46,54 @@ layer = 10
 [node name="DrawerLayer" type="CanvasLayer" parent="."]
 layer = 20
 
+[node name="DrawerContainer" parent="DrawerLayer" instance=ExtResource("9_drawers")]
+offset_left = 240.0
+offset_top = 52.0
+offset_right = 1160.0
+offset_bottom = 452.0
+
 [node name="LedgerCodexLayer" type="CanvasLayer" parent="."]
 layer = 30
 
+[node name="LedgerOverlay" parent="LedgerCodexLayer" instance=ExtResource("10_ledger")]
+visible = false
+offset_left = 500.0
+offset_top = 120.0
+offset_right = 1420.0
+offset_bottom = 520.0
+
+[node name="CodexOverlay" parent="LedgerCodexLayer" instance=ExtResource("11_codex")]
+visible = false
+offset_left = 500.0
+offset_top = 120.0
+offset_right = 1420.0
+offset_bottom = 520.0
+
 [node name="ModalLayer" type="CanvasLayer" parent="."]
 layer = 40
+
+[node name="EventModal" parent="ModalLayer" instance=ExtResource("12_event")]
+visible = false
+offset_left = 500.0
+offset_top = 200.0
+offset_right = 1420.0
+offset_bottom = 600.0
+
+[node name="EndTenureBookModal" parent="ModalLayer" instance=ExtResource("13_book")]
+visible = false
+offset_left = 500.0
+offset_top = 200.0
+offset_right = 1420.0
+offset_bottom = 600.0
 
 [node name="TooltipTutorialLayer" type="CanvasLayer" parent="."]
 layer = 50
 
 [node name="CausalTooltipManager" parent="TooltipTutorialLayer" instance=ExtResource("7_tip")]
+
+[node name="SpotlightTutorialOverlay" parent="TooltipTutorialLayer" instance=ExtResource("14_spotlight")]
+visible = false
+offset_left = 1300.0
+offset_top = 900.0
+offset_right = 1660.0
+offset_bottom = 980.0
