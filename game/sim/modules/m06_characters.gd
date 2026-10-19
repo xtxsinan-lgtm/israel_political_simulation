@@ -133,7 +133,7 @@ func _kill(state: SimState, char_id: String) -> Array[Dictionary]:
 	m06["archived_characters"] = archived
 	m06["characters"] = characters
 	if char_id == String(state.player.get("leader_id", "")):
-		state.pending["tenure_end"] = {"reason": "death"}
+		state.pending["tenure_end"] = "death"
 	var offices: Dictionary = _as_dict(m06.get("offices", {}))
 	var keys: Array[String] = SimMath.sorted_keys(offices)
 	for i: int in range(keys.size()):

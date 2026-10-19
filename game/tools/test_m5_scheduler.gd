@@ -78,11 +78,36 @@ func _run() -> int:
 	state.pending["tenure_end"] = {"reason": "election_defeat", "also": ["military_coup"]}
 	M14Endings.new().step_20(state, {})
 	var ended: Dictionary = state.modules["M14"]
-	if String(ended.get("end_reason", "")) != "military_coup":
+	if String(ended.get("end_reason", "")) != "coup":
 		return _fail("arbitration %s" % ended.get("end_reason", ""))
+	if String(state.run.get("phase", "")) != "ENDED":
+		return _fail("phase not ended")
+	var resign_state: SimState = SimState.new()
+	resign_state.init_from_scenario_bundle("begin_1977", 19770620, false)
+	resign_state.pending["tenure_end"] = "resignation"
+	M14Endings.new().step_20(resign_state, {})
+	if String((resign_state.modules["M14"] as Dictionary).get("end_reason", "")) != "resignation":
+		return _fail("string tenure_end")
+	var quiet_state: SimState = SimState.new()
+	quiet_state.init_from_scenario_bundle("begin_1977", 19770620, false)
+	M14Endings.new().step_20(quiet_state, {})
+	if String(quiet_state.run.get("phase", "")) == "ENDED":
+		return _fail("day-0 state ended without a reason")
 	var director: SimDirector = SimDirector.new()
 	if director.start_new_game("begin_1977", 19770620, false) != OK:
 		return _fail("start")
+	var op_sched: DailyScheduler = DailyScheduler.new()
+	var op_state: SimState = SimState.new()
+	op_state.init_from_scenario_bundle("begin_1977", 19770620, false)
+	op_sched.processor.apply_effects([{"op": "custom", "handler": "end_tenure", "reason": "resignation"}], op_sched._ctx(op_state), op_state, 0)
+	if str(op_state.pending.get("tenure_end", "")) != "resignation":
+		return _fail("M01 end_tenure dropped: %s" % str(op_state.pending.get("tenure_end", "")))
+	var bloc_keys: Array[String] = op_state.params.get_active_keys("bloc_support")
+	if not bloc_keys.is_empty():
+		var before: float = op_state.params.get_val("bloc_support", bloc_keys[0], op_state)
+		op_sched.processor.apply_effects([{"key": "add_all_keys", "op": "custom", "target": "custom", "value": {"target": "bloc_support", "value": 1.5}}], op_sched._ctx(op_state), op_state, 0)
+		if before < 98.0 and op_state.params.get_val("bloc_support", bloc_keys[0], op_state) <= before:
+			return _fail("M01 add_all_keys dropped")
 	director.state.run["headless"] = true
 	director.step_one_day()
 	if director.get_state_hash_sha256().length() != 64:

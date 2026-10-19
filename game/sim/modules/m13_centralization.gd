@@ -51,7 +51,7 @@ func monthly_step(step_no: int, state: SimState, _ctx: Dictionary) -> Array[Dict
 	state.modules["M13"] = m13
 	var effects: Array[Dictionary] = []
 	if state.params.get_val("coup_risk", "", state) >= 90.0:
-		effects.append({"op": "custom", "key": "end_tenure", "value": {"reason": "military_coup"}})
+		effects.append({"op": "custom", "key": "end_tenure", "value": {"reason": "coup"}})
 	if state.params.get_val("assassination_risk", "", state) >= 95.0:
 		effects.append({"op": "custom", "key": "end_tenure", "value": {"reason": "assassination"}})
 	return effects
