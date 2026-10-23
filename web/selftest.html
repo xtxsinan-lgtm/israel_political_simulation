@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<title>Self-test · 1977 Mahapach web prototype</title>
+<style>body{font:14px/1.5 ui-monospace,Menlo,monospace;background:#1d1a16;color:#e8dcc4;padding:24px}b.ok{color:#7fbf6a}b.bad{color:#e06050}</style>
+</head>
+<body>
+<h1>Web prototype self-test</h1>
+<p>Runs the reference Python simulation in Pyodide and compares the 365-day trajectory with <code>data/golden/begin_1977_365d.json</code>.</p>
+<pre id="log"></pre>
+<script type="module">
+import { SimClient } from "./js/sim/simClient.js";
+const log = (t) => { document.getElementById("log").textContent += t + "\n"; };
+const sim = new SimClient();
+sim.onProgress = log;
+const t0 = performance.now();
+try {
+  await sim.init("build/sim_bundle.json");
+  log(`boot ${(performance.now() - t0).toFixed(0)} ms`);
+  const golden = await (await fetch("build/golden_begin_1977_365d.json")).text();
+  const t1 = performance.now();
+  const g = await sim.goldenCheck(golden);
+  log(`golden ${g.matches}/${g.total} in ${(performance.now() - t1).toFixed(0)} ms`);
+  const snap = await sim.newGame();
+  log(`new game ${snap.date}, snapshot keys ${Object.keys(snap).length}`);
+  const r = await sim.step(30);
+  log(`step -> ${r.snapshot.date} reason=${r.reason} events=${r.snapshot.pending_events.map(e => e.id).join(",")}`);
+  document.title = g.matches === g.total ? "SELFTEST_PASS" : "SELFTEST_FAIL";
+  log(document.title);
+} catch (e) {
+  log("ERROR " + e.message);
+  document.title = "SELFTEST_ERROR";
+}
+</script>
+</body>
+</html>

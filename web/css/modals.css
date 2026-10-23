@@ -1,0 +1,39 @@
+/* modals components: EventModal (+OptionPreviewCard), EndTenureBook, Ledger, Codex.
+ * Authored paper theme (theme.css): panel #F4EFE6 / 1px ink border, ink text, blue links. */
+
+/* RichTextLabel stand-in: wrapped rich text with codex links. */
+.rtl { color: var(--ink); font-size: 14px; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+
+/* EventModal (500,200) min 920x400, PanelContainer grows to its content. */
+.event-modal { width: 920px; }
+.event-modal-panel { min-height: 400px; width: 920px; padding: 14px 16px; box-shadow: 0 6px 22px rgba(30, 28, 26, 0.35); }
+.event-modal-column { gap: 8px; }
+.event-modal-title { font-family: var(--font-title); font-weight: 700; white-space: pre-wrap; line-height: 1.5; }
+.event-stamp { font-family: var(--font-ui); font-size: 14px; font-weight: 700; letter-spacing: 1px; margin-right: 4px; vertical-align: 2px; }
+.event-modal-body { font-size: 15px; padding: 6px 0 4px; border-top: 1px solid rgba(30, 28, 26, 0.25); }
+.event-modal-cards { gap: 6px; }
+button.btn.event-option { width: 100%; text-align: left; padding: 7px 10px; white-space: pre-wrap; }
+button.btn.event-option:hover:not(:disabled) { background: var(--paper-2); }
+
+/* OptionPreviewCard: compact 3-layer preview under the options. */
+.option-preview-card { border: 1px dashed var(--ink); background: rgba(232, 223, 209, 0.6); padding: 6px 10px; font-size: 13px; }
+.option-preview-card .preview-line { display: flex; gap: 10px; line-height: 1.55; }
+.option-preview-card .preview-key { flex: 0 0 auto; font-weight: 700; color: var(--ink); }
+.option-preview-card .preview-val { flex: 1 1 auto; color: #524B44; }
+
+/* Ledger / Codex overlays (500,120)-(1420,520), paper panel (intent). */
+.ledger-overlay, .codex-overlay { padding: 14px 18px; box-shadow: 0 4px 16px rgba(30, 28, 26, 0.3); overflow: hidden; }
+.ledger-body { font-size: 14px; line-height: 1.8; }
+.codex-body { width: 640px; font-size: 14px; }
+.codex-entry { margin-top: 14px; padding-top: 10px; border-top: 1px solid rgba(30, 28, 26, 0.3); width: 640px; }
+.codex-entry-title { font-family: var(--font-title); font-weight: 700; margin-bottom: 6px; }
+.codex-entry-def { line-height: 1.6; }
+
+/* EndTenureBook (500,200)-(1420,760): page text left, 8-dimension radar right. */
+.end-book { padding: 18px 22px; cursor: pointer; box-shadow: 0 8px 26px rgba(30, 28, 26, 0.4); user-select: none; }
+.end-book-left { position: absolute; left: 22px; top: 18px; width: 520px; bottom: 44px; }
+.end-book-ending { color: var(--muted); margin-bottom: 10px; white-space: pre-wrap; }
+.end-book-page { font-family: var(--font-title); font-size: 18px; line-height: 1.8; }
+.end-book-right { position: absolute; right: 22px; top: 14px; width: 300px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.end-book-dims { font-size: 13px; line-height: 1.45; align-self: stretch; padding-left: 40px; }
+.end-book-footer { position: absolute; left: 22px; bottom: 14px; color: var(--muted); font-size: 13px; }

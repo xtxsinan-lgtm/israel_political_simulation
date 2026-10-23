@@ -1,0 +1,51 @@
+/* hud components (owned by one implementer; see js/ui).
+ * TopBar / AlertOutliner / DiegeticDeskPropsBar / DrawerContainer + D1–D7 drawers. */
+
+/* TopBar (0,0)-(1920,52): HBox of 9 EXPAND_FILL slots, text top-left. */
+.topbar { overflow: hidden; }
+.topbar-row { width: 100%; height: 100%; padding: 6px 8px 0; }
+.topbar-slot { overflow: hidden; text-overflow: ellipsis; height: 100%; }
+.topbar-slot.clickable { cursor: pointer; }
+.topbar-slot.clickable:hover { color: var(--blue); text-decoration: underline dotted; }
+
+/* AlertOutliner (1680,52)-(1920,1080). */
+.alert-outliner { overflow-y: auto; overflow-x: hidden; border-top: none; }
+.alert-outliner-box { padding: 6px 8px; }
+.alert-btn { width: 100%; text-align: center; }
+
+/* DiegeticDeskPropsBar (240,994)-(1680,1080): 7 buttons ≈202px × 86px. */
+.desk-props { border-bottom: none; }
+.desk-props-row { width: 100%; height: 100%; padding: 4px; }
+.desk-prop { height: 100%; }
+
+/* DrawerContainer at (240,52): the 920x900 container is transparent to the mouse; only the
+ * tab row and the open panel take input. */
+#DrawerLayer > .drawer-container { pointer-events: none; }
+.drawer-container > * { pointer-events: auto; }
+.drawer-tabs { position: absolute; left: 0; top: 0; align-items: flex-start; }
+.drawer-tab { padding: 4px 6px; }
+.drawer-tab.active { background: var(--paper-2); color: var(--blue); }
+.drawer-panel { display: flex; flex-direction: column; overflow: hidden; }
+.drawer-title { padding: 8px 12px 4px; font-family: var(--font-title); font-weight: 700; flex: 0 0 auto; }
+.drawer-content { flex: 1 1 auto; min-height: 0; overflow-y: auto; overflow-x: hidden; }
+.drawer-body { display: flex; flex-direction: column; gap: 6px; }
+.drawer-summary { padding: 4px 12px; line-height: 1.5; }
+
+/* D2 seat chart 920x420 + legend. */
+.d2-knesset canvas { display: block; flex: 0 0 auto; }
+.d2-legend { padding: 0 12px 8px; display: flex; flex-direction: column; gap: 4px; margin-top: -90px; }
+.d2-legend-row { display: flex; align-items: baseline; gap: 6px; }
+.d2-swatch { display: inline-block; width: 10px; height: 10px; border-radius: 50%; flex: 0 0 auto; }
+.d2-legend-title { flex: 0 0 auto; font-weight: 700; }
+
+/* D3 actions. */
+.d3-status { padding: 0 12px; color: var(--muted); min-height: 16px; }
+.d3-action-list { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 0 12px 12px; }
+.d3-action { text-align: left; overflow: hidden; text-overflow: ellipsis; }
+
+/* D4 causal graph 640x340. */
+.d4-graph { padding: 0 12px 12px; }
+.d4-graph canvas { display: block; border: 1px solid var(--ink); background: var(--paper); }
+
+/* D7 crt label: give the scanlines a visible block. */
+.d7-military .crt-scanline { margin: 8px 12px; padding: 8px 12px; }

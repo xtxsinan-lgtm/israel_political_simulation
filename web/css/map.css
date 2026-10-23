@@ -1,0 +1,39 @@
+/* Map group: IsraelMapCanvas, RegionInspectorCard, CausalTooltipManager, SpotlightTutorialOverlay. */
+
+/* IsraelMapCanvas (240,52)-(1680,994). Paper map sheet background (theme application; the
+ * Godot Control has no background). */
+.map-canvas { overflow: hidden; background: var(--paper-2); box-shadow: inset 0 0 0 1px rgba(30, 28, 26, 0.25); }
+.map-canvas-surface { position: absolute; left: 0; top: 0; display: block; cursor: default; touch-action: none; }
+.map-legend {
+  position: absolute; right: 12px; top: 12px; pointer-events: none;
+  background: var(--paper); border: 1px solid var(--ink); padding: 2px 8px; font-size: 13px;
+}
+
+/* RegionInspectorCard: PanelContainer, 240 wide, grows with content. */
+.region-inspector { padding: 6px 8px 8px; }
+.region-inspector-box { width: 100%; }
+.region-inspector-title { font-family: var(--font-title); font-weight: 700; padding-right: 22px; white-space: pre-wrap; }
+.region-inspector .region-metric { color: var(--blue); cursor: pointer; text-decoration: underline dotted; }
+.region-inspector .region-metric:hover { color: var(--amber); }
+.region-inspector .option-button { width: 100%; }
+.region-inspector-close { position: absolute; right: 4px; top: 4px; padding: 0 6px; line-height: 18px; font-size: 16px; }
+
+/* CausalTooltipManager (980,80), 300 wide; container ignores the mouse, cards do not. */
+.causal-tooltips { pointer-events: none !important; }
+.causal-tooltip { pointer-events: auto; padding: 6px 8px; box-shadow: 0 2px 6px rgba(30, 28, 26, 0.25); }
+.causal-tooltip.locked { border: 2px solid #C89D54; }
+.causal-tooltip-head { align-items: center; }
+.causal-tooltip-lockline { color: var(--muted); font-size: 12px; overflow: hidden; text-overflow: ellipsis; }
+.causal-tooltip-btn { font-size: 12px !important; padding: 0 6px !important; line-height: 18px !important; }
+.causal-tooltip-body { margin: 2px 0 4px; font-variant-numeric: tabular-nums; }
+.causal-tooltip .sparkline { display: block; }
+
+/* SpotlightTutorialOverlay (1300,900)-(1660,980). */
+.onboarding-overlay { padding: 6px 8px; overflow: hidden; }
+.onboarding-box { height: 100%; justify-content: space-between; }
+.onboarding-buttons { justify-content: flex-end; }
+.onboarding-buttons .btn { padding: 1px 10px; }
+.onboarding-spotlight {
+  pointer-events: none !important; border: 3px solid var(--amber); border-radius: 2px;
+  box-shadow: 0 0 0 2px rgba(244, 239, 230, 0.7), 0 0 14px rgba(200, 138, 30, 0.6);
+}

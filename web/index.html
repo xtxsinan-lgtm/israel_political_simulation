@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>以色列政治模拟 · 1977 大转折 — Web 原型</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E%3Crect width=%2216%22 height=%2216%22 fill=%22%23F4EFE6%22/%3E%3Cpath d=%22M8 2l5.2 9H2.8zM8 14L2.8 5h10.4z%22 fill=%22none%22 stroke=%22%230038B8%22/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/theme.css">
+<link rel="stylesheet" href="css/desk.css">
+<link rel="stylesheet" href="css/hud.css">
+<link rel="stylesheet" href="css/map.css">
+<link rel="stylesheet" href="css/modals.css">
+</head>
+<body>
+<!-- 1920x1080 logical stage, scaled uniformly to the window (Godot: stretch canvas_items, aspect expand). -->
+<div id="viewport">
+  <div id="stage" class="paper-grain">
+    <!-- Godot DeskMain CanvasLayers, z-order = layer number. -->
+    <div class="canvas-layer" id="MapDeskLayer" data-layer="0"></div>
+    <div class="canvas-layer" id="HUDLayer" data-layer="10"></div>
+    <div class="canvas-layer" id="DrawerLayer" data-layer="20"></div>
+    <div class="canvas-layer" id="LedgerCodexLayer" data-layer="30"></div>
+    <div class="canvas-layer" id="ModalLayer" data-layer="40"></div>
+    <div class="canvas-layer" id="TooltipTutorialLayer" data-layer="50"></div>
+    <!-- BootSplash (game/scenes/boot/BootSplash.tscn) -->
+    <div id="BootSplash" class="boot-splash">
+      <div class="boot-card panel">
+        <div class="boot-title">1977 · 大转折</div>
+        <div class="boot-sub">Israel Political Simulation — Web 原型（运行 Python 参考模拟内核）</div>
+        <pre id="boot-log"></pre>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

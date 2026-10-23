@@ -5,6 +5,10 @@
 
 一款以以色列（1948年至今）为背景的硬核政治策略游戏。第一阶段采用剧本制：玩家扮演一位已去世的真实历史总理，从就任开始，在以天为单位推进的连续时间里，一方面兑现承诺、守住党的立场，一方面推动以色列走向自己想要的方向。同时还要平衡这个国家的结构性矛盾：世俗与宗教、族群分化、犹太国家与阿拉伯公民、大国依赖与战略自主、领土与定居、经济意识形态、安全与民主法治，以及外部冲突。
 
+## 网页原型
+
+`web/` 是 Godot 主界面的网页复刻版，内核直接运行 Python 参考模拟。启动方法：`python3 tools/build_web.py --verify && python3 tools/serve_web.py`，然后打开 http://127.0.0.1:8777/ 。详见 [web/README.md](web/README.md)。复刻过程中发现的 Godot 版问题见 [docs/reviews/web_prototype_godot_gaps.md](docs/reviews/web_prototype_godot_gaps.md)。
+
 ## 文档
 
 | 文档 | 内容 |

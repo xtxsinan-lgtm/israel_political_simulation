@@ -1,0 +1,72 @@
+/* Authored theme: game/ui/theme/mahapach_1977_theme.tres (applied as the code intends;
+ * in the Godot build it is cut off by CanvasLayers, see docs/reviews/web_prototype_godot_gaps.md).
+ *   default_font_size 14 · Label #1E1C1A · Button #1E1C1A / hover #0038B8 / focus #C88A1E
+ *   Panel: bg #F4EFE6, 1px border #1E1C1A, radius 0
+ * Hard-coded code colours (game/ui/**) are exposed as variables for the components. */
+:root {
+  --ink: #1E1C1A;
+  --paper: #F4EFE6;
+  --paper-2: #E8DFD1;
+  --blue: #0038B8;
+  --amber: #C88A1E;
+  --red: #B8292F;
+  --red-seat: #B8292E;
+  --green: #3B6B36;
+  --muted: #736B61;
+  --font-ui: "Source Han Sans SC", "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Open Sans", sans-serif;
+  --font-title: "Source Han Serif SC", "Noto Serif SC", "Songti SC", "STSong", serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: #2B1D14; overflow: hidden; }
+body { font-family: var(--font-ui); font-size: 14px; color: var(--ink); }
+
+/* Godot Control primitives ------------------------------------------------ */
+.ctl { position: absolute; }
+.label { color: var(--ink); font-size: 14px; line-height: 1.25; white-space: pre; }
+.label.autowrap { white-space: pre-wrap; word-break: break-word; }
+.panel { background: var(--paper); border: 1px solid var(--ink); border-radius: 0; }
+.vbox { display: flex; flex-direction: column; gap: 4px; }
+.hbox { display: flex; flex-direction: row; gap: 4px; }
+.expand-fill { flex: 1 1 0; min-width: 0; }
+
+button.btn {
+  font: inherit; font-size: 14px; color: var(--ink);
+  background: var(--paper); border: 1px solid var(--ink); border-radius: 0;
+  padding: 4px; cursor: pointer; white-space: pre; line-height: 1.25;
+}
+button.btn:hover { color: var(--blue); }
+button.btn:focus-visible { color: var(--amber); outline: 2px solid var(--amber); outline-offset: -3px; }
+button.btn:active { background: var(--paper-2); }
+button.btn:disabled { color: rgba(30, 28, 26, 0.45); cursor: default; }
+
+input[type=range].hslider { accent-color: var(--blue); width: 100%; margin: 4px 0; }
+select.option-button {
+  font: inherit; font-size: 14px; color: var(--ink); background: var(--paper);
+  border: 1px solid var(--ink); border-radius: 0; padding: 3px 4px;
+}
+
+a.codex-link { color: var(--blue); text-decoration: underline; cursor: pointer; }
+
+/* paper_grain.gdshader (grain 0.06 toward ink + vignette 0.86..1.0) -------- */
+.paper-grain { background-color: var(--paper-2); position: relative; }
+.paper-grain::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='256' height='256'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.117  0 0 0 0 0.109  0 0 0 0 0.101  0 0 0 0.06 0'/></filter><rect width='256' height='256' filter='url(%23n)'/></svg>");
+}
+.paper-grain::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 55%, rgba(30, 28, 26, 0.14) 100%);
+}
+
+/* crt_scanline.gdshader (density 180, glow #73D973 @ 8%) ------------------- */
+.crt-scanline {
+  color: color-mix(in srgb, var(--ink) 92%, #73D973);
+  background-image: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 2px, rgba(30, 28, 26, 0.08) 3px);
+}
+
+/* ink_stamp.gdshader: radial reveal of rgba(184,41,47,0.9) ---------------- */
+@keyframes ink-stamp-reveal { from { clip-path: circle(0% at 50% 50%); } to { clip-path: circle(75% at 50% 50%); } }
+.ink-stamp { color: rgba(184, 41, 47, 0.9); border: 2px solid rgba(184, 41, 47, 0.9); padding: 0 6px;
+  display: inline-block; transform: rotate(-4deg); animation: ink-stamp-reveal 0.35s ease-out both; }

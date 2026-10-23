@@ -1,0 +1,19 @@
+/* DeskMain stage and layer layout (game/ui/scenes/DeskMain.tscn). */
+#viewport { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; }
+#stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; overflow: hidden; }
+.canvas-layer { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.canvas-layer > * { pointer-events: auto; }
+#MapDeskLayer { z-index: 10; }
+#HUDLayer { z-index: 20; }
+#DrawerLayer { z-index: 30; }
+#LedgerCodexLayer { z-index: 40; }
+#ModalLayer { z-index: 50; }
+#TooltipTutorialLayer { z-index: 60; }
+
+.boot-splash { position: absolute; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center;
+  background: rgba(232, 223, 209, 0.92); transition: opacity 0.3s; }
+.boot-splash.hidden { opacity: 0; pointer-events: none; }
+.boot-card { width: 720px; padding: 28px 32px; }
+.boot-title { font-family: var(--font-title); font-size: 40px; font-weight: 700; letter-spacing: 4px; }
+.boot-sub { margin-top: 6px; color: var(--muted); }
+#boot-log { margin: 18px 0 0; font: 13px/1.6 var(--font-mono); white-space: pre-wrap; min-height: 120px; }
