@@ -106,6 +106,10 @@ def main() -> int:
     compiler = ROOT / "tools" / "compile_runtime_json.py"
     if compiler.exists() and not run_py([sys.executable, str(compiler), "--check"]):
         failures.append("compile_runtime_json --check (committed runtime JSON is stale)")
+    if not run_py([sys.executable, "tools/check_gdscript_locals.py"]):
+        failures.append("check_gdscript_locals (duplicate local declarations)")
+    if (ROOT / "tools" / "build_web.py").exists() and not run_py([sys.executable, "tools/build_web.py", "--verify"]):
+        failures.append("build_web --verify (web prototype bundle diverges from golden)")
 
     godot = find_godot()
     if godot is None:
@@ -127,7 +131,7 @@ def main() -> int:
 
     if failures:
         print("GATES_FAILED: " + "; ".join(failures))
-        print("See docs/reviews/2026-10-18_godot_milestone_review_handoff.md (risk table R1-R7) for likely causes.")
+        print("See docs/reviews/2026-10-18_godot_milestone_review_handoff.md (risk table R1-R8) for likely causes.")
         return 1
     print("ALL_GATES_PASSED")
     return 0

@@ -1,12 +1,76 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://mahapach1977theme"]
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://mahapach1977theme"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_paper"]
+content_margin_left = 6.0
+content_margin_top = 6.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
 bg_color = Color(0.956863, 0.937255, 0.901961, 1)
 border_color = Color(0.117647, 0.109804, 0.101961, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.956863, 0.937255, 0.901961, 1)
+border_color = Color(0.117647, 0.109804, 0.101961, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_hover"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.956863, 0.937255, 0.901961, 1)
+border_color = Color(0.117647, 0.109804, 0.101961, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_pressed"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.909804, 0.87451, 0.819608, 1)
+border_color = Color(0.117647, 0.109804, 0.101961, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_disabled"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.956863, 0.937255, 0.901961, 1)
+border_color = Color(0.117647, 0.109804, 0.101961, 0.45)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_focus"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+draw_center = false
+border_color = Color(0.784314, 0.541176, 0.117647, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
 
 [resource]
 default_font_size = 14
@@ -15,5 +79,15 @@ Label/font_sizes/font_size = 14
 Button/colors/font_color = Color(0.117647, 0.109804, 0.101961, 1)
 Button/colors/font_hover_color = Color(0, 0.219608, 0.721569, 1)
 Button/colors/font_focus_color = Color(0.784314, 0.541176, 0.117647, 1)
+Button/colors/font_pressed_color = Color(0.117647, 0.109804, 0.101961, 1)
+Button/colors/font_hover_pressed_color = Color(0, 0.219608, 0.721569, 1)
+Button/colors/font_disabled_color = Color(0.117647, 0.109804, 0.101961, 0.45)
 Button/font_sizes/font_size = 14
+Button/styles/normal = SubResource("StyleBoxFlat_btn_normal")
+Button/styles/hover = SubResource("StyleBoxFlat_btn_hover")
+Button/styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+Button/styles/disabled = SubResource("StyleBoxFlat_btn_disabled")
+Button/styles/focus = SubResource("StyleBoxFlat_btn_focus")
 Panel/styles/panel = SubResource("StyleBoxFlat_paper")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_paper")
+RichTextLabel/colors/default_color = Color(0.117647, 0.109804, 0.101961, 1)

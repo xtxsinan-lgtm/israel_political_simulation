@@ -17,6 +17,8 @@ func _ready() -> void:
 	material.shader = load("res://ui/shaders/crt_scanline.gdshader")
 	summary.material = material
 	add_child(summary)
+	# Span the drawer width so the autowrapped text does not collapse to one glyph per line.
+	summary.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
 
 
 func refresh(state: SimState) -> void:

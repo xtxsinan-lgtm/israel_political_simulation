@@ -2,6 +2,8 @@
 
 > 网页原型（`web/`）按**代码意图**复刻 Godot 版：布局坐标、文字格式、按键、推进节奏、信号流都和 Godot 一致，但下面这些在 Godot 版里实际**没生效**或**明显是 bug** 的地方，网页版按设计意图实现了。若要两边重新一致，应该在 Godot 里修下面这些点（编号便于在提交信息里引用）。
 >
+> **状态（2026-10-23）**：G1–G13 均已在 Godot 端修复。唯一例外是 G10 中给事件标题加 `ink_stamp` 墨章的部分，还没做。这些修改**同样没有在 Godot 中运行过**，只做了静态校验：`gdparse`、`check_gdscript_locals.py`、`check_gdscript_isolation.py --strict`。验证步骤见交接文档的风险项 R8。
+>
 > 来源：静态阅读 `game/ui/**`、`game/autoload/SimEngine.gd`、`game/project.godot`（Godot 无法在复刻所用的机器上运行，个别渲染结论基于 Godot 4 的已知行为，需要在 Godot 里确认）。
 
 | # | Godot 现状 | 网页版做法 | 建议的 Godot 修复 |

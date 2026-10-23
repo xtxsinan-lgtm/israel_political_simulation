@@ -1,11 +1,22 @@
 class_name AlertOutlinerController
 extends VBoxContainer
 
+const PAPER: Color = Color(0.956863, 0.937255, 0.901961, 1.0)
+const INK: Color = Color(0.117647, 0.109804, 0.101961, 1.0)
+
 var bound_state: SimState = null
 
 
 func _ready() -> void:
 	custom_minimum_size = Vector2(240, 400)
+	if not resized.is_connected(queue_redraw):
+		resized.connect(queue_redraw)
+
+
+## Paper panel behind the alert list (the VBox itself draws nothing): #F4EFE6 with a 1px ink border.
+func _draw() -> void:
+	draw_rect(Rect2(Vector2.ZERO, size), PAPER, true)
+	draw_rect(Rect2(Vector2(0.5, 0.5), size - Vector2(1.0, 1.0)), INK, false, 1.0)
 
 
 func refresh(state: SimState) -> void:

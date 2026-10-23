@@ -9,24 +9,47 @@ const LAYER_F5: String = "F5"
 const LAYER_F6: String = "F6"
 const LAYER_F7: String = "F7"
 
+const ZOOM_MIN: float = 0.8
+const ZOOM_MAX: float = 3.0
+
 var layer_index: int = 1
 var zoom: float = 1.0
+## Map-local translation of the region layer. The control itself never moves, so the
+## (240,52) desk offset from DeskMain.tscn is preserved by pan, zoom and reset.
 var pan: Vector2 = Vector2.ZERO
 var region_nodes: Dictionary = {}
+## Region ids in draw order (last = topmost); hit-testing walks it backwards.
+var region_order: Array[String] = []
 var pin_nodes: Array[MapSitePin] = []
 var bound_state: SimState = null
+var selected_region: String = ""
+## Holds the region polygons and pins; carries the pan/zoom transform.
+var world: Node2D = null
 
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
+	clip_contents = true
 	build_from_registry(null)
+
+
+func _ensure_world() -> void:
+	if world != null:
+		return
+	world = Node2D.new()
+	world.name = "World"
+	add_child(world)
+	_apply_view()
 
 
 func build_from_registry(state: SimState) -> void:
 	bound_state = state
-	for child: Node in get_children():
+	_ensure_world()
+	for child: Node in world.get_children():
+		world.remove_child(child)
 		child.queue_free()
 	region_nodes.clear()
+	region_order.clear()
 	pin_nodes.clear()
 	if GameData.current == null:
 		return
@@ -37,10 +60,12 @@ func build_from_registry(state: SimState) -> void:
 		var node: RegionPolygonNode = RegionPolygonNode.new()
 		var occupied: bool = _occupied(src)
 		node.setup(region_id, _schematic(region_id), occupied, _exists(region_id, src))
-		add_child(node)
+		world.add_child(node)
 		region_nodes[region_id] = node
+		region_order.append(region_id)
 	_place_pins()
 	set_map_layer(layer_index)
+	set_selected_region(selected_region)
 
 
 func set_map_layer(index: int) -> void:
@@ -55,16 +80,63 @@ func set_map_layer(index: int) -> void:
 		bus.map_layer_changed.emit(layer_index)
 
 
-func set_zoom(next_zoom: float) -> void:
-	zoom = clampf(next_zoom, 0.8, 3.0)
-	scale = Vector2(zoom, zoom)
+## Zooms in [0.8, 3.0] (0.1 steps) keeping the map-local `anchor` point fixed on screen.
+func set_zoom(next_zoom: float, anchor: Vector2 = Vector2.ZERO) -> void:
+	var target: float = clampf(snappedf(next_zoom, 0.1), ZOOM_MIN, ZOOM_MAX)
+	var anchor_world: Vector2 = to_world(anchor)
+	zoom = target
+	pan = anchor - anchor_world * zoom
+	_apply_view()
 
 
 func reset_view() -> void:
 	zoom = 1.0
 	pan = Vector2.ZERO
-	scale = Vector2.ONE
-	position = Vector2.ZERO
+	_apply_view()
+
+
+func _apply_view() -> void:
+	if world == null:
+		return
+	world.position = pan
+	world.scale = Vector2(zoom, zoom)
+
+
+## Map-local (control) coordinates -> region coordinate space (undo pan/zoom).
+func to_world(local_point: Vector2) -> Vector2:
+	return (local_point - pan) / zoom
+
+
+## Topmost visible region under a map-local point, or "" for empty map.
+func region_at(local_point: Vector2) -> String:
+	var world_point: Vector2 = to_world(local_point)
+	for i: int in range(region_order.size() - 1, -1, -1):
+		var region_id: String = region_order[i]
+		var node: RegionPolygonNode = region_nodes.get(region_id, null)
+		if node != null and node.visible and node.contains_point(world_point):
+			return region_id
+	return ""
+
+
+## Highlights one region (4 px amber outline); "" clears the highlight.
+func set_selected_region(region_id: String) -> void:
+	selected_region = region_id if region_nodes.has(region_id) else ""
+	var ids: Array = region_nodes.keys()
+	for i: int in range(ids.size()):
+		var node: RegionPolygonNode = region_nodes[ids[i]]
+		node.set_selected(String(ids[i]) == selected_region)
+
+
+## Left-click handler: hit-tests and emits region_selected(id) ("" on empty map).
+func click_at(local_point: Vector2) -> String:
+	var hit: String = region_at(local_point)
+	if hit == "" and selected_region == "":
+		return hit
+	set_selected_region(hit)
+	var bus: DeskEventBus = DeskEventBus.hub()
+	if bus != null:
+		bus.region_selected.emit(hit)
+	return hit
 
 
 func visible_region_count() -> int:
@@ -80,17 +152,25 @@ func visible_region_count() -> int:
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		var button: InputEventMouseButton = event as InputEventMouseButton
-		if button.pressed:
-			if button.button_index == MOUSE_BUTTON_WHEEL_UP:
-				set_zoom(zoom + 0.1)
-			elif button.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-				set_zoom(zoom - 0.1)
-			elif button.double_click:
+		if not button.pressed:
+			return
+		if button.button_index == MOUSE_BUTTON_WHEEL_UP:
+			set_zoom(zoom + 0.1, button.position)
+			accept_event()
+		elif button.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			set_zoom(zoom - 0.1, button.position)
+			accept_event()
+		elif button.button_index == MOUSE_BUTTON_LEFT:
+			if button.double_click:
 				reset_view()
+			else:
+				click_at(button.position)
+			accept_event()
 	elif event is InputEventMouseMotion and (Input.is_mouse_button_pressed(MOUSE_BUTTON_MIDDLE) or Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT)):
 		var motion: InputEventMouseMotion = event as InputEventMouseMotion
 		pan += motion.relative
-		position = pan
+		_apply_view()
+		accept_event()
 
 
 func _exists(region_id: String, src: Dictionary) -> bool:
@@ -152,7 +232,8 @@ func _place_pins() -> void:
 			at = node.polygon[0] + Vector2(12.0 + float(i % 4) * 10.0, 12.0)
 		var pin: MapSitePin = MapSitePin.new()
 		pin.setup(site, at)
-		add_child(pin)
+		pin.z_index = 2
+		world.add_child(pin)
 		pin_nodes.append(pin)
 
 

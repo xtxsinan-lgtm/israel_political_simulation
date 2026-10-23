@@ -33,6 +33,21 @@ func _run() -> int:
 	controller.bind_game(state)
 	if controller.top_bar == null or not controller.top_bar.texts_filled():
 		return _fail("top bar")
+	# G2: approval / readiness / US slots read the real params; G13: inflation red is not sticky.
+	var standing: float = state.params.get_val("party_standing", "", state)
+	if controller.top_bar.slots[3].text != "支持率 %.1f" % standing:
+		return _fail("top bar approval %s" % controller.top_bar.slots[3].text)
+	var inflation_before: float = state.params.get_val("inflation", "", state)
+	state.params.set_val("inflation", "", 150.0, state)
+	controller.top_bar.refresh(state)
+	if not controller.top_bar.inflation_alert_active():
+		return _fail("inflation alert")
+	state.params.set_val("inflation", "", 50.0, state)
+	controller.top_bar.refresh(state)
+	if controller.top_bar.inflation_alert_active():
+		return _fail("inflation alert sticky")
+	state.params.set_val("inflation", "", inflation_before, state)
+	controller.top_bar.refresh(state)
 	if controller.map_canvas == null:
 		return _fail("map")
 	if controller.map_canvas.region_nodes.size() != 11:
@@ -78,6 +93,36 @@ func _run() -> int:
 	card._submit("region_investment_priority", 40.0)
 	if absf(state.params.get_val("region_investment_priority", "galilee", state) - 40.0) > 0.001:
 		return _fail("priority")
+	# G9: posture index 2 -> 80; absorption priority is accepted by SimDirector.
+	card._on_posture(2)
+	if absf(state.params.get_val("region_security_posture", "galilee", state) - 80.0) > 0.001:
+		return _fail("posture mapping")
+	card._submit("region_absorption_priority", 70.0)
+	if absf(state.params.get_val("region_absorption_priority", "galilee", state) - 70.0) > 0.001:
+		return _fail("absorption priority")
+	# G6: reset keeps the desk offset; zoom keeps the anchor point fixed.
+	var map: IsraelMapCanvas = controller.map_canvas
+	map.reset_view()
+	if map.position != Vector2(240.0, 52.0) or map.scale != Vector2.ONE:
+		return _fail("map offset %s" % map.position)
+	map.set_zoom(2.0, Vector2(450.0, 125.0))
+	if map.to_world(Vector2(450.0, 125.0)).distance_to(Vector2(450.0, 125.0)) > 0.01:
+		return _fail("zoom anchor")
+	map.reset_view()
+	# G5: click hit-test -> region_selected -> inspector; empty map hides it.
+	card.close_card()
+	if map.click_at(Vector2(450.0, 125.0)) != "galilee" or not card.visible or card.region_id != "galilee":
+		return _fail("region click")
+	if map.selected_region != "galilee":
+		return _fail("region highlight")
+	if map.click_at(Vector2(1400.0, 900.0)) != "" or card.visible:
+		return _fail("empty click")
+	# G10: tooltip_requested opens a (scoped) causal tooltip.
+	var bus: DeskEventBus = DeskEventBus.hub()
+	if bus != null:
+		bus.tooltip_requested.emit("region_security", "galilee")
+		if not controller.tooltips.cards.has("region_security[galilee]"):
+			return _fail("tooltip_requested")
 	print("M6_DESK_MAP_HUD_ALL_PASSED")
 	return 0
 

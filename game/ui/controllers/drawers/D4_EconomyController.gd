@@ -13,12 +13,16 @@ var shares: Dictionary = {}
 func _ready() -> void:
 	if summary != null:
 		return
+	# Text on top, the 1-hop causal graph below it (not overlapping at (0,0)).
+	var layout: VBoxContainer = VBoxContainer.new()
+	add_child(layout)
+	layout.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	summary = Label.new()
 	summary.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	add_child(summary)
+	layout.add_child(summary)
 	graph = CausalGraphCanvas.new()
-	graph.custom_minimum_size = Vector2(640, 280)
-	add_child(graph)
+	graph.custom_minimum_size = Vector2(640, 340)
+	layout.add_child(graph)
 
 
 func refresh(state: SimState) -> void:

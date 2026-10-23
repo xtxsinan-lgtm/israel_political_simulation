@@ -203,7 +203,8 @@ class Bridge:
         return _clean(self.engine.preview_layers(effects))
 
     def evaluate(self, reason: str = "resignation") -> Dict[str, Any]:
-        return _clean(self.engine.evaluate_tenure(reason))
+        """Side-effect-free alias of final_evaluation (the raw engine call mutates state)."""
+        return self.final_evaluation(reason)
 
     def event_def(self, event_id: str) -> Dict[str, Any]:
         return _clean(self.registry.events_by_id.get(event_id, {}))

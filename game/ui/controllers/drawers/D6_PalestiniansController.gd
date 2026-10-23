@@ -16,6 +16,8 @@ func _ready() -> void:
 	summary = Label.new()
 	summary.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	add_child(summary)
+	# Span the drawer width so the autowrapped text does not collapse to one glyph per line.
+	summary.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
 
 
 func refresh(state: SimState) -> void:

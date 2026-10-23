@@ -34,6 +34,7 @@
 | R5 | `SaveSystem` 改为「种子 + 指令日志」存档，用 `load_into()` 回放恢复；`ReplaySystem` 按 (day, seq) 排序，包含目标日当天的指令，并沿用原局的 headless 模式 | 存档格式升级到 1.1.0。旧存档没有种子时默认用 19770620。 | `test_m8_release.gd`。 |
 | R6 | UI 闭环（启动 → DeskMain、`autoload/SimEngine.gd` 逐日推进、输入映射、DeskMain 实例化抽屉和弹窗、D-088 模糊档位） | 最可能在运行时出错，比如 tscn 资源引用、Godot 4.6 类型检查、在 `-s` 脚本模式下访问 autoload。这些都**没有在编辑器里打开过**。 | 跑 `test_m6/m7/m8`、`ui_constraints_validator.gd`，并**在编辑器里手动启动一次游戏**：Space 暂停/继续，1–5 调速，Ctrl+1–7 开抽屉，F1–F7 切图层，L/C 打开账本/百科，F8/F9 快速存档/读档。 |
 | R7 | `AutoPauseEvaluator`：投票请求到期才暂停；红色警报只在**新出现**时暂停（记录在 `state.run`，不参与哈希） | 只影响交互体验，不影响哈希。 | `test_m5_scheduler.gd`。 |
+| R8 | 2026-10-23：按网页原型修复 Godot UI 的 G1–G13（见 `web_prototype_godot_gaps.md`）。具体包括：项目级主题与清屏色、TopBar 读取真实参数名并可点击、抽屉面板下移并实例化 D1–D7、D3 行动列表、D4 真实因果图、地图点击区域打开检视卡、以光标为中心缩放与平移、斜纹着色器、检视卡治安姿态映射为 20/50/80、因果提示和新手引导接线、卸任史书翻页、事件正文显示 | 只影响 UI，不影响状态哈希。唯一的模拟层改动是 `SimDirector` 白名单新增 `region_absorption_priority`。最可能出问题的地方：主题是否在运行时生效、抽屉标签行的实际高度（面板按 y=29 偏移）、着色器里的 `VERTEX`/`COLOR` 语义、提示卡“点击外部关闭”的坐标空间、`Button.autowrap_mode` 需要 Godot 4.3 及以上 | 跑 `test_m6`/`test_m7`/`ui_constraints_validator`，然后在编辑器里对照网页原型（`python3 tools/serve_web.py`）逐项看一遍 |
 
 ## 3. 已知未修复（会改变状态哈希，必须逐项做，每项都跑黄金对拍）
 

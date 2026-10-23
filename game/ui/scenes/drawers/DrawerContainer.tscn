@@ -4,4 +4,5 @@
 
 [node name="DrawerContainer" type="Control"]
 custom_minimum_size = Vector2(920, 400)
+mouse_filter = 2
 script = ExtResource("1_script")

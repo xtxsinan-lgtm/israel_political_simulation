@@ -23,6 +23,8 @@ signal pause_state_changed(is_paused: bool, speed_level: int, pause_reasons: Pac
 signal event_modal_enqueued(event_payload: Dictionary)
 signal drawer_requested(drawer_id: String, subtab_index: int, highlight_node_name: String)
 signal map_mode_changed(map_layer_id: String)
+## Ask the causal tooltip to explain a parameter (TopBar slots, inspector metrics, D4 graph nodes).
+signal tooltip_requested(param_id: String, scope_key: String)
 
 
 static func hub() -> DeskEventBus:

@@ -3,5 +3,5 @@
 [ext_resource type="Script" path="res://ui/controllers/drawers/D5_DiplomacyController.gd" id="1_script"]
 
 [node name="D5Diplomacy" type="Control"]
-custom_minimum_size = Vector2(920, 400)
+custom_minimum_size = Vector2(900, 400)
 script = ExtResource("1_script")

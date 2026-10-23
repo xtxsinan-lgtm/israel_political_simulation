@@ -55,7 +55,7 @@ func submit_command(cmd: Dictionary) -> Error:
 		"set_region_priority":
 			var region_id: String = String(cmd.get("region", ""))
 			var field: String = String(cmd.get("param", "region_investment_priority"))
-			if region_id == "" or (field != "region_investment_priority" and field != "region_security_posture"):
+			if region_id == "" or (field != "region_investment_priority" and field != "region_security_posture" and field != "region_absorption_priority"):
 				result = ERR_INVALID_PARAMETER
 			else:
 				state.params.set_val(field, region_id, clampf(float(cmd.get("value", 0.0)), 0.0, 100.0), state)

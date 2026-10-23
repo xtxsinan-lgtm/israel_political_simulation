@@ -26,6 +26,8 @@ func _ready() -> void:
 	var state: SimState = _director_state()
 	if state != null:
 		bind_game(state)
+	if spotlight != null:
+		spotlight.maybe_start()
 
 
 func _resolve_parts() -> void:
@@ -74,6 +76,7 @@ func _resolve_parts() -> void:
 	_connect(bus.drawer_requested, _on_drawer_requested)
 	_connect(bus.map_mode_changed, _on_map_mode)
 	_connect(bus.pause_state_changed, _on_pause_state)
+	_connect(bus.tooltip_requested, _on_tooltip_requested)
 
 
 func _connect(sig: Signal, handler: Callable) -> void:
@@ -117,14 +120,32 @@ func refresh_views(state: SimState) -> void:
 			map_canvas.set_map_layer(map_canvas.layer_index)
 	if alerts != null:
 		alerts.refresh(state)
+	if inspector != null:
+		inspector.refresh(state)
+	if tooltips != null:
+		tooltips.refresh_locked(state)
 	if ledger != null and ledger.visible:
 		ledger.refresh_from_snapshot(_engine_snapshot())
 
 
+## Map click / region pick: "" (empty map) hides the inspector; the map highlights the pick.
 func _on_region(region_id: String) -> void:
+	if map_canvas != null and map_canvas.selected_region != region_id:
+		map_canvas.set_selected_region(region_id)
 	if inspector == null:
 		return
+	if region_id == "":
+		inspector.close_card()
+		return
 	inspector.present(region_id, _director_state())
+
+
+## TopBar slots, inspector metrics and D4 graph nodes ask for a causal explanation.
+func _on_tooltip_requested(param_id: String, scope_key: String) -> void:
+	var state: SimState = _director_state()
+	if tooltips == null or state == null or param_id == "":
+		return
+	tooltips.explain_node(state, param_id, scope_key)
 
 
 func _director_state() -> SimState:

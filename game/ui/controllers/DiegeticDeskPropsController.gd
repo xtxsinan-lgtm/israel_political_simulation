@@ -5,10 +5,14 @@ const PROPS: Array[String] = [
 	"红电话", "打字机", "收音机", "日历", "天平", "报价纸带", "档案袋",
 ]
 const DRAWERS: Array[int] = [7, 3, 2, 0, 1, 4, 5]
+const PAPER: Color = Color(0.956863, 0.937255, 0.901961, 1.0)
+const INK: Color = Color(0.117647, 0.109804, 0.101961, 1.0)
 
 
 func _ready() -> void:
 	custom_minimum_size = Vector2(1440, 86)
+	if not resized.is_connected(queue_redraw):
+		resized.connect(queue_redraw)
 	for i: int in range(PROPS.size()):
 		var button: Button = Button.new()
 		button.text = PROPS[i]
@@ -16,6 +20,12 @@ func _ready() -> void:
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.pressed.connect(_toggle.bind(DRAWERS[i]))
 		add_child(button)
+
+
+## Paper strip behind the prop buttons (the HBox itself draws nothing): #F4EFE6 with a 1px ink border.
+func _draw() -> void:
+	draw_rect(Rect2(Vector2.ZERO, size), PAPER, true)
+	draw_rect(Rect2(Vector2(0.5, 0.5), size - Vector2(1.0, 1.0)), INK, false, 1.0)
 
 
 func _director_state() -> SimState:
