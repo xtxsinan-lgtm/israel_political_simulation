@@ -22,11 +22,13 @@ function fitStage() {
 async function loadStatic() {
   const data = {};
   await Promise.all(STATIC_DATA.map(async (name) => {
-    try {
-      const res = await fetch(`build/ui/${name}.json`);
-      data[name] = res.ok ? await res.json() : {};
-    } catch {
-      data[name] = {};
+    data[name] = {};
+    for (let i = 0; i < 4; i++) {
+      try {
+        const res = await fetch(`build/ui/${name}.json`, { cache: i === 0 ? "default" : "reload" });
+        if (res.ok) { data[name] = await res.json(); break; }
+      } catch { /* transient network error: retry */ }
+      await new Promise((r) => setTimeout(r, 500 * (i + 1)));
     }
   }));
   return data;

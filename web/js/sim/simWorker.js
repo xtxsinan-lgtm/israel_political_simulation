@@ -17,12 +17,30 @@ function progress(text) {
   self.postMessage({ progress: text });
 }
 
+/* GitHub Pages / CDN edges occasionally reset a large download ("Failed to fetch");
+ * retry with backoff before giving up. */
+async function fetchJsonWithRetry(url, attempts = 4) {
+  let lastErr = null;
+  for (let i = 0; i < attempts; i++) {
+    try {
+      const res = await fetch(url, { cache: i === 0 ? "no-cache" : "reload" });
+      if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`);
+      return await res.json();
+    } catch (err) {
+      lastErr = err;
+      progress(`下载失败，重试中（${i + 1}/${attempts - 1}）…`);
+      await new Promise((r) => setTimeout(r, 600 * (i + 1)));
+    }
+  }
+  throw lastErr;
+}
+
 async function boot(bundleUrl) {
   progress("加载 Pyodide 运行时…");
   importScripts(PYODIDE_BASE + "pyodide.js");
   pyodide = await loadPyodide({ indexURL: PYODIDE_BASE });
   progress("下载模拟内核与数据…");
-  const bundle = await (await fetch(bundleUrl, { cache: "no-cache" })).json();
+  const bundle = await fetchJsonWithRetry(bundleUrl);
   const FS = pyodide.FS;
   const mkdirp = (dir) => {
     let cur = "";
