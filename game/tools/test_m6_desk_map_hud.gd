@@ -63,9 +63,24 @@ func _run() -> int:
 		controller.map_canvas.set_map_layer(layer)
 	if controller.map_canvas.layer_index != 7:
 		return _fail("F7")
-	controller.map_canvas.set_zoom(4.0)
-	if controller.map_canvas.zoom > 3.0:
+	controller.map_canvas.set_zoom(8.0)
+	if controller.map_canvas.zoom > 6.0:
 		return _fail("zoom cap")
+	controller.map_canvas.set_zoom(0.2)
+	if controller.map_canvas.zoom < 0.8:
+		return _fail("zoom floor")
+	controller.map_canvas.reset_view()
+	# Real geography (map_geo.json): multi-ring regions, real site positions, context layer.
+	var sinai: RegionPolygonNode = controller.map_canvas.region_nodes["sinai"]
+	if sinai.rings.size() < 2 or sinai.fills.is_empty() or sinai.borders.size() != sinai.rings.size():
+		return _fail("sinai rings %s" % sinai.rings.size())
+	var haifa_pin: Vector2 = controller.map_canvas.pin_position("site_haifa_port_refinery")
+	if haifa_pin.distance_to(Vector2(782.01, 149.21)) > 0.01:
+		return _fail("pin position %s" % haifa_pin)
+	if controller.map_canvas.context_layer == null or controller.map_canvas.context_layer.get_child_count() == 0:
+		return _fail("map context")
+	if controller.map_canvas.region_labels.size() != 11:
+		return _fail("region labels %s" % controller.map_canvas.region_labels.size())
 	if controller.tooltips == null:
 		return _fail("tooltips")
 	if not controller.tooltips.lock_tooltip("inflation"):
@@ -111,12 +126,35 @@ func _run() -> int:
 	map.reset_view()
 	# G5: click hit-test -> region_selected -> inspector; empty map hides it.
 	card.close_card()
-	if map.click_at(Vector2(450.0, 125.0)) != "galilee" or not card.visible or card.region_id != "galilee":
+	if map.click_at(Vector2(828.0, 147.0)) != "galilee" or not card.visible or card.region_id != "galilee":
 		return _fail("region click")
 	if map.selected_region != "galilee":
 		return _fail("region highlight")
 	if map.click_at(Vector2(1400.0, 900.0)) != "" or card.visible:
 		return _fail("empty click")
+	if map.region_at(Vector2(695.0, 363.0)) != "gaza" or map.region_at(Vector2(760.0, 450.0)) != "negev":
+		return _fail("region hit-test")
+	# Hit-testing goes through the pan/zoom inverse transform.
+	map.set_zoom(3.0, Vector2(100.0, 100.0))
+	var galilee_screen: Vector2 = map.pan + Vector2(828.0, 147.0) * map.zoom
+	if map.region_at(galilee_screen) != "galilee":
+		return _fail("zoomed hit-test")
+	map.reset_view()
+	# Desk props: two-line labels, tooltips, live speed and open-drawer highlight.
+	var props: DiegeticDeskPropsController = desk.find_child("DiegeticDeskPropsBar", true, false) as DiegeticDeskPropsController
+	if props == null or props.buttons.size() != 7:
+		return _fail("desk props")
+	if props.buttons[0].text != "红电话\n国防与情报 D7 · Ctrl+7" or props.buttons[0].tooltip_text == "":
+		return _fail("desk prop label %s" % props.buttons[0].text)
+	props.set_speed_label(3)
+	if props.buttons[3].text != "日历\n切换速度（当前 3 倍）":
+		return _fail("calendar label %s" % props.buttons[3].text)
+	props.set_active_drawer(3)
+	if props.active_button_index() != 1:
+		return _fail("prop highlight")
+	props.set_active_drawer(0)
+	if props.active_button_index() != -1:
+		return _fail("prop highlight clear")
 	# G10: tooltip_requested opens a (scoped) causal tooltip.
 	var bus: DeskEventBus = DeskEventBus.hub()
 	if bus != null:

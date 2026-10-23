@@ -9,7 +9,7 @@ import { SimEngine } from "./core/SimEngine.js";
 import { UIManager } from "./core/UIManager.js";
 import { DeskMain } from "./ui/DeskMain.js";
 
-const STATIC_DATA = ["regions", "parameters", "characters", "policies", "actions", "palestine_factions", "causal_edges", "codex_terms", "world_tracks"];
+const STATIC_DATA = ["regions", "parameters", "characters", "policies", "actions", "palestine_factions", "causal_edges", "codex_terms", "world_tracks", "map_geo"];
 
 function fitStage() {
   const stage = document.getElementById("stage");

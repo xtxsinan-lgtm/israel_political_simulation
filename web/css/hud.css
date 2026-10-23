@@ -13,10 +13,27 @@
 .alert-outliner-box { padding: 6px 8px; }
 .alert-btn { width: 100%; text-align: center; }
 
-/* DiegeticDeskPropsBar (240,994)-(1680,1080): 7 buttons ≈202px × 86px. */
-.desk-props { border-bottom: none; }
+/* DiegeticDeskPropsBar (240,994)-(1680,1080): 7 buttons ≈202px × 78px, each = line icon +
+ * object name + "what it does · hotkey"; the prop whose drawer is open is highlighted. */
+.desk-props { border-bottom: none; background: var(--paper-2); }
 .desk-props-row { width: 100%; height: 100%; padding: 4px; }
-.desk-prop { height: 100%; }
+button.btn.desk-prop {
+  height: 100%; display: flex; align-items: center; gap: 8px; padding: 4px 8px 4px 10px; text-align: left;
+  background: var(--paper); white-space: normal;
+  box-shadow: inset 0 0 0 3px var(--paper), inset 0 0 0 4px rgba(30, 28, 26, 0.35);
+}
+.desk-prop-icon { flex: 0 0 auto; color: var(--ink); opacity: 0.85; }
+.desk-prop-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.desk-prop-name { font-family: var(--font-title); font-size: 16px; font-weight: 700; letter-spacing: 0.12em; }
+.desk-prop-action { font-size: 12px; color: var(--muted); line-height: 1.3; }
+button.btn.desk-prop:hover { background: #FBF7EF; }
+button.btn.desk-prop:hover .desk-prop-icon, button.btn.desk-prop:hover .desk-prop-action { color: var(--blue); }
+button.btn.desk-prop.open {
+  background: #F2E3C4; color: var(--ink);
+  box-shadow: inset 0 0 0 3px #F2E3C4, inset 0 0 0 4px var(--amber), inset 0 -4px 0 4px rgba(200, 138, 30, 0.25);
+}
+button.btn.desk-prop.open .desk-prop-icon { color: #8A5A0C; opacity: 1; }
+button.btn.desk-prop.open .desk-prop-action { color: #6B4A12; }
 
 /* DrawerContainer at (240,52): the 920x900 container is transparent to the mouse; only the
  * tab row and the open panel take input. */

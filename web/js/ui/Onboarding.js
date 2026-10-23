@@ -23,7 +23,7 @@ const FLAG = "onboarding_done";
 /** Spotlight rects (left, top, right, bottom) in stage coordinates for each step. */
 const SPOTS = [
   [0, 0, 1920, 52],        // TopBar
-  [240, 52, 1680, 994],    // map
+  [690, 104, 1150, 975],   // map: Israel, West Bank and Sinai (real geography)
   [855, 0, 1065, 52],      // TopBar slot 5 (inflation) — open its causal tooltip
   [240, 52, 1160, 952],    // drawer area (D2)
   [240, 52, 1160, 952],    // drawer area (D3)

@@ -131,7 +131,7 @@ def main() -> int:
 
     if failures:
         print("GATES_FAILED: " + "; ".join(failures))
-        print("See docs/reviews/2026-10-18_godot_milestone_review_handoff.md (risk table R1-R8) for likely causes.")
+        print("See docs/reviews/2026-10-18_godot_milestone_review_handoff.md (risk table R1-R9) for likely causes.")
         return 1
     print("ALL_GATES_PASSED")
     return 0

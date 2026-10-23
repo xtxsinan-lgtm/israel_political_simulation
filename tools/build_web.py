@@ -95,6 +95,7 @@ def build() -> Dict[str, Any]:
         src = ROOT / "game/res/data" / name
         if src.exists():
             shutil.copyfile(src, ui_dir / name)
+    shutil.copyfile(ROOT / "game/res/map/map_geo.json", ui_dir / "map_geo.json")
     golden = ROOT / "data/golden/begin_1977_365d.json"
     shutil.copyfile(golden, OUT / "golden_begin_1977_365d.json")
     return bundle

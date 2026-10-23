@@ -1,6 +1,11 @@
 class_name MapSitePin
 extends Node2D
 
+## Site marker: the stem tip sits on the real site position (map_geo.json `sites`). The canvas
+## counter-scales the pin so it keeps its screen size while the map zooms.
+
+const PAPER: Color = Color(0.956863, 0.937255, 0.901961, 1.0)
+
 var site_id: String = ""
 var region_id: String = ""
 var status: String = "active"
@@ -16,16 +21,21 @@ func setup(site: Dictionary, at: Vector2) -> void:
 	queue_redraw()
 
 
-func _draw() -> void:
-	var color: Color = Color(0.72, 0.55, 0.22, 1)
+func status_color() -> Color:
 	match status:
 		"planned", "building":
-			color = Color(0.784, 0.541, 0.118, 1)
+			return Color(0.784, 0.541, 0.118, 1)
 		"crisis", "attacked":
-			color = Color(0.722, 0.161, 0.184, 1)
+			return Color(0.722, 0.161, 0.184, 1)
 		"demolished", "removed":
-			color = Color(0.45, 0.42, 0.38, 1)
+			return Color(0.45, 0.42, 0.38, 1)
 		_:
-			color = Color(0.62, 0.46, 0.16, 1)
-	draw_circle(Vector2.ZERO, 5.0, color)
-	draw_line(Vector2(0, 0), Vector2(0, 10), Color(0.2, 0.16, 0.1), 1.5)
+			return Color(0.62, 0.46, 0.16, 1)
+
+
+func _draw() -> void:
+	var head: Vector2 = Vector2(0.0, -9.0)
+	draw_line(head, Vector2.ZERO, Color(0.2, 0.16, 0.1), 1.5)
+	draw_circle(head, 5.5, PAPER)
+	draw_circle(head, 4.5, status_color())
+	draw_circle(Vector2.ZERO, 1.2, Color(0.2, 0.16, 0.1))

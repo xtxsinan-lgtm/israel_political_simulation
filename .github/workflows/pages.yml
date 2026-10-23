@@ -14,6 +14,7 @@ on:
       - "docs/registry/flags.yaml"
       - "docs/registry/modifiers.yaml"
       - "game/res/data/**"
+      - "game/res/map/**"
       - "tools/build_web.py"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
