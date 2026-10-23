@@ -7,7 +7,7 @@
 
 ## 网页原型
 
-`web/` 是 Godot 主界面的网页复刻版，内核直接运行 Python 参考模拟。启动方法：`python3 tools/build_web.py --verify && python3 tools/serve_web.py`，然后打开 http://127.0.0.1:8777/ 。详见 [web/README.md](web/README.md)。复刻过程中发现的 Godot 版问题见 [docs/reviews/web_prototype_godot_gaps.md](docs/reviews/web_prototype_godot_gaps.md)。
+`web/` 是 Godot 主界面的网页复刻版，内核直接运行 Python 参考模拟。在线版：https://xtxsinan-lgtm.github.io/israel_political_simulation/ 。本地启动方法：`python3 tools/build_web.py --verify && python3 tools/serve_web.py`，然后打开 http://127.0.0.1:8777/ 。详见 [web/README.md](web/README.md)。复刻过程中发现的 Godot 版问题见 [docs/reviews/web_prototype_godot_gaps.md](docs/reviews/web_prototype_godot_gaps.md)。
 
 ## 文档
 

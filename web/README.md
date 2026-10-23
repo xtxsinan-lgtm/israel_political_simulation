@@ -2,7 +2,13 @@
 
 在浏览器里 1:1 复刻 Godot 版的“总理办公桌”主界面（`game/ui/`），内核直接运行 **Python 参考模拟**（`sim/`，经 Pyodide 跑在 Web Worker 里）。屏幕上的数字和 Godot 版黄金对拍所用的参考轨迹（`data/golden/begin_1977_365d.json`）是同一个来源。
 
-## 运行
+## 在线版
+
+**https://xtxsinan-lgtm.github.io/israel_political_simulation/** （自检页：`selftest.html`）
+
+每次推送到 main，只要改动了 `web/`、`sim/`、`data/` 等目录，`.github/workflows/pages.yml` 就会自动运行 `build_web.py --verify` 并重新部署。如果打包后的数据和黄金轨迹不一致，构建会失败，不会发布。
+
+## 本地运行
 
 ```bash
 python3 tools/build_web.py --verify   # 生成 web/build/（YAML→JSON 打包），并在打包后的数据上复跑 365 天黄金对拍

@@ -1,0 +1,60 @@
+# Build the web prototype (web/) and publish it to GitHub Pages.
+# The page runs the reference Python simulation in the browser via Pyodide, so the
+# site is fully static: this job only bundles sim/ + data/*.yaml into web/build/
+# (tools/build_web.py --verify, which also re-runs the 365-day golden on the bundle).
+name: Deploy web prototype to Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "web/**"
+      - "sim/**"
+      - "data/**"
+      - "docs/registry/flags.yaml"
+      - "docs/registry/modifiers.yaml"
+      - "game/res/data/**"
+      - "tools/build_web.py"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install build dependency
+        run: pip install pyyaml
+      - name: Bundle simulation + data and verify against golden
+        run: python tools/build_web.py --verify
+      - name: Prepare site
+        run: |
+          mkdir -p _site
+          cp -R web/. _site/
+          rm -rf _site/py/__pycache__
+          touch _site/.nojekyll
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
