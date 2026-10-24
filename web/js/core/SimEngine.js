@@ -100,6 +100,12 @@ export class SimEngine {
 
   togglePause() { this.setPaused(!this.paused); }
 
+  async stepOneDay() {
+    if (this.busy || !this.snapshot || this.snapshot.phase === "ENDED") return;
+    this.setPaused(true);
+    await this._advance(1);
+  }
+
   setSpeed(level) {
     this.speedLevel = Math.min(MAX_SPEED, Math.max(MIN_SPEED, level));
     this.accum = 0;

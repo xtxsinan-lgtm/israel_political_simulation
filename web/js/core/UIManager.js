@@ -68,6 +68,7 @@ export class UIManager {
   handleAction(action) {
     const e = this.engine;
     if (action === "toggle_pause") e.togglePause();
+    else if (action === "step_one_day") e.stepOneDay();
     else if (action.startsWith("speed_")) { e.setSpeed(Number(action.slice(6))); e.setPaused(false); }
     else if (action.startsWith("map_mode_f")) this.setMapLayer(Number(action.slice(10)));
     else if (action === "toggle_ledger") this.setOverlay("ledger", !this.ledgerOpen);

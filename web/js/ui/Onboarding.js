@@ -24,12 +24,12 @@ const FLAG = "onboarding_done";
 const SPOTS = [
   [0, 0, 1920, 52],        // TopBar
   [690, 104, 1150, 975],   // map: Israel, West Bank and Sinai (real geography)
-  [855, 0, 1065, 52],      // TopBar slot 5 (inflation) — open its causal tooltip
+  [440, 0, 660, 52],       // TopBar slot 4 (inflation) — open its causal tooltip
   [240, 52, 1160, 952],    // drawer area (D2)
   [240, 52, 1160, 952],    // drawer area (D3)
   [240, 52, 1160, 952],    // drawer area (D4)
   [500, 200, 1420, 600],   // event modal
-  [0, 0, 210, 52],         // TopBar slot 1 (date / pace)
+  [1360, 0, 1920, 52],     // TopBar top-right TimeControlPanel (date / pace / pause / speed)
 ];
 
 export class OnboardingDirector {

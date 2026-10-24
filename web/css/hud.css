@@ -1,47 +1,111 @@
 /* hud components (owned by one implementer; see js/ui).
  * TopBar / AlertOutliner / DiegeticDeskPropsBar / DrawerContainer + D1–D7 drawers. */
 
-/* TopBar (0,0)-(1920,52): HBox of 9 EXPAND_FILL slots, text top-left. */
-.topbar { overflow: hidden; }
-.topbar-row { width: 100%; height: 100%; padding: 6px 8px 0; }
-.topbar-slot { overflow: hidden; text-overflow: ellipsis; height: 100%; }
+/* TopBar (0,0)-(1920,52): HBox of KPI slots on left + Time & Flow controls on right. */
+.topbar { overflow: hidden; background: var(--paper); border-bottom: 1px solid var(--ink); }
+.topbar-main-row { width: 100%; height: 100%; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; }
+.topbar-kpis-row { display: flex; flex: 1 1 auto; align-items: center; gap: 8px; overflow: hidden; padding: 0 4px; min-width: 0; }
+.topbar-slot { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; font-weight: 500; padding: 4px 6px; border-radius: 2px; }
 .topbar-slot.clickable { cursor: pointer; }
-.topbar-slot.clickable:hover { color: var(--blue); text-decoration: underline dotted; }
+.topbar-slot.clickable:hover { color: var(--blue); background: rgba(0, 56, 184, 0.08); text-decoration: underline dotted; }
+
+/* TopBar quick action links (Ledger L & Codex C) */
+.topbar-quick-actions { display: flex; align-items: center; gap: 5px; white-space: nowrap; font-size: 13px; }
+.topbar-overlay-link { cursor: pointer; font-weight: 700; color: var(--blue); padding: 2px 4px; border-radius: 2px; }
+.topbar-overlay-link:hover { background: rgba(0, 56, 184, 0.12); text-decoration: underline; }
+.topbar-overlay-sep { color: var(--muted); }
+
+/* Top-Right Time & Flow Control Dashboard (#TimeControlPanel) */
+.topbar-time-panel {
+  display: flex; align-items: center; gap: 8px; padding: 3px 10px; height: 38px; flex: 0 0 auto;
+  background: #FAF5EB; border: 1px solid rgba(30, 28, 26, 0.45); box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+.time-clock-box { display: flex; align-items: center; gap: 6px; color: var(--ink); }
+.time-clock-icon { color: var(--muted); flex: 0 0 auto; }
+.time-date-text { font-family: var(--font-mono); font-size: 13px; font-weight: 700; letter-spacing: 0.02em; color: var(--ink); white-space: pre; }
+.time-panel-divider { width: 1px; height: 22px; background: rgba(30, 28, 26, 0.25); margin: 0 3px; }
+
+/* Flow control buttons (Pause / Resume & Step 1 Day) */
+.time-flow-btns { display: flex; align-items: center; gap: 4px; }
+button.btn.time-flow-btn {
+  display: flex; align-items: center; gap: 5px; height: 28px; padding: 0 8px;
+  font-family: var(--font-ui); font-size: 12px; font-weight: 700;
+  border: 1px solid var(--ink); background: var(--paper); cursor: pointer;
+  transition: all 0.12s ease;
+}
+button.btn.time-flow-btn:hover { background: #FFFDF9; border-color: var(--blue); color: var(--blue); }
+button.btn.time-flow-btn:active { background: var(--paper-2); }
+.time-btn-svg { flex: 0 0 auto; }
+.time-btn-text { font-size: 12px; }
+
+button.btn.time-pause-btn.paused {
+  background: #FFF4DE; border-color: var(--amber); color: #8A5A0C;
+  box-shadow: inset 0 0 0 1px var(--amber);
+}
+button.btn.time-pause-btn.running {
+  background: #E8F5E9; border-color: var(--green); color: #1B5E20;
+}
+button.btn.time-step-btn:hover { color: var(--blue); border-color: var(--blue); }
+
+/* Speed selector group */
+.time-speed-box { display: flex; align-items: center; gap: 6px; }
+.time-speed-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.time-speed-group { display: flex; align-items: center; border: 1px solid var(--ink); background: var(--paper); overflow: hidden; }
+button.btn.time-speed-btn {
+  border: none; border-right: 1px solid rgba(30, 28, 26, 0.3); height: 26px; padding: 0 7px;
+  font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--ink);
+  background: transparent; cursor: pointer; transition: all 0.1s ease;
+}
+button.btn.time-speed-btn:last-child { border-right: none; }
+button.btn.time-speed-btn:hover { background: rgba(0, 56, 184, 0.08); color: var(--blue); }
+button.btn.time-speed-btn.active {
+  background: var(--blue); color: #FFFFFF; font-weight: 700;
+}
 
 /* AlertOutliner (1680,52)-(1920,1080). */
 .alert-outliner { overflow-y: auto; overflow-x: hidden; border-top: none; }
 .alert-outliner-box { padding: 6px 8px; }
 .alert-btn { width: 100%; text-align: center; }
 
-/* DiegeticDeskPropsBar (240,994)-(1680,1080): 7 buttons ≈202px × 78px, each = line icon +
- * object name + "what it does · hotkey"; the prop whose drawer is open is highlighted. */
-.desk-props { border-bottom: none; background: var(--paper-2); }
-.desk-props-row { width: 100%; height: 100%; padding: 4px; }
-button.btn.desk-prop {
-  height: 100%; display: flex; align-items: center; gap: 8px; padding: 4px 8px 4px 10px; text-align: left;
-  background: var(--paper); white-space: normal;
-  box-shadow: inset 0 0 0 3px var(--paper), inset 0 0 0 4px rgba(30, 28, 26, 0.35);
+/* MapModeBottomBar (240,994)-(1680,1080): Strategic Map Layers F1–F7 & Dynamic Legend */
+.map-mode-bar { border-bottom: none; background: var(--paper-2); padding: 0 12px; }
+.map-mode-container { width: 100%; height: 100%; display: flex; align-items: center; gap: 12px; }
+.map-mode-title-box { display: flex; align-items: center; gap: 6px; padding: 0 6px; flex: 0 0 auto; }
+.map-mode-icon { color: var(--blue); flex: 0 0 auto; }
+.map-mode-title-text { font-family: var(--font-title); font-size: 15px; font-weight: 700; letter-spacing: 0.08em; color: var(--ink); }
+.map-mode-btn-group { display: flex; align-items: center; gap: 6px; flex: 0 0 auto; }
+button.btn.map-mode-btn {
+  display: flex; align-items: center; gap: 5px; padding: 6px 10px; height: 38px;
+  background: var(--paper); border: 1px solid var(--ink); cursor: pointer; transition: all 0.12s ease;
 }
-.desk-prop-icon { flex: 0 0 auto; color: var(--ink); opacity: 0.85; }
-.desk-prop-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
-.desk-prop-name { font-family: var(--font-title); font-size: 16px; font-weight: 700; letter-spacing: 0.12em; }
-.desk-prop-action { font-size: 12px; color: var(--muted); line-height: 1.3; }
-button.btn.desk-prop:hover { background: #FBF7EF; }
-button.btn.desk-prop:hover .desk-prop-icon, button.btn.desk-prop:hover .desk-prop-action { color: var(--blue); }
-button.btn.desk-prop.open {
-  background: #F2E3C4; color: var(--ink);
-  box-shadow: inset 0 0 0 3px #F2E3C4, inset 0 0 0 4px var(--amber), inset 0 -4px 0 4px rgba(200, 138, 30, 0.25);
+button.btn.map-mode-btn:hover { background: #FFFDF9; border-color: var(--blue); }
+.map-mode-btn-key { font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--blue); background: rgba(0, 56, 184, 0.08); padding: 1px 4px; border-radius: 2px; }
+.map-mode-btn-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+button.btn.map-mode-btn.active {
+  background: #F2E3C4; border: 1.5px solid var(--amber); box-shadow: inset 0 0 0 2px rgba(200, 138, 30, 0.2);
 }
-button.btn.desk-prop.open .desk-prop-icon { color: #8A5A0C; opacity: 1; }
-button.btn.desk-prop.open .desk-prop-action { color: #6B4A12; }
+button.btn.map-mode-btn.active .map-mode-btn-key { color: #8A5A0C; background: rgba(200, 138, 30, 0.18); }
+button.btn.map-mode-btn.active .map-mode-btn-name { color: #6B4A12; font-weight: 700; }
 
-/* DrawerContainer at (240,52): the 920x900 container is transparent to the mouse; only the
- * tab row and the open panel take input. Panel height adapts to its content (max 760px). */
-#DrawerLayer > .drawer-container { pointer-events: none; }
-.drawer-container > * { pointer-events: auto; }
-.drawer-tabs { position: absolute; left: 0; top: 0; align-items: flex-start; }
-.drawer-tab { padding: 4px 8px; font-weight: 600; }
-.drawer-tab.active { background: #F2E3C4; color: var(--blue); border-bottom: 2px solid var(--blue); }
+.map-mode-legend-box {
+  margin-left: auto; display: flex; align-items: center; gap: 8px; padding: 6px 12px; height: 38px;
+  background: var(--paper); border: 1px solid rgba(30, 28, 26, 0.35); font-size: 12px; max-width: 460px; min-width: 240px;
+}
+.map-mode-legend-dot { width: 10px; height: 10px; border-radius: 50%; border: 1px solid rgba(0, 0, 0, 0.3); flex: 0 0 auto; }
+.map-mode-legend-text { color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
+
+/* Drawer tabs styling */
+.drawer-tabs { position: absolute; left: 0; top: 0; display: flex; gap: 3px; align-items: flex-start; }
+.drawer-tab {
+  padding: 5px 11px; font-size: 12px; font-weight: 600; background: var(--paper-2);
+  border: 1px solid var(--ink); border-bottom: none; border-radius: 3px 3px 0 0; cursor: pointer;
+  transition: all 0.12s ease;
+}
+.drawer-tab:hover { background: #FAF5EB; color: var(--blue); }
+.drawer-tab.active {
+  background: #F4EFE6; color: var(--blue); font-weight: 700;
+  border-top: 2px solid var(--blue); box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.08);
+}
 
 .drawer-panel {
   display: flex; flex-direction: column; overflow: hidden;

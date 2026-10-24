@@ -6,7 +6,7 @@
  */
 import { TopBarController } from "./TopBar.js";
 import { AlertOutlinerController } from "./AlertOutliner.js";
-import { DiegeticDeskPropsController } from "./DeskProps.js";
+import { MapModeBottomBar } from "./map/MapModeBottomBar.js";
 import { DrawerContainerController } from "./DrawerContainer.js";
 import { IsraelMapCanvas } from "./map/IsraelMapCanvas.js";
 import { RegionInspectorCard } from "./map/RegionInspectorCard.js";
@@ -24,7 +24,7 @@ export class DeskMain {
     // Same node order as DeskMain.tscn (z order inside each layer).
     this.map = new IsraelMapCanvas(c);
     this.inspector = new RegionInspectorCard(c);
-    this.props = new DiegeticDeskPropsController(c);
+    this.mapModes = new MapModeBottomBar(c);
     this.topBar = new TopBarController(c);
     this.alerts = new AlertOutlinerController(c);
     this.drawers = new DrawerContainerController(c);
@@ -40,7 +40,7 @@ export class DeskMain {
     const L = (id) => document.getElementById(id);
     this.map.mount(L("MapDeskLayer"));
     this.inspector.mount(L("MapDeskLayer"));
-    this.props.mount(L("MapDeskLayer"));
+    this.mapModes.mount(L("MapDeskLayer"));
     this.topBar.mount(L("HUDLayer"));
     this.alerts.mount(L("HUDLayer"));
     this.drawers.mount(L("DrawerLayer"));
@@ -77,6 +77,7 @@ export class DeskMain {
     this.alerts.refresh(view);
     this.drawers.refresh(view);
     this.inspector.refresh(view);
+    this.mapModes.refresh(view);
     if (this.ctx.ui.ledgerOpen) this.ledger.refresh(view);
   }
 }
