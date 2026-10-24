@@ -3,7 +3,7 @@
  * 4 Strategic Fronts table with ROE toggles, Nuclear & Osirak Intel monitor, and military actions. */
 import { el, label, button, fmt } from "../../core/controls.js";
 import { registerReads } from "../../core/StateView.js";
-import { FRONT_ZH, sectionHeader, metricCard, meterBar } from "./drawer_helpers.js";
+import { FRONT_ZH, COUNTRY_ZH, sectionHeader, metricCard, meterBar } from "./drawer_helpers.js";
 
 const FRONT_STATUS_ZH = {
   PEACE: "停火和平",
@@ -51,6 +51,8 @@ export class D7MilitaryIntelController {
     this.frontStatus = {};
     this.nuclearAmbiguity = "opaque";
     this.intelQuality = 0.0;
+    this.targetCountry = "lebanon";
+    this.targetPower = "usa";
   }
 
   mount(parent) {
@@ -203,6 +205,33 @@ export class D7MilitaryIntelController {
     const aCard = el("div", "d-card");
     const pc = view.params.get_val("political_capital", "");
     aCard.appendChild(sectionHeader("参谋本部与情报机构行动指令", `当前政治资本 ${pc.toFixed(0)}`));
+
+    const tgtBar = el("div", "d-target-bar");
+    tgtBar.appendChild(label("军事打击目标方向：", { size: 11 }));
+    const selC = el("select", "d-arg-select");
+    for (const cid of ["lebanon", "syria", "egypt", "jordan", "iraq"]) {
+      const opt = document.createElement("option");
+      opt.value = cid;
+      opt.textContent = COUNTRY_ZH[cid] || cid;
+      if (cid === this.targetCountry) opt.selected = true;
+      selC.appendChild(opt);
+    }
+    selC.addEventListener("change", () => { this.targetCountry = selC.value; });
+    tgtBar.appendChild(selC);
+
+    tgtBar.appendChild(label("军购来源：", { size: 11 }));
+    const selP = el("select", "d-arg-select");
+    for (const pid of ["usa", "france", "uk", "west_germany"]) {
+      const opt = document.createElement("option");
+      opt.value = pid;
+      opt.textContent = COUNTRY_ZH[pid] || pid;
+      if (pid === this.targetPower) opt.selected = true;
+      selP.appendChild(opt);
+    }
+    selP.addEventListener("change", () => { this.targetPower = selP.value; });
+    tgtBar.appendChild(selP);
+    aCard.appendChild(tgtBar);
+
     const actGrid = el("div", "d-act-grid");
     const cdMap = (view.raw.modules && view.raw.modules.M05 && view.raw.modules.M05.action_cooldowns) || {};
     const day = Number(view.clock.day_index || 0);
@@ -212,7 +241,9 @@ export class D7MilitaryIntelController {
       const b = button(
         `${act.zh}（${onCd ? `冷却至第${cd}天` : act.cost}）`,
         async () => {
-          const res = await this.ctx.engine.submitCommand({ op: "execute_action", action: act.id });
+          const countryArg = act.id === "preemptive_strike" ? "iraq" : this.targetCountry;
+          const args = { country: countryArg, power: this.targetPower };
+          const res = await this.ctx.engine.submitCommand({ op: "execute_action", action: act.id, args });
           this.status.textContent = res && res.ok
             ? `✓ 已下达军事/情报指令：${act.zh}`
             : `✗ 暂不可执行：${act.zh}（${(res && res.result && res.result.error) || "前置条件或政治资本不足"}）`;

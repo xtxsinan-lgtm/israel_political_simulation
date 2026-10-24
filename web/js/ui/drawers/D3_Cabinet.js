@@ -3,7 +3,7 @@
  * active running actions tracker, and categorized M05 player actions. */
 import { el, label, button, fmt } from "../../core/controls.js";
 import { registerReads } from "../../core/StateView.js";
-import { OFFICE_ZH, PARTY_ZH, FACTION_ZH, ACTION_CAT_ZH, charName, charDef, sectionHeader } from "./drawer_helpers.js";
+import { OFFICE_ZH, PARTY_ZH, FACTION_ZH, ACTION_CAT_ZH, ARG_LABEL_ZH, argOptionsForAction, charName, charDef, sectionHeader } from "./drawer_helpers.js";
 
 registerReads([["political_capital", ""]]);
 
@@ -29,6 +29,7 @@ export class D3CabinetController {
     this.ministerProposals = [];
     this.activePolicies = [];
     this.actions = [];
+    this.selectedArgs = {};
     this.fetchedKey = null;
     this.inFlight = false;
     this.lastView = null;
@@ -39,11 +40,12 @@ export class D3CabinetController {
     this.root = el("div", "drawer-body d3-cabinet");
     this.summary = label("", { size: 13, autowrap: true, cls: "drawer-summary d-compact-summary" });
     this.rosterCard = el("div", "d-card");
+    this.proposalsCard = el("div", "d-card");
     this.bioBar = label("提示：点击任意内阁成员可查看人物生平与派系背景；点击下方行动按钮立即下达政令。", { size: 12, autowrap: true, cls: "d3-bio-bar" });
     this.status = label("", { size: 13, cls: "d3-status" });
     this.catBar = el("div", "d-subtabs");
     this.list = el("div", "d3-action-list");
-    this.root.append(this.summary, this.rosterCard, this.bioBar, this.status, this.catBar, this.list);
+    this.root.append(this.summary, this.rosterCard, this.proposalsCard, this.bioBar, this.status, this.catBar, this.list);
     parent.appendChild(this.root);
   }
 
@@ -53,9 +55,14 @@ export class D3CabinetController {
     this.activePolicies = [];
     let offices = view.modules.M06.offices || {};
     if (!Object.keys(offices).length) offices = view.offices || {};
-    const ids = Object.keys(offices).sort();
-    for (let i = 0; i < Math.min(6, ids.length); i++) {
-      this.ministerProposals.push({ office: ids[i], holder: String(offices[ids[i]]), discount: 0.30 });
+    const liveProposals = Array.isArray(view.modules.M06.minister_proposals) ? view.modules.M06.minister_proposals : [];
+    if (liveProposals.length) {
+      this.ministerProposals = liveProposals.map((p) => ({ ...p }));
+    } else {
+      const ids = Object.keys(offices).sort();
+      for (let i = 0; i < Math.min(6, ids.length); i++) {
+        this.ministerProposals.push({ office: ids[i], holder: String(offices[ids[i]]), discount: 0.30 });
+      }
     }
     const pol = this.ctx.data.policies || {};
     const policyIds = Object.keys(pol.by_id || {}).sort();
@@ -71,13 +78,70 @@ export class D3CabinetController {
       : "";
 
     this.summary.textContent = fmt(
-      "部长提案 %d（批准可享 30%% 政治资本折扣） · 政策 %d · 当前政治资本 %.0f · 本周行动槽 %d/%d%s",
+      "部长提案 %d（批准可享 30%% 政治资本折扣且免占周槽位） · 政策 %d · 当前政治资本 %.0f · 本周行动槽 %d/%d%s",
       this.ministerProposals.length, this.activePolicies.length, pc, usedSlots, maxSlots, runStr,
     );
 
     this.renderRoster(view, offices);
+    this.renderProposals(view, pc);
     this.renderCatTabs();
     this.fetchActions(view);
+  }
+
+  renderProposals(view, pc) {
+    this.proposalsCard.replaceChildren();
+    const liveProposals = Array.isArray(view.modules.M06.minister_proposals) ? view.modules.M06.minister_proposals : [];
+    this.proposalsCard.appendChild(sectionHeader(
+      "本周内阁部长主动呈批议案 (M06 Minister Proposals)",
+      "批准享 30% 政治资本折扣 · 免占本周行动槽 · 提升部长关系 +6（驳回关系 -4）",
+    ));
+    if (!liveProposals.length) {
+      this.proposalsCard.appendChild(label("本周各部部长暂无待批提案（每周一定期呈报新议案）。", { size: 12, cls: "d-muted" }));
+      return;
+    }
+    const grid = el("div", "d3-proposal-grid");
+    for (const p of liveProposals) {
+      const card = el("div", "d3-proposal-card");
+      const top = el("div", "d3-prop-top");
+      const offZh = p.office_zh || OFFICE_ZH[p.office] || p.office || "内阁部委";
+      const minZh = p.minister_name || p.holder_zh || charName(this.ctx, p.minister_id || p.holder);
+      const badge = el("span", "d-badge badge-amber");
+      badge.textContent = `${offZh} · ${minZh}`;
+      const costSpan = el("span", "d3-prop-cost");
+      const origPc = Number(p.pc_base ?? p.orig_pc ?? 10);
+      const discPc = Number(p.pc_discounted ?? p.disc_pc ?? 7);
+      costSpan.textContent = `原价 ${origPc} ➔ 折扣价 ${discPc} 资本（免槽位）`;
+      top.append(badge, costSpan);
+
+      const titleTxt = p.action_name || p.title_zh || p.action_id || "部委专项提案";
+      const titleEl = el("div", "d3-prop-title");
+      titleEl.textContent = titleTxt;
+      const reasonEl = el("div", "d3-prop-reason");
+      reasonEl.textContent = `呈报理由：${p.rationale_zh || p.reason_zh || "部委常规施政建议"}`;
+
+      const btnRow = el("div", "d3-prop-btns");
+      const approveBtn = button(`✓ 批准提案 (-${discPc}资本)`, async () => {
+        const res = await this.ctx.engine.submitCommand({ op: "approve_minister_proposal", proposal_id: p.id });
+        this.fetchedKey = null;
+        this.status.textContent = res && res.ok
+          ? `✓ 已批准【${offZh}·${minZh}】提案：${titleTxt}`
+          : `✗ 无法批准提案：${(res && res.result && res.result.error) || "政治资本不足或前置未满足"}`;
+      }, { size: 11, cls: "d-act-btn active" });
+      approveBtn.disabled = pc < discPc;
+
+      const rejectBtn = button("✗ 驳回 (关系-6)", async () => {
+        const res = await this.ctx.engine.submitCommand({ op: "reject_minister_proposal", proposal_id: p.id });
+        this.fetchedKey = null;
+        this.status.textContent = res && res.ok
+          ? `已驳回【${offZh}·${minZh}】提案（部长关系 -6）`
+          : "驳回失败";
+      }, { size: 11, cls: "d-act-btn" });
+
+      btnRow.append(approveBtn, rejectBtn);
+      card.append(top, titleEl, reasonEl, btnRow);
+      grid.appendChild(card);
+    }
+    this.proposalsCard.appendChild(grid);
   }
 
   renderRoster(view, offices) {
@@ -174,21 +238,64 @@ export class D3CabinetController {
       const dur = a.dur !== null && a.dur !== undefined ? fmt("%d天", a.dur) : "即时";
       const catZh = ACTION_CAT_ZH[a.cat] || a.cat || "";
       let text = fmt("[%s] %s · 资本 %d · %s", catZh, a.zh || a.id, pc, dur);
+      if (a.succ && a.succ.base !== undefined && Number(a.succ.base) < 1) {
+        text += fmt(" · 成功率%.0f%%", Number(a.succ.base) * 100);
+      }
       const cd = Number(a.cooldown_until || 0);
-      if (cd > day) text += fmt(" (冷却至第%d天)", cd);
+      if (a.once && Number(a.completed_count || 0) > 0) {
+        text += " (已完成)";
+      } else if (cd > day) {
+        text += fmt(" (冷却至第%d天)", cd);
+      }
       const b = button(text, () => this.executeAction(a), { size: 12, cls: "d3-action" });
       b.title = `${a.zh || a.id} (${a.id})${a.note ? "\n" + a.note : ""}`;
       b.dataset.action = a.id;
       b.disabled = !a.available;
-      this.list.appendChild(b);
+
+      const argNames = Array.isArray(a.args)
+        ? a.args
+        : (a.args && typeof a.args === "object" ? Object.keys(a.args) : []);
+      if (argNames.length > 0) {
+        const rowWrap = el("div", "d3-action-row");
+        rowWrap.appendChild(b);
+        const curArgs = this.selectedArgs[a.id] || { ...(a.default_args || {}) };
+        this.selectedArgs[a.id] = curArgs;
+        for (const argName of argNames) {
+          const opts = argOptionsForAction(this.ctx, view, argName);
+          if (!opts.length) continue;
+          const sel = el("select", "d-arg-select");
+          sel.title = ARG_LABEL_ZH[argName] || argName;
+          const defVal = curArgs[argName] || opts[0].value;
+          curArgs[argName] = defVal;
+          for (const opt of opts) {
+            const o = document.createElement("option");
+            o.value = opt.value;
+            o.textContent = opt.label;
+            if (opt.value === defVal) o.selected = true;
+            sel.appendChild(o);
+          }
+          sel.addEventListener("change", () => {
+            curArgs[argName] = sel.value;
+          });
+          rowWrap.appendChild(sel);
+        }
+        this.list.appendChild(rowWrap);
+      } else {
+        this.list.appendChild(b);
+      }
     }
   }
 
   async executeAction(a) {
-    const res = await this.ctx.engine.submitCommand({ op: "execute_action", action: a.id });
+    const args = this.selectedArgs[a.id] || a.default_args || {};
+    const res = await this.ctx.engine.submitCommand({ op: "execute_action", action: a.id, args });
     this.fetchedKey = null;
-    this.status.textContent = res && res.ok
-      ? fmt("✓ 已下达执行：%s", a.zh || a.id)
-      : fmt("✗ 未能执行：%s (%s)", a.zh || a.id, (res && res.result && res.result.error) || "条件未满足");
+    if (res && res.ok) {
+      const out = (res.result && res.result.outcome) || "";
+      const outTag = out === "failure" ? "（行动遭遇挫折）" : "";
+      this.status.textContent = fmt("✓ 已下达执行：%s%s", a.zh || a.id, outTag);
+    } else {
+      this.status.textContent = fmt("✗ 未能执行：%s (%s)", a.zh || a.id, (res && res.result && res.result.error) || "条件未满足");
+    }
   }
 }

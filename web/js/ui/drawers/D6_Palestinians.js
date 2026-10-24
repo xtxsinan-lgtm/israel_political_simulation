@@ -56,6 +56,7 @@ export class D6PalestiniansController {
     this.ctx = ctx;
     this.palLegitimacy = {};
     this.intifadaPhase = "calm";
+    this.targetFaction = "village_leagues";
   }
 
   mount(parent) {
@@ -194,6 +195,21 @@ export class D6PalestiniansController {
     const aCard = el("div", "d-card");
     const pc = view.params.get_val("political_capital", "");
     aCard.appendChild(sectionHeader("约旦河西岸与加沙治理工具箱", `当前政治资本 ${pc.toFixed(0)} · 注意短期铁腕与长期反噬`));
+
+    const tgtBar = el("div", "d-target-bar");
+    tgtBar.appendChild(label("专项扶持/针对派系：", { size: 11 }));
+    const sel = el("select", "d-arg-select");
+    for (const fid of FACTIONS) {
+      const opt = document.createElement("option");
+      opt.value = fid;
+      opt.textContent = PAL_FACTION_ZH[fid] || fid;
+      if (fid === this.targetFaction) opt.selected = true;
+      sel.appendChild(opt);
+    }
+    sel.addEventListener("change", () => { this.targetFaction = sel.value; });
+    tgtBar.appendChild(sel);
+    aCard.appendChild(tgtBar);
+
     const actGrid = el("div", "d-act-grid");
     const cdMap = (view.raw.modules && view.raw.modules.M05 && view.raw.modules.M05.action_cooldowns) || {};
     const day = Number(view.clock.day_index || 0);
@@ -203,7 +219,8 @@ export class D6PalestiniansController {
       const b = button(
         `${act.zh}（${onCd ? `冷却至第${cd}天` : act.cost}）`,
         async () => {
-          const res = await this.ctx.engine.submitCommand({ op: "execute_action", action: act.id });
+          const args = { faction: this.targetFaction, region: "west_bank" };
+          const res = await this.ctx.engine.submitCommand({ op: "execute_action", action: act.id, args });
           this.status.textContent = res && res.ok
             ? `✓ 已下达占领区治理指令：${act.zh}`
             : `✗ 暂不可执行：${act.zh}（${(res && res.result && res.result.error) || "条件或政治资本不足"}）`;

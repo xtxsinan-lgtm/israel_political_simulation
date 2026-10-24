@@ -5,12 +5,19 @@ from typing import Any, Dict, List, Optional, Union
 from sim.causal import CausalNet
 from sim.expr import EffectExecutor, eval_bool, eval_expr, eval_float
 from sim.modules import (
+    _update_m13_resist_actors,
     adjust_policy,
+    approve_minister_proposal,
     compute_final_evaluation,
+    continue_as_successor,
     execute_player_action,
     get_available_actions,
     preview_layers,
+    refresh_coalition_demands,
+    refresh_minister_proposals,
     register_all_term_providers,
+    reject_minister_proposal,
+    resolve_coalition_demand,
     resolve_event_option,
     step_01_m01_maintenance,
     step_02_m05_enqueue_actions,
@@ -58,6 +65,10 @@ class SimulationEngine:
         self.executor: EffectExecutor = EffectExecutor(self.causal_net)
         self.bot: Optional[Any] = bot
         self.auto_resolve_events: bool = auto_resolve_events
+        if state is None:
+            refresh_minister_proposals(self.state)
+            refresh_coalition_demands(self.state)
+            _update_m13_resist_actors(self.state)
 
     def step_day(self, bot: Optional[Any] = None) -> Dict[str, Any]:
         """Advance the simulation by 1 game day through all 20 settlement steps."""

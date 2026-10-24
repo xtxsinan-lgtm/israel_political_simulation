@@ -1827,10 +1827,24 @@ class GameState:
                         sum_add += val * stacks
                     elif op == "mul":
                         prod_mul *= (val ** stacks)
-        if factor_key == "pc_income":
-            # pc_income returns flat bonus when queried as flat or factor
+        if factor_key in ("pc_income", "exec_slots"):
+            # pc_income / exec_slots returns flat bonus when queried as flat or factor
             return quantize(sum_add)
         return quantize(clamp((1.0 + sum_add) * prod_mul, 0.0, 5.0))
+
+    def mod_add(self, factor_key: str) -> float:
+        """Compute aggregate additive modifier bonus for `factor_key`."""
+        sum_add = 0.0
+        for inst in self.modifiers:
+            mdef = self.registry.modifier_defs.get(inst.get("def_id", ""), {})
+            stacks = int(inst.get("stacks", 1))
+            for f in mdef.get("factors", []) or []:
+                if f.get("factor_key") == factor_key and f.get("op", "add_pct") in ("add_pct", "add_flat", "add"):
+                    sum_add += float(f.get("value", 0.0)) * stacks
+            mod_dict = mdef.get("mod", {})
+            if isinstance(mod_dict, dict) and factor_key in mod_dict:
+                sum_add += float(mod_dict[factor_key]) * stacks
+        return quantize(sum_add)
 
     # ------------------------------------------------------------------
     # Serialization & Hashing

@@ -237,6 +237,78 @@ def test_365_day_determinism_save_load_and_performance(tmp_path: Path = None) ->
     assert elapsed_ms < 5000.0
 
 
+def test_new_gameplay_mechanics_proposals_demands_gates_and_succession() -> None:
+    from sim.modules import (
+        approve_minister_proposal,
+        continue_as_successor,
+        get_available_actions,
+        refresh_coalition_demands,
+        refresh_minister_proposals,
+        reject_minister_proposal,
+        resolve_coalition_demand,
+    )
+
+    eng = SimulationEngine("begin_1977", master_seed=19770620)
+    st = eng.state
+    st.set_param("political_capital", 80.0)
+
+    # 1. Era & Econ gates on actions
+    avail_ids = {a["id"] for a in get_available_actions(st, ignore_pc=True)}
+    assert "second_tv_channel_law" not in avail_ids  # min_year: 1986
+    assert "tv_franchise_auction" not in avail_ids   # econ_gate: >= 15 (starts at -32)
+
+    # 2. Action template arg resolution (no literal "{bloc}" key pollution)
+    res_outreach = eng.execute_action_now("rally_bloc")
+    assert res_outreach["ok"] is True
+    assert "{bloc}" not in st.params.get("bloc_support", {})
+
+    # 3. Minister proposals (30% PC discount, 0 slot cost, +8 relation)
+    props = refresh_minister_proposals(st)
+    assert len(props) >= 1
+    p0 = props[0]
+    slots_before = int(st.m05.get("weekly_slots_used", 0))
+    rel_before = st.get_param("relation", p0["minister_id"])
+    res_prop = approve_minister_proposal(st, p0["id"], eng.executor)
+    assert res_prop["ok"] is True
+    assert int(st.m05.get("weekly_slots_used", 0)) == slots_before
+    assert st.get_param("relation", p0["minister_id"]) > rel_before
+
+    # 4. Coalition partner demands (concede / delay / refuse)
+    st.set_param("ally_satisfaction", 45.0, "nrp")
+    demands = refresh_coalition_demands(st)
+    assert len(demands) >= 1
+    d0 = demands[0]
+    sat_before = st.get_param("ally_satisfaction", d0["party_id"])
+    res_dem = resolve_coalition_demand(st, d0["id"], "concede", eng.executor)
+    assert res_dem["ok"] is True
+    assert st.get_param("ally_satisfaction", d0["party_id"]) > sat_before
+
+    # 5. Trial balloon 30% policy PC discount & statutory law minority gate
+    st.add_modifier("trial_balloon", 14, {"policy_pc_cost": -0.30})
+    pc_pre_pol = st.get_param("political_capital")
+    res_pol = eng.adjust_policy_now("fx_regime", direction="up")
+    assert res_pol["ok"] is True
+    assert not st.has_modifier("trial_balloon")  # consumed on policy change
+    assert (pc_pre_pol - st.get_param("political_capital")) < 18.0
+
+    # Statutory law policy blocked when minority government (< 58 seats)
+    st.set_param("coalition_seats", 55.0)
+    st.policies["sabbath_transport"]["cooldown_until_day"] = 0
+    res_law = eng.adjust_policy_now("sabbath_transport", direction="down")
+    assert res_law["ok"] is False
+    assert res_law["error"] == "minority_blocked_law"
+
+    # 6. Campaign succession after end_tenure
+    st.set_param("coalition_seats", 65.0)
+    eng.executor.apply_one(st, {"op": "custom", "handler": "end_tenure", "value": {"reason": "resignation"}})
+    eng.step_day()
+    assert st.run["phase"] == "ENDED"
+    new_leader = continue_as_successor(st, "resignation")
+    assert new_leader != "begin"
+    assert st.run["phase"] == "PLAYING"
+    assert st.player["leader_id"] == new_leader
+
+
 class TestSimCore(unittest.TestCase):
     def test_01_rng_determinism_and_serialization(self) -> None:
         test_rng_determinism_and_serialization()
@@ -267,6 +339,9 @@ class TestSimCore(unittest.TestCase):
 
     def test_10_365_day_determinism_save_load_and_performance(self) -> None:
         test_365_day_determinism_save_load_and_performance()
+
+    def test_11_new_gameplay_mechanics_proposals_demands_gates_and_succession(self) -> None:
+        test_new_gameplay_mechanics_proposals_demands_gates_and_succession()
 
 
 if __name__ == "__main__":

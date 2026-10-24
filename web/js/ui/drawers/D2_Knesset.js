@@ -228,6 +228,71 @@ export class D2KnessetController {
     tbl.appendChild(tbody);
     card.appendChild(tbl);
     this.partyCol.appendChild(card);
+
+    // Coalition Partner Demands & Ultimatums (M03)
+    const dCard = el("div", "d-card");
+    const demands = Array.isArray(view.modules.M03.coalition_demands) ? view.modules.M03.coalition_demands : [];
+    const day = Number(view.clock.day_index || 0);
+    const pc = view.params.get_val("political_capital", "");
+    dCard.appendChild(sectionHeader(
+      "执政盟党政策诉求与最后通牒 (M03 Coalition Demands)",
+      demands.length ? `当前待决诉求 ${demands.length} 项` : "盟党暂未提出新通牒",
+    ));
+    if (!demands.length) {
+      dCard.appendChild(label("当前各执政盟党暂无紧迫政策通牒（亦可直接在右侧调高宗教预算或调整对应政策满足盟党）。", { size: 12, cls: "d-muted" }));
+    } else {
+      const dList = el("div", "d2-demand-list");
+      for (const d of demands) {
+        const pid = d.party_id || d.party || "nrp";
+        const pZh = d.party_zh || PARTY_ZH[pid] || pid;
+        const leftDays = Math.max(0, Number(d.due_day ?? d.deadline_day ?? day) - day);
+        const isUlt = d.urgency === "ultimatum" || leftDays <= 10;
+        const pcCost = Number(d.pc_cost ?? 8);
+        const penSat = Number(d.penalty_sat ?? 10);
+        const favHave = Number(favorParty[pid] || 0);
+
+        const row = el("div", "d2-demand-card");
+        const top = el("div", "d2-demand-top");
+        const badge = el("span", `d-badge ${isUlt ? "badge-red" : "badge-amber"}`);
+        badge.textContent = `${pZh} · ${isUlt ? "⚠ 最后通牒" : "盟党诉求"}`;
+        const meta = el("span", "d2-demand-meta");
+        meta.textContent = `剩余 ${leftDays} 天 · 拒绝满意度 -${penSat}`;
+        top.append(badge, meta);
+
+        const body = el("div", "d2-demand-body");
+        body.textContent = `${d.title_zh || d.summary_zh || d.id}${d.desc_zh ? `（${d.desc_zh}）` : ""}`;
+
+        const btns = el("div", "d2-demand-btns");
+        const bConcede = button(`✓ 答应诉求 (满意+10 / 人情+1)`, async () => {
+          const res = await this.ctx.engine.submitCommand({ op: "resolve_coalition_demand", demand_id: d.id, decision: "concede" });
+          this.status.textContent = res && res.ok
+            ? `✓ 已满足「${pZh}」诉求：满意度提升`
+            : `✗ 无法满足诉求：${(res && res.result && res.result.error) || "政治资本不足"}`;
+        }, { size: 11, cls: "d-act-btn active" });
+        bConcede.disabled = pc < pcCost;
+
+        const delayLabel = favHave >= 1 ? "⏳ 动用人情推迟30天" : "⏳ 赊欠推迟30天 (-4资本)";
+        const bDelay = button(delayLabel, async () => {
+          const res = await this.ctx.engine.submitCommand({ op: "resolve_coalition_demand", demand_id: d.id, decision: "delay" });
+          this.status.textContent = res && res.ok
+            ? `⏳ 已将「${pZh}」诉求推迟30天`
+            : `✗ 无法推迟诉求：${(res && res.result && res.result.error) || "政治资本不足"}`;
+        }, { size: 11, cls: "d-act-btn" });
+
+        const bRefuse = button(`✗ 强硬拒绝 (满意-${penSat})`, async () => {
+          const res = await this.ctx.engine.submitCommand({ op: "resolve_coalition_demand", demand_id: d.id, decision: "refuse" });
+          this.status.textContent = res && res.ok
+            ? `已回绝「${pZh}」诉求（盟党满意度 -${penSat}，执政威望 +2）`
+            : "操作失败";
+        }, { size: 11, cls: "d-act-btn" });
+
+        btns.append(bConcede, bDelay, bRefuse);
+        row.append(top, body, btns);
+        dList.appendChild(row);
+      }
+      dCard.appendChild(dList);
+    }
+    this.partyCol.appendChild(dCard);
   }
 
   renderBlocAndActions(view) {

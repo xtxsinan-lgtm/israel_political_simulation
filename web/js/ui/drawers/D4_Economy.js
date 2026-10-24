@@ -375,9 +375,11 @@ export class D4EconomyController {
   renderBudgetSlidersSection(view, store) {
     this.budgetCard.replaceChildren();
     const totalPoints = REAL_BUDGET_KEYS.reduce((s, k) => s + Number(store[k] ?? 50), 0) || 1;
+    const envEffect = (380.0 - totalPoints) * 0.025;
+    const envTone = envEffect >= 0 ? "紧缩结余" : "扩张赤字";
     this.budgetCard.appendChild(sectionHeader(
       "■ 八大年度国家预算滑块 (Annual Budget Sliders - 拖动滑块或点选档位)",
-      "实时显示占总预算比例与对盟党/宏观指标的边际效应",
+      `八项总拨款 ${totalPoints.toFixed(0)} / 基准 380 点 · 月度财政收支影响 ${envEffect >= 0 ? "+" : ""}${envEffect.toFixed(2)} (${envTone})`,
     ));
 
     const list = el("div", "d4-slider-list");

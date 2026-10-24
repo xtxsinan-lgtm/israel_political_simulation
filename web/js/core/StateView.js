@@ -53,8 +53,12 @@ export class StateView {
       M03: {
         knesset_seats: (st.params && st.params.knesset_seats) || (st.parliament && st.parliament.knesset_seats) || {},
         vote_modal_open: !!(m.M03 && m.M03.vote_modal_open),
+        coalition_demands: (m.M03 && m.M03.coalition_demands) || [],
       },
-      M06: { offices: st.offices || {} },
+      M06: {
+        offices: st.offices || {},
+        minister_proposals: (m.M06 && m.M06.minister_proposals) || [],
+      },
       M09: { fronts: (m.M09 && m.M09.fronts) || {} },
       M11: { regions, key_sites: (m.M11 && m.M11.key_sites) || [] },
       M12: { pending_events: snapshot.pending_events || [] },

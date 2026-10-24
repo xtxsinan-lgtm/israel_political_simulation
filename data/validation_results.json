@@ -1,5 +1,5 @@
 {
-  "elapsed_seconds": 521.33,
+  "elapsed_seconds": 526.25,
   "all_passed": true,
   "test_1_system_dynamics": {
     "passed": true,
@@ -8,43 +8,43 @@
     "pinning_rate_24m": 0.0,
     "pinned_params": [],
     "inflation_1977_start": 35.0,
-    "inflation_peak_1983_1984": 400.51,
-    "inflation_post_1985_avg": 19.42,
+    "inflation_peak_1983_1984": 403.54,
+    "inflation_post_1985_avg": 19.54,
     "inflation_by_year": {
       "1977": 61.8,
-      "1978": 74.01,
-      "1979": 103.74,
-      "1980": 151.82,
-      "1981": 149.29,
-      "1982": 168.61,
-      "1983": 317.36,
-      "1984": 400.51,
-      "1985": 20.2,
-      "1986": 17.84,
-      "1987": 18.79,
-      "1988": 17.08,
-      "1989": 17.15,
-      "1990": 25.04,
-      "1991": 20.63
+      "1978": 80.09,
+      "1979": 110.58,
+      "1980": 157.41,
+      "1981": 153.25,
+      "1982": 169.2,
+      "1983": 367.38,
+      "1984": 403.54,
+      "1985": 19.82,
+      "1986": 18.99,
+      "1987": 18.98,
+      "1988": 18.98,
+      "1989": 17.6,
+      "1990": 24.55,
+      "1991": 18.12
     },
-    "begin_high_stress_exit_date": "1983-06-01",
+    "begin_high_stress_exit_date": "1983-01-01",
     "begin_high_stress_exit_year": 1983,
     "begin_peace_decompression_exit_date": "1989-10-08",
     "begin_peace_decompression_exit_year": 1989,
-    "perf_year1_avg_ms": 0.2478,
-    "perf_year15_avg_ms": 0.171,
-    "perf_y15_over_y1_ratio": 0.69
+    "perf_year1_avg_ms": 0.3042,
+    "perf_year15_avg_ms": 0.2381,
+    "perf_y15_over_y1_ratio": 0.7826
   },
   "test_2_event_monte_carlo": {
     "passed": true,
     "n_seeds": 100,
     "anchor_replay_rates": {
-      "E-1977-11": 0.87,
-      "E-1981-06a": 0.76,
-      "E-1982-06a": 0.77,
-      "E-1983-10": 0.84,
-      "E-1985-07": 0.69,
-      "E-1987-12a": 0.84
+      "E-1977-11": 0.85,
+      "E-1981-06a": 0.75,
+      "E-1982-06a": 0.94,
+      "E-1983-10": 0.8,
+      "E-1985-07": 0.68,
+      "E-1987-12a": 0.77
     },
     "anchor_labels": {
       "E-1977-11": "萨达特访问耶路撒冷 / 戴维营",
@@ -54,17 +54,17 @@
       "E-1985-07": "1985年经济稳定计划（新谢克尔改革）",
       "E-1987-12a": "第一次巴勒斯坦大起义（Intifada）"
     },
-    "average_anchor_replay_rate": 0.795,
+    "average_anchor_replay_rate": 0.7983,
     "counterfactual_shifts": {
-      "lebanon_war_hawk_rate": 0.88,
+      "lebanon_war_hawk_rate": 1.0,
       "lebanon_war_dove_rate": 0.32,
       "bank_crisis_technocrat_rate": 0.32,
-      "intifada_hawk_rate": 1.0,
+      "intifada_hawk_rate": 0.96,
       "intifada_dove_rate": 0.0
     },
-    "max_single_random_event_popup_share": 0.0181,
+    "max_single_random_event_popup_share": 0.0175,
     "event_deduplication_rate": 1.0,
-    "unseen_event_retention_rate": 0.6555
+    "unseen_event_retention_rate": 0.6439
   },
   "test_3_bot_tournament": {
     "passed": true,
@@ -72,122 +72,122 @@
     "total_campaigns": 224,
     "matrix_8d": {
       "historical": {
-        "security": 89.04,
-        "economy": 82.43,
-        "cohesion": 13.63,
-        "democracy": 57.82,
-        "diplomacy": 62.86,
-        "territory": 90.71,
+        "security": 88.88,
+        "economy": 47.55,
+        "cohesion": 2.29,
+        "democracy": 58.41,
+        "diplomacy": 47.47,
+        "territory": 91.04,
         "palestine": 0.0,
-        "leadership": 70.11
+        "leadership": 58.52
       },
       "revisionist_hawk": {
-        "security": 77.54,
-        "economy": 76.04,
-        "cohesion": 45.4,
-        "democracy": 55.32,
-        "diplomacy": 48.25,
-        "territory": 98.2,
+        "security": 90.74,
+        "economy": 48.34,
+        "cohesion": 39.6,
+        "democracy": 52.9,
+        "diplomacy": 35.16,
+        "territory": 98.74,
         "palestine": 0.0,
-        "leadership": 63.39
+        "leadership": 45.83
       },
       "peace_dove": {
-        "security": 64.7,
-        "economy": 82.75,
-        "cohesion": 76.49,
-        "democracy": 79.07,
-        "diplomacy": 99.57,
-        "territory": 63.93,
-        "palestine": 92.07,
-        "leadership": 46.9
+        "security": 64.71,
+        "economy": 76.35,
+        "cohesion": 72.74,
+        "democracy": 80.1,
+        "diplomacy": 99.64,
+        "territory": 63.27,
+        "palestine": 94.36,
+        "leadership": 44.67
       },
       "populist_welfare": {
-        "security": 72.69,
-        "economy": 73.18,
+        "security": 71.84,
+        "economy": 61.64,
         "cohesion": 100.0,
-        "democracy": 44.62,
-        "diplomacy": 55.82,
-        "territory": 95.15,
-        "palestine": 0.66,
-        "leadership": 41.08
+        "democracy": 43.98,
+        "diplomacy": 51.37,
+        "territory": 96.08,
+        "palestine": 0.43,
+        "leadership": 50.7
       },
       "neoliberal_technocrat": {
-        "security": 62.84,
+        "security": 60.74,
         "economy": 100.0,
-        "cohesion": 0.07,
-        "democracy": 99.95,
-        "diplomacy": 91.34,
-        "territory": 67.67,
-        "palestine": 77.57,
-        "leadership": 49.38
+        "cohesion": 0.0,
+        "democracy": 100.0,
+        "diplomacy": 98.13,
+        "territory": 64.39,
+        "palestine": 81.02,
+        "leadership": 47.66
       },
       "authoritarian_caesar": {
-        "security": 74.09,
-        "economy": 5.45,
-        "cohesion": 79.24,
-        "democracy": 0.81,
-        "diplomacy": 39.37,
-        "territory": 80.02,
-        "palestine": 19.68,
-        "leadership": 41.53
+        "security": 64.39,
+        "economy": 5.13,
+        "cohesion": 77.48,
+        "democracy": 0.6,
+        "diplomacy": 31.73,
+        "territory": 79.11,
+        "palestine": 21.08,
+        "leadership": 40.06
       },
       "random": {
-        "security": 69.94,
-        "economy": 42.97,
-        "cohesion": 77.79,
-        "democracy": 26.72,
-        "diplomacy": 57.52,
-        "territory": 81.28,
-        "palestine": 9.54,
-        "leadership": 57.33
+        "security": 60.41,
+        "economy": 30.34,
+        "cohesion": 72.86,
+        "democracy": 17.53,
+        "diplomacy": 49.09,
+        "territory": 79.86,
+        "palestine": 9.38,
+        "leadership": 57.96
       }
     },
     "bot_overall_mean": {
-      "historical": 84.84,
-      "revisionist_hawk": 75.86,
-      "peace_dove": 98.63,
-      "populist_welfare": 67.33,
-      "neoliberal_technocrat": 90.4,
-      "authoritarian_caesar": 9.46,
-      "random": 50.52
+      "historical": 71.37,
+      "revisionist_hawk": 65.14,
+      "peace_dove": 98.38,
+      "populist_welfare": 66.61,
+      "neoliberal_technocrat": 90.78,
+      "authoritarian_caesar": 5.28,
+      "random": 39.35
     },
     "bot_grades": {
       "historical": {
-        "S": 24,
-        "A": 6,
-        "B": 2
+        "A": 22,
+        "B": 6,
+        "C": 3,
+        "D": 1
       },
       "revisionist_hawk": {
-        "A": 12,
-        "B": 12,
-        "S": 7,
-        "C": 1
+        "S": 2,
+        "B": 10,
+        "C": 12,
+        "A": 8
       },
       "peace_dove": {
         "S": 31,
-        "B": 1
+        "A": 1
       },
       "populist_welfare": {
-        "B": 30,
-        "A": 2
+        "B": 22,
+        "A": 5,
+        "C": 5
       },
       "neoliberal_technocrat": {
-        "S": 30,
-        "B": 2
+        "S": 32
       },
       "authoritarian_caesar": {
         "F": 32
       },
       "random": {
-        "D": 6,
-        "C": 5,
-        "A": 6,
-        "B": 9,
-        "F": 6
+        "D": 7,
+        "B": 10,
+        "C": 2,
+        "F": 13
       }
     },
     "dimension_winners": {
-      "security": "historical",
+      "security": "revisionist_hawk",
       "economy": "neoliberal_technocrat",
       "cohesion": "populist_welfare",
       "democracy": "neoliberal_technocrat",
@@ -197,101 +197,98 @@
       "leadership": "historical"
     },
     "win_counts_by_bot": {
-      "historical": 2,
+      "revisionist_hawk": 2,
       "neoliberal_technocrat": 2,
       "populist_welfare": 1,
       "peace_dove": 2,
-      "revisionist_hawk": 1
+      "historical": 1
     },
     "max_dims_won_by_single_bot": 2,
     "three_layer_goals": {
       "promise_fulfillment_by_bot": {
-        "historical": 0.7081,
-        "revisionist_hawk": 0.7736,
-        "peace_dove": 0.8192,
-        "populist_welfare": 0.6897,
-        "neoliberal_technocrat": 0.7299,
-        "authoritarian_caesar": 0.4213,
-        "random": 0.6326
+        "historical": 0.6119,
+        "revisionist_hawk": 0.7381,
+        "peace_dove": 0.8615,
+        "populist_welfare": 0.6887,
+        "neoliberal_technocrat": 0.6702,
+        "authoritarian_caesar": 0.2372,
+        "random": 0.5999
       },
       "corridor_inside_by_bot": {
-        "historical": 0.4033,
-        "revisionist_hawk": 0.625,
-        "peace_dove": 0.0519,
-        "populist_welfare": 0.0601,
-        "neoliberal_technocrat": 0.1655,
-        "authoritarian_caesar": 0.5834,
-        "random": 0.8486
+        "historical": 0.0,
+        "revisionist_hawk": 0.0,
+        "peace_dove": 0.0,
+        "populist_welfare": 0.0,
+        "neoliberal_technocrat": 0.0,
+        "authoritarian_caesar": 0.5263,
+        "random": 0.8912
       },
       "vision_achieved_by_bot": {
-        "historical": 0.75,
-        "revisionist_hawk": 0.0625,
+        "historical": 0.6875,
+        "revisionist_hawk": 0.5,
         "peace_dove": 0.0,
-        "populist_welfare": 0.0312,
+        "populist_welfare": 0.1562,
         "neoliberal_technocrat": 0.0,
         "authoritarian_caesar": 0.0,
         "random": 0.0
       },
-      "overall_vision_achievement_rate": 0.1205
+      "overall_vision_achievement_rate": 0.192
     },
     "authoritarian_iron_law": {
       "survival_rate_15y": 0.0,
-      "authoritarian_mean_score": 9.46,
-      "democratic_mean_score": 83.41,
-      "score_deficit_vs_democratic": 73.95,
+      "authoritarian_mean_score": 5.28,
+      "democratic_mean_score": 78.46,
+      "score_deficit_vs_democratic": 73.17,
       "grade_distribution": {
         "F": 32
       },
       "grade_capped_at_B_or_below": true
     },
     "ending_diversity": {
-      "distinct_endings_triggered": 34,
+      "distinct_endings_triggered": 31,
       "total_endings_catalog": 40,
-      "shannon_entropy_h": 3.1309,
-      "effective_endings_neff": 22.89,
-      "max_single_ending_share": 0.0858,
+      "shannon_entropy_h": 3.0559,
+      "effective_endings_neff": 21.24,
+      "max_single_ending_share": 0.1231,
       "ending_distribution": {
-        "END_EPIC_08": 58,
-        "END_EPIC_11": 56,
-        "END_MAT_10": 54,
-        "END_MAT_13": 50,
-        "END_EPIC_06": 50,
-        "END_MAT_20": 47,
-        "END_MAT_14": 40,
-        "END_EPIC_01": 31,
-        "END_MAT_04": 30,
-        "END_MAT_11": 29,
-        "END_EPIC_07": 27,
-        "END_MAT_02": 24,
-        "END_EPIC_12": 21,
-        "END_MAT_06": 19,
-        "END_MAT_09": 19,
-        "END_EPIC_10": 12,
-        "END_MAT_08": 12,
-        "END_MAT_28": 12,
-        "END_MAT_03": 10,
-        "END_MAT_24": 10,
-        "END_MAT_16": 9,
+        "END_MAT_13": 81,
+        "END_MAT_10": 72,
+        "END_EPIC_01": 43,
+        "END_EPIC_10": 43,
+        "END_EPIC_11": 43,
+        "END_MAT_11": 32,
+        "END_MAT_04": 32,
+        "END_EPIC_08": 31,
+        "END_EPIC_07": 30,
+        "END_EPIC_12": 28,
+        "END_EPIC_06": 28,
+        "END_MAT_09": 26,
+        "END_MAT_28": 22,
+        "END_MAT_02": 21,
+        "END_MAT_14": 20,
+        "END_MAT_24": 17,
+        "END_MAT_08": 16,
         "END_MAT_26": 9,
-        "END_MAT_15": 9,
+        "END_MAT_06": 8,
+        "END_MAT_16": 6,
         "END_EPIC_04": 6,
+        "END_EPIC_03": 6,
+        "END_MAT_03": 5,
+        "END_MAT_17": 5,
+        "END_MAT_19": 5,
         "END_EPIC_05": 5,
-        "END_EPIC_09": 4,
-        "END_EPIC_03": 4,
         "END_MAT_27": 4,
-        "END_MAT_22": 4,
-        "END_MAT_21": 3,
-        "END_MAT_18": 3,
-        "END_MAT_07": 2,
-        "END_MAT_19": 2,
-        "END_MAT_17": 1
+        "END_EPIC_09": 4,
+        "END_MAT_20": 4,
+        "END_MAT_15": 3,
+        "END_MAT_22": 3
       }
     },
     "governing_fatigue_s1": {
-      "first_reelection_win_rate": 0.8053,
-      "first_reelection_total": 190,
+      "first_reelection_win_rate": 0.8836,
+      "first_reelection_total": 189,
       "third_plus_reelection_win_rate": 0.0,
-      "third_plus_reelection_total": 212,
+      "third_plus_reelection_total": 187,
       "passed": true
     }
   },

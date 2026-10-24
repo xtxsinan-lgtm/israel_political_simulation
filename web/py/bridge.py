@@ -22,7 +22,14 @@ import math
 from typing import Any, Dict, List, Optional
 
 from sim.engine import SimulationEngine
-from sim.modules import get_available_actions
+from sim.modules import (
+    _resolve_default_action_args,
+    approve_minister_proposal,
+    continue_as_successor,
+    get_available_actions,
+    reject_minister_proposal,
+    resolve_coalition_demand,
+)
 from sim.state import DataRegistry
 
 SAVE_FORMAT = "web-1.0"
@@ -154,7 +161,11 @@ class Bridge:
         st = self.engine.state
         op = str(cmd.get("op", ""))
         res: Dict[str, Any] = {"ok": False, "error": f"unknown op {op}"}
-        if st.run.get("phase") == "ENDED":
+        if op == "continue_succession":
+            end_r = str((st.m14.get("final_evaluation") or {}).get("end_reason") or st.pending.get("tenure_end") or "resignation")
+            new_leader = continue_as_successor(st, end_r)
+            res = {"ok": True, "leader_id": new_leader}
+        elif st.run.get("phase") == "ENDED":
             res = {"ok": False, "error": "ended"}
         elif op == "resolve_event":
             res = self.engine.choose_event_option(str(cmd.get("event", "")), str(cmd.get("option", "A")))
@@ -171,6 +182,12 @@ class Bridge:
                 res = {"ok": True, "queued": aid}
             else:
                 res = self.engine.execute_action_now(aid, args=cmd.get("args") or {})
+        elif op == "approve_minister_proposal":
+            res = approve_minister_proposal(st, str(cmd.get("proposal_id", "")), self.engine.executor)
+        elif op == "reject_minister_proposal":
+            res = reject_minister_proposal(st, str(cmd.get("proposal_id", "")))
+        elif op == "resolve_coalition_demand":
+            res = resolve_coalition_demand(st, str(cmd.get("demand_id", "")), str(cmd.get("decision", "concede")), self.engine.executor)
         elif op == "set_budget_slider":
             key = str(cmd.get("slider", ""))
             valid_sliders = ("defense", "absorption", "religion", "dev_towns", "education", "welfare", "infrastructure", "settlements")
@@ -236,13 +253,16 @@ class Bridge:
     def actions(self) -> List[Dict[str, Any]]:
         st = self.engine.state
         avail = {a.get("id") for a in get_available_actions(st, ignore_pc=False)}
+        completed = st.m05.get("completed_counts", {})
         out = []
         for aid, adef in self.registry.actions.items():
             if aid == "change_policy":
                 continue
-            row = {k: adef.get(k) for k in ("id", "zh", "cat", "cost", "dur", "cd", "w", "note", "args", "tags")}
+            row = {k: adef.get(k) for k in ("id", "zh", "cat", "cost", "dur", "cd", "w", "note", "args", "tags", "once", "era", "econ_gate", "succ")}
             row["available"] = aid in avail
             row["cooldown_until"] = int(st.m05.get("action_cooldowns", {}).get(aid, 0))
+            row["completed_count"] = int(completed.get(aid, 0))
+            row["default_args"] = _resolve_default_action_args(st, adef)
             out.append(row)
         return _clean(out)
 

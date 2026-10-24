@@ -9,7 +9,7 @@
  * Web intent fixes: next_page is wired (click / → key) and keeps the evaluation (Godot re-renders
  * with {} and would show letter "C"); the 8 dimension scores are drawn as a radar + list.
  */
-import { el, rect, label, fmt, canvas } from "../../core/controls.js";
+import { el, rect, label, button, fmt, canvas } from "../../core/controls.js";
 
 export const CHAPTER_TITLES = [
   "政治生涯与联盟沉浮",
@@ -40,6 +40,8 @@ export class EndTenureBookController {
     this.chapters = [];
     this.evaluation = {};
     this.visible = false;
+    this.lastDayIndex = 0;
+    this.lastReason = "resignation";
     this._onKey = (ev) => {
       if (!this.visible || ev.repeat) return;
       if (ev.key === "ArrowRight") { ev.preventDefault(); this.nextPage(); }
@@ -53,6 +55,17 @@ export class EndTenureBookController {
     this.root.style.display = "none";
     this.header = label("", { size: 14, cls: "end-book-ending" });
     this.page = label("", { autowrap: true, cls: "end-book-page" });
+    this.actionRow = el("div", "end-book-actions");
+    this.succBtn = button("▶ 继任下一任总理继续执政 (1977–1992 连续战役)", async (ev) => {
+      ev.stopPropagation();
+      await this.continueSuccession();
+    }, { size: 12, cls: "end-book-succ-btn active" });
+    this.newGameBtn = button("↻ 重新开启 1977 新战役", async (ev) => {
+      ev.stopPropagation();
+      this.hide();
+      if (this.ctx && this.ctx.engine) await this.ctx.engine.startNewGame();
+    }, { size: 12, cls: "end-book-new-btn" });
+    this.actionRow.append(this.succBtn, this.newGameBtn);
     const [cv, g] = canvas(RADAR, RADAR);
     this.radar = cv;
     this.radarCtx = g;
@@ -60,7 +73,7 @@ export class EndTenureBookController {
     this.dimList = label("", { cls: "end-book-dims" });
     this.footer = label("", { cls: "end-book-footer" });
     const left = el("div", "end-book-left");
-    left.append(this.header, this.page);
+    left.append(this.header, this.page, this.actionRow);
     const right = el("div", "end-book-right");
     right.append(cv, this.dimList);
     this.root.append(left, right, this.footer);
@@ -78,6 +91,8 @@ export class EndTenureBookController {
     const m14 = (view && view.modules.M14) || {};
     const pending = (view && view.pending) || {};
     const reason = String((m14.final_evaluation && m14.final_evaluation.end_reason) || m14.end_reason || pending.tenure_end || "resignation");
+    this.lastDayIndex = Number((view && view.clock && view.clock.day_index) || (info && info.day_index) || 0);
+    this.lastReason = reason;
     let ev = {};
     try {
       ev = this.ctx.sim.finalEvaluation ? await this.ctx.sim.finalEvaluation(reason) : await this.ctx.sim.evaluate(reason);
@@ -85,6 +100,18 @@ export class EndTenureBookController {
       console.warn("[EndTenureBook] evaluation failed", err);
     }
     this.present(ev || {}, (view && view.clock.date) || (info && info.date) || "");
+  }
+
+  async continueSuccession() {
+    if (!this.ctx || !this.ctx.engine) return;
+    const res = await this.ctx.engine.submitCommand({ op: "continue_succession" });
+    if (res && res.ok) {
+      this.hide();
+      this.ctx.engine.paused = true;
+      this.ctx.engine.pauseReason = "player";
+      this.ctx.engine._emitPauseState();
+      this.ctx.bus.emit("sim_day_advanced", this.ctx.engine.view());
+    }
   }
 
   /** present(state): compute_final_evaluation + build_epilogue_book, then render chapter 1. */
@@ -128,6 +155,10 @@ export class EndTenureBookController {
     this.page.textContent = fmt("评级 %s %s\n第 %s 章 %s\n%s", letter, cap, chapter.chapter ?? 1, chapter.title ?? "", chapter.body ?? "");
     const n = this.chapters.length || 1;
     this.footer.textContent = fmt("%d / %d   点击或按 → 翻页", this.chapter_index + 1, n);
+    if (this.succBtn) {
+      const canContinue = this.lastDayIndex < 5478 && !["state_collapse", "coup", "assassination", "overthrow"].includes(this.lastReason);
+      this.succBtn.style.display = canContinue ? "" : "none";
+    }
   }
 
   _drawDimensions(dims) {

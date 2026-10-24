@@ -188,6 +188,98 @@ export const ACTION_CAT_ZH = {
   cent: "宪政/集权",
 };
 
+export const REGION_ZH = {
+  west_bank: "约旦河西岸",
+  gaza: "加沙地带",
+  golan: "戈兰高地",
+  galilee: "加利利与北部",
+  negev: "内盖夫与南部",
+  jerusalem: "耶路撒冷",
+  tel_aviv: "特拉维夫都市圈",
+  haifa: "海法与北部海岸",
+  sinai: "西奈半岛",
+  south_lebanon: "南黎巴嫩安全区",
+};
+
+export const GROUP_ZH = {
+  histadrut: "以色列总工会 (Histadrut)",
+  manufacturers: "工业家与雇主协会",
+  gush_emunim: "信仰者集团 (定居者运动)",
+  peace_now: "现在就和平运动",
+  bank_of_israel: "以色列央行",
+  rabbinate: "首席拉比院",
+  idf_command: "国防军参谋本部",
+};
+
+export const ARG_LABEL_ZH = {
+  bloc: "目标选民",
+  country: "目标国家",
+  power: "目标大国",
+  faction: "目标派系",
+  group: "目标团体",
+  party: "目标政党",
+  character: "目标人物",
+  post: "目标职位",
+  policy: "目标政策",
+  region: "目标地区",
+  axis: "目标轴向",
+};
+
+export function argOptionsForAction(ctx, view, argName) {
+  if (argName === "bloc") {
+    return Object.entries(BLOC_ZH).map(([value, label]) => ({ value, label }));
+  }
+  if (argName === "country") {
+    const ids = ["egypt", "jordan", "syria", "lebanon", "iraq", "saudi", "iran", "turkey", "ethiopia"];
+    return ids.map((value) => ({ value, label: COUNTRY_ZH[value] || value }));
+  }
+  if (argName === "power") {
+    const ids = ["usa", "ussr", "france", "uk", "west_germany", "diaspora"];
+    return ids.map((value) => ({ value, label: COUNTRY_ZH[value] || value }));
+  }
+  if (argName === "faction") {
+    const ids = ["fatah", "pflp", "jordan_notables", "local_mayors", "village_leagues", "mujama", "hamas", "pij"];
+    return ids.map((value) => ({ value, label: PAL_FACTION_ZH[value] || value }));
+  }
+  if (argName === "group") {
+    return [
+      { value: "arab", label: "阿拉伯公民社区" },
+      { value: "druze", label: "德鲁兹公民社区" },
+    ];
+  }
+  if (argName === "party") {
+    const seats = (view && view.modules && view.modules.M03 && view.modules.M03.knesset_seats) || {};
+    const activeIds = Object.keys(seats).filter((k) => Number(seats[k] || 0) > 0);
+    const ids = activeIds.length ? activeIds : ["nrp", "agudat", "dash", "labor", "tehiya", "shas", "shinui"];
+    return ids.map((value) => ({ value, label: PARTY_ZH[value] || value }));
+  }
+  if (argName === "character") {
+    const chars = (view && view.characters) || {};
+    const ids = Object.keys(chars).length
+      ? Object.keys(chars).slice(0, 20)
+      : ["sharon", "dayan", "weizman", "ehrlich", "shamir", "hurvitz", "burg", "peres", "rabin", "levy"];
+    return ids.map((value) => ({ value, label: charName(ctx, value) }));
+  }
+  if (argName === "post") {
+    const ids = ["foreign", "defense", "finance", "agriculture", "interior", "education", "religious_affairs", "housing", "absorption", "justice"];
+    return ids.map((value) => ({ value, label: OFFICE_ZH[value] || value }));
+  }
+  if (argName === "policy") {
+    const polById = (ctx && ctx.data && ctx.data.policies && ctx.data.policies.by_id) || {};
+    const ids = Object.keys(polById).length
+      ? Object.keys(polById)
+      : ["settlement_policy", "fx_regime", "exemption_coverage", "arab_local_budget", "emergency_regs_use"];
+    return ids.map((value) => ({ value, label: (polById[value] && polById[value].zh) || value }));
+  }
+  if (argName === "region") {
+    return Object.entries(REGION_ZH).map(([value, label]) => ({ value, label }));
+  }
+  if (argName === "axis") {
+    return Object.entries(AXIS_ZH).map(([value, label]) => ({ value, label }));
+  }
+  return [];
+}
+
 export function paramZh(ctx, id) {
   if (!id) return "";
   const clean = String(id).startsWith("param:") ? String(id).slice(6) : String(id);

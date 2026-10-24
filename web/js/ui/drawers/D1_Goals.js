@@ -185,8 +185,11 @@ export class D1GoalsController {
       const aRow = el("div", "d-axis-list");
       for (const aid of actorIds) {
         const a = actors[aid] || {};
+        const aut = Number(a.autonomy ?? 80).toFixed(0);
+        const ten = Number(a.tension ?? 15).toFixed(0);
+        const stZh = a.stance_zh || "常规守法";
         const chip = el("div", "d-axis-pill");
-        chip.textContent = `${a.zh || aid}: 独立度 ${Number(a.autonomy ?? 80).toFixed(0)}`;
+        chip.textContent = `${a.zh || aid} [${stZh}]: 独立 ${aut} · 张力 ${ten}`;
         aRow.appendChild(chip);
       }
       mCard.appendChild(aRow);

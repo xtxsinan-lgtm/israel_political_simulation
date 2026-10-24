@@ -37,7 +37,10 @@ registerReads([
 ]);
 
 export class D5DiplomacyController {
-  constructor(ctx) { this.ctx = ctx; }
+  constructor(ctx) {
+    this.ctx = ctx;
+    this.targetCountry = "egypt";
+  }
 
   mount(parent) {
     this.root = el("div", "drawer-body d5-diplomacy");
@@ -127,6 +130,21 @@ export class D5DiplomacyController {
     const aCard = el("div", "d-card");
     const pc = view.params.get_val("political_capital", "");
     aCard.appendChild(sectionHeader("外交与国际游说行动", `当前政治资本 ${pc.toFixed(0)}`));
+
+    const tgtBar = el("div", "d-target-bar");
+    tgtBar.appendChild(label("密道/双边行动目标国：", { size: 11 }));
+    const sel = el("select", "d-arg-select");
+    for (const cid of ARAB_AND_PERIPHERY) {
+      const opt = document.createElement("option");
+      opt.value = cid;
+      opt.textContent = COUNTRY_ZH[cid] || cid;
+      if (cid === this.targetCountry) opt.selected = true;
+      sel.appendChild(opt);
+    }
+    sel.addEventListener("change", () => { this.targetCountry = sel.value; });
+    tgtBar.appendChild(sel);
+    aCard.appendChild(tgtBar);
+
     const actGrid = el("div", "d-act-grid");
     const cdMap = (view.raw.modules && view.raw.modules.M05 && view.raw.modules.M05.action_cooldowns) || {};
     const day = Number(view.clock.day_index || 0);
@@ -136,9 +154,10 @@ export class D5DiplomacyController {
       const b = button(
         `${act.zh}（${onCd ? `冷却至第${cd}天` : act.cost}）`,
         async () => {
-          const res = await this.ctx.engine.submitCommand({ op: "execute_action", action: act.id });
+          const args = { country: this.targetCountry, power: "usa" };
+          const res = await this.ctx.engine.submitCommand({ op: "execute_action", action: act.id, args });
           this.status.textContent = res && res.ok
-            ? `✓ 已下达外交行动：${act.zh}`
+            ? `✓ 已下达外交行动：${act.zh}（目标：${COUNTRY_ZH[this.targetCountry] || this.targetCountry}）`
             : `✗ 未能执行：${act.zh}（${(res && res.result && res.result.error) || "条件或政治资本不足"}）`;
         },
         { size: 12, cls: "d-act-btn" },

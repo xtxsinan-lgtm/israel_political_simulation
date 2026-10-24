@@ -189,31 +189,208 @@ def step_02_m05_enqueue_actions(state: Any, executor: EffectExecutor) -> None:
             )
 
 
+def _check_era_gate(state: Any, era_cfg: Any) -> bool:
+    if isinstance(era_cfg, list) and len(era_cfg) >= 2:
+        if era_cfg[0] is not None and state.year < int(era_cfg[0]):
+            return False
+        if era_cfg[1] is not None and state.year > int(era_cfg[1]):
+            return False
+    elif isinstance(era_cfg, int):
+        if state.era_number() < era_cfg:
+            return False
+    return True
+
+
+def _resolve_default_action_args(state: Any, adef: Dict[str, Any], raw_args: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    """Resolve missing action arguments with context-aware defaults so no {placeholder} remains."""
+    act_args = dict(raw_args or {})
+    aid = str(adef.get("id", ""))
+    coal_parties = [p for p in state.parliament.get("coalition_parties", ["likud", "nrp", "agudat"]) if p != state.player.get("party_id", "likud")]
+    for arg_k, arg_type in (adef.get("args") or {}).items():
+        if arg_k in act_args and act_args[arg_k] not in (None, "") and "{" not in str(act_args[arg_k]):
+            continue
+        if arg_type == "party":
+            if aid in ("coalition_invite", "opposition_talks"):
+                opp = [p for p in ("dash", "liberals", "poalei_agudat", "tehiya", "labor", "ratz") if p not in coal_parties and p != state.player.get("party_id", "likud")]
+                act_args[arg_k] = opp[0] if opp else "dash"
+            else:
+                if coal_parties:
+                    act_args[arg_k] = min(coal_parties, key=lambda p: state.get_param("ally_satisfaction", p))
+                else:
+                    act_args[arg_k] = "nrp"
+        elif arg_type == "character":
+            if aid in ("court_defector", "opposition_talks", "honor_rival"):
+                act_args[arg_k] = "peres" if state.player.get("party_id") != "labor" else "shamir"
+            elif aid in ("dismiss_minister", "grant_favor"):
+                holders = [cid for cid in state.offices.values() if cid and cid != state.player.get("leader_id")]
+                act_args[arg_k] = min(holders, key=lambda c: state.get_param("relation", c)) if holders else "weizman"
+            else:
+                act_args[arg_k] = state.holder_of("defense") or "weizman"
+        elif arg_type == "axis":
+            devs = state.params.get("stance_deviation", {})
+            if isinstance(devs, dict) and devs:
+                act_args[arg_k] = max(devs.keys(), key=lambda k: float(devs.get(k, 0.0)))
+            else:
+                act_args[arg_k] = "territory"
+        elif arg_type == "party_faction":
+            fm = state.params.get("faction_mood", {})
+            if isinstance(fm, dict) and fm:
+                act_args[arg_k] = min(fm.keys(), key=lambda k: float(fm.get(k, 50.0)))
+            else:
+                act_args[arg_k] = "herut_hawks"
+        elif arg_type == "region":
+            if aid in ("visit_dev_town", "new_development_town"):
+                act_args[arg_k] = "negev" if state.get_param("region_development", "negev") <= state.get_param("region_development", "galilee") else "galilee"
+            elif aid in ("found_settlement", "evacuate_settlement"):
+                for rk in ("west_bank", "golan", "gaza", "sinai"):
+                    if state.region_exists(rk):
+                        act_args[arg_k] = rk
+                        break
+                else:
+                    act_args[arg_k] = "west_bank"
+            else:
+                act_args[arg_k] = "west_bank"
+        elif arg_type == "promise":
+            act_args[arg_k] = (state.promises[0].get("id") or state.promises[0].get("promise_id") or "peace_and_security") if state.promises else "peace_and_security"
+        elif arg_type == "bloc":
+            blocs = ("mizrahi", "religious_zionist", "liberal_middle", "haredi", "labor_ashkenazi", "russian")
+            act_args[arg_k] = min(blocs, key=lambda b: state.get_param("bloc_support", b))
+        elif arg_type in ("arab_group", "group"):
+            act_args[arg_k] = "arab"
+        elif arg_type == "country":
+            if aid == "preemptive_strike":
+                act_args[arg_k] = "iraq" if state.get_param("enemy_nuclear_progress", "iraq") >= state.get_param("enemy_nuclear_progress", "iran") else "iran"
+            elif aid in ("retaliatory_raid", "limited_incursion"):
+                act_args[arg_k] = "lebanon"
+            elif aid in ("secret_channel", "host_leader"):
+                act_args[arg_k] = "egypt" if state.get_param("peace_treaty_state", "egypt") < 2.0 else "jordan"
+            elif aid == "arms_sale_third":
+                act_args[arg_k] = "ethiopia" if state.year >= 1979 else "iran"
+            else:
+                act_args[arg_k] = "egypt"
+        elif arg_type == "faction":
+            if aid == "support_moderates":
+                act_args[arg_k] = "local_mayors"
+            elif aid == "covert_support_faction":
+                act_args[arg_k] = "mujama" if state.year <= 1986 else "village_leagues"
+            else:
+                act_args[arg_k] = "hamas" if state.m08.get("faction_active", {}).get("hamas") else "fatah"
+        elif arg_type == "power":
+            act_args[arg_k] = "usa"
+        elif arg_type == "post":
+            act_args[arg_k] = "chief_of_staff" if aid == "appoint_security_chief" else "defense"
+        elif arg_type == "policy":
+            demands = state.m03.get("coalition_demands", [])
+            if demands and demands[0].get("policy_id"):
+                act_args[arg_k] = str(demands[0]["policy_id"])
+            else:
+                act_args[arg_k] = "settlement_policy"
+        elif arg_type == "dir":
+            act_args[arg_k] = "right"
+        elif arg_type == "int":
+            act_args[arg_k] = 1
+        else:
+            act_args[arg_k] = "default"
+    return act_args
+
+
+def _apply_cost_side_effects(state: Any, cost: Dict[str, Any], act_args: Dict[str, Any]) -> None:
+    """Apply non-PC cost side effects (ally_coal, ally, bloc, par, rel, fav_incur, fav_spend)."""
+    from sim.expr import _interpolate_str
+    if "standing" in cost:
+        state.add_param("party_standing", float(cost["standing"]))
+    if "rol" in cost:
+        state.add_param("rule_of_law", float(cost["rol"]))
+    if "fiscal" in cost:
+        state.m02["one_off_flows"]["budget_balance"] = float(state.m02["one_off_flows"].get("budget_balance", 0.0)) - float(cost["fiscal"])
+    if "ally_coal" in cost:
+        delta = float(cost["ally_coal"])
+        p_party = state.player.get("party_id", "likud")
+        for cp in state.parliament.get("coalition_parties", ["likud", "nrp", "agudat"]):
+            if cp != p_party:
+                state.add_param("ally_satisfaction", delta, cp)
+    if isinstance(cost.get("ally"), dict):
+        for pk, pv in cost["ally"].items():
+            resolved_p = resolve_party_id(_interpolate_str(str(pk), act_args))
+            state.add_param("ally_satisfaction", float(pv), resolved_p)
+    if isinstance(cost.get("bloc"), dict):
+        for bk, bv in cost["bloc"].items():
+            resolved_b = _interpolate_str(str(bk), act_args)
+            if "{" not in resolved_b:
+                state.add_param("bloc_support", float(bv), resolved_b)
+    if isinstance(cost.get("par"), dict):
+        for param_k, param_v in cost["par"].items():
+            resolved_pk = _interpolate_str(str(param_k), act_args)
+            if "{" not in resolved_pk:
+                state.add_param(resolved_pk, float(param_v))
+    if isinstance(cost.get("rel"), dict):
+        for ck, cv in cost["rel"].items():
+            resolved_c = _interpolate_str(str(ck), act_args)
+            if "{" not in resolved_c:
+                state.add_param("relation", float(cv), resolved_c)
+    if isinstance(cost.get("fav_incur"), dict):
+        fi = cost["fav_incur"]
+        ent = resolve_party_id(_interpolate_str(str(fi.get("e", "nrp")), act_args))
+        state.add_param("favor_party", -float(fi.get("n", 1.0)), ent)
+    if isinstance(cost.get("fav_spend"), dict):
+        fs = cost["fav_spend"]
+        ent = resolve_party_id(_interpolate_str(str(fs.get("e", "nrp")), act_args))
+        state.add_param("favor_party", -float(fs.get("n", 1.0)), ent)
+
+
+def _settle_action_completion(state: Any, aid: str, adef: Dict[str, Any], act_args: Dict[str, Any], executor: EffectExecutor) -> Tuple[bool, List[Dict[str, Any]]]:
+    """Evaluate action success probability (`succ`), apply `fx` or `fail`, and log completion."""
+    succ_expr = adef.get("succ")
+    succeeded = True
+    if succ_expr:
+        prob = clamp(eval_float(succ_expr, state, act_args), 0.10, 0.95)
+        succeeded = state.rng.stream("politics").chance(prob)
+    effects_to_apply = (adef.get("fx") or adef.get("effects") or []) if succeeded else (adef.get("fail") or [])
+    applied = executor.apply_effects(
+        state,
+        effects_to_apply,
+        source=f"action:{aid}",
+        ctx=act_args,
+        rng_stream_name="politics",
+    )
+    if succeeded:
+        state.set_flag(f"act.{aid}", source=f"action:{aid}")
+        if aid == "submit_budget":
+            state.clear_flag("budget_due")
+            state.m10["budget_cycle"]["status"] = "PASSED"
+        elif aid == "concede_demand":
+            demands = state.m03.get("coalition_demands", [])
+            if demands:
+                demands.pop(0)
+        elif aid == "delay_demand":
+            demands = state.m03.get("coalition_demands", [])
+            if demands:
+                demands[0]["due_day"] = int(demands[0].get("due_day", state.day_index)) + 30
+    comp = state.m05.setdefault("completed_actions", {})
+    comp[aid] = int(comp.get(aid, 0)) + 1
+    state.history["action_log"].append({
+        "day_index": state.day_index,
+        "date": state.date_str,
+        "action_id": aid,
+        "args": act_args,
+        "succeeded": succeeded,
+    })
+    return succeeded, applied
+
+
 def step_05_m05_advance_actions(state: Any, executor: EffectExecutor) -> None:
     """Step 5 (M05): Advance running actions and settle completed ones."""
     still_active = []
     for act_inst in state.m05.get("active_actions", []):
+        aid = act_inst["id"]
+        adef = state.registry.actions.get(aid, {})
+        cost = adef.get("cost", {})
+        if isinstance(cost, dict) and "fiscal_m" in cost:
+            state.m02["one_off_flows"]["budget_balance"] = float(state.m02["one_off_flows"].get("budget_balance", 0.0)) - float(cost["fiscal_m"]) / 30.0
         act_inst["remaining_days"] = int(act_inst.get("remaining_days", 1)) - 1
         if act_inst["remaining_days"] <= 0:
-            aid = act_inst["id"]
-            adef = state.registry.actions.get(aid, {})
-            fx = adef.get("fx") or adef.get("effects") or []
-            executor.apply_effects(
-                state,
-                fx,
-                source=f"action:{aid}",
-                ctx=act_inst.get("args", {}),
-                rng_stream_name="politics",
-            )
-            state.set_flag(f"act.{aid}", source=f"action:{aid}")
-            comp = state.m05.setdefault("completed_actions", {})
-            comp[aid] = int(comp.get(aid, 0)) + 1
-            state.history["action_log"].append({
-                "day_index": state.day_index,
-                "date": state.date_str,
-                "action_id": aid,
-                "args": act_inst.get("args", {}),
-            })
+            act_args = _resolve_default_action_args(state, adef, act_inst.get("args", {}))
+            _settle_action_completion(state, aid, adef, act_args, executor)
         else:
             still_active.append(act_inst)
     state.m05["active_actions"] = still_active
@@ -224,14 +401,38 @@ def get_available_actions(state: Any, ignore_pc: bool = False) -> List[Dict[str,
     avail: List[Dict[str, Any]] = []
     pc = state.get_param("political_capital")
     cd_map = state.m05.get("action_cooldowns", {})
+    comp_map = state.m05.get("completed_actions", {})
+    running_ids = {a.get("id") for a in state.m05.get("active_actions", [])}
+    max_slots = int(state.m05.get("weekly_slots_max", 2)) + int(round(state.mod_add("exec_slots")))
+    used_slots = int(state.m05.get("weekly_slots_used", 0))
+    if not ignore_pc and used_slots >= max_slots:
+        return []
+
     for aid, adef in state.registry.actions.items():
         if aid == "change_policy":
             continue
+        if aid in running_ids:
+            continue
+        if adef.get("once") and int(comp_map.get(aid, 0)) >= 1:
+            continue
         if int(cd_map.get(aid, 0)) > state.day_index:
             continue
+        if not _check_era_gate(state, adef.get("era")):
+            continue
+        econ_gate = adef.get("econ_gate")
+        if econ_gate and not eval_bool(econ_gate, state):
+            continue
+        # Prevent redundant mobilization spam when already at target mobilization
+        if aid == "partial_mobilization" and state.get_param("mobilization") >= 25.0:
+            continue
+        if aid == "preemptive_strike" and max(state.get_param("enemy_nuclear_progress", "iraq"), state.get_param("enemy_nuclear_progress", "iran")) < 89.0:
+            continue
         cost = adef.get("cost", {})
-        pc_cost = float(cost.get("pc", 0.0)) if isinstance(cost, dict) else 0.0
+        pc_cost = float(cost.get("pc", 0.0)) * state.mod_factor("pc_cost") if isinstance(cost, dict) else 0.0
         if not ignore_pc and pc_cost > pc:
+            continue
+        if aid == "submit_budget" and state.m10.get("budget_cycle", {}).get("status") in ("DUE", "OVERDUE"):
+            avail.append(adef)
             continue
         pre = adef.get("pre") or adef.get("condition")
         if pre and not eval_bool(pre, state):
@@ -254,23 +455,24 @@ def execute_player_action(
     cd_map = state.m05.setdefault("action_cooldowns", {})
     if int(cd_map.get(action_id, 0)) > state.day_index:
         return {"ok": False, "error": "cooldown"}
+    comp_map = state.m05.setdefault("completed_actions", {})
+    if adef.get("once") and int(comp_map.get(action_id, 0)) >= 1:
+        return {"ok": False, "error": "already_completed"}
+    if any(a.get("id") == action_id for a in state.m05.get("active_actions", [])):
+        return {"ok": False, "error": "already_running"}
+    if not _check_era_gate(state, adef.get("era")):
+        return {"ok": False, "error": "era_locked"}
+    econ_gate = adef.get("econ_gate")
+    if econ_gate and not eval_bool(econ_gate, state):
+        return {"ok": False, "error": "econ_gate"}
 
-    # Supply default entity arguments if not provided
-    act_args = dict(args or {})
-    for arg_k, arg_type in (adef.get("args") or {}).items():
-        if arg_k not in act_args:
-            if arg_type == "party":
-                act_args[arg_k] = "nrp"
-            elif arg_type == "character":
-                act_args[arg_k] = "weizman"
-            elif arg_type == "axis":
-                act_args[arg_k] = "territory"
-            elif arg_type == "party_faction":
-                act_args[arg_k] = "herut_hawks"
-            elif arg_type == "region":
-                act_args[arg_k] = "west_bank"
-            elif arg_type == "promise":
-                act_args[arg_k] = (state.promises[0].get("id") or state.promises[0].get("promise_id") or "peace_and_security") if state.promises else "peace_and_security"
+    max_slots = int(state.m05.get("weekly_slots_max", 2)) + int(round(state.mod_add("exec_slots")))
+    used_slots = int(state.m05.get("weekly_slots_used", 0))
+    if not free_slot and used_slots >= max_slots:
+        return {"ok": False, "error": "no_weekly_slots"}
+
+    # Supply context-aware default entity arguments if not provided
+    act_args = _resolve_default_action_args(state, adef, args)
 
     cost = adef.get("cost", {})
     pc_cost = 0.0
@@ -290,19 +492,22 @@ def execute_player_action(
                 return {"ok": False, "error": "insufficient_pc"}
         if pc_cost > 0:
             state.add_param("political_capital", -pc_cost)
-        if "standing" in cost:
-            state.add_param("party_standing", float(cost["standing"]))
-        if "rol" in cost:
-            state.add_param("rule_of_law", float(cost["rol"]))
-        if "fiscal" in cost:
-            state.m02["one_off_flows"]["budget_balance"] = float(state.m02["one_off_flows"].get("budget_balance", 0.0)) - float(cost["fiscal"])
+        _apply_cost_side_effects(state, cost, act_args)
+
+    # Apply action ideological axis impulse (`ax`)
+    ax_cfg = adef.get("ax")
+    if isinstance(ax_cfg, dict) and ax_cfg:
+        for ax_k, ax_v in ax_cfg.items():
+            if ax_k in state.axis_impulse:
+                state.axis_impulse[ax_k] = clamp(float(state.axis_impulse.get(ax_k, 0.0)) + float(ax_v) * 0.35, -18.0, 18.0)
+        state.recompute_gov_axis_position()
 
     cd_days = int(adef.get("cd", adef.get("cooldown_days", 30)) or 0)
     if cd_days > 0:
         cd_map[action_id] = state.day_index + cd_days
 
     if not free_slot:
-        state.m05["weekly_slots_used"] = int(state.m05.get("weekly_slots_used", 0)) + 1
+        state.m05["weekly_slots_used"] = used_slots + 1
 
     dur = int(adef.get("dur", 0) or 0)
     if dur > 0:
@@ -311,20 +516,10 @@ def execute_player_action(
             "remaining_days": dur,
             "args": act_args,
         })
-        return {"ok": True, "action_id": action_id, "status": "running", "duration": dur}
+        return {"ok": True, "action_id": action_id, "status": "running", "duration": dur, "args": act_args}
     else:
-        fx = adef.get("fx") or adef.get("effects") or []
-        applied = executor.apply_effects(state, fx, source=f"action:{action_id}", ctx=act_args, rng_stream_name="politics")
-        state.set_flag(f"act.{action_id}", source=f"action:{action_id}")
-        comp = state.m05.setdefault("completed_actions", {})
-        comp[action_id] = int(comp.get(action_id, 0)) + 1
-        state.history["action_log"].append({
-            "day_index": state.day_index,
-            "date": state.date_str,
-            "action_id": action_id,
-            "args": act_args,
-        })
-        return {"ok": True, "action_id": action_id, "status": "completed", "applied": applied}
+        succeeded, applied = _settle_action_completion(state, action_id, adef, act_args, executor)
+        return {"ok": True, "action_id": action_id, "status": "completed", "succeeded": succeeded, "applied": applied, "args": act_args}
 
 
 def adjust_policy(
@@ -342,6 +537,9 @@ def adjust_policy(
         return {"ok": False, "error": "cooldown"}
 
     pol_def = state.registry.policies[policy_id]
+    if not _check_era_gate(state, pol_def.get("era")):
+        return {"ok": False, "error": "era_locked"}
+
     tiers = pol_def.get("tiers", [])
     tier_vals = [float(t["v"] if isinstance(t, dict) else t) for t in tiers]
     if not tier_vals:
@@ -360,13 +558,28 @@ def adjust_policy(
     if new_idx == cur_idx:
         return {"ok": False, "error": "unchanged"}
 
-    pc_cost = float(pol_def.get("pc", 8.0)) * state.mod_factor("pc_cost")
+    old_t = tiers[cur_idx] if 0 <= cur_idx < len(tiers) and isinstance(tiers[cur_idx], dict) else {}
+    new_t = tiers[new_idx] if 0 <= new_idx < len(tiers) and isinstance(tiers[new_idx], dict) else {}
+    if new_t.get("econ_gate") and not eval_bool(new_t["econ_gate"], state):
+        return {"ok": False, "error": "econ_gate"}
+
+    # Legislative friction check for statutory policies (`law: true`) under minority government
+    if pol_def.get("law") and state.get_param("coalition_seats") < 58.0 and not state.has_modifier("confidence_linked"):
+        return {"ok": False, "error": "minority_blocked_law"}
+
+    pc_cost = float(pol_def.get("pc", 8.0)) * state.mod_factor("pc_cost") * state.mod_factor("policy_pc_cost")
     if state.get_param("political_capital") < pc_cost:
         return {"ok": False, "error": "insufficient_pc"}
 
     state.add_param("political_capital", -pc_cost)
-    old_t = tiers[cur_idx] if 0 <= cur_idx < len(tiers) and isinstance(tiers[cur_idx], dict) else {}
-    new_t = tiers[new_idx] if 0 <= new_idx < len(tiers) and isinstance(tiers[new_idx], dict) else {}
+    if state.has_modifier("trial_balloon"):
+        state.remove_modifier("trial_balloon")
+
+    # Apply directional political/bloc/ally side-effects (`up` / `down`)
+    dir_fx = pol_def.get("up") if new_idx > cur_idx else pol_def.get("down")
+    if isinstance(dir_fx, dict):
+        _apply_cost_side_effects(state, dir_fx, {})
+
     em_delta = float(new_t.get("em", 0.0)) - float(old_t.get("em", 0.0))
     rsq_delta = float(new_t.get("rsq", 0.0)) - float(old_t.get("rsq", 0.0))
     if abs(em_delta) > 1e-6:
@@ -377,6 +590,11 @@ def adjust_policy(
         state.set_flag(str(new_t["flag"]), source=f"policy:{policy_id}")
     if new_t.get("mod"):
         state.add_modifier(str(new_t["mod"]), duration_days=None, source=f"policy:{policy_id}")
+
+    # Apply immediate tier impulses (`i` in `e` entries)
+    for eff_entry in new_t.get("e", []) or []:
+        if isinstance(eff_entry, dict) and eff_entry.get("i") and eff_entry.get("p"):
+            state.add_param(str(eff_entry["p"]), float(eff_entry["i"]), eff_entry.get("k"))
 
     pstate["tier_idx"] = new_idx
     pstate["cooldown_until_day"] = state.day_index + int(pol_def.get("cd", 60))
@@ -390,6 +608,17 @@ def adjust_policy(
             state.set_param("region_land_policy", new_lv, rk)
     elif policy_id in ("exemption_coverage", "outpost_enforcement"):
         state.set_param(policy_id, new_lv)
+
+    # Check if this policy change satisfies an active coalition partner demand
+    rem_demands = []
+    actual_dir = "up" if new_idx > cur_idx else "down"
+    for dem in state.m03.get("coalition_demands", []):
+        if dem.get("policy_id") == policy_id and dem.get("dir", "up") == actual_dir:
+            state.add_param("ally_satisfaction", 10.0, str(dem.get("party_id", "nrp")))
+        else:
+            rem_demands.append(dem)
+    state.m03["coalition_demands"] = rem_demands
+
     state.recompute_gov_axis_position()
     return {"ok": True, "policy_id": policy_id, "tier_idx": new_idx, "level": new_lv}
 
@@ -403,6 +632,9 @@ def step_03_m09_military_daily(state: Any, executor: EffectExecutor) -> None:
     rng = state.rng.stream("combat")
     cur_mob = state.get_param("mobilization")
     tgt_mob = float(state.m09.get("mobilization_target", 10.0))
+    if not state.at_war() and tgt_mob > 10.0 and int(state.m05.get("action_cooldowns", {}).get("partial_mobilization", 0)) <= state.day_index:
+        tgt_mob = 10.0
+        state.m09["mobilization_target"] = 10.0
     if abs(cur_mob - tgt_mob) > 0.1:
         step_dir = 2.5 if tgt_mob > cur_mob else -1.5
         new_mob = clamp(cur_mob + step_dir, min(cur_mob, tgt_mob), max(cur_mob, tgt_mob))
@@ -425,7 +657,7 @@ def step_03_m09_military_daily(state: Any, executor: EffectExecutor) -> None:
 
 
 def step_08_weekly_security(state: Any, executor: EffectExecutor) -> None:
-    """Step 8 (M11 -> M09 -> M08): Weekly regional security & public_security update."""
+    """Step 8 (M11 -> M09 -> M08): Weekly regional security, ROE effects & public_security update."""
     rng = state.rng.stream("combat")
     core_regions = ("galilee", "haifa", "tel_aviv", "triangle", "jerusalem", "negev")
     sec_sum = 0.0
@@ -436,8 +668,45 @@ def step_08_weekly_security(state: Any, executor: EffectExecutor) -> None:
             state.add_param("region_security", 0.4, r)
         elif r_sec > 90.0:
             state.add_param("region_security", -0.3, r)
+        # Regional security posture effects when changed from default (1.0)
+        posture = int(round(state.get_param("region_security_posture", r)))
+        if posture == 2:
+            state.add_param("region_security", 0.35, r)
+            state.m02["one_off_flows"]["budget_balance"] = float(state.m02["one_off_flows"].get("budget_balance", 0.0)) - 0.015
+        elif posture == 0:
+            state.add_param("region_security", -0.25, r)
+            state.m02["one_off_flows"]["budget_balance"] = float(state.m02["one_off_flows"].get("budget_balance", 0.0)) + 0.01
         sec_sum += state.get_param("region_security", r)
     avg_core_sec = sec_sum / len(core_regions)
+
+    # Occupied regions security posture
+    for occ_r in ("west_bank", "gaza", "golan"):
+        if state.region_exists(occ_r):
+            posture = int(round(state.get_param("region_security_posture", occ_r)))
+            if posture == 2:
+                state.add_param("region_security", 0.4, occ_r)
+                state.add_param("pal_hostility", 0.15)
+                state.m02["one_off_flows"]["budget_balance"] = float(state.m02["one_off_flows"].get("budget_balance", 0.0)) - 0.02
+            elif posture == 0:
+                state.add_param("region_security", -0.3, occ_r)
+                state.add_param("pal_hostility", -0.10)
+
+    # Front ROE (Rules of Engagement) effects when changed from baseline (roe_level != 1)
+    for fid, f in state.m09.get("fronts", {}).items():
+        roe = int(f.get("roe_level", 1))
+        bf = float(f.get("border_friction", 25.0))
+        if roe == 2:
+            f["border_friction"] = clamp(bf + 0.6, 0.0, 100.0)
+            state.add_param("deterrence", 0.12)
+            state.add_param("intl_legitimacy", -0.08)
+            if fid in ("west_bank_gaza", "lebanon"):
+                state.add_param("pal_hostility", 0.12)
+        elif roe == 0:
+            f["border_friction"] = clamp(bf - 0.5, 0.0, 100.0)
+            state.add_param("deterrence", -0.08)
+            state.add_param("intl_legitimacy", 0.08)
+            if fid in ("west_bank_gaza", "lebanon"):
+                state.add_param("pal_hostility", -0.10)
 
     det = state.get_param("deterrence")
     pal_host = state.get_param("pal_hostility")
@@ -528,11 +797,142 @@ def step_12_m07_m08_monthly(state: Any, executor: EffectExecutor) -> None:
 
 
 # ============================================================================
-# Step 6: M06 AI Ministers & Characters Weekly
+# Step 6: M06 AI Ministers, Proposals & Characters Weekly
 # ============================================================================
 
+MINISTER_OFFICE_PROPOSALS: Dict[str, List[Tuple[str, Dict[str, Any], str]]] = {
+    "defense": [
+        ("partial_mobilization", {}, "扩编预备役战备：提升威慑与备战指数"),
+        ("retaliatory_raid", {"country": "lebanon"}, "越境反击清剿：打击北线武装据点"),
+        ("targeted_killing", {"faction": "fatah"}, "定点清除行动：削弱敌方派系组织力"),
+    ],
+    "foreign": [
+        ("secret_channel", {"country": "egypt"}, "开启秘密外交渠道：试探双边破冰可能"),
+        ("washington_trip", {}, "华盛顿高层斡旋：巩固白宫与国会支持"),
+        ("diaspora_bond_tour", {}, "海外犹太社群募债：补充外汇储备"),
+    ],
+    "finance": [
+        ("bonds_drive", {}, "发行国家发展公债：缓解短期财政赤字"),
+        ("package_deal", {}, "劳资政三方一揽子协议：抑制通胀预期"),
+        ("privatize_company", {}, "推进国企私有化：提升市场化指数与财政收入"),
+    ],
+    "interior": [
+        ("coalition_gift", {"party": "nrp"}, "划拨宗教与地方专项经费：稳固执政联盟"),
+        ("visit_dev_town", {"region": "negev"}, "视察外围发展镇：安抚米兹拉希选民"),
+    ],
+    "housing": [
+        ("found_settlement", {"region": "west_bank"}, "批准新建定居点：推进以色列地定居势头"),
+        ("new_development_town", {"region": "negev"}, "建设内盖夫发展镇：促进区域开发与吸纳"),
+    ],
+    "education": [
+        ("rally_bloc", {"bloc": "religious_zionist"}, "动员民族宗教选民基本盘：提振政党威望"),
+        ("media_campaign", {"bloc": "mizrahi"}, "开展公共教育与媒体宣传：凝聚社会共识"),
+    ],
+    "justice": [
+        ("state_inquiry", {"character": "weizman"}, "设立独立调查与法治审查：维护司法公信力"),
+        ("knesset_speech", {}, "发表宪政与法治演说：提振议会与公众信心"),
+    ],
+}
+
+
+def refresh_minister_proposals(state: Any) -> List[Dict[str, Any]]:
+    """Generate and maintain concrete cabinet minister proposals (30% PC discount, 0 weekly slots)."""
+    props = state.m06.setdefault("minister_proposals", [])
+    props = [p for p in props if int(p.get("expires_day", 999999)) > state.day_index]
+    existing_offices = {p.get("office") for p in props}
+    cd_map = state.m05.get("action_cooldowns", {})
+    comp_map = state.m05.get("completed_actions", {})
+
+    for off in ("defense", "foreign", "finance", "housing", "interior", "education", "justice"):
+        if len(props) >= 4:
+            break
+        if off in existing_offices:
+            continue
+        cid = state.offices.get(off)
+        if not cid or cid == state.player.get("leader_id"):
+            continue
+        candidates = MINISTER_OFFICE_PROPOSALS.get(off, [])
+        if not candidates:
+            continue
+        idx = (state.day_index // 7 + sum(ord(ch) for ch in cid)) % len(candidates)
+        for offset in range(len(candidates)):
+            aid, default_args, rationale = candidates[(idx + offset) % len(candidates)]
+            adef = state.registry.actions.get(aid)
+            if not adef:
+                continue
+            if adef.get("once") and int(comp_map.get(aid, 0)) >= 1:
+                continue
+            if int(cd_map.get(aid, 0)) > state.day_index:
+                continue
+            if not _check_era_gate(state, adef.get("era")):
+                continue
+            if adef.get("econ_gate") and not eval_bool(adef.get("econ_gate"), state):
+                continue
+            if aid == "partial_mobilization" and state.get_param("mobilization") >= 55.0:
+                continue
+            cost = adef.get("cost", {})
+            base_pc = int(round(float(cost.get("pc", 10.0)) if isinstance(cost, dict) else 10.0))
+            disc_pc = max(1, int(round(base_pc * 0.70)))
+            c_def = state.characters.get(cid, {})
+            c_name = str(c_def.get("name_zh", c_def.get("name", cid)))
+            props.append({
+                "id": f"prop_{off}_{aid}_{state.day_index}",
+                "office": off,
+                "minister_id": cid,
+                "minister_name": c_name,
+                "action_id": aid,
+                "action_name": str(adef.get("name", aid)),
+                "args": dict(default_args),
+                "rationale_zh": rationale,
+                "pc_base": base_pc,
+                "pc_discounted": disc_pc,
+                "created_day": state.day_index,
+                "expires_day": state.day_index + 28,
+            })
+            existing_offices.add(off)
+            break
+
+    state.m06["minister_proposals"] = props
+    return props
+
+
+def approve_minister_proposal(state: Any, proposal_id: str, executor: EffectExecutor) -> Dict[str, Any]:
+    """Approve a cabinet minister's proposal with 30% PC discount and free weekly action slot."""
+    props = state.m06.get("minister_proposals", [])
+    target = next((p for p in props if p.get("id") == proposal_id or p.get("action_id") == proposal_id), None)
+    if not target:
+        return {"ok": False, "error": "proposal_not_found"}
+    res = execute_player_action(
+        state,
+        str(target["action_id"]),
+        executor,
+        args=target.get("args", {}),
+        free_slot=True,
+    )
+    if not res.get("ok"):
+        return res
+    cid = str(target.get("minister_id", ""))
+    if cid:
+        state.add_param("relation", 8.0, cid)
+    state.m06["minister_proposals"] = [p for p in props if p.get("id") != target.get("id")]
+    return {"ok": True, "proposal_id": target.get("id"), "action_id": target["action_id"], "minister_id": cid, "result": res}
+
+
+def reject_minister_proposal(state: Any, proposal_id: str) -> Dict[str, Any]:
+    """Reject a cabinet minister's proposal, displeasing the minister."""
+    props = state.m06.get("minister_proposals", [])
+    target = next((p for p in props if p.get("id") == proposal_id or p.get("action_id") == proposal_id), None)
+    if not target:
+        return {"ok": False, "error": "proposal_not_found"}
+    cid = str(target.get("minister_id", ""))
+    if cid:
+        state.add_param("relation", -6.0, cid)
+    state.m06["minister_proposals"] = [p for p in props if p.get("id") != target.get("id")]
+    return {"ok": True, "proposal_id": target.get("id"), "minister_id": cid, "rejected": True}
+
+
 def step_06_m06_characters_weekly(state: Any, executor: EffectExecutor) -> None:
-    """Step 6 (M06): Weekly cabinet minister behavior checks."""
+    """Step 6 (M06): Weekly cabinet minister behavior checks and proposal generation."""
     rng = state.rng.stream("ai")
     for off, cid in state.offices.items():
         if not cid or cid == state.player.get("leader_id"):
@@ -540,18 +940,117 @@ def step_06_m06_characters_weekly(state: Any, executor: EffectExecutor) -> None:
         rel = state.get_param("relation", cid)
         if rel < -35.0 and rng.chance(0.05):
             state.add_param("party_standing", -1.0)
+    refresh_minister_proposals(state)
 
 
 # ============================================================================
-# Step 7 & Step 19: M03 Parliament, Polls, Coalition & Elections
+# Step 7 & Step 19: M03 Parliament, Polls, Coalition Demands & Elections
 # ============================================================================
+
+COALITION_DEMAND_TEMPLATES: Dict[str, List[Tuple[str, str, str, str]]] = {
+    "nrp": [
+        ("settlement_policy", "up", "国家宗教党要求扩大犹太与撒马利亚定居点建设等级", "定居点政策上调 1 档或划拨专项资金"),
+        ("sabbath_transport", "up", "国家宗教党要求收紧安息日公共交通限制", "安息日交通政策上调 1 档"),
+    ],
+    "agudat": [
+        ("exemption_coverage", "up", "阿古达以色列要求保障经学院学生兵役豁免配额", "兵役豁免政策上调 1 档或安抚宗教联盟"),
+        ("autopsy_rules", "up", "阿古达以色列要求严格限制法医解剖条例", "解剖条例政策上调 1 档"),
+    ],
+    "dash": [
+        ("comptroller_powers", "up", "民主变革运动(Dash)要求强化国家审计长反腐权限", "国家审计长权限上调 1 档"),
+        ("import_protection", "down", "民主变革运动(Dash)要求削减贸易壁垒推进自由化", "进口保护政策下调 1 档"),
+    ],
+    "liberals": [
+        ("top_income_tax", "down", "自由党要求下调最高边际所得税率激励企业", "最高所得税率下调 1 档"),
+    ],
+}
+
+
+def refresh_coalition_demands(state: Any) -> List[Dict[str, Any]]:
+    """Maintain active coalition partner policy/budget demands in state.m03['coalition_demands']."""
+    demands = state.m03.setdefault("coalition_demands", [])
+    active_interacted = bool(state.history.get("action_log")) or state.day_index > 365
+    still_due: List[Dict[str, Any]] = []
+    for d in demands:
+        if int(d.get("due_day", 999999)) <= state.day_index:
+            if active_interacted:
+                pid = str(d.get("party_id", "nrp"))
+                state.add_param("ally_satisfaction", -6.0, pid)
+                if state.get_param("ally_satisfaction", pid) < 22.0 and pid in state.parliament.get("coalition_parties", []):
+                    state.pending["hooks"].append({"signal": "sig.m03_coalition_crisis", "party": pid, "day": state.day_index})
+        else:
+            still_due.append(d)
+    demands = still_due
+
+    coal_partners = [p for p in state.parliament.get("coalition_parties", ["likud", "nrp", "agudat"]) if p != state.player.get("party_id", "likud")]
+    existing_parties = {d.get("party_id") for d in demands}
+    for p in coal_partners:
+        if len(demands) >= 2:
+            break
+        if p in existing_parties:
+            continue
+        sat = state.get_param("ally_satisfaction", p)
+        if sat <= 66.0 or (state.day_index >= 14 and len(demands) == 0):
+            templates = COALITION_DEMAND_TEMPLATES.get(p, COALITION_DEMAND_TEMPLATES["nrp"])
+            t_idx = (state.day_index // 14 + len(p)) % len(templates)
+            pol_id, dir_s, title_zh, desc_zh = templates[t_idx]
+            demands.append({
+                "id": f"dem_{p}_{pol_id}_{state.day_index}",
+                "party_id": p,
+                "policy_id": pol_id,
+                "dir": dir_s,
+                "title_zh": title_zh,
+                "desc_zh": desc_zh,
+                "created_day": state.day_index,
+                "due_day": state.day_index + 45,
+            })
+            existing_parties.add(p)
+
+    state.m03["coalition_demands"] = demands
+    return demands
+
+
+def resolve_coalition_demand(state: Any, demand_id: str, decision: str, executor: EffectExecutor) -> Dict[str, Any]:
+    """Resolve a coalition partner demand ('concede', 'delay', or 'refuse')."""
+    demands = state.m03.get("coalition_demands", [])
+    target = next((d for d in demands if d.get("id") == demand_id or d.get("party_id") == demand_id), demands[0] if demands else None)
+    if not target:
+        return {"ok": False, "error": "demand_not_found"}
+    party_id = str(target.get("party_id", "nrp"))
+    if decision == "concede":
+        pol_id = str(target.get("policy_id", ""))
+        if pol_id in state.policies:
+            pstate = state.policies[pol_id]
+            pstate["cooldown_until_day"] = 0
+            adjust_policy(state, pol_id, executor, direction=str(target.get("dir", "up")))
+        state.add_param("ally_satisfaction", 10.0, party_id)
+        state.add_param("favor_party", 1.0, party_id)
+        state.m03["coalition_demands"] = [d for d in demands if d.get("id") != target.get("id")]
+        return {"ok": True, "decision": "concede", "party_id": party_id, "demand_id": target.get("id")}
+    elif decision == "delay":
+        fav = state.get_param("favor_party", party_id)
+        if fav >= 1.0:
+            state.add_param("favor_party", -1.0, party_id)
+        else:
+            state.add_param("political_capital", -4.0)
+            state.add_param("ally_satisfaction", -2.0, party_id)
+        target["due_day"] = int(target.get("due_day", state.day_index)) + 30
+        return {"ok": True, "decision": "delay", "party_id": party_id, "demand_id": target.get("id"), "new_due_day": target["due_day"]}
+    else:
+        state.add_param("ally_satisfaction", -10.0, party_id)
+        state.add_param("party_standing", 2.0)
+        state.m03["coalition_demands"] = [d for d in demands if d.get("id") != target.get("id")]
+        return {"ok": True, "decision": "refuse", "party_id": party_id, "demand_id": target.get("id")}
+
 
 def step_07_m03_parliament_weekly(state: Any, executor: EffectExecutor) -> None:
-    """Step 7 (M03): Weekly polls, bloc support, and monthly coalition fatigue."""
+    """Step 7 (M03): Weekly polls, bloc support, coalition demands, and monthly coalition fatigue."""
     rng = state.rng.stream("politics")
     # Small weekly PC drip so players/bots are not starved between months
     if state.get_param("political_capital") < 85.0:
         state.add_param("political_capital", 1.5)
+
+    refresh_coalition_demands(state)
 
     # 7a: First Sunday of the month -> monthly coalition maintenance
     if state.day <= 7:
@@ -652,16 +1151,32 @@ def step_19_m03_votes_and_elections(state: Any, executor: EffectExecutor) -> Non
 # ============================================================================
 
 def step_09_m10_fiscal_monthly(state: Any, executor: EffectExecutor) -> None:
-    """Step 9 (M10): Monthly fiscal balance, debt, FX reserves, and strike risk."""
+    """Step 9 (M10): Monthly fiscal balance, budget slider envelope, debt, FX reserves, and annual budget cycle."""
     pol_delta = state.m05_policy_fiscal_delta()
     one_off = float(state.m10.get("last_one_off_flow", 0.0))
     inf = state.get_param("inflation")
+    # Budget slider envelope: baseline sum across 8 categories is 380.0
+    sliders = state.params.get("budget_slider", {})
+    slider_sum = sum(float(v) for v in sliders.values()) if isinstance(sliders, dict) else 380.0
+    slider_fiscal_delta = (380.0 - slider_sum) * 0.025 if abs(slider_sum - 380.0) > 0.5 else 0.0
+
+    # Annual budget cycle transitions (November -> DUE, March -> OVERDUE if not submitted)
+    b_cycle = state.m10.setdefault("budget_cycle", {"fiscal_year": state.year, "status": "PASSED"})
+    if state.month == 11:
+        b_cycle["fiscal_year"] = state.year + 1
+        if b_cycle.get("status") == "PASSED":
+            b_cycle["status"] = "DUE"
+            if state.day_index > 365:
+                state.set_flag("budget_due", duration_days=120, source="M10")
+    elif state.month == 3 and b_cycle.get("status") == "DUE":
+        b_cycle["status"] = "OVERDUE"
+
     # Tanzi effect erosion under high inflation
     tanzi = max(0.0, (inf - 35.0) * 0.012)
     if state.m10.get("stabilization_plan_active") or state.has_modifier("new_shekel"):
         tanzi = 0.0
         pol_delta = max(pol_delta, 0.8)
-    target_bb = clamp(-2.0 + pol_delta + one_off - tanzi, -18.0, 12.0)
+    target_bb = clamp(-2.0 + pol_delta + slider_fiscal_delta + one_off - tanzi, -18.0, 12.0)
     cur_bb = state.get_param("budget_balance")
     state.set_param("budget_balance", cur_bb + 0.25 * (target_bb - cur_bb))
 
@@ -831,8 +1346,8 @@ def step_11_m04_party_monthly(state: Any, executor: EffectExecutor) -> None:
             base_drain = 0.36
             stress_drain = max(0.0, (new_stress - 48.0) * 0.032)
             if state.year >= 1982 and (quag or inf >= 120.0):
-                stress_drain += 0.95
-            if silent and quag:
+                stress_drain += 0.85
+            if state.year >= 1983 and silent and quag:
                 stress_drain += 0.65
     else:
         base_drain = 0.16
@@ -999,12 +1514,37 @@ def preview_layers(
 # ============================================================================
 
 def step_13_m11_regions_monthly(state: Any, executor: EffectExecutor) -> None:
-    """Step 13 (M11): Monthly regional settler population growth and Trilemma vertices."""
+    """Step 13 (M11): Monthly regional settler population growth, regional priority effects, and Trilemma vertices."""
     if state.region_exists("west_bank"):
         sp_pol = state.get_param("settlement_policy", "west_bank")
         mom = state.get_param("settler_momentum")
         growth = max(0.0, (sp_pol - 15.0) * 4.5 + (mom - 40.0) * 6.0)
         state.add_param("settler_population", growth, "west_bank")
+
+    # Apply regional investment & absorption priorities when changed from baseline (1.0)
+    for rk in ("galilee", "haifa", "tel_aviv", "triangle", "jerusalem", "negev", "west_bank", "gaza", "golan"):
+        if not state.region_exists(rk):
+            continue
+        inv_p = int(round(state.get_param("region_investment_priority", rk)))
+        if inv_p == 2:
+            state.add_param("region_development", 0.45, rk)
+            state.m02["one_off_flows"]["budget_balance"] = float(state.m02["one_off_flows"].get("budget_balance", 0.0)) - 0.06
+            if rk in ("negev", "galilee"):
+                state.add_param("alienation", -0.30, "mizrahi")
+            elif rk in ("west_bank", "golan", "gaza"):
+                state.add_param("settler_population", 120.0, rk)
+        elif inv_p == 0:
+            state.add_param("region_development", -0.20, rk)
+            state.m02["one_off_flows"]["budget_balance"] = float(state.m02["one_off_flows"].get("budget_balance", 0.0)) + 0.04
+
+        abs_p = int(round(state.get_param("region_absorption_priority", rk)))
+        if abs_p == 2:
+            state.add_param("region_development", 0.25, rk)
+            state.add_param("alienation", -0.35, "ethiopian")
+            state.add_param("alienation", -0.35, "russian")
+            state.m02["one_off_flows"]["budget_balance"] = float(state.m02["one_off_flows"].get("budget_balance", 0.0)) - 0.05
+        elif abs_p == 0:
+            state.add_param("alienation", 0.20, "ethiopian")
 
     # Recompute Trilemma vertices (M11 §3.1)
     rol = state.get_param("rule_of_law")
@@ -1022,6 +1562,46 @@ def step_13_m11_regions_monthly(state: Any, executor: EffectExecutor) -> None:
     state.set_param("trilemma_territory", t_terr)
     state.set_param("trilemma_jewish", t_jew)
     state.set_param("trilemma", tri)
+
+
+def _update_m13_resist_actors(state: Any) -> None:
+    """Update M13 institutional resistance actors' tension, autonomy, and stance in state.m13."""
+    cent = state.get_param("centralization")
+    rol = state.get_param("rule_of_law")
+    inf = state.get_param("inflation")
+    union_s = state.get_param("union_strength")
+    quag = 1.0 if (state.has_modifier("lebanon_quagmire") or state.at_war()) else 0.0
+    rsq = state.get_param("religious_status_quo")
+
+    actors = state.m13.setdefault("resist_actors", {})
+    actor_drivers = {
+        "supreme_court": cent * 0.85 + max(0.0, 68.0 - rol) * 0.90,
+        "attorney_general": cent * 0.80 + max(0.0, 68.0 - rol) * 0.85,
+        "idf_command": cent * 0.55 + quag * 28.0 + max(0.0, state.get_param("mobilization") - 45.0) * 0.35,
+        "shin_bet": cent * 0.50 + max(0.0, state.get_param("pal_hostility") - 60.0) * 0.65,
+        "press_corps": cent * 0.75 + max(0.0, 66.0 - rol) * 0.65 + quag * 18.0,
+        "histadrut": max(0.0, inf - 55.0) * 0.25 + max(0.0, state.get_param("economic_model") + 15.0) * 0.75 + max(0.0, union_s - 50.0) * 0.4,
+        "academia": cent * 0.70 + quag * 22.0 + max(0.0, rsq - 25.0) * 0.45,
+        "civil_society": cent * 0.65 + quag * 25.0 + max(0.0, state.get_param("inequality") - 38.0) * 0.60,
+        "rabbinate": max(0.0, 22.0 - rsq) * 1.8 + max(0.0, 60.0 - state.get_param("ally_satisfaction", "agudat")) * 0.75,
+    }
+    resisting_count = 0
+    for aid, target_tension in actor_drivers.items():
+        a_obj = actors.setdefault(aid, {"tension": 15.0, "autonomy": 70.0, "stance": "dormant"})
+        t_val = clamp(12.0 + target_tension, 5.0, 100.0)
+        a_obj["tension"] = round(t_val, 1)
+        a_obj["autonomy"] = round(clamp(82.0 - cent * 0.65, 10.0, 95.0), 1)
+        if t_val >= 75.0:
+            a_obj["stance"] = "striking"
+            resisting_count += 2
+        elif t_val >= 52.0:
+            a_obj["stance"] = "resisting"
+            resisting_count += 1
+        elif t_val >= 32.0:
+            a_obj["stance"] = "watchful"
+        else:
+            a_obj["stance"] = "dormant"
+    state.m13["protest_tier"] = min(4, resisting_count // 2)
 
 
 def step_14_m13_authoritarian_monthly(state: Any, executor: EffectExecutor) -> None:
@@ -1043,6 +1623,7 @@ def step_14_m13_authoritarian_monthly(state: Any, executor: EffectExecutor) -> N
     else:
         stage = 0  # C1
     state.m13["stage"] = stage
+    _update_m13_resist_actors(state)
 
     # Soft mean reversion on rule_of_law and centralization if not actively pushed
     if cent < 25.0 and rol < 35.0:
@@ -1475,7 +2056,7 @@ def match_ending_id(state: Any, end_reason: str, total_score: float) -> str:
         return "END_EPIC_06"
     if state.count_peace_treaties() >= 1 and state.get_param("autonomy_progress") >= 30.0 and state.get_param("pal_hostility") <= 45.0 and intl >= 66.0 and (seed_h % 5 == 0):
         return "END_EPIC_07"
-    if (inf >= 120.0 or peak_inf >= 385.0) and state.get_param("budget_balance") <= -2.0 and state.get_param("public_debt") >= 104.0 and (seed_h % 6 == 1):
+    if (inf >= 120.0 or (inf >= 90.0 and peak_inf >= 385.0)) and state.get_param("budget_balance") <= -2.0 and state.get_param("public_debt") >= 104.0 and (seed_h % 6 == 1):
         return "END_EPIC_08"
     if (state.has_flag("first_intifada_active") or state.get_param("uprising_risk") >= 65.0) and state.has_modifier("lebanon_quagmire") and pub_sec <= 58.0 and (seed_h % 5 == 1):
         return "END_EPIC_09"
@@ -1483,7 +2064,7 @@ def match_ending_id(state: Any, end_reason: str, total_score: float) -> str:
         return "END_EPIC_10"
     if (state.has_flag("player_founded_new_party") or state.player.get("party_id") == "new_party_a" or (r_corr <= 0.62 and (int(state.run.get("tenure_elections_won", 0)) >= 1 or abs(float(gov_pos.get("territory", 0.0)) - 15.0) >= 18.0))) and (seed_h % 5 == 2):
         return "END_EPIC_11"
-    if leader == "begin" and end_reason in ("resignation", "health_incapacity") and state.has_modifier("silent_pm") and (seed_h % 3 == 0):
+    if leader == "begin" and cent < 45.0 and end_reason in ("resignation", "health_incapacity") and state.has_modifier("silent_pm") and (seed_h % 3 == 0):
         return "END_EPIC_12"
 
     # Layer 2: 28 Matrix Endings (R1..R4 x A1..A7)
@@ -1524,8 +2105,10 @@ def match_ending_id(state: Any, end_reason: str, total_score: float) -> str:
     return f"END_MAT_{mat_num:02d}"
 
 
-def continue_as_successor(state: Any, end_reason: str) -> str:
+def continue_as_successor(state: Any, end_reason: Optional[str] = None) -> str:
     """Execute M14 §4.5 Succession transition to next historical Prime Minister."""
+    if not end_reason:
+        end_reason = str((state.m14.get("final_evaluation") or {}).get("end_reason") or state.pending.get("tenure_end") or "resignation")
     old_leader = state.player.get("leader_id", "begin")
     if state.vision.get("status") != "achieved":
         state.vision["status"] = "failed"
@@ -1560,7 +2143,14 @@ def continue_as_successor(state: Any, end_reason: str) -> str:
     state.run["tenure_start_day"] = state.day_index
     state.run["tenure_start_date"] = state.date_str
     state.run["tenure_index"] = int(state.run.get("tenure_index", 0)) + 1
+    state.run["phase"] = "PLAYING"
+    state.meta["completed"] = False
     state.pending["tenure_end"] = None
+    state.m14["ending_id"] = None
+    state.m14["peak_inflation_tenure"] = state.get_param("inflation")
+    state.m14["min_fx_tenure"] = state.get_param("fx_reserves")
+    state.m14["corridor_months_total"] = 0
+    state.m14["corridor_months_inside"] = 0
 
     state.history["turning_points"].append({
         "day_index": state.day_index,

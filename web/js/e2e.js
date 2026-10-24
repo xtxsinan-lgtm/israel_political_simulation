@@ -160,8 +160,15 @@ export async function runE2E(ctx, desk) {
       key(String(n), { ctrlKey: true });
       assert(ui.drawerIndex === n, `Ctrl+${n} did not open drawer ${n}`);
       await sleep(30);
-      if (hasDom("DrawerLayer") && !document.getElementById("DrawerLayer").textContent.includes(DRAWER_TITLES[n])) {
-        log(`warn: DrawerLayer DOM lacks title ${DRAWER_TITLES[n]}`);
+      if (hasDom("DrawerLayer")) {
+        const dTxt = document.getElementById("DrawerLayer").textContent;
+        if (!dTxt.includes(DRAWER_TITLES[n])) {
+          log(`warn: DrawerLayer DOM lacks title ${DRAWER_TITLES[n]}`);
+        }
+        if (n === 1) assert(dTxt.includes("常规守法") || dTxt.includes("最高法院"), "D1 missing M13 resist_actors");
+        if (n === 2) assert(dTxt.includes("执政盟党政策诉求与最后通牒"), "D2 missing coalition demands section");
+        if (n === 3) assert(dTxt.includes("本周内阁部长主动呈批议案"), "D3 missing minister proposals section");
+        if (n === 4) assert(dTxt.includes("八项总拨款"), "D4 missing budget envelope total");
       }
     }
     key("7", { ctrlKey: true });
