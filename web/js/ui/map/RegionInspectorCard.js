@@ -17,6 +17,13 @@ registerReads(REGION_IDS.flatMap((id) => [...METRICS, ...LEVERS].map((p) => [p, 
 
 const POSTURE_VALUES = [20, 50, 80];
 const postureIndex = (v) => (v < 35 ? 0 : v < 65 ? 1 : 2);
+const LEGAL_STATUS_ZH = {
+  sovereign: "以色列主权领土",
+  occupied: "军事占领区",
+  annexed: "已立法吞并领土",
+  security_zone: "边境安全缓冲区",
+  returned: "已移交归还",
+};
 
 export class RegionInspectorCard {
   constructor(ctx) {
@@ -32,8 +39,11 @@ export class RegionInspectorCard {
     const box = vbox("region-inspector-box");
     this.title = label("", { size: 18, cls: "region-inspector-title" });
     this.body = label("", { autowrap: true });
+    this.absLabel = label("阿利亚安置优先级", { size: 12 });
     this.absorption = this._slider("阿利亚安置优先级", "region_absorption_priority");
+    this.invLabel = label("基建投资优先级", { size: 12 });
     this.investment = this._slider("基建投资优先级", "region_investment_priority");
+    this.posLabel = label("治安管控姿态", { size: 12 });
     this.posture = el("select", "option-button");
     ["缓和", "常规", "高压"].forEach((t, i) => {
       const o = el("option", "", t);
@@ -46,7 +56,7 @@ export class RegionInspectorCard {
     close.type = "button";
     close.title = "关闭";
     close.addEventListener("click", () => this.hide());
-    box.append(this.title, this.body, this.absorption, this.investment, this.posture, this.preview);
+    box.append(this.title, this.body, this.absLabel, this.absorption, this.invLabel, this.investment, this.posLabel, this.posture, this.preview);
     root.append(box, close);
     root.style.display = "none";
     this.root = root;
@@ -102,11 +112,11 @@ export class RegionInspectorCard {
   _render(syncLevers) {
     const src = this._src();
     const live = (this.view && this.view.modules.M11.regions[this.regionId]) || {};
-    this.title.textContent = fmt("%s  %s", src.name_zh || this.regionId, src.name_en || this.regionId);
+    this.title.textContent = src.name_zh || this.regionId;
     const status = String(live.legal_status || src.legal_status || "sovereign");
     // "法律地位 %s\n治安 %.1f  发展 %.1f  离异 %.1f" with each number clickable (tooltip_requested).
     this.body.textContent = "";
-    this.body.append(fmt("法律地位 %s\n", status));
+    this.body.append(fmt("法律地位：%s\n", LEGAL_STATUS_ZH[status] || status));
     const names = ["治安", "发展", "离异"];
     METRICS.forEach((p, i) => {
       const span = el("span", "region-metric", fmt("%s %.1f", names[i], this._metric(p)));

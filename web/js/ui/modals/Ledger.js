@@ -74,8 +74,13 @@ export class LedgerController {
 
   _render() {
     if (!this.body) return;
+    const defs = (this.ctx && this.ctx.data && this.ctx.data.parameters && this.ctx.data.parameters.by_id) || {};
     const lines = ["国家总账本  情报估算"];
-    for (const row of this.rows) lines.push(fmt("%s  %s", String(row.id || ""), this.displayHidden(row)));
+    for (const row of this.rows) {
+      const id = String(row.id || "");
+      const zh = defs[id] && defs[id].zh ? `${defs[id].zh} (${id})` : id;
+      lines.push(fmt("%s  %s", zh, this.displayHidden(row)));
+    }
     this.body.textContent = lines.join("\n");
   }
 }

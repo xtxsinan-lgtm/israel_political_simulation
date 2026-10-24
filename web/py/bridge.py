@@ -166,9 +166,59 @@ class Bridge:
             aid = str(cmd.get("action", ""))
             if aid not in self.registry.actions:
                 res = {"ok": False, "error": f"unknown action {aid}"}
-            else:
+            elif op == "enqueue_action":
                 self.engine.queue_action(aid, args=cmd.get("args") or {})
                 res = {"ok": True, "queued": aid}
+            else:
+                res = self.engine.execute_action_now(aid, args=cmd.get("args") or {})
+        elif op == "set_budget_slider":
+            key = str(cmd.get("slider", ""))
+            valid_sliders = ("defense", "absorption", "religion", "dev_towns", "education", "welfare", "infrastructure", "settlements")
+            if key not in valid_sliders:
+                res = {"ok": False, "error": f"bad budget slider {key}"}
+            else:
+                old_val = float(st.get_param("budget_slider", key))
+                val = max(0.0, min(100.0, float(cmd.get("value", 50.0))))
+                st.set_param("budget_slider", val, key)
+                delta = val - old_val
+                st.add_param("budget_balance", -delta * 0.015)
+                if key == "defense":
+                    st.add_param("readiness", delta * 0.08)
+                elif key == "welfare":
+                    st.add_param("inequality", -delta * 0.08)
+                elif key == "religion":
+                    st.add_param("ally_satisfaction", delta * 0.12, "nrp")
+                    st.add_param("ally_satisfaction", delta * 0.15, "agudat")
+                elif key == "settlements":
+                    st.add_param("settler_momentum", delta * 0.10)
+                elif key == "absorption":
+                    st.add_param("absorption_capacity", delta * 0.12)
+                elif key == "infrastructure":
+                    st.add_param("growth", delta * 0.015)
+                elif key == "education":
+                    st.add_param("growth", delta * 0.01)
+                elif key == "dev_towns":
+                    st.add_param("alienation", -delta * 0.08, "mizrahi")
+                ledger = st.m10.setdefault("last_fiscal_ledger", {})
+                tot_s = sum(float(st.get_param("budget_slider", k)) for k in valid_sliders)
+                ledger["slider_expenditure"] = round(tot_s * (8.712 / 380.0), 3)
+                ledger["net_balance"] = round(float(st.get_param("budget_balance")), 3)
+                res = {"ok": True, "slider": key, "value": val}
+        elif op == "set_mobilization":
+            val = max(0.0, min(100.0, float(cmd.get("value", 10.0))))
+            st.m09["mobilization_target"] = val
+            cur = float(st.get_param("mobilization"))
+            st.set_param("mobilization", cur + 0.5 * (val - cur))
+            res = {"ok": True, "mobilization_target": val}
+        elif op == "set_roe":
+            front = str(cmd.get("front", ""))
+            fronts = st.m09.get("fronts", {})
+            if front not in fronts:
+                res = {"ok": False, "error": f"unknown front {front}"}
+            else:
+                roe = max(0, min(2, int(cmd.get("roe", 1))))
+                fronts[front]["roe_level"] = roe
+                res = {"ok": True, "front": front, "roe": roe}
         elif op == "set_region_priority":
             region = str(cmd.get("region", ""))
             field = str(cmd.get("param", "region_investment_priority"))

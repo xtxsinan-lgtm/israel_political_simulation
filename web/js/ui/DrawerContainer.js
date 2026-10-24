@@ -49,11 +49,17 @@ export class DrawerContainerController {
     this.root.appendChild(this.tabs);
 
     this.panel = rect(panel("drawer-panel"), 0, PANEL_TOP, DRAWER_WIDTH, PANEL_BOTTOM);
+    this.panel.style.height = "auto";
+    this.panel.style.maxHeight = `${PANEL_BOTTOM - PANEL_TOP}px`;
     this.panel.style.display = "none";
+    const hdr = hbox("drawer-header-bar");
     this.title = label("", { size: 18, autowrap: true, cls: "drawer-title" });
+    const hint = label("点击指标可查看因果链 · 再次按快捷键或点 × 收起", { size: 12, cls: "drawer-hint" });
+    this.closeBtn = button("× 收起", () => this.toggleDrawer(this.openIndex), { size: 12, cls: "drawer-close-btn" });
+    hdr.append(this.title, hint, this.closeBtn);
     this.content = document.createElement("div");
     this.content.className = "drawer-content";
-    this.panel.append(this.title, this.content);
+    this.panel.append(hdr, this.content);
     this.root.appendChild(this.panel);
 
     // One instance per drawer (built lazily on first open).

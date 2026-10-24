@@ -21,7 +21,7 @@ export class CausalTooltipManager {
 
   mount(layer) {
     this.layer = layer;
-    this.root = rect(vbox("causal-tooltips"), 980, 80, 1280, null);
+    this.root = rect(vbox("causal-tooltips"), 1170, 80, 1475, null);
     layer.appendChild(this.root);
     const { bus } = this.ctx;
     bus.connect("tooltip_requested", (param, key) => this.explainNode(param, key || ""));
@@ -87,15 +87,19 @@ export class CausalTooltipManager {
     let current = explained && typeof explained.current === "number" ? explained.current : null;
     if (current === null) current = view ? view.param(card.param, card.key) : 0;
     const lines = [];
-    if (fuzzy) lines.push(fmt("%s  %s", card.id, FuzzyBand.describe(current, card.param)));
-    else lines.push(fmt("%s = %.2f", card.id, current));
+    const defs = (this.ctx.data.parameters && this.ctx.data.parameters.by_id) || {};
+    const pDef = defs[card.param];
+    const titleStr = pDef && pDef.zh ? `${pDef.zh} (${card.id})` : card.id;
+    if (fuzzy) lines.push(fmt("%s  %s", titleStr, FuzzyBand.describe(current, card.param)));
+    else lines.push(fmt("%s = %.2f", titleStr, current));
     const top = Array.isArray(explained && explained.top_contributors) ? explained.top_contributors
       : (Array.isArray(explained && explained.top_contributions) ? explained.top_contributions : []);
+    if (!top.length) lines.push("（主要由月度/季度惯性与历史事件驱动）");
     for (const row of top.slice(0, 5)) {
       const src = this._sourceLabel(row || {});
       const delta = Number((row && (row.value ?? row.delta_per_tick)) || 0);
-      if (fuzzy) lines.push(fmt("%s %s", src, delta > 0 ? "↑" : delta < 0 ? "↓" : "—"));
-      else lines.push(fmt("%s %+0.2f", src, delta));
+      if (fuzzy) lines.push(fmt("• %s %s", src, delta > 0 ? "↑" : delta < 0 ? "↓" : "—"));
+      else lines.push(fmt("• %s %+0.2f", src, delta));
     }
     card.body.textContent = lines.join("\n");
     card.spark.setSeries(this._series(history, card, view, fuzzy), card.param === "public_security" ? 35.0 : -1.0);
